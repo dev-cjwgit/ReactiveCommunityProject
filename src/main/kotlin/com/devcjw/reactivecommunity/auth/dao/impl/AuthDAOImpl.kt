@@ -2,9 +2,11 @@ package com.devcjw.reactivecommunity.auth.dao.impl
 
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
 import com.devcjw.reactivecommunity.auth.model.RcUser
+import com.devcjw.reactivecommunity.auth.model.entity.AuthLevelResourcesVO
 import lombok.RequiredArgsConstructor
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Repository
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Repository
@@ -26,6 +28,31 @@ class AuthDAOImpl(
             .bind("name", rcUser.name)
             .bind("nickname", rcUser.nickname)
             .then()
+    }
+
+    override fun selectUserLevelResource(): Flux<AuthLevelResourcesVO> {
+        val sql = """
+            SELECT
+                RUL.UID AS level_uid,
+                GROUP_CONCAT(CONCAT(RUR.METHOD, ',', RUR.PATTERN) ORDER BY RUR.PATTERN, RUR.METHOD SEPARATOR '|') AS resources
+            FROM
+                RC_USER_LEVEL RUL
+                    JOIN
+                RD_ROLE_RESOURCE RRR ON RUL.UID = RRR.LEVEL_UID
+                    JOIN
+                RC_USER_RESOURCE RUR ON RRR.RESOURCE_UID = RUR.UID
+            GROUP BY
+                RUL.UID
+        """
+
+        return databaseClient.sql(sql)
+            .map { row, _ ->
+                AuthLevelResourcesVO(
+                    levelUid = row.get("user_level_uid", Long::class.java) ?: 0L,
+                    resources = row.get("resources", String::class.java) ?: ""
+                )
+            }
+            .all()
     }
 
 }
