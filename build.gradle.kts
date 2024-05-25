@@ -50,6 +50,11 @@ dependencies {
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webflux-ui
     implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0")
 
+    // jwt
+    implementation("io.jsonwebtoken:jjwt-api:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
+    implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
+
 }
 
 tasks.withType<KotlinCompile> {
