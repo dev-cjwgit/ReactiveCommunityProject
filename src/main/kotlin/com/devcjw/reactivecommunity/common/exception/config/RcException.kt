@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus
 
 class RcException : RuntimeException {
     val errorMessage: String
-    private val httpStatus: HttpStatus
+    val httpStatus: HttpStatus
 
     constructor(
         rcErrorMessage: RcErrorMessage
