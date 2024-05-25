@@ -3,6 +3,7 @@ package com.devcjw.reactivecommunity.auth.service.impl
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
 import com.devcjw.reactivecommunity.auth.model.RcUser
 import com.devcjw.reactivecommunity.auth.model.domain.AuthRepTokenVO
+import com.devcjw.reactivecommunity.auth.model.domain.AuthReqCheckDTO
 import com.devcjw.reactivecommunity.auth.model.domain.AuthReqLoginDTO
 import com.devcjw.reactivecommunity.auth.model.domain.AuthReqSignupDTO
 import com.devcjw.reactivecommunity.auth.repository.AuthRepository
@@ -90,5 +91,12 @@ class AuthServiceImpl(
                         ).then(Mono.just(true))
                     )
             )
+    }
+
+    override fun check(authReqCheckDTO: AuthReqCheckDTO): Mono<Boolean> {
+        /**
+         * 1. Valid Check
+         */
+        return Mono.just(jwtService.validateToken(authReqCheckDTO.accessToken))
     }
 }

@@ -15,5 +15,7 @@ enum class RcErrorMessage(
 
     ACCESS_DENIED_EXCEPTION("#{msg.common.access_denied}", "권한이 부족합니다.", HttpStatus.FORBIDDEN),
 
+    R2DBC_MAPPING_EXCEPTION("#{msg.common.mapping_exception}", "DB 맵핑 중 에러가 발생하였습니다.", HttpStatus.FORBIDDEN),
+
     NOTHING("", "", HttpStatus.OK);
 }

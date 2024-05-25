@@ -3,6 +3,8 @@ package com.devcjw.reactivecommunity.auth.dao.impl
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
 import com.devcjw.reactivecommunity.auth.model.RcUser
 import com.devcjw.reactivecommunity.auth.model.entity.AuthLevelResourcesVO
+import com.devcjw.reactivecommunity.common.exception.config.RcException
+import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import lombok.RequiredArgsConstructor
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Repository
@@ -48,8 +50,10 @@ class AuthDAOImpl(
         return databaseClient.sql(sql)
             .map { row, _ ->
                 AuthLevelResourcesVO(
-                    levelUid = row.get("user_level_uid", Long::class.java) ?: 0L,
-                    resources = row.get("resources", String::class.java) ?: ""
+                    levelUid = row.get("level_uid", Long::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                    resources = row.get("resources", String::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION)
                 )
             }
             .all()

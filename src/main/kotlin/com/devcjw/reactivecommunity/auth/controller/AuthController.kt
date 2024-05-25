@@ -1,6 +1,7 @@
 package com.devcjw.reactivecommunity.auth.controller
 
 import com.devcjw.reactivecommunity.auth.model.domain.AuthRepTokenVO
+import com.devcjw.reactivecommunity.auth.model.domain.AuthReqCheckDTO
 import com.devcjw.reactivecommunity.auth.model.domain.AuthReqLoginDTO
 import com.devcjw.reactivecommunity.auth.model.domain.AuthReqSignupDTO
 import com.devcjw.reactivecommunity.auth.service.AuthService
@@ -25,5 +26,10 @@ class AuthController(
     @PostMapping("/signup")
     fun signup(@RequestBody authReqSignupDTO: AuthReqSignupDTO): Mono<Boolean> {
         return authService.signup(authReqSignupDTO)
+    }
+
+    @PostMapping("/check")
+    fun check(@RequestBody authReqCheckDTO: AuthReqCheckDTO): Mono<Boolean> {
+        return authService.check(authReqCheckDTO)
     }
 }
