@@ -1,9 +1,6 @@
 package com.devcjw.reactivecommunity.auth.controller
 
-import com.devcjw.reactivecommunity.auth.model.domain.AuthRepTokenVO
-import com.devcjw.reactivecommunity.auth.model.domain.AuthReqCheckDTO
-import com.devcjw.reactivecommunity.auth.model.domain.AuthReqLoginDTO
-import com.devcjw.reactivecommunity.auth.model.domain.AuthReqSignupDTO
+import com.devcjw.reactivecommunity.auth.model.domain.*
 import com.devcjw.reactivecommunity.auth.service.AuthService
 import lombok.extern.slf4j.Slf4j
 import org.springframework.web.bind.annotation.PostMapping
@@ -31,5 +28,10 @@ class AuthController(
     @PostMapping("/check")
     fun check(@RequestBody authReqCheckDTO: AuthReqCheckDTO): Mono<Boolean> {
         return authService.check(authReqCheckDTO)
+    }
+
+    @PostMapping("/reissue")
+    fun reissue(@RequestBody authReqReissueDTO: AuthReqReissueDTO): Mono<AuthRepReissueVO>{
+        return authService.reissue(authReqReissueDTO)
     }
 }

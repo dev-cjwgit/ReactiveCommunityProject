@@ -55,6 +55,10 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:0.11.2")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.2")
 
+
+    // redis
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
 }
 
 tasks.withType<KotlinCompile> {

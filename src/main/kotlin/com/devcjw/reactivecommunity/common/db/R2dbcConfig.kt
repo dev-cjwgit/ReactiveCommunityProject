@@ -6,6 +6,7 @@ import io.r2dbc.spi.ConnectionFactoryOptions
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Primary
 import org.springframework.data.r2dbc.config.AbstractR2dbcConfiguration
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate
 import org.springframework.r2dbc.connection.R2dbcTransactionManager
@@ -28,6 +29,7 @@ class R2dbcConfig : AbstractR2dbcConfiguration() {
     private val password: String? = null
 
     @Bean
+    @Primary
     override fun connectionFactory(): ConnectionFactory {
         return ConnectionFactories.get(
             ConnectionFactoryOptions.builder()

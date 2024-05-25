@@ -17,5 +17,11 @@ enum class RcErrorMessage(
 
     R2DBC_MAPPING_EXCEPTION("#{msg.common.mapping_exception}", "DB 맵핑 중 에러가 발생하였습니다.", HttpStatus.FORBIDDEN),
 
+    DUPLICATE_LOGIN_EXCEPTION("#{msg.auth.already_login}", "이미 로그인 중인 계정입니다.", HttpStatus.BAD_REQUEST),
+
+    NOT_MATCH_REFRESH_TOKEN_EXCEPTION("#{msg.auth_not_match_refresh_token}", "리프레시 토큰이 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+    NOT_FOUND_LOGIN_INFO_EXCEPTION("#{msg.auth_not_found_login_info}", "로그인 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
+
+
     NOTHING("", "", HttpStatus.OK);
 }
