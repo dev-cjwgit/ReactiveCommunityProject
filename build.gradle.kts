@@ -46,6 +46,10 @@ dependencies {
     testImplementation("org.springframework.kafka:spring-kafka-test")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webflux-ui
+    implementation("org.springdoc:springdoc-openapi-starter-webflux-ui:2.5.0")
+
 }
 
 tasks.withType<KotlinCompile> {
