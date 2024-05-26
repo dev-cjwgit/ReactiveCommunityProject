@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.auth.config.handler
 
-import com.devcjw.reactivecommunity.auth.model.RestfulVO
+import com.devcjw.reactivecommunity.auth.model.entity.RestfulVO
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import lombok.RequiredArgsConstructor

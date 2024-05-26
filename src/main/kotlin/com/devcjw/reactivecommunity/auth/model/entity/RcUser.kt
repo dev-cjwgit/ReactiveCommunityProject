@@ -1,4 +1,4 @@
-package com.devcjw.reactivecommunity.auth.model
+package com.devcjw.reactivecommunity.auth.model.entity
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table

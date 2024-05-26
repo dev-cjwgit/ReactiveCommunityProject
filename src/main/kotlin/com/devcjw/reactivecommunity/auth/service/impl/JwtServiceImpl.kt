@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.auth.service.impl
 
-import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
 import com.devcjw.reactivecommunity.auth.service.JwtService
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm

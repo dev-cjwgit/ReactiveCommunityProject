@@ -1,13 +1,14 @@
 package com.devcjw.reactivecommunity.board.service.impl
 
-import com.devcjw.reactivecommunity.auth.model.RcUser
-import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.board.dao.BoardDAO
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepDetailVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepListVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardReqInsertDTO
 import com.devcjw.reactivecommunity.board.model.entity.BoardInsertDTO
 import com.devcjw.reactivecommunity.board.service.BoardService
+import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
@@ -18,18 +19,19 @@ import reactor.core.publisher.Mono
 class BoardServiceImpl(
     private val boardDAO: BoardDAO,
 ) : BoardService {
-    override fun list(rcUser: RcUser, bbs: String): Flux<BoardRepListVO> {
+    override fun list(rcUser: RcUser, bbs: String): Flux<RestResponseVO<BoardRepListVO>> {
         TODO("Not yet implemented")
     }
 
-    override fun detail(rcUser: RcUser, postUid: Long): Mono<BoardRepDetailVO> {
+    override fun detail(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<BoardRepDetailVO>> {
         TODO("Not yet implemented")
     }
 
-    override fun insertPost(rcUser: RcUserJwtClaims, boardReqInsertDTO: BoardReqInsertDTO): Mono<Boolean> {
+    override fun insertPost(rcUser: RcUserJwtClaims, boardReqInsertDTO: BoardReqInsertDTO): Mono<RestResponseVO<Void>> {
         /**
-         * 1. Entity 생성
-         * 2. 데이터 삽입
+         * 1. 게시판 존재 확인
+         * 2. Entity 생성
+         * 3. 데이터 삽입
          */
         return Mono.just(rcUser)
             .flatMap {
@@ -45,18 +47,14 @@ class BoardServiceImpl(
             .flatMap {
                 boardDAO.insertPost(it).thenReturn(it)
             }
-            .then(Mono.defer { Mono.just(true) })
-            .doOnError { e ->
-                println("Error inserting post: ${e.message}")
-            }
-            .onErrorReturn(false)
+            .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
-    override fun updatePost(rcUser: RcUser, postUid: Long): Mono<Boolean> {
+    override fun updatePost(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
     }
 
-    override fun deletePost(rcUser: RcUser, postUid: Long): Mono<Boolean> {
+    override fun deletePost(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
     }
 

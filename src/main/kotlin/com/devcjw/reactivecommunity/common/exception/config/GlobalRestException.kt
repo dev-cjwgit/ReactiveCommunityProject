@@ -1,5 +1,6 @@
 package com.devcjw.reactivecommunity.common.exception.config
 
+import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -9,19 +10,25 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 class GlobalRestException {
 
     @ExceptionHandler(Throwable::class)
-    fun handle(t: Throwable): ResponseEntity<String> {
+    fun handle(t: Throwable): ResponseEntity<RestResponseVO<String>> {
         t.printStackTrace()
         /**
          * TODO Reactive 상황에서 Mono나 Flux에 대한 예외 처리 고민 필요
          */
-        return ResponseEntity("#{msg.common.unknown}", HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity(
+            RestResponseVO(result = false, message = "#{msg.common.unknown}"),
+            HttpStatus.INTERNAL_SERVER_ERROR
+        )
     }
 
     @ExceptionHandler(RcException::class)
-    fun handle(rcException: RcException): ResponseEntity<String> {
+    fun handle(rcException: RcException): ResponseEntity<RestResponseVO<Void>> {
         /**
          * TODO Reactive 상황에서 Mono나 Flux에 대한 예외 처리 고민 필요
          */
-        return ResponseEntity(rcException.errorMessage, rcException.httpStatus)
+        return ResponseEntity(
+            RestResponseVO(result = false, message = rcException.errorMessage),
+            rcException.httpStatus
+        )
     }
 }

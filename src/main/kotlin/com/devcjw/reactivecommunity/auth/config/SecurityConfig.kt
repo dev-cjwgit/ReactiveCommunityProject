@@ -3,7 +3,7 @@ package com.devcjw.reactivecommunity.auth.config
 import com.devcjw.reactivecommunity.auth.config.handler.RcJwtFilter
 import com.devcjw.reactivecommunity.auth.config.handler.RcReactiveAuthorizationManager
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
-import com.devcjw.reactivecommunity.auth.model.RestfulVO
+import com.devcjw.reactivecommunity.auth.model.entity.RestfulVO
 import com.devcjw.reactivecommunity.auth.service.JwtService
 import jakarta.annotation.PostConstruct
 import lombok.RequiredArgsConstructor

@@ -1,11 +1,12 @@
 package com.devcjw.reactivecommunity.board.controller
 
-import com.devcjw.reactivecommunity.auth.model.RcUser
-import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepDetailVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepListVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardReqInsertDTO
 import com.devcjw.reactivecommunity.board.service.BoardService
+import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import lombok.RequiredArgsConstructor
 import org.springframework.security.core.annotation.AuthenticationPrincipal
 import org.springframework.web.bind.annotation.*
@@ -31,7 +32,7 @@ class BoardController(
     fun list(
         @AuthenticationPrincipal rcUser: RcUser,
         @PathVariable("bbs") bbs: String,
-    ): Flux<BoardRepListVO> {
+    ): Flux<RestResponseVO<BoardRepListVO>> {
         return boardService.list(rcUser, bbs)
     }
 
@@ -40,7 +41,7 @@ class BoardController(
     fun detail(
         @AuthenticationPrincipal rcUser: RcUser,
         @PathVariable("post_uid") postUid: Long,
-    ): Mono<BoardRepDetailVO> {
+    ): Mono<RestResponseVO<BoardRepDetailVO>> {
         return boardService.detail(rcUser, postUid)
     }
 
@@ -49,7 +50,7 @@ class BoardController(
     fun insertPost(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody boardReqInsertDTO: BoardReqInsertDTO
-    ): Mono<Boolean> {
+    ): Mono<RestResponseVO<Void>> {
         return boardService.insertPost(rcUser, boardReqInsertDTO)
     }
 
@@ -57,7 +58,7 @@ class BoardController(
     fun updatePost(
         @AuthenticationPrincipal rcUser: RcUser,
         @PathVariable("post_uid") postUid: Long,
-    ): Mono<Boolean> {
+    ): Mono<RestResponseVO<Void>> {
         return boardService.updatePost(rcUser, postUid)
     }
 
@@ -65,7 +66,7 @@ class BoardController(
     fun deletePost(
         @AuthenticationPrincipal rcUser: RcUser,
         @PathVariable("post_uid") postUid: Long,
-    ): Mono<Boolean> {
+    ): Mono<RestResponseVO<Void>> {
         return boardService.deletePost(rcUser, postUid)
     }
 

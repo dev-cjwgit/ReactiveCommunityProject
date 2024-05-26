@@ -1,4 +1,4 @@
-package com.devcjw.reactivecommunity.auth.model
+package com.devcjw.reactivecommunity.auth.model.entity
 
 data class RestfulVO(
     val method: String,

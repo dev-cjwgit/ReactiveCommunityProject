@@ -1,7 +1,7 @@
 package com.devcjw.reactivecommunity.auth.dao.impl
 
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
-import com.devcjw.reactivecommunity.auth.model.RcUser
+import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.auth.model.entity.AuthLevelResourcesVO
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
