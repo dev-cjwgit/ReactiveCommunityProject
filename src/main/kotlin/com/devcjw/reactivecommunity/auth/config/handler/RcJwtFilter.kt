@@ -31,7 +31,7 @@ class RcJwtFilter(
         return if (token != null && jwtService.validateToken(token)) {
             val claims = jwtService.getRcUser(token)
             val authentication = UsernamePasswordAuthenticationToken(
-                claims.uid,
+                claims,
                 null,
                 listOf(SimpleGrantedAuthority(claims.level.toString()))
             )

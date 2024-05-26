@@ -15,8 +15,8 @@ data class RcUser(
     val name: String,
     val nickname: String,
     val levelUid: Long = 0,
-    val createAt: LocalDateTime,
-    val updateAt: LocalDateTime
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime
 
 ) : UserDetails {
 

@@ -100,8 +100,8 @@ class AuthServiceImpl(
                                 pw = passwordEncoder.encode(authReqSignupDTO.password),
                                 name = authReqSignupDTO.name,
                                 nickname = authReqSignupDTO.nickname,
-                                createAt = LocalDateTime.now(),
-                                updateAt = LocalDateTime.now(),
+                                createdAt = LocalDateTime.now(),
+                                updatedAt = LocalDateTime.now(),
                             )
                         ).then(Mono.just(true))
                     )
