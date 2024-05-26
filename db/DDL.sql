@@ -19,59 +19,90 @@
 CREATE DATABASE IF NOT EXISTS `rcdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `rcdb`;
 
+-- 테이블 rcdb.RC_BOARD_BBS 구조 내보내기
+CREATE TABLE IF NOT EXISTS `RC_BOARD_BBS` (
+    `UID` tinyint(4) NOT NULL DEFAULT 0,
+    `PATH` varchar(10) NOT NULL,
+    `TITLE` varchar(50) NOT NULL,
+    `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
+    `UPDATED_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (`UID`) USING BTREE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+
+-- 테이블 rcdb.RC_BOARD_POST 구조 내보내기
+CREATE TABLE IF NOT EXISTS `RC_BOARD_POST` (
+    `UID` bigint(20) NOT NULL AUTO_INCREMENT,
+    `BBS_UID` tinyint(4) NOT NULL DEFAULT 0,
+    `TITLE` varchar(100) NOT NULL,
+    `CONTENTS` text NOT NULL,
+    `WRITER_UID` varchar(36) NOT NULL,
+    `HIT` int(11) NOT NULL DEFAULT 0,
+    `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
+    `UPDATED_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (`UID`),
+    KEY `BOARD_POST_WRITER_UID_FK` (`WRITER_UID`),
+    KEY `BOARD_POST_BBS_UID_FK` (`BBS_UID`),
+    CONSTRAINT `BOARD_POST_BBS_UID_FK` FOREIGN KEY (`BBS_UID`) REFERENCES `RC_BOARD_BBS` (`UID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+    CONSTRAINT `BOARD_POST_WRITER_UID_FK` FOREIGN KEY (`WRITER_UID`) REFERENCES `RC_USER_INFO` (`UID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+
 -- 테이블 rcdb.RC_USER_INFO 구조 내보내기
 CREATE TABLE IF NOT EXISTS `RC_USER_INFO` (
-  `UID` varchar(36) NOT NULL,
-  `EMAIL` varchar(100) NOT NULL,
-  `PW` varchar(100) NOT NULL,
-  `NAME` varchar(10) NOT NULL,
-  `NICKNAME` varchar(50) NOT NULL,
-  `LEVEL_UID` bigint(20) NOT NULL DEFAULT 0,
-  `CREATE_AT` datetime NOT NULL DEFAULT current_timestamp(),
-  `UPDATE_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`UID`) USING BTREE,
-  UNIQUE KEY `email` (`EMAIL`) USING BTREE,
-  UNIQUE KEY `NICKNAME` (`NICKNAME`),
-  KEY `USER_INFO_LEVEL_UID_FK` (`LEVEL_UID`),
-  CONSTRAINT `USER_INFO_LEVEL_UID_FK` FOREIGN KEY (`LEVEL_UID`) REFERENCES `RC_USER_LEVEL` (`UID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `UID` varchar(36) NOT NULL,
+    `EMAIL` varchar(100) NOT NULL,
+    `PW` varchar(100) NOT NULL,
+    `NAME` varchar(10) NOT NULL,
+    `NICKNAME` varchar(50) NOT NULL,
+    `LEVEL_UID` bigint(20) NOT NULL DEFAULT 0,
+    `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
+    `UPDATED_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (`UID`) USING BTREE,
+    UNIQUE KEY `email` (`EMAIL`) USING BTREE,
+    UNIQUE KEY `NICKNAME` (`NICKNAME`),
+    KEY `USER_INFO_LEVEL_UID_FK` (`LEVEL_UID`),
+    CONSTRAINT `USER_INFO_LEVEL_UID_FK` FOREIGN KEY (`LEVEL_UID`) REFERENCES `RC_USER_LEVEL` (`UID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
 -- 테이블 rcdb.RC_USER_LEVEL 구조 내보내기
 CREATE TABLE IF NOT EXISTS `RC_USER_LEVEL` (
-  `UID` bigint(20) NOT NULL,
-  `NAME` varchar(50) NOT NULL,
-  `CREATE_AT` datetime NOT NULL DEFAULT current_timestamp(),
-  `UPDATE_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`UID`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `UID` bigint(20) NOT NULL,
+    `NAME` varchar(50) NOT NULL,
+    `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
+    `UPDATED_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (`UID`) USING BTREE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
 -- 테이블 rcdb.RC_USER_RESOURCE 구조 내보내기
 CREATE TABLE IF NOT EXISTS `RC_USER_RESOURCE` (
-  `UID` bigint(20) NOT NULL AUTO_INCREMENT,
-  `METHOD` enum('POST','GET','PATCH','DELETE','ALL') NOT NULL,
-  `PATTERN` varchar(100) NOT NULL,
-  `CREATE_AT` datetime NOT NULL DEFAULT current_timestamp(),
-  `UPDATE_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`UID`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `UID` bigint(20) NOT NULL AUTO_INCREMENT,
+    `METHOD` enum('POST','GET','PATCH','DELETE','ALL') NOT NULL,
+    `PATTERN` varchar(100) NOT NULL,
+    `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
+    `UPDATED_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (`UID`) USING BTREE
+    ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
 -- 테이블 rcdb.RD_ROLE_RESOURCE 구조 내보내기
 CREATE TABLE IF NOT EXISTS `RD_ROLE_RESOURCE` (
-  `LEVEL_UID` bigint(20) NOT NULL,
-  `RESOURCE_UID` bigint(20) NOT NULL,
-  `CREATE_AT` datetime NOT NULL DEFAULT current_timestamp(),
-  `UPDATE_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`LEVEL_UID`,`RESOURCE_UID`),
-  KEY `ROLE_RESOURCE_RESOURCE_UID` (`RESOURCE_UID`),
-  CONSTRAINT `ROLE_RESOURCE_LEVEL_UID_FK` FOREIGN KEY (`LEVEL_UID`) REFERENCES `RC_USER_LEVEL` (`UID`) ON UPDATE CASCADE,
-  CONSTRAINT `ROLE_RESOURCE_RESOURCE_UID` FOREIGN KEY (`RESOURCE_UID`) REFERENCES `RC_USER_RESOURCE` (`UID`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `LEVEL_UID` bigint(20) NOT NULL,
+    `RESOURCE_UID` bigint(20) NOT NULL,
+    `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
+    `UPDATED_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (`LEVEL_UID`,`RESOURCE_UID`),
+    KEY `ROLE_RESOURCE_RESOURCE_UID` (`RESOURCE_UID`),
+    CONSTRAINT `ROLE_RESOURCE_LEVEL_UID_FK` FOREIGN KEY (`LEVEL_UID`) REFERENCES `RC_USER_LEVEL` (`UID`) ON UPDATE CASCADE,
+    CONSTRAINT `ROLE_RESOURCE_RESOURCE_UID` FOREIGN KEY (`RESOURCE_UID`) REFERENCES `RC_USER_RESOURCE` (`UID`) ON UPDATE CASCADE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 

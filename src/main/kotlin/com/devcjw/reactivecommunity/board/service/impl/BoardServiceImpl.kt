@@ -46,6 +46,10 @@ class BoardServiceImpl(
                 boardDAO.insertPost(it).thenReturn(it)
             }
             .then(Mono.defer { Mono.just(true) })
+            .doOnError { e ->
+                println("Error inserting post: ${e.message}")
+            }
+            .onErrorReturn(false)
     }
 
     override fun updatePost(rcUser: RcUser, postUid: Long): Mono<Boolean> {
