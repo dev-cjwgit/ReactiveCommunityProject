@@ -21,19 +21,19 @@ class CommentDAOImpl(
     override fun selectList(boardUid: Long): Flux<CommentSelectVO> {
         val sql = """
             SELECT
-                RBC.UID AS uid,
-                RBC.WRITER_UID AS writer_uid,
-                RBC.CONTENTS AS contents,
-                RBC.CREATED_AT AS created_at,
-                RBC.UPDATED_AT AS updated_at
+                RBC.`UID` AS uid,
+                RBC.`WRITER_UID` AS writer_uid,
+                RBC.`CONTENTS` AS contents,
+                RBC.`CREATED_AT` AS created_at,
+                RBC.`UPDATED_AT` AS updated_at
             FROM
                 RC_BOARD_COMMENT RBC
             WHERE
-                BOARD_UID = :boardUid
+                RBC.`BOARD_UID` = :board_uid
         """
 
         return databaseClient.sql(sql)
-            .bind("boardUid", boardUid)
+            .bind("board_uid", boardUid)
             .map { row, _ ->
                 CommentSelectVO(
                     uid = row.get("uid", Long::class.java)
@@ -56,11 +56,11 @@ class CommentDAOImpl(
         return databaseClient.sql(
             """
                 INSERT INTO RC_BOARD_COMMENT (`BOARD_UID`,`WRITER_UID`,`CONTENTS`)
-                VALUES (:boardUid,:writerUid,:contents)
+                VALUES (:board_uid,:writer_uid,:contents)
             """.trimIndent()
         )
-            .bind("boardUid", commentInsertDTO.boardUid)
-            .bind("userUid", commentInsertDTO.userUid)
+            .bind("board_uid", commentInsertDTO.boardUid)
+            .bind("user_uid", commentInsertDTO.userUid)
             .bind("contents", commentInsertDTO.contents)
             .then()
     }

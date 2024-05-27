@@ -35,16 +35,16 @@ class AuthDAOImpl(
     override fun selectUserLevelResource(): Flux<AuthLevelResourcesVO> {
         val sql = """
             SELECT
-                RUL.UID AS level_uid,
-                GROUP_CONCAT(CONCAT(RUR.METHOD, ',', RUR.PATTERN) ORDER BY RUR.PATTERN, RUR.METHOD SEPARATOR '|') AS resources
+                RUL.`UID` AS level_uid,
+                GROUP_CONCAT(CONCAT(RUR.`METHOD`, ',', RUR.`PATTERN`) ORDER BY RUR.`PATTERN`, RUR.`METHOD` SEPARATOR '|') AS resources
             FROM
                 RC_USER_LEVEL RUL
                     JOIN
-                RD_ROLE_RESOURCE RRR ON RUL.UID = RRR.LEVEL_UID
+                RD_ROLE_RESOURCE RRR ON RUL.`UID` = RRR.`LEVEL_UID`
                     JOIN
-                RC_USER_RESOURCE RUR ON RRR.RESOURCE_UID = RUR.UID
+                RC_USER_RESOURCE RUR ON RRR.`RESOURCE_UID` = RUR.`UID`
             GROUP BY
-                RUL.UID
+                RUL.`UID`
         """
 
         return databaseClient.sql(sql)

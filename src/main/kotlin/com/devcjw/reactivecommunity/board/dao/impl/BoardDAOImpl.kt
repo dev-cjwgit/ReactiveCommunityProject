@@ -22,11 +22,11 @@ class BoardDAOImpl(
                 COUNT(*)
             FROM
                 RC_BOARD_BBS RBB
-            WHERE UID = :bbsUid
+            WHERE RBB.`UID` = :bbs_uid
         """
 
         return databaseClient.sql(sql)
-            .bind("bbsUid", bbsUid)
+            .bind("bbs_uid", bbsUid)
             .map { row, _ ->
                 row.get(0, Long::class.java) ?: 0L
             }
