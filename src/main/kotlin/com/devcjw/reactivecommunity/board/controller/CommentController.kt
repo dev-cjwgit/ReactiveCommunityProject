@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.board.controller
 
-import com.devcjw.reactivecommunity.auth.model.entity.RcUser
+import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.model.domain.CommentRepListVO
 import com.devcjw.reactivecommunity.board.model.domain.CommentReqInsertDTO
 import com.devcjw.reactivecommunity.board.model.domain.CommentReqUpdateDTO
@@ -26,16 +26,16 @@ class CommentController(
     // 1
     @GetMapping("/{board_uid}")
     fun list(
-        @AuthenticationPrincipal rcUser: RcUser,
-        @PathVariable("board_uid") boardUid: String,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("board_uid") boardUid: Long,
     ) : Flux<RestResponseVO<CommentRepListVO>> {
-        TODO("Not yet implemented")
+        return commentService.list(rcUser, boardUid)
     }
 
     // 2
     @PostMapping
     fun insert(
-        @AuthenticationPrincipal rcUser: RcUser,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody commentReqInsertDTO: CommentReqInsertDTO,
     ): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
@@ -44,7 +44,7 @@ class CommentController(
     // 3
     @PatchMapping
     fun update(
-        @AuthenticationPrincipal rcUser: RcUser,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody commentReqUpdateDTO: CommentReqUpdateDTO,
     ): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
@@ -52,7 +52,7 @@ class CommentController(
 
     @DeleteMapping("/{comment_uid}")
     fun delete(
-        @AuthenticationPrincipal rcUser: RcUser,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("comment_uid") commentUid: Long,
     ): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")

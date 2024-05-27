@@ -7,7 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
 
-@Table("RC_USER_INFO")
+@Table("RC_USER")
 data class RcUser(
     @Id val uid: String,
     val email: String,
