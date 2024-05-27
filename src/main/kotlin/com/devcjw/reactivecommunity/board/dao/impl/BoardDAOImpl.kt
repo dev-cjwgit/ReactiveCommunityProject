@@ -34,7 +34,7 @@ class BoardDAOImpl(
             .map { count -> count > 0 }
     }
 
-    override fun selectList(): Flux<BoardSelectListVO> {
+    override fun selectList(bbsUid: Short): Flux<BoardSelectListVO> {
         TODO("Not yet implemented")
     }
 
@@ -43,7 +43,7 @@ class BoardDAOImpl(
     }
 
     override fun insert(boardInsertDTO: BoardInsertDTO): Mono<Void> {
-         return databaseClient.sql(
+        return databaseClient.sql(
             """
                 INSERT INTO RC_BOARD (`BBS_UID`,`TITLE`,`CONTENTS`,`WRITER_UID`)
                 VALUES (:bbsUid,:title,:contents,:writerUid)
