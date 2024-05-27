@@ -1,8 +1,8 @@
 package com.devcjw.reactivecommunity.auth.dao.impl
 
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
-import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.auth.model.entity.AuthLevelResourcesVO
+import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import lombok.RequiredArgsConstructor
@@ -20,7 +20,7 @@ class AuthDAOImpl(
     override fun insertRcUser(rcUser: RcUser): Mono<Void> {
         return databaseClient.sql(
             """
-            INSERT INTO RC_USER_INFO (`UID`,`EMAIL`,`PW`,`NAME`,`NICKNAME`)
+            INSERT INTO RC_USER (`UID`,`EMAIL`,`PW`,`NAME`,`NICKNAME`)
             VALUES (:uid,:email,:password,:name,:nickname)
         """.trimIndent()
         )

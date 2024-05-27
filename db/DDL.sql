@@ -19,20 +19,8 @@
 CREATE DATABASE IF NOT EXISTS `rcdb` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `rcdb`;
 
--- 테이블 rcdb.RC_BOARD_BBS 구조 내보내기
-CREATE TABLE IF NOT EXISTS `RC_BOARD_BBS` (
-    `UID` tinyint(4) NOT NULL DEFAULT 0,
-    `PATH` varchar(10) NOT NULL,
-    `TITLE` varchar(50) NOT NULL,
-    `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
-    `UPDATED_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-    PRIMARY KEY (`UID`) USING BTREE
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- 내보낼 데이터가 선택되어 있지 않습니다.
-
--- 테이블 rcdb.RC_BOARD_POST 구조 내보내기
-CREATE TABLE IF NOT EXISTS `RC_BOARD_POST` (
+-- 테이블 rcdb.RC_BOARD 구조 내보내기
+CREATE TABLE IF NOT EXISTS `RC_BOARD` (
     `UID` bigint(20) NOT NULL AUTO_INCREMENT,
     `BBS_UID` tinyint(4) NOT NULL DEFAULT 0,
     `TITLE` varchar(100) NOT NULL,
@@ -45,13 +33,33 @@ CREATE TABLE IF NOT EXISTS `RC_BOARD_POST` (
     KEY `BOARD_POST_WRITER_UID_FK` (`WRITER_UID`),
     KEY `BOARD_POST_BBS_UID_FK` (`BBS_UID`),
     CONSTRAINT `BOARD_POST_BBS_UID_FK` FOREIGN KEY (`BBS_UID`) REFERENCES `RC_BOARD_BBS` (`UID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-    CONSTRAINT `BOARD_POST_WRITER_UID_FK` FOREIGN KEY (`WRITER_UID`) REFERENCES `RC_USER_INFO` (`UID`) ON DELETE NO ACTION ON UPDATE NO ACTION
-    ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    CONSTRAINT `BOARD_POST_WRITER_UID_FK` FOREIGN KEY (`WRITER_UID`) REFERENCES `RC_USER` (`UID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+    ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- 내보낼 데이터가 선택되어 있지 않습니다.
 
--- 테이블 rcdb.RC_USER_INFO 구조 내보내기
-CREATE TABLE IF NOT EXISTS `RC_USER_INFO` (
+-- 테이블 rcdb.RC_BOARD_BBS 구조 내보내기
+CREATE TABLE IF NOT EXISTS `RC_BOARD_BBS` (
+    `UID` tinyint(4) NOT NULL DEFAULT 0,
+    `PATH` varchar(10) NOT NULL,
+    `TITLE` varchar(50) NOT NULL,
+    `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
+    `UPDATED_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+    PRIMARY KEY (`UID`) USING BTREE
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+
+-- 테이블 rcdb.RC_BOARD_COMMENT 구조 내보내기
+CREATE TABLE IF NOT EXISTS `RC_BOARD_COMMENT` (
+    `UID` bigint(20) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (`UID`)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- 내보낼 데이터가 선택되어 있지 않습니다.
+
+-- 테이블 rcdb.RC_USER 구조 내보내기
+CREATE TABLE IF NOT EXISTS `RC_USER` (
     `UID` varchar(36) NOT NULL,
     `EMAIL` varchar(100) NOT NULL,
     `PW` varchar(100) NOT NULL,

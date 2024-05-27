@@ -14,19 +14,18 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- 테이블 데이터 rcdb.RC_BOARD:~0 rows (대략적) 내보내기
+
 -- 테이블 데이터 rcdb.RC_BOARD_BBS:~3 rows (대략적) 내보내기
 INSERT INTO `RC_BOARD_BBS` (`UID`, `PATH`, `TITLE`, `CREATED_AT`, `UPDATED_AT`) VALUES
                                                                                     (1, 'notice', '공지사항', '2024-05-26 03:50:57', '2024-05-26 03:51:46'),
                                                                                     (2, 'free', '자유게시판', '2024-05-26 03:51:02', '2024-05-26 03:51:59'),
                                                                                     (3, 'qna', 'QnA', '2024-05-26 03:51:09', '2024-05-26 03:51:52');
 
--- 테이블 데이터 rcdb.RC_BOARD_POST:~2 rows (대략적) 내보내기
-INSERT INTO `RC_BOARD_POST` (`UID`, `BBS_UID`, `TITLE`, `CONTENTS`, `WRITER_UID`, `HIT`, `CREATED_AT`, `UPDATED_AT`) VALUES
-                                                                                                                         (1, 1, '1번째 제목입니다', '1번째 내용입니다~', '1c95ccb3-fc4d-41ee-8424-e08aba892cca', 0, '2024-05-26 05:38:19', '2024-05-26 05:38:19'),
-                                                                                                                         (4, 1, '1번째 제목입니다', '1번째 내용입니다~', '1c95ccb3-fc4d-41ee-8424-e08aba892cca', 0, '2024-05-26 06:14:43', '2024-05-26 06:14:43');
+-- 테이블 데이터 rcdb.RC_BOARD_COMMENT:~0 rows (대략적) 내보내기
 
--- 테이블 데이터 rcdb.RC_USER_INFO:~1 rows (대략적) 내보내기
-INSERT INTO `RC_USER_INFO` (`UID`, `EMAIL`, `PW`, `NAME`, `NICKNAME`, `LEVEL_UID`, `CREATED_AT`, `UPDATED_AT`) VALUES
+-- 테이블 데이터 rcdb.RC_USER:~1 rows (대략적) 내보내기
+INSERT INTO `RC_USER` (`UID`, `EMAIL`, `PW`, `NAME`, `NICKNAME`, `LEVEL_UID`, `CREATED_AT`, `UPDATED_AT`) VALUES
     ('1c95ccb3-fc4d-41ee-8424-e08aba892cca', 'cjw.git@gmail.com', '$2a$10$kVbvt2uaF8QgUuukTGzTiuqxqHbuYCY6ChbGhzSkqbG37MFlCHED2', '최진우', '개발자', 10, '2024-05-25 10:07:08', '2024-05-26 04:43:57');
 
 -- 테이블 데이터 rcdb.RC_USER_LEVEL:~6 rows (대략적) 내보내기

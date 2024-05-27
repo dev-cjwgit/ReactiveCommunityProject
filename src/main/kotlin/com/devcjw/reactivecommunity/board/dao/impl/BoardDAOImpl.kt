@@ -45,7 +45,7 @@ class BoardDAOImpl(
     override fun insertPost(boardInsertDTO: BoardInsertDTO): Mono<Void> {
          return databaseClient.sql(
             """
-                INSERT INTO RC_BOARD_POST (`BBS_UID`,`TITLE`,`CONTENTS`,`WRITER_UID`)
+                INSERT INTO RC_BOARD (`BBS_UID`,`TITLE`,`CONTENTS`,`WRITER_UID`)
                 VALUES (:bbsUid,:title,:contents,:writerUid)
             """.trimIndent()
         )
