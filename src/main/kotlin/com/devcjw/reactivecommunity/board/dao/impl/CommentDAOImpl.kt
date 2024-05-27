@@ -21,11 +21,11 @@ class CommentDAOImpl(
     override fun selectList(boardUid: Long): Flux<CommentSelectVO> {
         val sql = """
             SELECT
-                RBC.`UID` AS uid,
-                RBC.`WRITER_UID` AS writer_uid,
-                RBC.`CONTENTS` AS contents,
-                RBC.`CREATED_AT` AS created_at,
-                RBC.`UPDATED_AT` AS updated_at
+                RBC.`UID`,
+                RBC.`WRITER_UID`,
+                RBC.`CONTENTS`,
+                RBC.`CREATED_AT`,
+                RBC.`UPDATED_AT`
             FROM
                 RC_BOARD_COMMENT RBC
             WHERE
@@ -38,7 +38,7 @@ class CommentDAOImpl(
                 CommentSelectVO(
                     uid = row.get("uid", Long::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    writerUid = row.get("writer_uid", Long::class.java)
+                    writerUid = row.get("writer_uid", String::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                     contents = row.get("contents", String::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),

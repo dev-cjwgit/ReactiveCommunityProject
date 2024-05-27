@@ -1,8 +1,6 @@
 package com.devcjw.reactivecommunity.common.db
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.KotlinModule
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -19,13 +17,6 @@ class ReactiveRedisConfig {
     @Primary
     fun reactiveRedisConnectionFactory(): ReactiveRedisConnectionFactory {
         return LettuceConnectionFactory()
-    }
-
-    @Bean
-    fun objectMapper(): ObjectMapper {
-        return jacksonObjectMapper().registerModule(
-            KotlinModule.Builder().build()
-        )
     }
 
     @Bean

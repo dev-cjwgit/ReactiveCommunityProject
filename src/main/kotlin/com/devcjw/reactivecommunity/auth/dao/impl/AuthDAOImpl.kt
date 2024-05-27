@@ -35,7 +35,7 @@ class AuthDAOImpl(
     override fun selectUserLevelResource(): Flux<AuthLevelResourcesVO> {
         val sql = """
             SELECT
-                RUL.`UID` AS level_uid,
+                RUL.`UID`,
                 GROUP_CONCAT(CONCAT(RUR.`METHOD`, ',', RUR.`PATTERN`) ORDER BY RUR.`PATTERN`, RUR.`METHOD` SEPARATOR '|') AS resources
             FROM
                 RC_USER_LEVEL RUL
@@ -50,7 +50,7 @@ class AuthDAOImpl(
         return databaseClient.sql(sql)
             .map { row, _ ->
                 AuthLevelResourcesVO(
-                    levelUid = row.get("level_uid", Long::class.java)
+                    levelUid = row.get("uid", Long::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                     resources = row.get("resources", String::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION)
