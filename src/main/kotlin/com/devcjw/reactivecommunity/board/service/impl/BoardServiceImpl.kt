@@ -8,6 +8,8 @@ import com.devcjw.reactivecommunity.board.model.domain.BoardRepListVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardReqInsertDTO
 import com.devcjw.reactivecommunity.board.model.entity.BoardInsertDTO
 import com.devcjw.reactivecommunity.board.service.BoardService
+import com.devcjw.reactivecommunity.common.exception.config.RcException
+import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import lombok.RequiredArgsConstructor
 import org.springframework.stereotype.Service
@@ -35,6 +37,12 @@ class BoardServiceImpl(
          */
         return Mono.just(rcUser)
             .flatMap {
+                boardDAO.isBbsBoard(boardReqInsertDTO.bbsUid)
+            }
+            .filter { exists -> exists }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
+            .flatMap {
+                // 2
                 Mono.just(
                     BoardInsertDTO(
                         boardReqInsertDTO.bbsUid,
@@ -45,6 +53,7 @@ class BoardServiceImpl(
                 )
             }
             .flatMap {
+                // 3
                 boardDAO.insertPost(it).thenReturn(it)
             }
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })

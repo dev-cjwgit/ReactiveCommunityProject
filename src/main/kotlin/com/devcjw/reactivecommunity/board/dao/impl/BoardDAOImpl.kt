@@ -16,6 +16,24 @@ import reactor.core.publisher.Mono
 class BoardDAOImpl(
     val databaseClient: DatabaseClient
 ) : BoardDAO {
+    override fun isBbsBoard(bbsUid: Short): Mono<Boolean> {
+        val sql = """
+            SELECT
+                COUNT(*)
+            FROM
+                RC_BOARD_BBS RBB
+            WHERE UID = :bbsUid
+        """
+
+        return databaseClient.sql(sql)
+            .bind("bbsUid", bbsUid)
+            .map { row, _ ->
+                row.get(0, Long::class.java) ?: 0L
+            }
+            .one()
+            .map { count -> count > 0 }
+    }
+
     override fun selectBoardList(): Flux<BoardSelectListVO> {
         TODO("Not yet implemented")
     }

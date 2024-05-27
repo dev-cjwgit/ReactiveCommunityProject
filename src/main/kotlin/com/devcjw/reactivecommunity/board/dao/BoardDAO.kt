@@ -9,6 +9,8 @@ import reactor.core.publisher.Mono
 
 
 interface BoardDAO {
+    fun isBbsBoard(bbsUid: Short): Mono<Boolean>
+
     fun selectBoardList(): Flux<BoardSelectListVO>
 
     fun selectBoardDetail(postUid: Long): Mono<BoardSelectDetailVO>
