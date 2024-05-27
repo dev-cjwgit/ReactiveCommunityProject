@@ -1,7 +1,6 @@
 package com.devcjw.reactivecommunity.board.controller
 
 import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
-import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepDetailVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepListVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardReqInsertDTO
@@ -29,21 +28,22 @@ class BoardController(
      */
 
     // 1
-    @GetMapping("/{bbs}")
+    @GetMapping("/{bbs_path}")
     fun list(
-        @AuthenticationPrincipal rcUser: RcUser,
-        @PathVariable("bbs") bbs: String,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("bbs_path") bbsPath: String,
     ): Flux<RestResponseVO<BoardRepListVO>> {
-        return boardService.list(rcUser, bbs)
+        return boardService.list(rcUser, bbsPath)
     }
 
     // 2
-    @GetMapping("/{board_uid}")
+    @GetMapping("/{bbs_name}/{board_uid}")
     fun detail(
-        @AuthenticationPrincipal rcUser: RcUser,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("bbs_name") bbsName: String,
         @PathVariable("board_uid") boardUid: Long,
     ): Mono<RestResponseVO<BoardRepDetailVO>> {
-        return boardService.detail(rcUser, boardUid)
+        return boardService.detail(rcUser, bbsName, boardUid)
     }
 
     // 3
@@ -58,7 +58,7 @@ class BoardController(
     // 4
     @PatchMapping
     fun update(
-        @AuthenticationPrincipal rcUser: RcUser,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody boardReqUpdateDTO: BoardReqUpdateDTO,
     ): Mono<RestResponseVO<Void>> {
         return boardService.update(rcUser, boardReqUpdateDTO)
@@ -67,7 +67,7 @@ class BoardController(
     // 5
     @DeleteMapping("/{board_uid}")
     fun delete(
-        @AuthenticationPrincipal rcUser: RcUser,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("board_uid") boardUid: Long,
     ): Mono<RestResponseVO<Void>> {
         return boardService.delete(rcUser, boardUid)

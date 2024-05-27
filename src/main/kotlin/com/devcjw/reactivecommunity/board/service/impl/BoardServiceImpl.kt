@@ -1,7 +1,6 @@
 package com.devcjw.reactivecommunity.board.service.impl
 
 import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
-import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.board.dao.BoardDAO
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepDetailVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepListVO
@@ -22,11 +21,23 @@ import reactor.core.publisher.Mono
 class BoardServiceImpl(
     private val boardDAO: BoardDAO,
 ) : BoardService {
-    override fun list(rcUser: RcUser, bbs: String): Flux<RestResponseVO<BoardRepListVO>> {
-        TODO("Not yet implemented")
+    override fun list(rcUser: RcUserJwtClaims, bbsPath: String): Flux<RestResponseVO<BoardRepListVO>> {
+        return boardDAO.selectList(bbsPath)
+            .flatMap {
+                Mono.just(
+                    RestResponseVO(
+                        result = true,
+                        data = BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
+                    )
+                )
+            }
     }
 
-    override fun detail(rcUser: RcUser, boardUid: Long): Mono<RestResponseVO<BoardRepDetailVO>> {
+    override fun detail(
+        rcUser: RcUserJwtClaims,
+        bbsPath: String,
+        boardUid: Long
+    ): Mono<RestResponseVO<BoardRepDetailVO>> {
         TODO("Not yet implemented")
     }
 
@@ -60,11 +71,11 @@ class BoardServiceImpl(
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
-    override fun update(rcUser: RcUser, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>> {
+    override fun update(rcUser: RcUserJwtClaims, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
     }
 
-    override fun delete(rcUser: RcUser, boardUid: Long): Mono<RestResponseVO<Void>> {
+    override fun delete(rcUser: RcUserJwtClaims, boardUid: Long): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
     }
 
