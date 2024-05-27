@@ -13,12 +13,12 @@ interface BoardDAO {
 
     fun selectList(): Flux<BoardSelectListVO>
 
-    fun selectDetail(postUid: Long): Mono<BoardSelectDetailVO>
+    fun selectDetail(boardUid: Long): Mono<BoardSelectDetailVO>
 
     fun insert(boardInsertDTO: BoardInsertDTO): Mono<Void>
 
     fun update(boardUpdateDTO: BoardUpdateDTO): Mono<Void>
 
-    fun delete(postUid: Long): Mono<Void>
+    fun delete(boardUid: Long): Mono<Void>
 
 }

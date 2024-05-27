@@ -38,12 +38,12 @@ class BoardController(
     }
 
     // 2
-    @GetMapping("/{post_uid}")
+    @GetMapping("/{board_uid}")
     fun detail(
         @AuthenticationPrincipal rcUser: RcUser,
-        @PathVariable("post_uid") postUid: Long,
+        @PathVariable("board_uid") boardUid: Long,
     ): Mono<RestResponseVO<BoardRepDetailVO>> {
-        return boardService.detail(rcUser, postUid)
+        return boardService.detail(rcUser, boardUid)
     }
 
     // 3
@@ -65,12 +65,12 @@ class BoardController(
     }
 
     // 5
-    @DeleteMapping("/{post_uid}")
+    @DeleteMapping("/{board_uid}")
     fun delete(
         @AuthenticationPrincipal rcUser: RcUser,
-        @PathVariable("post_uid") postUid: Long,
+        @PathVariable("board_uid") boardUid: Long,
     ): Mono<RestResponseVO<Void>> {
-        return boardService.delete(rcUser, postUid)
+        return boardService.delete(rcUser, boardUid)
     }
 
 }

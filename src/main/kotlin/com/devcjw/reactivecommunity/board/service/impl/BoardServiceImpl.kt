@@ -26,7 +26,7 @@ class BoardServiceImpl(
         TODO("Not yet implemented")
     }
 
-    override fun detail(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<BoardRepDetailVO>> {
+    override fun detail(rcUser: RcUser, boardUid: Long): Mono<RestResponseVO<BoardRepDetailVO>> {
         TODO("Not yet implemented")
     }
 
@@ -64,7 +64,7 @@ class BoardServiceImpl(
         TODO("Not yet implemented")
     }
 
-    override fun delete(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<Void>> {
+    override fun delete(rcUser: RcUser, boardUid: Long): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
     }
 

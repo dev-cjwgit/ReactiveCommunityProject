@@ -13,8 +13,8 @@ import reactor.core.publisher.Mono
 
 interface BoardService {
     fun list(rcUser: RcUser, bbs: String): Flux<RestResponseVO<BoardRepListVO>>
-    fun detail(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<BoardRepDetailVO>>
+    fun detail(rcUser: RcUser, boardUid: Long): Mono<RestResponseVO<BoardRepDetailVO>>
     fun insert(rcUser: RcUserJwtClaims, boardReqInsertDTO: BoardReqInsertDTO): Mono<RestResponseVO<Void>>
     fun update(rcUser: RcUser, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>>
-    fun delete(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<Void>>
+    fun delete(rcUser: RcUser, boardUid: Long): Mono<RestResponseVO<Void>>
 }

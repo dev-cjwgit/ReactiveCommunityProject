@@ -38,7 +38,7 @@ class BoardDAOImpl(
         TODO("Not yet implemented")
     }
 
-    override fun selectDetail(postUid: Long): Mono<BoardSelectDetailVO> {
+    override fun selectDetail(boardUid: Long): Mono<BoardSelectDetailVO> {
         TODO("Not yet implemented")
     }
 
@@ -60,7 +60,7 @@ class BoardDAOImpl(
         TODO("Not yet implemented")
     }
 
-    override fun delete(postUid: Long): Mono<Void> {
+    override fun delete(boardUid: Long): Mono<Void> {
         TODO("Not yet implemented")
     }
 }
