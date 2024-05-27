@@ -48,29 +48,29 @@ class BoardController(
 
     // 3
     @PostMapping
-    fun insertPost(
+    fun insert(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody boardReqInsertDTO: BoardReqInsertDTO
     ): Mono<RestResponseVO<Void>> {
-        return boardService.insertPost(rcUser, boardReqInsertDTO)
+        return boardService.insert(rcUser, boardReqInsertDTO)
     }
 
     // 4
     @PatchMapping
-    fun updatePost(
+    fun update(
         @AuthenticationPrincipal rcUser: RcUser,
         @RequestBody boardReqUpdateDTO: BoardReqUpdateDTO,
     ): Mono<RestResponseVO<Void>> {
-        return boardService.updatePost(rcUser, boardReqUpdateDTO)
+        return boardService.update(rcUser, boardReqUpdateDTO)
     }
 
     // 5
     @DeleteMapping("/{post_uid}")
-    fun deletePost(
+    fun delete(
         @AuthenticationPrincipal rcUser: RcUser,
         @PathVariable("post_uid") postUid: Long,
     ): Mono<RestResponseVO<Void>> {
-        return boardService.deletePost(rcUser, postUid)
+        return boardService.delete(rcUser, postUid)
     }
 
 }

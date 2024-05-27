@@ -11,14 +11,14 @@ import reactor.core.publisher.Mono
 interface BoardDAO {
     fun isBbsBoard(bbsUid: Short): Mono<Boolean>
 
-    fun selectBoardList(): Flux<BoardSelectListVO>
+    fun selectList(): Flux<BoardSelectListVO>
 
-    fun selectBoardDetail(postUid: Long): Mono<BoardSelectDetailVO>
+    fun selectDetail(postUid: Long): Mono<BoardSelectDetailVO>
 
-    fun insertPost(boardInsertDTO: BoardInsertDTO): Mono<Void>
+    fun insert(boardInsertDTO: BoardInsertDTO): Mono<Void>
 
-    fun updatePost(boardUpdateDTO: BoardUpdateDTO): Mono<Void>
+    fun update(boardUpdateDTO: BoardUpdateDTO): Mono<Void>
 
-    fun deletePost(postUid: Long): Mono<Void>
+    fun delete(postUid: Long): Mono<Void>
 
 }

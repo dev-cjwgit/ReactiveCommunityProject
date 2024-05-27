@@ -34,15 +34,15 @@ class BoardDAOImpl(
             .map { count -> count > 0 }
     }
 
-    override fun selectBoardList(): Flux<BoardSelectListVO> {
+    override fun selectList(): Flux<BoardSelectListVO> {
         TODO("Not yet implemented")
     }
 
-    override fun selectBoardDetail(postUid: Long): Mono<BoardSelectDetailVO> {
+    override fun selectDetail(postUid: Long): Mono<BoardSelectDetailVO> {
         TODO("Not yet implemented")
     }
 
-    override fun insertPost(boardInsertDTO: BoardInsertDTO): Mono<Void> {
+    override fun insert(boardInsertDTO: BoardInsertDTO): Mono<Void> {
          return databaseClient.sql(
             """
                 INSERT INTO RC_BOARD (`BBS_UID`,`TITLE`,`CONTENTS`,`WRITER_UID`)
@@ -56,11 +56,11 @@ class BoardDAOImpl(
             .then()
     }
 
-    override fun updatePost(boardUpdateDTO: BoardUpdateDTO): Mono<Void> {
+    override fun update(boardUpdateDTO: BoardUpdateDTO): Mono<Void> {
         TODO("Not yet implemented")
     }
 
-    override fun deletePost(postUid: Long): Mono<Void> {
+    override fun delete(postUid: Long): Mono<Void> {
         TODO("Not yet implemented")
     }
 }

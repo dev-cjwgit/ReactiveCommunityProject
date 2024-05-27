@@ -30,7 +30,7 @@ class BoardServiceImpl(
         TODO("Not yet implemented")
     }
 
-    override fun insertPost(rcUser: RcUserJwtClaims, boardReqInsertDTO: BoardReqInsertDTO): Mono<RestResponseVO<Void>> {
+    override fun insert(rcUser: RcUserJwtClaims, boardReqInsertDTO: BoardReqInsertDTO): Mono<RestResponseVO<Void>> {
         /**
          * 1. 게시판 존재 확인
          * 2. Entity 생성
@@ -55,16 +55,16 @@ class BoardServiceImpl(
             }
             .flatMap {
                 // 3
-                boardDAO.insertPost(it).thenReturn(it)
+                boardDAO.insert(it).thenReturn(it)
             }
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
-    override fun updatePost(rcUser: RcUser, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>> {
+    override fun update(rcUser: RcUser, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
     }
 
-    override fun deletePost(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<Void>> {
+    override fun delete(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
     }
 
