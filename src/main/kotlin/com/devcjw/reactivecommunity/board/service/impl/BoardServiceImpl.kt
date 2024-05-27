@@ -6,6 +6,7 @@ import com.devcjw.reactivecommunity.board.dao.BoardDAO
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepDetailVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepListVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardReqInsertDTO
+import com.devcjw.reactivecommunity.board.model.domain.BoardReqUpdateDTO
 import com.devcjw.reactivecommunity.board.model.entity.BoardInsertDTO
 import com.devcjw.reactivecommunity.board.service.BoardService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
@@ -59,7 +60,7 @@ class BoardServiceImpl(
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
-    override fun updatePost(rcUser: RcUser, postUid: Long): Mono<RestResponseVO<Void>> {
+    override fun updatePost(rcUser: RcUser, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
     }
 

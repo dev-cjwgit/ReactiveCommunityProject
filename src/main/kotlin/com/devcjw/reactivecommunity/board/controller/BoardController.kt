@@ -5,6 +5,7 @@ import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepDetailVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardRepListVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardReqInsertDTO
+import com.devcjw.reactivecommunity.board.model.domain.BoardReqUpdateDTO
 import com.devcjw.reactivecommunity.board.service.BoardService
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import lombok.RequiredArgsConstructor
@@ -54,14 +55,16 @@ class BoardController(
         return boardService.insertPost(rcUser, boardReqInsertDTO)
     }
 
-    @PatchMapping("/{post_uid}")
+    // 4
+    @PatchMapping
     fun updatePost(
         @AuthenticationPrincipal rcUser: RcUser,
-        @PathVariable("post_uid") postUid: Long,
+        @RequestBody boardReqUpdateDTO: BoardReqUpdateDTO,
     ): Mono<RestResponseVO<Void>> {
-        return boardService.updatePost(rcUser, postUid)
+        return boardService.updatePost(rcUser, boardReqUpdateDTO)
     }
 
+    // 5
     @DeleteMapping("/{post_uid}")
     fun deletePost(
         @AuthenticationPrincipal rcUser: RcUser,
