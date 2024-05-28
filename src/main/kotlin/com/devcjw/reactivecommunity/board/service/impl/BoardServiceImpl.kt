@@ -79,15 +79,13 @@ class BoardServiceImpl(
             }
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
-            .flatMap {
+            .map {
                 // 2
-                Mono.just(
-                    BoardInsertDTO(
-                        boardReqInsertDTO.bbsUid,
-                        boardReqInsertDTO.title,
-                        boardReqInsertDTO.contents,
-                        rcUser.uid
-                    )
+                BoardInsertDTO(
+                    boardReqInsertDTO.bbsUid,
+                    boardReqInsertDTO.title,
+                    boardReqInsertDTO.contents,
+                    rcUser.uid
                 )
             }
             .flatMap {

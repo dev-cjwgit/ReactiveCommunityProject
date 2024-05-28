@@ -60,7 +60,7 @@ class CommentDAOImpl(
             """.trimIndent()
         )
             .bind("board_uid", commentInsertDTO.boardUid)
-            .bind("user_uid", commentInsertDTO.userUid)
+            .bind("writer_uid", commentInsertDTO.userUid)
             .bind("contents", commentInsertDTO.contents)
             .then()
     }

@@ -55,6 +55,24 @@ class BoardDAOImpl(
             .map { count -> count > 0 }
     }
 
+    override fun isBoardUid(uid: Long): Mono<Boolean> {
+        val sql = """
+            SELECT
+                COUNT(*)
+            FROM
+                RC_BOARD RB
+            WHERE RB.`UID` = :uid
+        """
+
+        return databaseClient.sql(sql)
+            .bind("uid", uid)
+            .map { row, _ ->
+                row.get(0, Long::class.java) ?: 0L
+            }
+            .one()
+            .map { count -> count > 0 }
+    }
+
     override fun selectList(bbsPath: String): Flux<BoardSelectListVO> {
         val sql = """
             SELECT

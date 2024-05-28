@@ -28,7 +28,7 @@ class CommentController(
     fun list(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("board_uid") boardUid: Long,
-    ) : Flux<RestResponseVO<CommentRepListVO>> {
+    ): Flux<RestResponseVO<CommentRepListVO>> {
         return commentService.list(rcUser, boardUid)
     }
 
@@ -38,7 +38,7 @@ class CommentController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody commentReqInsertDTO: CommentReqInsertDTO,
     ): Mono<RestResponseVO<Void>> {
-        TODO("Not yet implemented")
+        return commentService.insert(rcUser, commentReqInsertDTO)
     }
 
     // 3
