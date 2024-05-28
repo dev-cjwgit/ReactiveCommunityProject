@@ -81,7 +81,45 @@ class BoardDAOImpl(
     }
 
     override fun selectDetail(boardUid: Long): Mono<BoardSelectDetailVO> {
-        TODO("Not yet implemented")
+        val sql = """
+            SELECT
+                RB.UID,
+                RB.TITLE,
+                RB.CONTENTS,
+                RU.NICKNAME,
+                RB.HIT,
+                RB.CREATED_AT,
+                RB.UPDATED_AT
+            FROM
+                RC_BOARD RB 
+            LEFT JOIN 
+                RC_USER RU
+            ON 
+                RB.WRITER_UID = RU.UID
+            WHERE
+                RB.UID = :board_uid
+        """
+
+        return databaseClient.sql(sql)
+            .bind("board_uid", boardUid)
+            .map { row, _ ->
+                BoardSelectDetailVO(
+                    uid = row.get("uid", Long::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                    title = row.get("title", String::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                    contents = row.get("contents", String::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                    writerNickname = row.get("nickname", String::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                    hit = row.get("hit", Int::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                    createdAt = row.get("created_at", LocalDateTime::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                    updatedAt = row.get("updated_at", LocalDateTime::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                )
+            }.one()
     }
 
     override fun insert(boardInsertDTO: BoardInsertDTO): Mono<Void> {

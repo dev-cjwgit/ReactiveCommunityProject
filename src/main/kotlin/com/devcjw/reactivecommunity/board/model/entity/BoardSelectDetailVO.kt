@@ -4,7 +4,6 @@ import java.time.LocalDateTime
 
 data class BoardSelectDetailVO(
     val uid: Long,
-    val bbsPath: String,
     val title: String,
     val contents: String,
     val writerNickname: String,

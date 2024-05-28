@@ -23,12 +23,16 @@ class BoardServiceImpl(
 ) : BoardService {
     override fun list(rcUser: RcUserJwtClaims, bbsPath: String): Flux<RestResponseVO<BoardRepListVO>> {
         return boardDAO.selectList(bbsPath)
-            .flatMap {
-                Mono.just(
-                    RestResponseVO(
-                        result = true,
-                        data = BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
-                    )
+            .map {
+                BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
+            }
+            .map {
+                BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
+            }
+            .map {
+                RestResponseVO(
+                    result = true,
+                    data = it
                 )
             }
     }
@@ -38,7 +42,24 @@ class BoardServiceImpl(
         bbsPath: String,
         boardUid: Long
     ): Mono<RestResponseVO<BoardRepDetailVO>> {
-        TODO("Not yet implemented")
+        return boardDAO.selectDetail(boardUid)
+            .map {
+                BoardRepDetailVO(
+                    uid = it.uid,
+                    title = it.title,
+                    contents = it.contents,
+                    writerNickname = it.writerNickname,
+                    hit = it.hit,
+                    createdAt = it.createdAt,
+                    updatedAt = it.updatedAt
+                )
+            }
+            .map {
+                RestResponseVO(
+                    result = true,
+                    data = it
+                )
+            }
     }
 
     override fun insert(rcUser: RcUserJwtClaims, boardReqInsertDTO: BoardReqInsertDTO): Mono<RestResponseVO<Void>> {
