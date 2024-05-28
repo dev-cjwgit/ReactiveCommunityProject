@@ -24,9 +24,10 @@ INSERT INTO `RC_BOARD_BBS` (`UID`, `PATH`, `TITLE`, `CREATED_AT`, `UPDATED_AT`) 
                                                                                     (2, 'free', '자유게시판', '2024-05-26 03:51:02', '2024-05-26 03:51:59'),
                                                                                     (3, 'qna', 'QnA', '2024-05-26 03:51:09', '2024-05-26 03:51:52');
 
--- 테이블 데이터 rcdb.RC_BOARD_COMMENT:~1 rows (대략적) 내보내기
+-- 테이블 데이터 rcdb.RC_BOARD_COMMENT:~2 rows (대략적) 내보내기
 INSERT INTO `RC_BOARD_COMMENT` (`UID`, `BOARD_UID`, `WRITER_UID`, `CONTENTS`, `CREATED_AT`, `UPDATED_AT`) VALUES
-    (2, 15, '1c95ccb3-fc4d-41ee-8424-e08aba892cca', '댓글 이예요 반갑습니다~', '2024-05-27 18:24:27', '2024-05-27 18:24:27');
+                                                                                                              (2, 15, '1c95ccb3-fc4d-41ee-8424-e08aba892cca', '댓글 이예요 반갑습니다~', '2024-05-27 18:24:27', '2024-05-27 18:24:27'),
+                                                                                                              (3, 15, '1c95ccb3-fc4d-41ee-8424-e08aba892cca', '하이요~', '2024-05-28 12:34:05', '2024-05-28 12:34:05');
 
 -- 테이블 데이터 rcdb.RC_USER:~1 rows (대략적) 내보내기
 INSERT INTO `RC_USER` (`UID`, `EMAIL`, `PW`, `NAME`, `NICKNAME`, `LEVEL_UID`, `CREATED_AT`, `UPDATED_AT`) VALUES
