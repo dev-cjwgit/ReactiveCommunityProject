@@ -37,13 +37,13 @@ class BoardController(
     }
 
     // 2
-    @GetMapping("/{bbs_name}/{board_uid}")
+    @GetMapping("/{bbs_path}/{board_uid}")
     fun detail(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @PathVariable("bbs_name") bbsName: String,
+        @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") boardUid: Long,
     ): Mono<RestResponseVO<BoardRepDetailVO>> {
-        return boardService.detail(rcUser, bbsName, boardUid)
+        return boardService.detail(rcUser, bbsPath, boardUid)
     }
 
     // 3
@@ -65,12 +65,13 @@ class BoardController(
     }
 
     // 5
-    @DeleteMapping("/{board_uid}")
+    @DeleteMapping("/{bbs_path}/{board_uid}")
     fun delete(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") boardUid: Long,
     ): Mono<RestResponseVO<Void>> {
-        return boardService.delete(rcUser, boardUid)
+        return boardService.delete(rcUser, bbsPath, boardUid)
     }
 
 }

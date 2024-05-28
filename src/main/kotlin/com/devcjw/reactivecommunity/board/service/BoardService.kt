@@ -15,5 +15,5 @@ interface BoardService {
     fun detail(rcUser: RcUserJwtClaims, bbsPath: String, boardUid: Long): Mono<RestResponseVO<BoardRepDetailVO>>
     fun insert(rcUser: RcUserJwtClaims, boardReqInsertDTO: BoardReqInsertDTO): Mono<RestResponseVO<Void>>
     fun update(rcUser: RcUserJwtClaims, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>>
-    fun delete(rcUser: RcUserJwtClaims, boardUid: Long): Mono<RestResponseVO<Void>>
+    fun delete(rcUser: RcUserJwtClaims, bbsPath: String, boardUid: Long): Mono<RestResponseVO<Void>>
 }

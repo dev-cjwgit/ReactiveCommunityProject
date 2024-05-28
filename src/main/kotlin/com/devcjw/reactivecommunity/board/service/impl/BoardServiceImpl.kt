@@ -42,7 +42,12 @@ class BoardServiceImpl(
         bbsPath: String,
         boardUid: Long
     ): Mono<RestResponseVO<BoardRepDetailVO>> {
-        return boardDAO.selectDetail(boardUid)
+        return boardDAO.isBbsPath(bbsPath)
+            .filter { exists -> exists }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
+            .flatMap {
+                boardDAO.selectDetail(boardUid)
+            }
             .map {
                 BoardRepDetailVO(
                     uid = it.uid,
@@ -70,7 +75,7 @@ class BoardServiceImpl(
          */
         return Mono.just(rcUser)
             .flatMap {
-                boardDAO.isBbsBoard(boardReqInsertDTO.bbsUid)
+                boardDAO.isBbsUid(boardReqInsertDTO.bbsUid)
             }
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
@@ -96,7 +101,7 @@ class BoardServiceImpl(
         TODO("Not yet implemented")
     }
 
-    override fun delete(rcUser: RcUserJwtClaims, boardUid: Long): Mono<RestResponseVO<Void>> {
+    override fun delete(rcUser: RcUserJwtClaims, bbsPath: String, boardUid: Long): Mono<RestResponseVO<Void>> {
         TODO("Not yet implemented")
     }
 

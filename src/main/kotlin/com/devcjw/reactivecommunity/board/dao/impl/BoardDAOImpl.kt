@@ -19,7 +19,7 @@ import java.time.LocalDateTime
 class BoardDAOImpl(
     val databaseClient: DatabaseClient
 ) : BoardDAO {
-    override fun isBbsBoard(bbsUid: Short): Mono<Boolean> {
+    override fun isBbsUid(uid: Short): Mono<Boolean> {
         val sql = """
             SELECT
                 COUNT(*)
@@ -29,7 +29,25 @@ class BoardDAOImpl(
         """
 
         return databaseClient.sql(sql)
-            .bind("bbs_uid", bbsUid)
+            .bind("bbs_uid", uid)
+            .map { row, _ ->
+                row.get(0, Long::class.java) ?: 0L
+            }
+            .one()
+            .map { count -> count > 0 }
+    }
+
+    override fun isBbsPath(path: String): Mono<Boolean> {
+        val sql = """
+            SELECT
+                COUNT(*)
+            FROM
+                RC_BOARD_BBS RBB
+            WHERE RBB.`PATH` = :path
+        """
+
+        return databaseClient.sql(sql)
+            .bind("path", path)
             .map { row, _ ->
                 row.get(0, Long::class.java) ?: 0L
             }
