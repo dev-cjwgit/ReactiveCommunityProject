@@ -24,15 +24,10 @@ class BoardServiceImpl(
     override fun list(rcUser: RcUserJwtClaims, bbsPath: String): Flux<RestResponseVO<BoardRepListVO>> {
         return boardDAO.selectList(bbsPath)
             .map {
-                BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
-            }
-            .map {
-                BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
-            }
-            .map {
+                val boardRepListVO = BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
                 RestResponseVO(
                     result = true,
-                    data = it
+                    data = boardRepListVO
                 )
             }
     }
@@ -90,7 +85,7 @@ class BoardServiceImpl(
             }
             .flatMap {
                 // 3
-                boardDAO.insert(it).thenReturn(it)
+                boardDAO.insert(it)
             }
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }

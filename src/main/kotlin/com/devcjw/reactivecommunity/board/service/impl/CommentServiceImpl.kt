@@ -24,12 +24,13 @@ class CommentServiceImpl(
 ) : CommentService {
     override fun list(rcUser: RcUserJwtClaims, boardUid: Long): Flux<RestResponseVO<CommentRepListVO>> {
         return commentDAO.selectList(boardUid)
-            .flatMap {
-                Mono.just(
-                    RestResponseVO(
-                        result = true,
-                        data = CommentRepListVO(it.uid, it.contents, it.createdAt, it.updatedAt)
-                    )
+            .map {
+                CommentRepListVO(it.uid, it.contents, it.createdAt, it.updatedAt)
+            }
+            .map {
+                RestResponseVO(
+                    result = true,
+                    data = it
                 )
             }
     }
@@ -44,17 +45,14 @@ class CommentServiceImpl(
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BOARD_EXCEPTION)))
             .map {
-                rcUser
-            }
-            .map {
                 CommentInsertDTO(
                     commentReqInsertDTO.boardUid,
-                    it.uid,
+                    rcUser.uid,
                     commentReqInsertDTO.contents
                 )
             }
             .flatMap {
-                commentDAO.insert(it).then()
+                commentDAO.insert(it)
             }
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
