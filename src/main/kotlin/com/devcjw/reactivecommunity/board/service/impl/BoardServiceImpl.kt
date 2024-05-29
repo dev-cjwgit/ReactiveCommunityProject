@@ -19,47 +19,52 @@ import reactor.core.publisher.Mono
 @Service
 @RequiredArgsConstructor
 class BoardServiceImpl(
-    private val boardDAO: BoardDAO,
+        private val boardDAO: BoardDAO,
 ) : BoardService {
     override fun list(rcUser: RcUserJwtClaims, bbsPath: String): Flux<RestResponseVO<BoardRepListVO>> {
-        return boardDAO.selectList(bbsPath)
-            .map {
-                val boardRepListVO = BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
-                RestResponseVO(
-                    result = true,
-                    data = boardRepListVO
-                )
-            }
+        return boardDAO.isBbsPath(bbsPath)
+                .filter { exists -> exists }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
+                .flatMapMany {
+                    boardDAO.selectList(bbsPath)
+                }
+                .map {
+                    val boardRepListVO = BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
+                    RestResponseVO(
+                            result = true,
+                            data = boardRepListVO
+                    )
+                }
     }
 
     override fun detail(
-        rcUser: RcUserJwtClaims,
-        bbsPath: String,
-        boardUid: Long
+            rcUser: RcUserJwtClaims,
+            bbsPath: String,
+            boardUid: Long
     ): Mono<RestResponseVO<BoardRepDetailVO>> {
         return boardDAO.isBbsPath(bbsPath)
-            .filter { exists -> exists }
-            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
-            .flatMap {
-                boardDAO.selectDetail(boardUid)
-            }
-            .map {
-                BoardRepDetailVO(
-                    uid = it.uid,
-                    title = it.title,
-                    contents = it.contents,
-                    writerNickname = it.writerNickname,
-                    hit = it.hit,
-                    createdAt = it.createdAt,
-                    updatedAt = it.updatedAt
-                )
-            }
-            .map {
-                RestResponseVO(
-                    result = true,
-                    data = it
-                )
-            }
+                .filter { exists -> exists }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
+                .flatMap {
+                    boardDAO.selectDetail(boardUid)
+                }
+                .map {
+                    BoardRepDetailVO(
+                            uid = it.uid,
+                            title = it.title,
+                            contents = it.contents,
+                            writerNickname = it.writerNickname,
+                            hit = it.hit,
+                            createdAt = it.createdAt,
+                            updatedAt = it.updatedAt
+                    )
+                }
+                .map {
+                    RestResponseVO(
+                            result = true,
+                            data = it
+                    )
+                }
     }
 
     override fun insert(rcUser: RcUserJwtClaims, boardReqInsertDTO: BoardReqInsertDTO): Mono<RestResponseVO<Void>> {
@@ -69,25 +74,25 @@ class BoardServiceImpl(
          * 3. 데이터 삽입
          */
         return Mono.just(rcUser)
-            .flatMap {
-                boardDAO.isBbsUid(boardReqInsertDTO.bbsUid)
-            }
-            .filter { exists -> exists }
-            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
-            .map {
-                // 2
-                BoardInsertDTO(
-                    boardReqInsertDTO.bbsUid,
-                    boardReqInsertDTO.title,
-                    boardReqInsertDTO.contents,
-                    rcUser.uid
-                )
-            }
-            .flatMap {
-                // 3
-                boardDAO.insert(it)
-            }
-            .then(Mono.defer { Mono.just(RestResponseVO(true)) })
+                .flatMap {
+                    boardDAO.isBbsUid(boardReqInsertDTO.bbsUid)
+                }
+                .filter { exists -> exists }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
+                .map {
+                    // 2
+                    BoardInsertDTO(
+                            boardReqInsertDTO.bbsUid,
+                            boardReqInsertDTO.title,
+                            boardReqInsertDTO.contents,
+                            rcUser.uid
+                    )
+                }
+                .flatMap {
+                    // 3
+                    boardDAO.insert(it)
+                }
+                .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
     override fun update(rcUser: RcUserJwtClaims, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>> {
