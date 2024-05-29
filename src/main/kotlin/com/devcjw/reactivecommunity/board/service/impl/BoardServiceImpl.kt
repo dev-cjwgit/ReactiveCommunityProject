@@ -7,6 +7,7 @@ import com.devcjw.reactivecommunity.board.model.domain.BoardRepListVO
 import com.devcjw.reactivecommunity.board.model.domain.BoardReqInsertDTO
 import com.devcjw.reactivecommunity.board.model.domain.BoardReqUpdateDTO
 import com.devcjw.reactivecommunity.board.model.entity.BoardInsertDTO
+import com.devcjw.reactivecommunity.board.model.entity.BoardUpdateDTO
 import com.devcjw.reactivecommunity.board.service.BoardService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
@@ -96,7 +97,36 @@ class BoardServiceImpl(
     }
 
     override fun update(rcUser: RcUserJwtClaims, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>> {
-        TODO("Not yet implemented")
+        /**
+         * 1. BBS Path 체크
+         * 2. 게시글 확인
+         * 3. 작성자가 맞는지 확인
+         * 4.
+         */
+        return boardDAO.isBbsPath(boardReqUpdateDTO.bbsPath)
+                .filter { exists -> exists }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
+
+                .filterWhen {
+                    boardDAO.isBoardUid(boardReqUpdateDTO.uid)
+                }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BOARD_EXCEPTION)))
+
+                .filterWhen {
+                    boardDAO.isWriterBoard(boardReqUpdateDTO.uid, rcUser.uid)
+                }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_WRITER_UID_EXCEPTION)))
+                .map {
+                    BoardUpdateDTO(
+                            boardReqUpdateDTO.uid,
+                            boardReqUpdateDTO.title,
+                            boardReqUpdateDTO.contents
+                    )
+                }
+                .flatMap {
+                    boardDAO.update(it)
+                }
+                .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
     override fun delete(rcUser: RcUserJwtClaims, bbsPath: String, boardUid: Long): Mono<RestResponseVO<Void>> {

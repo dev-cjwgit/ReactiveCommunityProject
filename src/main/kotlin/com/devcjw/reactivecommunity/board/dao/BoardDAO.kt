@@ -12,6 +12,7 @@ interface BoardDAO {
     fun isBbsUid(uid: Short): Mono<Boolean>
     fun isBbsPath(path: String): Mono<Boolean>
     fun isBoardUid(uid: Long): Mono<Boolean>
+    fun isWriterBoard(boardUid: Long, writerUid: String): Mono<Boolean>
 
     fun selectList(bbsPath: String): Flux<BoardSelectListVO>
 

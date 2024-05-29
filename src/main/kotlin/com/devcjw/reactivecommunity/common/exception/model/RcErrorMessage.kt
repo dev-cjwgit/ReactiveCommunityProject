@@ -14,8 +14,9 @@ enum class RcErrorMessage(
     ALREADY_USE_NICKNAME_EXCEPTION("#{msg.auth.exist_join_mail}", "이미 사용중인 닉네임입니다.", HttpStatus.BAD_REQUEST),
 
     ACCESS_DENIED_EXCEPTION("#{msg.common.access_denied}", "권한이 부족합니다.", HttpStatus.FORBIDDEN),
+    NOT_MATCH_WRITER_UID_EXCEPTION("#{msg.common.not_match_writer}", "작성자와 일치하지 않습니다.", HttpStatus.FORBIDDEN),
 
-    R2DBC_MAPPING_EXCEPTION("#{msg.common.mapping_exception}", "DB 맵핑 중 에러가 발생하였습니다.", HttpStatus.FORBIDDEN),
+    R2DBC_MAPPING_EXCEPTION("#{msg.common.mapping_exception}", "DB 맵핑 중 에러가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
     DUPLICATE_LOGIN_EXCEPTION("#{msg.auth.already_login}", "이미 로그인 중인 계정입니다.", HttpStatus.BAD_REQUEST),
 
