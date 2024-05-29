@@ -82,7 +82,7 @@ class BoardDAOImpl(
             WHERE
                 RB.`UID` = :board_uid
             AND
-                RB.WRITER_UID = :writer_uid
+                RB.`WRITER_UID` = :writer_uid
         """
 
         return databaseClient.sql(sql)
@@ -98,21 +98,21 @@ class BoardDAOImpl(
     override fun selectList(bbsPath: String): Flux<BoardSelectListVO> {
         val sql = """
             SELECT
-                RB.UID,
-                RB.TITLE,
-                RU.NICKNAME,
-                RB.HIT,
-                RB.CREATED_AT,
-                RB.UPDATED_AT
+                RB.`UID`,
+                RB.`TITLE`,
+                RU.`NICKNAME`,
+                RB.`HIT`,
+                RB.`CREATED_AT`,
+                RB.`UPDATED_AT`
             FROM
                 RC_BOARD RB
             LEFT JOIN
                 RC_USER RU
             ON
-                RB.WRITER_UID = RU.UID 
+                RB.`WRITER_UID` = RU.`UID` 
             WHERE
-                RB.BBS_UID = (
-                    SELECT UID FROM RC_BOARD_BBS RBB WHERE RBB.PATH = :bbs_path
+                RB.`BBS_UID` = (
+                    SELECT RBB.`UID` FROM RC_BOARD_BBS RBB WHERE RBB.`PATH` = :bbs_path
                 )
         """
 
@@ -141,21 +141,21 @@ class BoardDAOImpl(
     override fun selectDetail(boardUid: Long): Mono<BoardSelectDetailVO> {
         val sql = """
             SELECT
-                RB.UID,
-                RB.TITLE,
-                RB.CONTENTS,
-                RU.NICKNAME,
-                RB.HIT,
-                RB.CREATED_AT,
-                RB.UPDATED_AT
+                RB.`UID`,
+                RB.`TITLE`,
+                RB.`CONTENTS`,
+                RU.`NICKNAME`,
+                RB.`HIT`,
+                RB.`CREATED_AT`,
+                RB.`UPDATED_AT`
             FROM
                 RC_BOARD RB 
             LEFT JOIN 
                 RC_USER RU
             ON 
-                RB.WRITER_UID = RU.UID
+                RB.`WRITER_UID` = RU.`UID`
             WHERE
-                RB.UID = :board_uid
+                RB.`UID` = :board_uid
         """
 
         return databaseClient.sql(sql)
@@ -197,10 +197,10 @@ class BoardDAOImpl(
     override fun update(boardUpdateDTO: BoardUpdateDTO): Mono<Void> {
         return databaseClient.sql(
                 """
-                UPDATE RC_BOARD
-                SET `TITLE` = :title,
-                    `CONTENTS` = :contents
-                WHERE `UID` = :uid
+                UPDATE RC_BOARD RB
+                SET RB.`TITLE` = :title,
+                    RB.`CONTENTS` = :contents
+                WHERE RB.`UID` = :uid
             """.trimIndent()
         )
                 .bind("uid", boardUpdateDTO.uid)
@@ -210,6 +210,15 @@ class BoardDAOImpl(
     }
 
     override fun delete(boardUid: Long): Mono<Void> {
-        TODO("Not yet implemented")
+        return databaseClient.sql(
+                """
+                DELETE FROM 
+                    RC_BOARD
+                WHERE
+                    `UID` = :uid
+            """.trimIndent()
+        )
+                .bind("uid", boardUid)
+                .then()
     }
 }
