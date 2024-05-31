@@ -4,6 +4,8 @@ import com.devcjw.reactivecommunity.auth.config.handler.RcServerAccessDeniedHand
 import com.devcjw.reactivecommunity.auth.config.handler.RcServerAuthenticationEntryPoint
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
 import com.devcjw.reactivecommunity.auth.manager.AuthManager
+import com.devcjw.reactivecommunity.auth.model.entity.RestfulVO
+import jakarta.annotation.PostConstruct
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -16,7 +18,6 @@ import org.springframework.security.web.server.authorization.ServerAccessDeniedH
 @RequiredArgsConstructor
 class SecurityBean(
     private val authDAO: AuthDAO,
-    private val authManager: AuthManager,
 ) {
     @Bean
     fun passwordEncoder(): PasswordEncoder {
@@ -33,5 +34,20 @@ class SecurityBean(
         return RcServerAccessDeniedHandler()
     }
 
+    @Bean
+    fun roleMapping(): HashMap<Long, ArrayList<RestfulVO>> {
+        return hashMapOf()
+    }
 
+    @PostConstruct
+    private fun init() {
+        authDAO.selectUserLevelResource()
+            .doOnNext { userLevelResources ->
+                val resourcesList = userLevelResources.resources.split("|").map {
+                    val (method, pattern) = it.split(",")
+                    RestfulVO(method, pattern)
+                }
+                roleMapping()[userLevelResources.levelUid] = ArrayList(resourcesList)
+            }.subscribe()
+    }
 }

@@ -5,7 +5,6 @@ import com.devcjw.reactivecommunity.auth.manager.AuthManager
 import com.devcjw.reactivecommunity.auth.model.entity.RestfulVO
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
-import jakarta.annotation.PostConstruct
 import lombok.RequiredArgsConstructor
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
@@ -17,22 +16,9 @@ import reactor.core.scheduler.Schedulers
 @Component
 @RequiredArgsConstructor
 class AuthManagerImpl(
-    private val authDAO: AuthDAO
+    private val roleMapping: HashMap<Long, ArrayList<RestfulVO>>,
 ) : AuthManager {
     private val antPathMatcher = AntPathMatcher()
-    private val roleMapping = hashMapOf<Long, ArrayList<RestfulVO>>()
-
-    @PostConstruct
-    private fun init() {
-        authDAO.selectUserLevelResource()
-            .doOnNext { userLevelResources ->
-                val resourcesList = userLevelResources.resources.split("|").map {
-                    val (method, pattern) = it.split(",")
-                    RestfulVO(method, pattern)
-                }
-                roleMapping[userLevelResources.levelUid] = ArrayList(resourcesList)
-            }.subscribe()
-    }
 
     override fun check(authentication: Mono<Authentication>, method: String, path: String): Mono<Boolean> {
         return authentication
