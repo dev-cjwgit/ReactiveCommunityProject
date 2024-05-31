@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 
 @RequestMapping("/auth")
@@ -26,8 +25,8 @@ class AuthController(
     }
 
     @PostMapping("/check")
-    fun check(@RequestBody authReqCheckDTO: AuthReqCheckDTO, serverWebExchange: ServerWebExchange): Mono<RestResponseVO<Void>> {
-        return authService.check(authReqCheckDTO, serverWebExchange)
+    fun check(@RequestBody authReqCheckDTO: AuthReqCheckDTO): Mono<RestResponseVO<Void>> {
+        return authService.check(authReqCheckDTO)
     }
 
     @PostMapping("/reissue")

@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 import java.util.*
@@ -124,10 +123,12 @@ class AuthServiceImpl(
 
     override fun check(
         authReqCheckDTO: AuthReqCheckDTO,
-        serverWebExchange: ServerWebExchange
     ): Mono<RestResponseVO<Void>> {
         /**
-         * 1. Valid Check
+         * 1. Valid Check (인증 체크}
+         * 2. RcUser 인증 객체 생성
+         * 3. 인가 체크
+         * 4. 결과 반환
          */
         return Mono.just(jwtService.validateToken(authReqCheckDTO.accessToken))
             .filter { exists -> exists }
@@ -144,9 +145,10 @@ class AuthServiceImpl(
 
                 authManager.check(Mono.just(authentication), "GET", authReqCheckDTO.path)
             }
-            .flatMap { decision ->
+            .flatMap<RestResponseVO<Void>?> { decision ->
                 Mono.just(RestResponseVO(decision))
             }
+            .onErrorReturn(RestResponseVO(false))
     }
 
     override fun reissue(authReqReissueDTO: AuthReqReissueDTO): Mono<RestResponseVO<AuthRepReissueVO>> {
