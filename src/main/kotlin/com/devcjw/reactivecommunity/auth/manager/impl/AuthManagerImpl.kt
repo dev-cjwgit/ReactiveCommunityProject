@@ -18,37 +18,35 @@ class AuthManagerImpl(
     private val roleMapping: HashMap<Long, ArrayList<RestfulVO>>,
 ) : AuthManager {
     private val antPathMatcher = AntPathMatcher()
+    private fun checkAuthority(auth: Authentication, method: String, path: String): Mono<Boolean> {
+        val authorityOptional = auth.authorities.stream().findFirst()
+        return authorityOptional.map { authority ->
+            val authorityValue = authority.authority.toLongOrNull()
+            if (authorityValue != null && roleMapping.containsKey(authorityValue)) {
+                val restfulVOList = roleMapping[authorityValue] ?: emptyList()
+                Flux.fromIterable(restfulVOList)
+                    .parallel()
+                    .runOn(Schedulers.parallel())
+                    .filter { restfulVO ->
+                        (restfulVO.method == method || restfulVO.method == "ALL") &&
+                                antPathMatcher.match(restfulVO.pattern, path)
+                    }
+                    .sequential()
+                    .count()
+                    .map { count -> count > 0 }
+            } else {
+                Mono.just(false)
+            }
+        }.orElseGet {
+            Mono.just(false)
+        }
+    }
 
     override fun check(authentication: Mono<Authentication>, method: String, path: String): Mono<Boolean> {
         return authentication
             .filter { it.isAuthenticated }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.ACCESS_DENIED_EXCEPTION)))
-
-            .flatMap { auth ->
-                val authorityOptional = auth.authorities.stream().findFirst()
-                authorityOptional.map { authority ->
-                    val authorityValue = authority.authority.toLongOrNull()
-                    if (authorityValue != null && roleMapping.containsKey(authorityValue)) {
-                        val restfulVOList = roleMapping[authorityValue] ?: emptyList()
-                        Flux.fromIterable(restfulVOList)
-                            .parallel()
-                            .runOn(Schedulers.parallel())
-                            .filter { restfulVO ->
-                                (restfulVO.method == method || restfulVO.method == "ALL") &&
-                                        antPathMatcher.match(restfulVO.pattern, path)
-                            }
-                            .sequential()
-                            .count()
-                            .map { count -> count > 0 }
-                    } else {
-                        Mono.just(false)
-                    }
-                }.orElseGet {
-                    Mono.just(false)
-                }
-            }
-
+            .flatMap { auth -> checkAuthority(auth, method, path) }
             .onErrorReturn(false)
-
     }
 }
