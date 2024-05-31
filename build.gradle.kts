@@ -61,6 +61,8 @@ dependencies {
     // LocalDateTime
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
+    // https://mvnrepository.com/artifact/io.github.oshai/kotlin-logging
+    implementation("io.github.oshai:kotlin-logging-jvm:5.1.0")
 }
 
 tasks.withType<KotlinCompile> {
