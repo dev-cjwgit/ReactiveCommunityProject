@@ -5,6 +5,7 @@ import com.devcjw.reactivecommunity.auth.model.entity.AuthLevelResourcesVO
 import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
+import io.github.oshai.kotlinlogging.KotlinLogging
 import lombok.RequiredArgsConstructor
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Repository
@@ -16,8 +17,10 @@ import reactor.core.publisher.Mono
 class AuthDAOImpl(
     val databaseClient: DatabaseClient
 ) : AuthDAO {
+    private val logger = KotlinLogging.logger {}
 
     override fun insertRcUser(rcUser: RcUser): Mono<Void> {
+        logger.info { "insert Rc User : $rcUser" }
         return databaseClient.sql(
             """
             INSERT INTO RC_USER (`UID`,`EMAIL`,`PW`,`NAME`,`NICKNAME`)
@@ -33,6 +36,7 @@ class AuthDAOImpl(
     }
 
     override fun selectUserLevelResource(): Flux<AuthLevelResourcesVO> {
+        logger.info { "select User Level Resource" }
         val sql = """
             SELECT
                 RUL.`UID`,

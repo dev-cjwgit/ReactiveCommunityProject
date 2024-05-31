@@ -1,6 +1,7 @@
 package com.devcjw.reactivecommunity.auth.config.handler
 
 import com.devcjw.reactivecommunity.auth.service.JwtService
+import io.github.oshai.kotlinlogging.KotlinLogging
 import lombok.RequiredArgsConstructor
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -15,6 +16,7 @@ import reactor.core.publisher.Mono
 class RcJwtFilter(
     private val jwtService: JwtService
 ) : WebFilter {
+    private val logger = KotlinLogging.logger {}
 
     private fun extractToken(exchange: ServerWebExchange): String? {
         val authHeader = exchange.request.headers.getFirst("Authorization")
@@ -27,7 +29,7 @@ class RcJwtFilter(
 
     override fun filter(exchange: ServerWebExchange, chain: WebFilterChain): Mono<Void> {
         val token = extractToken(exchange)
-
+        logger.info { "Authentication Token : ${token}" }
         return if (token != null && jwtService.validateToken(token)) {
             val claims = jwtService.getRcUser(token)
             val authentication = UsernamePasswordAuthenticationToken(
@@ -35,6 +37,7 @@ class RcJwtFilter(
                 null,
                 listOf(SimpleGrantedAuthority(claims.level.toString()))
             )
+            logger.info { "save Security Context : $authentication" }
             val securityContext = SecurityContextImpl(authentication)
             chain.filter(exchange)
                 .contextWrite(ReactiveSecurityContextHolder.withSecurityContext(Mono.just(securityContext)))

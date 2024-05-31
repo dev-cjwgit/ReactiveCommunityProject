@@ -1,6 +1,7 @@
 package com.devcjw.reactivecommunity.auth.config.handler
 
 import com.devcjw.reactivecommunity.auth.manager.AuthManager
+import io.github.oshai.kotlinlogging.KotlinLogging
 import lombok.RequiredArgsConstructor
 import org.springframework.security.authorization.AuthorizationDecision
 import org.springframework.security.authorization.ReactiveAuthorizationManager
@@ -15,10 +16,13 @@ import reactor.core.publisher.Mono
 class RcReactiveAuthorizationManager(
     private val authManager: AuthManager,
 ) : ReactiveAuthorizationManager<AuthorizationContext> {
+    private val logger = KotlinLogging.logger {}
+
     override fun check(
         authentication: Mono<Authentication>,
         context: AuthorizationContext
     ): Mono<AuthorizationDecision> {
+        logger.info { "authorizationManager : $authentication" }
         return authManager
             .check(
                 authentication,

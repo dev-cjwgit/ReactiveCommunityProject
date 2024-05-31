@@ -2,6 +2,7 @@ package com.devcjw.reactivecommunity.auth.service.impl
 
 import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
 import com.devcjw.reactivecommunity.auth.service.JwtService
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import jakarta.annotation.PostConstruct
@@ -15,6 +16,8 @@ import javax.crypto.spec.SecretKeySpec
 @Service
 @RequiredArgsConstructor
 class JwtServiceImpl : JwtService {
+    private val logger = KotlinLogging.logger {}
+
     private lateinit var jwtKey: SecretKey
 
     @Value("\${rc.jwt.access-token-expires-minute}")
@@ -54,10 +57,12 @@ class JwtServiceImpl : JwtService {
     }
 
     override fun createAccessToken(uid: String, level: Long): String {
+        logger.info { "create access token : uid => $uid, level => $level" }
         return createToken(uid, level, (accessTokenExpiresMinute?.times(1000) ?: 0) * 60)
     }
 
     override fun createRefreshToken(uid: String, level: Long): String {
+        logger.info { "create refresh token : uid => $uid, level => $level" }
         return createToken(uid, level, (refreshTokenExpiresDay?.times(1000) ?: 0) * 60 * 60 * 24)
     }
 
@@ -66,7 +71,7 @@ class JwtServiceImpl : JwtService {
             val claims = getClaimsFormToken(token)
             !claims.body.expiration.before(Date())
         } catch (ex: Exception) {
-            // TODO Logging 필요
+            logger.error(ex) { "validate Token error" }
             false
         }
     }

@@ -10,6 +10,7 @@ import com.devcjw.reactivecommunity.auth.service.JwtService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.data.redis.core.ReactiveRedisTemplate
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -28,7 +29,10 @@ class AuthServiceImpl(
     private val redisTemplate: ReactiveRedisTemplate<String, Any>,
     private val authManager: AuthManager,
 ) : AuthService {
+    private val logger = KotlinLogging.logger {}
+
     override fun login(loginDTO: AuthReqLoginDTO): Mono<RestResponseVO<AuthRepTokenVO>> {
+        logger.info { "login : $loginDTO" }
         /**
          * 1. 계정 정보 조회
          * 2. 비밀번호 매칭
@@ -43,12 +47,16 @@ class AuthServiceImpl(
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_USER_EMAIL_EXCEPTION)))
             // 2
             .filter { userEntity ->
-                passwordEncoder.matches(loginDTO.password, userEntity.password)
+                val result = passwordEncoder.matches(loginDTO.password, userEntity.password)
+                logger.info { "match password : $result" }
+                result
             }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_USER_PASSWORD_EXCEPTION)))
             // 3
             .filter {
-                it.authorities.stream().findFirst().get().authority != "0"
+                var result = it.authorities.stream().findFirst().get().authority != "0"
+                logger.info { "join listener : $result" }
+                result
             }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.LISTEN_JOIN_USER_EXCEPTION)))
             // 4
@@ -56,6 +64,7 @@ class AuthServiceImpl(
                 redisTemplate.opsForValue().get(userEntity.uid)
                     .flatMap { existingRefreshToken ->
                         if (existingRefreshToken != null) {
+                            logger.info { "already login" }
                             Mono.error(RcException(RcErrorMessage.DUPLICATE_LOGIN_EXCEPTION))
                         } else {
                             Mono.just(userEntity)
@@ -68,7 +77,7 @@ class AuthServiceImpl(
                 Mono.defer {
                     val accessToken = jwtService.createAccessToken(it.uid, it.getLevel())
                     val refreshToken = jwtService.createRefreshToken(it.uid, it.getLevel())
-
+                    logger.info { "login success : accessToken => $accessToken refreshToken => $refreshToken" }
                     // 6
                     redisTemplate.opsForValue()
                         .set(it.uid, refreshToken)
@@ -85,6 +94,8 @@ class AuthServiceImpl(
     }
 
     override fun signup(authReqSignupDTO: AuthReqSignupDTO): Mono<RestResponseVO<Void>> {
+        logger.info { "signup $authReqSignupDTO" }
+
         /**
          * 1. 이메일 중복 체크
          * 2. 닉네임 중복 체크
@@ -93,6 +104,7 @@ class AuthServiceImpl(
         return authRepository.findByEmail(authReqSignupDTO.email)
             // 1
             .flatMap {
+                logger.info { "exists email ${it.email}" }
                 Mono.error<Boolean>(RcException(RcErrorMessage.ALREADY_JOIN_EMAIL_EXCEPTION))
             }
             .switchIfEmpty(
@@ -124,6 +136,7 @@ class AuthServiceImpl(
     override fun check(
         authReqCheckDTO: AuthReqCheckDTO,
     ): Mono<RestResponseVO<Void>> {
+        logger.info { "auth check : $authReqCheckDTO" }
         /**
          * 1. Valid Check (인증 체크}
          * 2. RcUser 인증 객체 생성
@@ -134,7 +147,9 @@ class AuthServiceImpl(
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.AUTHENTICATION_EXCEPTION)))
             .map {
-                jwtService.getRcUser(authReqCheckDTO.accessToken)
+                val result = jwtService.getRcUser(authReqCheckDTO.accessToken)
+                logger.info { "rc info : $result" }
+                result
             }
             .flatMap {
                 val authentication = UsernamePasswordAuthenticationToken(
@@ -152,6 +167,7 @@ class AuthServiceImpl(
     }
 
     override fun reissue(authReqReissueDTO: AuthReqReissueDTO): Mono<RestResponseVO<AuthRepReissueVO>> {
+        logger.info { "reissue : $authReqReissueDTO" }
         /**
          * 1. r2dbc 에서 계정 정보 조회
          * 2. redis 에서 uid 조회
