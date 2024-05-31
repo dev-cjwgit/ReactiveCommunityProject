@@ -47,15 +47,15 @@ class CommentController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody commentReqUpdateDTO: CommentReqUpdateDTO,
     ): Mono<RestResponseVO<Void>> {
-        TODO("Not yet implemented")
+        return commentService.update(rcUser, commentReqUpdateDTO)
     }
 
-    @DeleteMapping("/{comment_uid}")
+    @DeleteMapping("/{uid}")
     fun delete(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @PathVariable("comment_uid") commentUid: Long,
+        @PathVariable("uid") uid: Long,
     ): Mono<RestResponseVO<Void>> {
-        TODO("Not yet implemented")
+        return commentService.delete(rcUser, uid)
     }
 
 }

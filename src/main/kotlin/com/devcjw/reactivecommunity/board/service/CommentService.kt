@@ -15,5 +15,5 @@ interface CommentService {
 
     fun update(rcUser: RcUserJwtClaims, commentReqUpdateDTO: CommentReqUpdateDTO): Mono<RestResponseVO<Void>>
 
-    fun delete(rcUser: RcUserJwtClaims, commentUid: Long): Mono<RestResponseVO<Void>>
+    fun delete(rcUser: RcUserJwtClaims, uid: Long): Mono<RestResponseVO<Void>>
 }

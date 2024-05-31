@@ -7,6 +7,10 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 interface CommentDAO {
+    fun isCommentUid(uid: Long): Mono<Boolean>
+
+    fun isWriterComment(commentUid: Long, writerUid: String): Mono<Boolean>
+
     fun selectList(boardUid: Long): Flux<CommentSelectVO>
 
     fun insert(commentInsertDTO: CommentInsertDTO): Mono<Void>

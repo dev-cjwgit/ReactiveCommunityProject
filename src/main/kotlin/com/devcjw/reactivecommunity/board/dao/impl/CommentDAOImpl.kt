@@ -18,6 +18,47 @@ import java.time.LocalDateTime
 class CommentDAOImpl(
     val databaseClient: DatabaseClient
 ) : CommentDAO {
+    override fun isCommentUid(uid: Long): Mono<Boolean> {
+        val sql = """
+            SELECT
+                COUNT(*)
+            FROM
+                RC_BOARD_COMMENT RBC
+            WHERE
+                RBC.`UID` = :board_uid
+        """
+
+        return databaseClient.sql(sql)
+            .bind("board_uid", uid)
+            .map { row, _ ->
+                row.get(0, Long::class.java) ?: 0L
+            }
+            .one()
+            .map { count -> count > 0 }
+    }
+
+    override fun isWriterComment(commentUid: Long, writerUid: String): Mono<Boolean> {
+        val sql = """
+            SELECT
+                COUNT(*)
+            FROM
+                RC_BOARD_COMMENT RBC
+            WHERE
+                RBC.`UID` = :board_uid
+            AND
+                RBC.`WRITER_UID` = :writer_uid
+        """
+
+        return databaseClient.sql(sql)
+            .bind("board_uid", commentUid)
+            .bind("writer_uid", writerUid)
+            .map { row, _ ->
+                row.get(0, Long::class.java) ?: 0L
+            }
+            .one()
+            .map { count -> count > 0 }
+    }
+
     override fun selectList(boardUid: Long): Flux<CommentSelectVO> {
         val sql = """
             SELECT
@@ -66,10 +107,29 @@ class CommentDAOImpl(
     }
 
     override fun update(commentUpdateDTO: CommentUpdateDTO): Mono<Void> {
-        TODO("Not yet implemented")
+        return databaseClient.sql(
+            """
+                UPDATE RC_BOARD_COMMENT RBC
+                SET 
+                    RBC.`CONTENTS` = :contents
+                WHERE RBC.`UID` = :uid
+            """.trimIndent()
+        )
+            .bind("uid", commentUpdateDTO.uid)
+            .bind("contents", commentUpdateDTO.contents)
+            .then()
     }
 
     override fun delete(commentUid: Long): Mono<Void> {
-        TODO("Not yet implemented")
+        return databaseClient.sql(
+            """
+                DELETE FROM 
+                    RC_BOARD_COMMENT
+                WHERE
+                    `UID` = :uid
+            """.trimIndent()
+        )
+            .bind("uid", commentUid)
+            .then()
     }
 }

@@ -26,6 +26,7 @@ enum class RcErrorMessage(
     NOT_FOUND_BBS_BOARD_EXCEPTION("#{msg.board.not_found_bbs_board}", "게시판을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_BOARD_EXCEPTION("#{msg.board.not_found_board}", "게시글을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 
+    NOT_FOUND_COMMENT_EXCEPTION("#{msg.board.not_found_comment}", "댓글을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 
     NOTHING("", "", HttpStatus.OK);
 }
