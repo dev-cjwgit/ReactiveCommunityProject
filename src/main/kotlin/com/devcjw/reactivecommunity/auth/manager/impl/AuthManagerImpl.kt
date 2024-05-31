@@ -1,6 +1,5 @@
 package com.devcjw.reactivecommunity.auth.manager.impl
 
-import com.devcjw.reactivecommunity.auth.dao.AuthDAO
 import com.devcjw.reactivecommunity.auth.manager.AuthManager
 import com.devcjw.reactivecommunity.auth.model.entity.RestfulVO
 import com.devcjw.reactivecommunity.common.exception.config.RcException
