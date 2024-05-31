@@ -45,7 +45,7 @@ class BoardServiceImpl(
     override fun detail(
         rcUser: RcUserJwtClaims,
         bbsPath: String,
-        boardUid: Long
+        uid: Long
     ): Mono<RestResponseVO<BoardRepDetailVO>> {
         /**
          * 1. 게시판 존재 확인
@@ -59,10 +59,10 @@ class BoardServiceImpl(
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
             // 2
-            .filterWhen { boardDAO.isBoardUid(boardUid) }
+            .filterWhen { boardDAO.isBoardUid(uid) }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BOARD_EXCEPTION)))
             // 3
-            .flatMap { boardDAO.selectDetail(boardUid) }
+            .flatMap { boardDAO.selectDetail(uid) }
             // 4
             .map {
                 BoardRepDetailVO(

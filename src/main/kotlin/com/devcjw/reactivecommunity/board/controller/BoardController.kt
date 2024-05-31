@@ -36,11 +36,11 @@ class BoardController(
     // 2
     @GetMapping("/{bbs_path}/{board_uid}")
     fun detail(
-            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-            @PathVariable("bbs_path") bbsPath: String,
-            @PathVariable("board_uid") boardUid: Long,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("bbs_path") bbsPath: String,
+        @PathVariable("board_uid") uid: Long,
     ): Mono<RestResponseVO<BoardRepDetailVO>> {
-        return boardService.detail(rcUser, bbsPath, boardUid)
+        return boardService.detail(rcUser, bbsPath, uid)
     }
 
     // 3
