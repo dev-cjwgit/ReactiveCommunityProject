@@ -13,6 +13,7 @@ enum class RcErrorMessage(
     ALREADY_JOIN_EMAIL_EXCEPTION("#{msg.auth.exist_join_mail}", "이미 가입된 이메일입니다.", HttpStatus.BAD_REQUEST),
     ALREADY_USE_NICKNAME_EXCEPTION("#{msg.auth.exist_join_mail}", "이미 사용중인 닉네임입니다.", HttpStatus.BAD_REQUEST),
 
+    AUTHENTICATION_EXCEPTION("#{msg.common.authentication}", "인증에 실패하였습니다.", HttpStatus.UNAUTHORIZED),
     ACCESS_DENIED_EXCEPTION("#{msg.common.access_denied}", "권한이 부족합니다.", HttpStatus.FORBIDDEN),
     NOT_MATCH_WRITER_UID_EXCEPTION("#{msg.common.not_match_writer}", "작성자와 일치하지 않습니다.", HttpStatus.FORBIDDEN),
 

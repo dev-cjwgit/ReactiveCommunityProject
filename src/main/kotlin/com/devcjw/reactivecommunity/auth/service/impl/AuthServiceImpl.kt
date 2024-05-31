@@ -1,6 +1,7 @@
 package com.devcjw.reactivecommunity.auth.service.impl
 
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
+import com.devcjw.reactivecommunity.auth.manager.AuthManager
 import com.devcjw.reactivecommunity.auth.model.domain.*
 import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.auth.repository.AuthRepository
@@ -10,8 +11,11 @@ import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import org.springframework.data.redis.core.ReactiveRedisTemplate
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 import java.util.*
@@ -23,6 +27,7 @@ class AuthServiceImpl(
     private val jwtService: JwtService,
     private val passwordEncoder: PasswordEncoder,
     private val redisTemplate: ReactiveRedisTemplate<String, Any>,
+    private val authManager: AuthManager,
 ) : AuthService {
     override fun login(loginDTO: AuthReqLoginDTO): Mono<RestResponseVO<AuthRepTokenVO>> {
         /**
@@ -117,14 +122,31 @@ class AuthServiceImpl(
             )
     }
 
-    override fun check(authReqCheckDTO: AuthReqCheckDTO): Mono<RestResponseVO<Void>> {
+    override fun check(
+        authReqCheckDTO: AuthReqCheckDTO,
+        serverWebExchange: ServerWebExchange
+    ): Mono<RestResponseVO<Void>> {
         /**
          * 1. Valid Check
          */
         return Mono.just(jwtService.validateToken(authReqCheckDTO.accessToken))
+            .filter { exists -> exists }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.AUTHENTICATION_EXCEPTION)))
+            .map {
+                jwtService.getRcUser(authReqCheckDTO.accessToken)
+            }
+            .flatMap {
+                val authentication = UsernamePasswordAuthenticationToken(
+                    it,
+                    null,
+                    listOf(SimpleGrantedAuthority(it.level.toString()))
+                )
 
-            .then(Mono.defer { Mono.just(RestResponseVO(true)) })
-
+                authManager.check(Mono.just(authentication), "GET", authReqCheckDTO.path)
+            }
+            .flatMap { decision ->
+                Mono.just(RestResponseVO(decision))
+            }
     }
 
     override fun reissue(authReqReissueDTO: AuthReqReissueDTO): Mono<RestResponseVO<AuthRepReissueVO>> {
