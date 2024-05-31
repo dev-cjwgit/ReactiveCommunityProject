@@ -1,15 +1,14 @@
 package com.devcjw.reactivecommunity.auth.service.impl
 
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
-import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.auth.model.domain.*
+import com.devcjw.reactivecommunity.auth.model.entity.RcUser
 import com.devcjw.reactivecommunity.auth.repository.AuthRepository
 import com.devcjw.reactivecommunity.auth.service.AuthService
 import com.devcjw.reactivecommunity.auth.service.JwtService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
-import lombok.extern.slf4j.Slf4j
 import org.springframework.data.redis.core.ReactiveRedisTemplate
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -17,7 +16,6 @@ import reactor.core.publisher.Mono
 import java.time.LocalDateTime
 import java.util.*
 
-@Slf4j
 @Service
 class AuthServiceImpl(
     private val authDAO: AuthDAO,
@@ -123,7 +121,10 @@ class AuthServiceImpl(
         /**
          * 1. Valid Check
          */
-        return Mono.just(RestResponseVO(jwtService.validateToken(authReqCheckDTO.accessToken), null))
+        return Mono.just(jwtService.validateToken(authReqCheckDTO.accessToken))
+
+            .then(Mono.defer { Mono.just(RestResponseVO(true)) })
+
     }
 
     override fun reissue(authReqReissueDTO: AuthReqReissueDTO): Mono<RestResponseVO<AuthRepReissueVO>> {
