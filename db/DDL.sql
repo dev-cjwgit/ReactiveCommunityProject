@@ -72,7 +72,10 @@ CREATE TABLE IF NOT EXISTS `RC_FILE` (
   `UID` varchar(36) NOT NULL,
   `PATH` varchar(100) NOT NULL,
   `NAME` varchar(36) NOT NULL,
+  `SIZE` int(11) NOT NULL,
   `MD5` varchar(32) NOT NULL,
+  `CREATED_AT` datetime NOT NULL DEFAULT current_timestamp(),
+  `UPDATED_AT` datetime NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   PRIMARY KEY (`UID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
