@@ -3,7 +3,7 @@ package com.devcjw.reactivecommunity.auth.service.impl
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
 import com.devcjw.reactivecommunity.auth.manager.AuthManager
 import com.devcjw.reactivecommunity.auth.model.domain.*
-import com.devcjw.reactivecommunity.auth.model.entity.RcUser
+import com.devcjw.reactivecommunity.auth.model.entity.RcUserEntity
 import com.devcjw.reactivecommunity.auth.repository.AuthRepository
 import com.devcjw.reactivecommunity.auth.service.AuthService
 import com.devcjw.reactivecommunity.auth.service.JwtService
@@ -116,7 +116,7 @@ class AuthServiceImpl(
                     // 3
                     .switchIfEmpty(
                         authDAO.insertRcUser(
-                            RcUser(
+                            RcUserEntity(
                                 uid = UUID.randomUUID().toString(),
                                 email = authReqSignupDTO.email,
                                 pw = passwordEncoder.encode(authReqSignupDTO.password),

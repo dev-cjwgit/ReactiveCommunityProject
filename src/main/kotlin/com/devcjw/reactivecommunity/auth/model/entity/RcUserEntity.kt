@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
 
 @Table("RC_USER")
-data class RcUser(
+data class RcUserEntity(
     @Id val uid: String,
     val email: String,
     val pw: String,

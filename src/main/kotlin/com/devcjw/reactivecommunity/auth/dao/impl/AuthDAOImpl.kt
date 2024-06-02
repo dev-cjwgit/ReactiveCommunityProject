@@ -2,7 +2,7 @@ package com.devcjw.reactivecommunity.auth.dao.impl
 
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
 import com.devcjw.reactivecommunity.auth.model.entity.AuthLevelResourcesVO
-import com.devcjw.reactivecommunity.auth.model.entity.RcUser
+import com.devcjw.reactivecommunity.auth.model.entity.RcUserEntity
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -19,19 +19,19 @@ class AuthDAOImpl(
 ) : AuthDAO {
     private val logger = KotlinLogging.logger {}
 
-    override fun insertRcUser(rcUser: RcUser): Mono<Void> {
-        logger.info { "insert Rc User : $rcUser" }
+    override fun insertRcUser(rcUserEntity: RcUserEntity): Mono<Void> {
+        logger.info { "insert Rc User : $rcUserEntity" }
         return databaseClient.sql(
             """
             INSERT INTO RC_USER (`UID`,`EMAIL`,`PW`,`NAME`,`NICKNAME`)
             VALUES (:uid,:email,:password,:name,:nickname)
         """.trimIndent()
         )
-            .bind("uid", rcUser.uid)
-            .bind("email", rcUser.email)
-            .bind("password", rcUser.pw)
-            .bind("name", rcUser.name)
-            .bind("nickname", rcUser.nickname)
+            .bind("uid", rcUserEntity.uid)
+            .bind("email", rcUserEntity.email)
+            .bind("password", rcUserEntity.pw)
+            .bind("name", rcUserEntity.name)
+            .bind("nickname", rcUserEntity.nickname)
             .then()
     }
 
