@@ -8,6 +8,7 @@ import com.devcjw.reactivecommunity.file.model.entity.FileInsertDTO
 import com.devcjw.reactivecommunity.file.repository.FileRepository
 import com.devcjw.reactivecommunity.file.service.FileService
 import io.github.oshai.kotlinlogging.KotlinLogging
+import org.springframework.core.io.Resource
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
@@ -99,5 +100,9 @@ class FileServiceImpl(
                 fileRepository.save(fileEntity)
             }.map { RestResponseVO<Void>(true) }
         }*/
+    }
+
+    override fun download(filename: String): Mono<Resource> {
+        TODO("Not yet implemented")
     }
 }
