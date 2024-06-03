@@ -1,5 +1,7 @@
 package com.devcjw.reactivecommunity.file.service.impl
 
+import com.devcjw.reactivecommunity.common.exception.config.RcException
+import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import com.devcjw.reactivecommunity.file.dao.FileDAO
 import com.devcjw.reactivecommunity.file.model.domain.FileRepListVO
@@ -8,12 +10,15 @@ import com.devcjw.reactivecommunity.file.model.entity.FileInsertDTO
 import com.devcjw.reactivecommunity.file.repository.FileRepository
 import com.devcjw.reactivecommunity.file.service.FileService
 import io.github.oshai.kotlinlogging.KotlinLogging
-import org.springframework.core.io.Resource
+import org.springframework.core.io.buffer.DataBuffer
+import org.springframework.core.io.buffer.DataBufferUtils
+import org.springframework.core.io.buffer.DefaultDataBufferFactory
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.io.File
+import java.nio.file.Paths
 import java.security.MessageDigest
 import java.time.LocalDateTime.now
 import java.util.*
@@ -76,33 +81,27 @@ class FileServiceImpl(
 
                 }
                 .map {
-                    FileRepListVO(it.md5)
+                    FileRepListVO(it.uid)
                 }
-                .map { RestResponseVO(result = true, data = it) }
-
-        /*return fileParts.flatMap { filePart ->
-            val md5 = MessageDigest.getInstance("MD5")
-            filePart.content().flatMap { dataBuffer ->
-                val bytes = ByteArray(dataBuffer.readableByteCount())
-                dataBuffer.read(bytes)
-                md5.update(bytes)
-                filePart.transferTo(File("/tmp/${filePart.filename()}")).thenReturn(bytes)
-            }.collectList().flatMap { bytesList ->
-                val allBytes = bytesList.flat().toByteArray()
-                val fileEntity = FileEntity(
-                    uid = UUID.randomUUID().toString(),
-                    path = "/tmp",
-                    name = filePart.filename(),
-                    md5 = md5.digest().joinToString("") { "%02x".format(it) },
-                    createdAt = now(),
-                    updatedAt = now()
-                )
-                fileRepository.save(fileEntity)
-            }.map { RestResponseVO<Void>(true) }
-        }*/
+                .map {
+                    RestResponseVO(result = true, data = it)
+                }
     }
 
-    override fun download(filename: String): Mono<Resource> {
-        TODO("Not yet implemented")
+    override fun download(fileUid: String): Flux<DataBuffer> {
+        return fileRepository
+                .findByUid(fileUid)
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_FILE_DB_EXCEPTION)))
+                .flatMapMany<DataBuffer?> { fileEntity ->
+                    val path = Paths.get("/tmp/${fileEntity.name}")
+                    DataBufferUtils.read(path, DefaultDataBufferFactory(), 4096)
+                }
+                .onErrorResume { throwable ->
+                    if (throwable is java.nio.file.NoSuchFileException) {
+                        Mono.error(RcException(RcErrorMessage.NOT_FOUND_FILE_NAS_EXCEPTION))
+                    } else {
+                        Mono.error(throwable)
+                    }
+                }
     }
 }

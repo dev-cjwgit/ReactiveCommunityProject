@@ -4,6 +4,7 @@ import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import com.devcjw.reactivecommunity.file.model.domain.FileRepListVO
 import com.devcjw.reactivecommunity.file.service.FileService
 import org.springframework.core.io.Resource
+import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -23,14 +24,12 @@ class FileController(
         private val fileService: FileService
 ) {
     @GetMapping("/{file_uid}")
-    fun download(@PathVariable("file_uid") fileUid: String): Mono<ResponseEntity<Resource>> {
-        return fileService.download(fileUid)
-                .map { resource ->
-                    ResponseEntity
-                            .ok()
-                            .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"${resource.filename}\"")
-                            .body(resource)
-                }
+    fun download(@PathVariable("file_uid") fileUid: String): ResponseEntity<Flux<DataBuffer>> {
+        val dataBuffer = fileService.download(fileUid)
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename\"$fileUid\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(dataBuffer)
     }
 
     @PostMapping(consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
