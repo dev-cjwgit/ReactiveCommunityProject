@@ -89,7 +89,8 @@ class BoardServiceImpl(
          * 1. 게시판 존재 확인
          * 2. Entity 생성
          * 3. 데이터 삽입
-         * 4. 성공 반환
+         * 4. 첨부파일 연결
+         * 5. 성공 반환
          */
         return Mono.just(rcUser)
             // 1
@@ -108,7 +109,8 @@ class BoardServiceImpl(
             }
             // 3
             .flatMap { boardDAO.insert(it) }
-            // 4
+
+            // 5
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 

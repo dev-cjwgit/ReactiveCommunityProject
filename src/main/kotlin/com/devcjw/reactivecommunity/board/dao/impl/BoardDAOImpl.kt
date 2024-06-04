@@ -1,10 +1,7 @@
 package com.devcjw.reactivecommunity.board.dao.impl
 
 import com.devcjw.reactivecommunity.board.dao.BoardDAO
-import com.devcjw.reactivecommunity.board.model.entity.BoardInsertDTO
-import com.devcjw.reactivecommunity.board.model.entity.BoardSelectDetailVO
-import com.devcjw.reactivecommunity.board.model.entity.BoardSelectListVO
-import com.devcjw.reactivecommunity.board.model.entity.BoardUpdateDTO
+import com.devcjw.reactivecommunity.board.model.entity.*
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import lombok.RequiredArgsConstructor
@@ -220,5 +217,9 @@ class BoardDAOImpl(
         )
                 .bind("uid", boardUid)
                 .then()
+    }
+
+    override fun insertFile(boardInsertFileDTO: BoardInsertFileDTO): Mono<Void> {
+        TODO("Not yet implemented")
     }
 }
