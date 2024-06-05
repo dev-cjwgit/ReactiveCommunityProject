@@ -3,11 +3,11 @@ package com.devcjw.reactivecommunity.board.service.impl
 import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.dao.BoardDAO
 import com.devcjw.reactivecommunity.board.dao.CommentDAO
-import com.devcjw.reactivecommunity.board.model.domain.CommentRepListVO
-import com.devcjw.reactivecommunity.board.model.domain.CommentReqInsertDTO
-import com.devcjw.reactivecommunity.board.model.domain.CommentReqUpdateDTO
-import com.devcjw.reactivecommunity.board.model.entity.CommentInsertDTO
-import com.devcjw.reactivecommunity.board.model.entity.CommentUpdateDTO
+import com.devcjw.reactivecommunity.board.model.domain.RepCommentListVO
+import com.devcjw.reactivecommunity.board.model.domain.ReqCommentInsertDTO
+import com.devcjw.reactivecommunity.board.model.domain.ReqCommentUpdateVO
+import com.devcjw.reactivecommunity.board.model.entity.InCommentUpdateVO
+import com.devcjw.reactivecommunity.board.model.entity.InCommentInsertVO
 import com.devcjw.reactivecommunity.board.service.CommentService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
@@ -23,7 +23,7 @@ class CommentServiceImpl(
     private val boardDAO: BoardDAO,
     private val commentDAO: CommentDAO,
 ) : CommentService {
-    override fun list(rcUser: RcUserJwtClaims, boardUid: Long): Flux<RestResponseVO<CommentRepListVO>> {
+    override fun list(rcUser: RcUserJwtClaims, boardUid: Long): Flux<RestResponseVO<RepCommentListVO>> {
         /**
          * 1. 게시글 존재 확인
          * 2. 댓글 목록 불러오기
@@ -34,7 +34,7 @@ class CommentServiceImpl(
                 commentDAO.selectList(boardUid)
             }
             .map {
-                CommentRepListVO(it.uid, it.contents, it.createdAt, it.updatedAt)
+                RepCommentListVO(it.uid, it.contents, it.createdAt, it.updatedAt)
             }
             .map {
                 RestResponseVO(
@@ -44,22 +44,22 @@ class CommentServiceImpl(
             }
     }
 
-    override fun insert(rcUser: RcUserJwtClaims, commentReqInsertDTO: CommentReqInsertDTO): Mono<RestResponseVO<Void>> {
+    override fun insert(rcUser: RcUserJwtClaims, reqCommentInsertDTO: ReqCommentInsertDTO): Mono<RestResponseVO<Void>> {
         /**
          * 1. Board 존재 여부
          * 2. 엔티티 생성
          * 3. 댓글 등록
          */
-        return boardDAO.isBoardUid(commentReqInsertDTO.boardUid)
+        return boardDAO.isBoardUid(reqCommentInsertDTO.boardUid)
             // 1
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BOARD_EXCEPTION)))
             // 2
             .map {
-                CommentInsertDTO(
-                    commentReqInsertDTO.boardUid,
+                InCommentInsertVO(
+                    reqCommentInsertDTO.boardUid,
                     rcUser.uid,
-                    commentReqInsertDTO.contents
+                    reqCommentInsertDTO.contents
                 )
             }
             // 3
@@ -67,24 +67,24 @@ class CommentServiceImpl(
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
-    override fun update(rcUser: RcUserJwtClaims, commentReqUpdateDTO: CommentReqUpdateDTO): Mono<RestResponseVO<Void>> {
+    override fun update(rcUser: RcUserJwtClaims, reqCommentUpdateVO: ReqCommentUpdateVO): Mono<RestResponseVO<Void>> {
         /**
          * 1. 댓글 존재 확인
          * 2. 작성자가 맞는지 확인
          * 3. 업데이트 수행
          */
-        return commentDAO.isCommentUid(commentReqUpdateDTO.uid)
+        return commentDAO.isCommentUid(reqCommentUpdateVO.uid)
             // 1
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_COMMENT_EXCEPTION)))
             // 2
-            .filterWhen { commentDAO.isWriterComment(commentReqUpdateDTO.uid, rcUser.uid) }
+            .filterWhen { commentDAO.isWriterComment(reqCommentUpdateVO.uid, rcUser.uid) }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_WRITER_UID_EXCEPTION)))
 
             .map {
-                CommentUpdateDTO(
-                    commentReqUpdateDTO.uid,
-                    commentReqUpdateDTO.contents
+                InCommentUpdateVO(
+                    reqCommentUpdateVO.uid,
+                    reqCommentUpdateVO.contents
                 )
             }
             // 4

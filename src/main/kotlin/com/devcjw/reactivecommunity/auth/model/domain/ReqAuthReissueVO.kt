@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.auth.model.domain
 
-data class AuthReqLoginDTO(
+data class ReqAuthReissueVO(
     val email: String,
-    val password: String,
+    val refreshToken: String,
 )

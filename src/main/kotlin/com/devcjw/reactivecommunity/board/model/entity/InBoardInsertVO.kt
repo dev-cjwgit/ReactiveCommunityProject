@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.board.model.entity
 
-data class BoardInsertDTO(
+data class InBoardInsertVO(
     val bbsUid: Short,
     val title: String,
     val contents: String,

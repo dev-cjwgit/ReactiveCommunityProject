@@ -2,11 +2,10 @@ package com.devcjw.reactivecommunity.board.model.entity
 
 import java.time.LocalDateTime
 
-data class BoardSelectListVO(
+data class OutCommentSelectVO(
     val uid: Long,
-    val title: String,
-    val writerNickname: String,
-    val hit: Int,
+    val contents: String,
+    val writerUid: String,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
 )

@@ -1,9 +1,9 @@
 package com.devcjw.reactivecommunity.board.dao.impl
 
 import com.devcjw.reactivecommunity.board.dao.CommentDAO
-import com.devcjw.reactivecommunity.board.model.entity.CommentInsertDTO
-import com.devcjw.reactivecommunity.board.model.entity.CommentSelectVO
-import com.devcjw.reactivecommunity.board.model.entity.CommentUpdateDTO
+import com.devcjw.reactivecommunity.board.model.entity.InCommentInsertVO
+import com.devcjw.reactivecommunity.board.model.entity.OutCommentSelectVO
+import com.devcjw.reactivecommunity.board.model.entity.InCommentUpdateVO
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import lombok.RequiredArgsConstructor
@@ -59,7 +59,7 @@ class CommentDAOImpl(
             .map { count -> count > 0 }
     }
 
-    override fun selectList(boardUid: Long): Flux<CommentSelectVO> {
+    override fun selectList(boardUid: Long): Flux<OutCommentSelectVO> {
         val sql = """
             SELECT
                 RBC.`UID`,
@@ -76,7 +76,7 @@ class CommentDAOImpl(
         return databaseClient.sql(sql)
             .bind("board_uid", boardUid)
             .map { row, _ ->
-                CommentSelectVO(
+                OutCommentSelectVO(
                     uid = row.get("uid", Long::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                     writerUid = row.get("writer_uid", String::class.java)
@@ -93,20 +93,20 @@ class CommentDAOImpl(
             .all()
     }
 
-    override fun insert(commentInsertDTO: CommentInsertDTO): Mono<Void> {
+    override fun insert(inCommentInsertVO: InCommentInsertVO): Mono<Void> {
         return databaseClient.sql(
             """
                 INSERT INTO RC_BOARD_COMMENT (`BOARD_UID`,`WRITER_UID`,`CONTENTS`)
                 VALUES (:board_uid,:writer_uid,:contents)
             """.trimIndent()
         )
-            .bind("board_uid", commentInsertDTO.boardUid)
-            .bind("writer_uid", commentInsertDTO.userUid)
-            .bind("contents", commentInsertDTO.contents)
+            .bind("board_uid", inCommentInsertVO.boardUid)
+            .bind("writer_uid", inCommentInsertVO.userUid)
+            .bind("contents", inCommentInsertVO.contents)
             .then()
     }
 
-    override fun update(commentUpdateDTO: CommentUpdateDTO): Mono<Void> {
+    override fun update(inCommentUpdateVO: InCommentUpdateVO): Mono<Void> {
         return databaseClient.sql(
             """
                 UPDATE RC_BOARD_COMMENT RBC
@@ -115,8 +115,8 @@ class CommentDAOImpl(
                 WHERE RBC.`UID` = :uid
             """.trimIndent()
         )
-            .bind("uid", commentUpdateDTO.uid)
-            .bind("contents", commentUpdateDTO.contents)
+            .bind("uid", inCommentUpdateVO.uid)
+            .bind("contents", inCommentUpdateVO.contents)
             .then()
     }
 

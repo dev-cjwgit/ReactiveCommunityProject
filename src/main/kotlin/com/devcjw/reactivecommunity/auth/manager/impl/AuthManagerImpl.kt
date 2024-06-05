@@ -1,7 +1,7 @@
 package com.devcjw.reactivecommunity.auth.manager.impl
 
 import com.devcjw.reactivecommunity.auth.manager.AuthManager
-import com.devcjw.reactivecommunity.auth.model.entity.RestfulVO
+import com.devcjw.reactivecommunity.auth.model.entity.OutRestfulEntity
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -16,7 +16,7 @@ import reactor.core.scheduler.Schedulers
 @Component
 @RequiredArgsConstructor
 class AuthManagerImpl(
-    private val roleMapping: HashMap<Long, ArrayList<RestfulVO>>,
+    private val roleMapping: HashMap<Long, ArrayList<OutRestfulEntity>>,
 ) : AuthManager {
     private val logger = KotlinLogging.logger {}
 

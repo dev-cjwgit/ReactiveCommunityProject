@@ -11,16 +11,16 @@ interface BoardDAO {
     fun isBoardUid(uid: Long): Mono<Boolean>
     fun isWriterBoard(boardUid: Long, writerUid: String): Mono<Boolean>
 
-    fun selectList(bbsPath: String): Flux<BoardSelectListVO>
+    fun selectList(bbsPath: String): Flux<OutBoardSelectListVO>
 
-    fun selectDetail(boardUid: Long): Mono<BoardSelectDetailVO>
+    fun selectDetail(boardUid: Long): Mono<OutBoardSelectDetailVO>
 
-    fun insert(boardInsertDTO: BoardInsertDTO): Mono<Long>
+    fun insert(inBoardInsertVO: InBoardInsertVO): Mono<Long>
 
-    fun update(boardUpdateDTO: BoardUpdateDTO): Mono<Void>
+    fun update(inBoardUpdateVO: InBoardUpdateVO): Mono<Void>
 
     fun delete(boardUid: Long): Mono<Void>
 
-    fun insertFile(boardInsertFileDTO: BoardInsertFileDTO): Mono<Void>
+    fun insertFile(inBoardInsertFileVO: InBoardInsertFileVO): Mono<Void>
 
 }

@@ -94,7 +94,7 @@ class BoardDAOImpl(
             .map { count -> count > 0 }
     }
 
-    override fun selectList(bbsPath: String): Flux<BoardSelectListVO> {
+    override fun selectList(bbsPath: String): Flux<OutBoardSelectListVO> {
         val sql = """
             SELECT
                 RB.`UID`,
@@ -118,7 +118,7 @@ class BoardDAOImpl(
         return databaseClient.sql(sql)
             .bind("bbs_path", bbsPath)
             .map { row, _ ->
-                BoardSelectListVO(
+                OutBoardSelectListVO(
                     uid = row.get("uid", Long::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                     title = row.get("title", String::class.java)
@@ -137,7 +137,7 @@ class BoardDAOImpl(
             .all()
     }
 
-    override fun selectDetail(boardUid: Long): Mono<BoardSelectDetailVO> {
+    override fun selectDetail(boardUid: Long): Mono<OutBoardSelectDetailVO> {
         val sql = """
             SELECT
                 RB.`UID`,
@@ -160,7 +160,7 @@ class BoardDAOImpl(
         return databaseClient.sql(sql)
             .bind("board_uid", boardUid)
             .map { row, _ ->
-                BoardSelectDetailVO(
+                OutBoardSelectDetailVO(
                     uid = row.get("uid", Long::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                     title = row.get("title", String::class.java)
@@ -181,17 +181,17 @@ class BoardDAOImpl(
 
 
     @Transactional
-    override fun insert(boardInsertDTO: BoardInsertDTO): Mono<Long> {
+    override fun insert(inBoardInsertVO: InBoardInsertVO): Mono<Long> {
         return databaseClient.sql(
             """
                 INSERT INTO RC_BOARD (BBS_UID, TITLE, CONTENTS, WRITER_UID)
                 VALUES (:bbs_uid, :title, :contents, :writer_uid)
             """.trimIndent()
         )
-            .bind("bbs_uid", boardInsertDTO.bbsUid)
-            .bind("title", boardInsertDTO.title)
-            .bind("contents", boardInsertDTO.contents)
-            .bind("writer_uid", boardInsertDTO.writerUid)
+            .bind("bbs_uid", inBoardInsertVO.bbsUid)
+            .bind("title", inBoardInsertVO.title)
+            .bind("contents", inBoardInsertVO.contents)
+            .bind("writer_uid", inBoardInsertVO.writerUid)
             .then() // Proceed to next operation after insert
 
             .then(databaseClient.sql("SELECT LAST_INSERT_ID() AS last_uid")
@@ -200,7 +200,7 @@ class BoardDAOImpl(
             )
     }
 
-    override fun update(boardUpdateDTO: BoardUpdateDTO): Mono<Void> {
+    override fun update(inBoardUpdateVO: InBoardUpdateVO): Mono<Void> {
         return databaseClient.sql(
             """
                 UPDATE RC_BOARD RB
@@ -209,9 +209,9 @@ class BoardDAOImpl(
                 WHERE RB.`UID` = :uid
             """.trimIndent()
         )
-            .bind("uid", boardUpdateDTO.uid)
-            .bind("title", boardUpdateDTO.title)
-            .bind("contents", boardUpdateDTO.contents)
+            .bind("uid", inBoardUpdateVO.uid)
+            .bind("title", inBoardUpdateVO.title)
+            .bind("contents", inBoardUpdateVO.contents)
             .then()
     }
 
@@ -228,16 +228,16 @@ class BoardDAOImpl(
             .then()
     }
 
-    override fun insertFile(boardInsertFileDTO: BoardInsertFileDTO): Mono<Void> {
+    override fun insertFile(inBoardInsertFileVO: InBoardInsertFileVO): Mono<Void> {
         return databaseClient.sql(
             """
                 INSERT INTO RC_BOARD_FILE (`BOARD_UID`,`FILE_UID`,`FILE_NAME`)
                 VALUES (:board_uid,:file_uid,:file_name)
             """.trimIndent()
         )
-            .bind("board_uid", boardInsertFileDTO.boardUid)
-            .bind("file_uid", boardInsertFileDTO.fileUid)
-            .bind("file_name", boardInsertFileDTO.fileName)
+            .bind("board_uid", inBoardInsertFileVO.boardUid)
+            .bind("file_uid", inBoardInsertFileVO.fileUid)
+            .bind("file_name", inBoardInsertFileVO.fileName)
             .then()
     }
 }

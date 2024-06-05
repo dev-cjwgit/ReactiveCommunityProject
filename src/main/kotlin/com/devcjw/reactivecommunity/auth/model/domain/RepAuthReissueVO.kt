@@ -1,6 +1,5 @@
 package com.devcjw.reactivecommunity.auth.model.domain
 
-data class AuthRepReissueVO(
+data class RepAuthReissueVO(
     val accessToken: String
-) {
-}
+)

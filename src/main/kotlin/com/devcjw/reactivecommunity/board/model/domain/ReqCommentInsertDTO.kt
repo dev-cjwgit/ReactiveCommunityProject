@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.board.model.domain
 
-data class CommentReqUpdateDTO(
-    val uid: Long,
+data class ReqCommentInsertDTO(
+    val boardUid: Long,
     val contents: String,
 )

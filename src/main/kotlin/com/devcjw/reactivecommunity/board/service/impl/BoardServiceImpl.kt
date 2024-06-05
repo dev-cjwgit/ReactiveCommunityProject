@@ -3,9 +3,9 @@ package com.devcjw.reactivecommunity.board.service.impl
 import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.dao.BoardDAO
 import com.devcjw.reactivecommunity.board.model.domain.*
-import com.devcjw.reactivecommunity.board.model.entity.BoardInsertDTO
-import com.devcjw.reactivecommunity.board.model.entity.BoardInsertFileDTO
-import com.devcjw.reactivecommunity.board.model.entity.BoardUpdateDTO
+import com.devcjw.reactivecommunity.board.model.entity.InBoardInsertVO
+import com.devcjw.reactivecommunity.board.model.entity.InBoardInsertFileVO
+import com.devcjw.reactivecommunity.board.model.entity.InBoardUpdateVO
 import com.devcjw.reactivecommunity.board.service.BoardService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
@@ -20,7 +20,7 @@ import reactor.core.publisher.Mono
 class BoardServiceImpl(
     private val boardDAO: BoardDAO,
 ) : BoardService {
-    override fun list(rcUser: RcUserJwtClaims, bbsPath: String): Flux<RestResponseVO<BoardRepListVO>> {
+    override fun list(rcUser: RcUserJwtClaims, bbsPath: String): Flux<RestResponseVO<RepBoardListVO>> {
         /**
          * 1. 게시판 존재 확인
          * 2. 게시글 목록 가져오기
@@ -34,11 +34,11 @@ class BoardServiceImpl(
             .flatMapMany { boardDAO.selectList(bbsPath) }
             .map {
                 // 3
-                val boardRepListVO =
-                    BoardRepListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
+                val repBoardListVO =
+                    RepBoardListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
                 RestResponseVO(
                     result = true,
-                    data = boardRepListVO
+                    data = repBoardListVO
                 )
             }
     }
@@ -47,7 +47,7 @@ class BoardServiceImpl(
         rcUser: RcUserJwtClaims,
         bbsPath: String,
         uid: Long
-    ): Mono<RestResponseVO<BoardRepDetailVO>> {
+    ): Mono<RestResponseVO<RepBoardDetailVO>> {
         /**
          * 1. 게시판 존재 확인
          * 2. 게시글 존재 확인
@@ -66,7 +66,7 @@ class BoardServiceImpl(
             .flatMap { boardDAO.selectDetail(uid) }
             // 4
             .map {
-                BoardRepDetailVO(
+                RepBoardDetailVO(
                     uid = it.uid,
                     title = it.title,
                     contents = it.contents,
@@ -85,7 +85,7 @@ class BoardServiceImpl(
             }
     }
 
-    override fun insert(rcUser: RcUserJwtClaims, boardReqInsertDTO: BoardReqInsertDTO): Mono<RestResponseVO<Void>> {
+    override fun insert(rcUser: RcUserJwtClaims, reqBoardInsertVO: ReqBoardInsertVO): Mono<RestResponseVO<Void>> {
         /**
          * 1. 게시판 존재 확인
          * 2. Entity 생성
@@ -95,16 +95,16 @@ class BoardServiceImpl(
          */
         return Mono.just(rcUser)
             // 1
-            .flatMap { boardDAO.isBbsUid(boardReqInsertDTO.bbsUid) }
+            .flatMap { boardDAO.isBbsUid(reqBoardInsertVO.bbsUid) }
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
             // 2
             .map {
                 // 2
-                BoardInsertDTO(
-                    boardReqInsertDTO.bbsUid,
-                    boardReqInsertDTO.title,
-                    boardReqInsertDTO.contents,
+                InBoardInsertVO(
+                    reqBoardInsertVO.bbsUid,
+                    reqBoardInsertVO.title,
+                    reqBoardInsertVO.contents,
                     rcUser.uid
                 )
             }
@@ -112,10 +112,10 @@ class BoardServiceImpl(
             .flatMap { boardDAO.insert(it) }
             // 4
             .flatMap { boardUid ->
-                boardReqInsertDTO.files?.let { files ->
+                reqBoardInsertVO.files?.let { files ->
                     Flux.fromIterable(files)
                         .flatMap { file ->
-                            boardDAO.insertFile(BoardInsertFileDTO(boardUid, file.fileUid, file.fileName))
+                            boardDAO.insertFile(InBoardInsertFileVO(boardUid, file.fileUid, file.fileName))
                         }
                         .then(Mono.just(boardUid))  // To continue the chain after processing files
                 } ?: Mono.just(boardUid)  // If there are no files, continue with the UID
@@ -124,32 +124,32 @@ class BoardServiceImpl(
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
-    override fun update(rcUser: RcUserJwtClaims, boardReqUpdateDTO: BoardReqUpdateDTO): Mono<RestResponseVO<Void>> {
+    override fun update(rcUser: RcUserJwtClaims, reqBoardUpdateDTO: ReqBoardUpdateDTO): Mono<RestResponseVO<Void>> {
         /**
          * 1. BBS Path 체크
          * 2. 게시글 확인
          * 3. 작성자가 맞는지 확인
          * 4. 수정 DB
          */
-        return boardDAO.isBbsPath(boardReqUpdateDTO.bbsPath)
+        return boardDAO.isBbsPath(reqBoardUpdateDTO.bbsPath)
             // 1
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
             // 2
             .filterWhen {
-                boardDAO.isBoardUid(boardReqUpdateDTO.uid)
+                boardDAO.isBoardUid(reqBoardUpdateDTO.uid)
             }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BOARD_EXCEPTION)))
             // 3
             .filterWhen {
-                boardDAO.isWriterBoard(boardReqUpdateDTO.uid, rcUser.uid)
+                boardDAO.isWriterBoard(reqBoardUpdateDTO.uid, rcUser.uid)
             }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_WRITER_UID_EXCEPTION)))
             .map {
-                BoardUpdateDTO(
-                    boardReqUpdateDTO.uid,
-                    boardReqUpdateDTO.title,
-                    boardReqUpdateDTO.contents
+                InBoardUpdateVO(
+                    reqBoardUpdateDTO.uid,
+                    reqBoardUpdateDTO.title,
+                    reqBoardUpdateDTO.contents
                 )
             }
             // 4
@@ -159,30 +159,30 @@ class BoardServiceImpl(
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
-    override fun delete(rcUser: RcUserJwtClaims, boardReqDeleteDTO: BoardReqDeleteDTO): Mono<RestResponseVO<Void>> {
+    override fun delete(rcUser: RcUserJwtClaims, reqBoardDeleteVO: ReqBoardDeleteVO): Mono<RestResponseVO<Void>> {
         /**
          * 1. BBS Path 체크
          * 2. 게시글 확인
          * 3. 작성자가 맞는지 확인
          * 4. 삭제 DB
          */
-        return boardDAO.isBbsPath(boardReqDeleteDTO.bbsPath)
+        return boardDAO.isBbsPath(reqBoardDeleteVO.bbsPath)
             // 1
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
             // 2
             .filterWhen {
-                boardDAO.isBoardUid(boardReqDeleteDTO.uid)
+                boardDAO.isBoardUid(reqBoardDeleteVO.uid)
             }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BOARD_EXCEPTION)))
             // 3
             .filterWhen {
-                boardDAO.isWriterBoard(boardReqDeleteDTO.uid, rcUser.uid)
+                boardDAO.isWriterBoard(reqBoardDeleteVO.uid, rcUser.uid)
             }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_WRITER_UID_EXCEPTION)))
             // 4
             .flatMap {
-                boardDAO.delete(boardReqDeleteDTO.uid)
+                boardDAO.delete(reqBoardDeleteVO.uid)
             }
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }

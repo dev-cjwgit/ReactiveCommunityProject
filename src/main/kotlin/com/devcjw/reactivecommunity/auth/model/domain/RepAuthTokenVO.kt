@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.auth.model.domain
 
-data class AuthReqCheckDTO(
+data class RepAuthTokenVO(
     val accessToken: String,
-    val path: String,
+    val refreshToken: String,
 )

@@ -1,9 +1,9 @@
 package com.devcjw.reactivecommunity.board.controller
 
 import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
-import com.devcjw.reactivecommunity.board.model.domain.CommentRepListVO
-import com.devcjw.reactivecommunity.board.model.domain.CommentReqInsertDTO
-import com.devcjw.reactivecommunity.board.model.domain.CommentReqUpdateDTO
+import com.devcjw.reactivecommunity.board.model.domain.RepCommentListVO
+import com.devcjw.reactivecommunity.board.model.domain.ReqCommentInsertDTO
+import com.devcjw.reactivecommunity.board.model.domain.ReqCommentUpdateVO
 import com.devcjw.reactivecommunity.board.service.CommentService
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -28,7 +28,7 @@ class CommentController(
     fun list(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("board_uid") boardUid: Long,
-    ): Flux<RestResponseVO<CommentRepListVO>> {
+    ): Flux<RestResponseVO<RepCommentListVO>> {
         return commentService.list(rcUser, boardUid)
     }
 
@@ -36,18 +36,18 @@ class CommentController(
     @PostMapping
     fun insert(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @RequestBody commentReqInsertDTO: CommentReqInsertDTO,
+        @RequestBody reqCommentInsertDTO: ReqCommentInsertDTO,
     ): Mono<RestResponseVO<Void>> {
-        return commentService.insert(rcUser, commentReqInsertDTO)
+        return commentService.insert(rcUser, reqCommentInsertDTO)
     }
 
     // 3
     @PatchMapping
     fun update(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @RequestBody commentReqUpdateDTO: CommentReqUpdateDTO,
+        @RequestBody reqCommentUpdateVO: ReqCommentUpdateVO,
     ): Mono<RestResponseVO<Void>> {
-        return commentService.update(rcUser, commentReqUpdateDTO)
+        return commentService.update(rcUser, reqCommentUpdateVO)
     }
 
     @DeleteMapping("/{uid}")

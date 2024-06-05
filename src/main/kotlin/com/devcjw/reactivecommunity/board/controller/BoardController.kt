@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono
 @RequestMapping("/board")
 @RequiredArgsConstructor
 class BoardController(
-        private val boardService: BoardService
+    private val boardService: BoardService
 ) {
     /**
      * 1. 글 리스트 조회 (GET)
@@ -27,9 +27,9 @@ class BoardController(
     // 1
     @GetMapping("/{bbs_path}")
     fun list(
-            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-            @PathVariable("bbs_path") bbsPath: String,
-    ): Flux<RestResponseVO<BoardRepListVO>> {
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("bbs_path") bbsPath: String,
+    ): Flux<RestResponseVO<RepBoardListVO>> {
         return boardService.list(rcUser, bbsPath)
     }
 
@@ -39,36 +39,36 @@ class BoardController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") uid: Long,
-    ): Mono<RestResponseVO<BoardRepDetailVO>> {
+    ): Mono<RestResponseVO<RepBoardDetailVO>> {
         return boardService.detail(rcUser, bbsPath, uid)
     }
 
     // 3
     @PostMapping
     fun insert(
-            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-            @RequestBody boardReqInsertDTO: BoardReqInsertDTO
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @RequestBody reqBoardInsertVO: ReqBoardInsertVO
     ): Mono<RestResponseVO<Void>> {
-        return boardService.insert(rcUser, boardReqInsertDTO)
+        return boardService.insert(rcUser, reqBoardInsertVO)
     }
 
     // 4
     @PatchMapping
     fun update(
-            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-            @RequestBody boardReqUpdateDTO: BoardReqUpdateDTO,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @RequestBody reqBoardUpdateDTO: ReqBoardUpdateDTO,
     ): Mono<RestResponseVO<Void>> {
-        return boardService.update(rcUser, boardReqUpdateDTO)
+        return boardService.update(rcUser, reqBoardUpdateDTO)
     }
 
     // 5
     @DeleteMapping("/{bbs_path}/{board_uid}")
     fun delete(
-            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-            @PathVariable("bbs_path") bbsPath: String,
-            @PathVariable("board_uid") boardUid: Long,
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("bbs_path") bbsPath: String,
+        @PathVariable("board_uid") boardUid: Long,
     ): Mono<RestResponseVO<Void>> {
-        return boardService.delete(rcUser, BoardReqDeleteDTO(bbsPath, boardUid))
+        return boardService.delete(rcUser, ReqBoardDeleteVO(bbsPath, boardUid))
     }
 
 }

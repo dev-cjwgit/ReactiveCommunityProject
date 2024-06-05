@@ -31,7 +31,7 @@ class AuthServiceImpl(
 ) : AuthService {
     private val logger = KotlinLogging.logger {}
 
-    override fun login(loginDTO: AuthReqLoginDTO): Mono<RestResponseVO<AuthRepTokenVO>> {
+    override fun login(loginDTO: ReqAuthLoginVO): Mono<RestResponseVO<RepAuthTokenVO>> {
         logger.info { "login : $loginDTO" }
         /**
          * 1. 계정 정보 조회
@@ -84,7 +84,7 @@ class AuthServiceImpl(
                         .thenReturn(
                             RestResponseVO(
                                 result = true,
-                                data = AuthRepTokenVO(
+                                data = RepAuthTokenVO(
                                     accessToken, refreshToken
                                 )
                             )
@@ -93,15 +93,15 @@ class AuthServiceImpl(
             }
     }
 
-    override fun signup(authReqSignupDTO: AuthReqSignupDTO): Mono<RestResponseVO<Void>> {
-        logger.info { "signup $authReqSignupDTO" }
+    override fun signup(reqAuthSignupVO: ReqAuthSignupVO): Mono<RestResponseVO<Void>> {
+        logger.info { "signup $reqAuthSignupVO" }
 
         /**
          * 1. 이메일 중복 체크
          * 2. 닉네임 중복 체크
          * 3. 데이터 추가
          */
-        return authRepository.findByEmail(authReqSignupDTO.email)
+        return authRepository.findByEmail(reqAuthSignupVO.email)
             // 1
             .flatMap {
                 logger.info { "exists email ${it.email}" }
@@ -109,7 +109,7 @@ class AuthServiceImpl(
             }
             .switchIfEmpty(
                 // 2
-                authRepository.findByNickname(authReqSignupDTO.nickname)
+                authRepository.findByNickname(reqAuthSignupVO.nickname)
                     .flatMap {
                         Mono.error<Boolean>(RcException(RcErrorMessage.ALREADY_USE_NICKNAME_EXCEPTION))
                     }
@@ -118,10 +118,10 @@ class AuthServiceImpl(
                         authDAO.insertRcUser(
                             RcUserEntity(
                                 uid = UUID.randomUUID().toString(),
-                                email = authReqSignupDTO.email,
-                                pw = passwordEncoder.encode(authReqSignupDTO.password),
-                                name = authReqSignupDTO.name,
-                                nickname = authReqSignupDTO.nickname,
+                                email = reqAuthSignupVO.email,
+                                pw = passwordEncoder.encode(reqAuthSignupVO.password),
+                                name = reqAuthSignupVO.name,
+                                nickname = reqAuthSignupVO.nickname,
                                 createdAt = LocalDateTime.now(),
                                 updatedAt = LocalDateTime.now(),
                             )
@@ -134,20 +134,20 @@ class AuthServiceImpl(
     }
 
     override fun check(
-        authReqCheckDTO: AuthReqCheckDTO,
+        reqAuthCheckVO: ReqAuthCheckVO,
     ): Mono<RestResponseVO<Void>> {
-        logger.info { "auth check : $authReqCheckDTO" }
+        logger.info { "auth check : $reqAuthCheckVO" }
         /**
          * 1. Valid Check (인증 체크}
          * 2. RcUser 인증 객체 생성
          * 3. 인가 체크
          * 4. 결과 반환
          */
-        return Mono.just(jwtService.validateToken(authReqCheckDTO.accessToken))
+        return Mono.just(jwtService.validateToken(reqAuthCheckVO.accessToken))
             .filter { exists -> exists }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.AUTHENTICATION_EXCEPTION)))
             .map {
-                val result = jwtService.getRcUser(authReqCheckDTO.accessToken)
+                val result = jwtService.getRcUser(reqAuthCheckVO.accessToken)
                 logger.info { "rc info : $result" }
                 result
             }
@@ -158,7 +158,7 @@ class AuthServiceImpl(
                     listOf(SimpleGrantedAuthority(it.level.toString()))
                 )
 
-                authManager.check(Mono.just(authentication), "GET", authReqCheckDTO.path)
+                authManager.check(Mono.just(authentication), "GET", reqAuthCheckVO.path)
             }
             .flatMap<RestResponseVO<Void>?> { decision ->
                 Mono.just(RestResponseVO(decision))
@@ -166,25 +166,25 @@ class AuthServiceImpl(
             .onErrorReturn(RestResponseVO(false))
     }
 
-    override fun reissue(authReqReissueDTO: AuthReqReissueDTO): Mono<RestResponseVO<AuthRepReissueVO>> {
-        logger.info { "reissue : $authReqReissueDTO" }
+    override fun reissue(reqAuthReissueVO: ReqAuthReissueVO): Mono<RestResponseVO<RepAuthReissueVO>> {
+        logger.info { "reissue : $reqAuthReissueVO" }
         /**
          * 1. r2dbc 에서 계정 정보 조회
          * 2. redis 에서 uid 조회
          * 3. refresh 확인
          */
         // 1
-        return authRepository.findByEmail(authReqReissueDTO.email)
+        return authRepository.findByEmail(reqAuthReissueVO.email)
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_USER_EMAIL_EXCEPTION)))
             .flatMap { userEntity ->
                 // 2
                 redisTemplate.opsForValue().get(userEntity.uid)
                     .flatMap { storedRefreshToken ->
                         // 3
-                        if (storedRefreshToken == authReqReissueDTO.refreshToken) {
+                        if (storedRefreshToken == reqAuthReissueVO.refreshToken) {
                             // Refresh token이 일치하면 새로운 Access token을 생성
                             val newAccessToken = jwtService.createAccessToken(userEntity.uid, userEntity.getLevel())
-                            Mono.just(RestResponseVO(result = true, data = AuthRepReissueVO(newAccessToken)))
+                            Mono.just(RestResponseVO(result = true, data = RepAuthReissueVO(newAccessToken)))
                         } else {
                             // Refresh token이 일치하지 않으면 오류 발생
                             Mono.error(RcException(RcErrorMessage.NOT_MATCH_REFRESH_TOKEN_EXCEPTION))

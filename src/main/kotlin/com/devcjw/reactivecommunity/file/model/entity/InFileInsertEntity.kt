@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.file.model.entity
 
-data class FileInsertDTO(
+data class InFileInsertEntity(
     val uid: String,
     val path: String,
     val name: String,

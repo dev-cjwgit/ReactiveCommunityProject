@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.file.model.domain
 
-data class FileRepListVO(
+data class RepFileListVO(
         val uid: String,
         val originName: String
 )

@@ -3,8 +3,7 @@ package com.devcjw.reactivecommunity.auth.config
 import com.devcjw.reactivecommunity.auth.config.handler.RcServerAccessDeniedHandler
 import com.devcjw.reactivecommunity.auth.config.handler.RcServerAuthenticationEntryPoint
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
-import com.devcjw.reactivecommunity.auth.manager.AuthManager
-import com.devcjw.reactivecommunity.auth.model.entity.RestfulVO
+import com.devcjw.reactivecommunity.auth.model.entity.OutRestfulEntity
 import jakarta.annotation.PostConstruct
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
@@ -35,7 +34,7 @@ class SecurityBean(
     }
 
     @Bean
-    fun roleMapping(): HashMap<Long, ArrayList<RestfulVO>> {
+    fun roleMapping(): HashMap<Long, ArrayList<OutRestfulEntity>> {
         return hashMapOf()
     }
 
@@ -45,7 +44,7 @@ class SecurityBean(
             .doOnNext { userLevelResources ->
                 val resourcesList = userLevelResources.resources.split("|").map {
                     val (method, pattern) = it.split(",")
-                    RestfulVO(method, pattern)
+                    OutRestfulEntity(method, pattern)
                 }
                 roleMapping()[userLevelResources.levelUid] = ArrayList(resourcesList)
             }.subscribe()

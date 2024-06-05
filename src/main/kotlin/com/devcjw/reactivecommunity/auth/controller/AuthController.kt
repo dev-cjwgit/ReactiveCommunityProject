@@ -15,22 +15,22 @@ class AuthController(
     private val authService: AuthService,
 ) {
     @PostMapping("/login")
-    fun login(@RequestBody authRepTokenVO: AuthReqLoginDTO): Mono<RestResponseVO<AuthRepTokenVO>> {
+    fun login(@RequestBody authRepTokenVO: ReqAuthLoginVO): Mono<RestResponseVO<RepAuthTokenVO>> {
         return authService.login(authRepTokenVO)
     }
 
     @PostMapping("/signup")
-    fun signup(@RequestBody authReqSignupDTO: AuthReqSignupDTO): Mono<RestResponseVO<Void>> {
-        return authService.signup(authReqSignupDTO)
+    fun signup(@RequestBody reqAuthSignupVO: ReqAuthSignupVO): Mono<RestResponseVO<Void>> {
+        return authService.signup(reqAuthSignupVO)
     }
 
     @PostMapping("/check")
-    fun check(@RequestBody authReqCheckDTO: AuthReqCheckDTO): Mono<RestResponseVO<Void>> {
-        return authService.check(authReqCheckDTO)
+    fun check(@RequestBody reqAuthCheckVO: ReqAuthCheckVO): Mono<RestResponseVO<Void>> {
+        return authService.check(reqAuthCheckVO)
     }
 
     @PostMapping("/reissue")
-    fun reissue(@RequestBody authReqReissueDTO: AuthReqReissueDTO): Mono<RestResponseVO<AuthRepReissueVO>> {
-        return authService.reissue(authReqReissueDTO)
+    fun reissue(@RequestBody reqAuthReissueVO: ReqAuthReissueVO): Mono<RestResponseVO<RepAuthReissueVO>> {
+        return authService.reissue(reqAuthReissueVO)
     }
 }

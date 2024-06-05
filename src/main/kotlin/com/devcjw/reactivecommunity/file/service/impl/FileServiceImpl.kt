@@ -4,9 +4,9 @@ import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import com.devcjw.reactivecommunity.file.dao.FileDAO
-import com.devcjw.reactivecommunity.file.model.domain.FileRepListVO
+import com.devcjw.reactivecommunity.file.model.domain.RepFileListVO
 import com.devcjw.reactivecommunity.file.model.entity.FileEntity
-import com.devcjw.reactivecommunity.file.model.entity.FileInsertDTO
+import com.devcjw.reactivecommunity.file.model.entity.InFileInsertEntity
 import com.devcjw.reactivecommunity.file.repository.FileRepository
 import com.devcjw.reactivecommunity.file.service.FileService
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -31,7 +31,7 @@ class FileServiceImpl(
 ) : FileService {
     private val logger = KotlinLogging.logger {}
 
-    override fun upload(fileParts: Flux<FilePart>): Flux<RestResponseVO<FileRepListVO>> {
+    override fun upload(fileParts: Flux<FilePart>): Flux<RestResponseVO<RepFileListVO>> {
         /**
          * 1. md5 계산
          * 2. DB에서 md5 조회
@@ -73,12 +73,12 @@ class FileServiceImpl(
                                     .thenReturn(fileEntity)
                                     .flatMap {
                                         logger.info { "insert file $it" }
-                                        fileDAO.insert(FileInsertDTO(it.uid, it.path, it.name, it.size, it.md5))
+                                        fileDAO.insert(InFileInsertEntity(it.uid, it.path, it.name, it.size, it.md5))
                                             .then(Mono.just(it))
                                     }
                             })
                             .map { fileEntity ->
-                                FileRepListVO(fileEntity.uid, filePart.filename())
+                                RepFileListVO(fileEntity.uid, filePart.filename())
                             }
                     }
                     .map { fileRepListVO ->

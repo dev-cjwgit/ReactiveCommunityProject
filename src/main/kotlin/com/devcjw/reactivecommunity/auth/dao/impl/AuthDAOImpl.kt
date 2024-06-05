@@ -1,7 +1,7 @@
 package com.devcjw.reactivecommunity.auth.dao.impl
 
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
-import com.devcjw.reactivecommunity.auth.model.entity.AuthLevelResourcesVO
+import com.devcjw.reactivecommunity.auth.model.entity.OutAuthLevelResourcesVO
 import com.devcjw.reactivecommunity.auth.model.entity.RcUserEntity
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
@@ -35,7 +35,7 @@ class AuthDAOImpl(
             .then()
     }
 
-    override fun selectUserLevelResource(): Flux<AuthLevelResourcesVO> {
+    override fun selectUserLevelResource(): Flux<OutAuthLevelResourcesVO> {
         logger.info { "select User Level Resource" }
         val sql = """
             SELECT
@@ -53,7 +53,7 @@ class AuthDAOImpl(
 
         return databaseClient.sql(sql)
             .map { row, _ ->
-                AuthLevelResourcesVO(
+                OutAuthLevelResourcesVO(
                     levelUid = row.get("uid", Long::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                     resources = row.get("resources", String::class.java)

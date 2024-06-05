@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.board.model.domain
 
-data class BoardReqUpdateDTO(
+data class ReqBoardUpdateDTO(
         val uid: Long,
         val bbsPath: String,
         val title: String,

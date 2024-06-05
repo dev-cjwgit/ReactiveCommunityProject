@@ -1,7 +1,6 @@
 package com.devcjw.reactivecommunity.board.model.entity
 
-data class CommentInsertDTO(
-    val boardUid: Long,
-    val userUid: String,
+data class InCommentUpdateVO(
+    val uid: Long,
     val contents: String,
 )
