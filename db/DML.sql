@@ -14,9 +14,9 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- 테이블 데이터 rcdb.RC_BOARD:~1 rows (대략적) 내보내기
+-- 테이블 데이터 rcdb.RC_BOARD:~0 rows (대략적) 내보내기
 INSERT INTO `RC_BOARD` (`UID`, `BBS_UID`, `TITLE`, `CONTENTS`, `WRITER_UID`, `HIT`, `CREATED_AT`, `UPDATED_AT`) VALUES
-	(15, 1, '공지사항 1입니다', '잘부탁드려요', '1c95ccb3-fc4d-41ee-8424-e08aba892cca', 0, '2024-05-27 17:52:47', '2024-05-27 17:52:47');
+	(35, 1, '첨부파일 Flux 테스트예여', 'ㅈㄱㄴ', '1c95ccb3-fc4d-41ee-8424-e08aba892cca', 0, '2024-06-05 17:29:20', '2024-06-05 17:29:20');
 
 -- 테이블 데이터 rcdb.RC_BOARD_BBS:~3 rows (대략적) 내보내기
 INSERT INTO `RC_BOARD_BBS` (`UID`, `PATH`, `TITLE`, `CREATED_AT`, `UPDATED_AT`) VALUES
@@ -24,11 +24,20 @@ INSERT INTO `RC_BOARD_BBS` (`UID`, `PATH`, `TITLE`, `CREATED_AT`, `UPDATED_AT`) 
 	(2, 'free', '자유게시판', '2024-05-26 03:51:02', '2024-05-26 03:51:59'),
 	(3, 'qna', 'QnA', '2024-05-26 03:51:09', '2024-05-26 03:51:52');
 
--- 테이블 데이터 rcdb.RC_BOARD_COMMENT:~1 rows (대략적) 내보내기
-INSERT INTO `RC_BOARD_COMMENT` (`UID`, `BOARD_UID`, `WRITER_UID`, `CONTENTS`, `CREATED_AT`, `UPDATED_AT`) VALUES
-	(3, 15, '1c95ccb3-fc4d-41ee-8424-e08aba892cca', '하이요~', '2024-05-28 12:34:05', '2024-05-28 12:34:05');
+-- 테이블 데이터 rcdb.RC_BOARD_COMMENT:~0 rows (대략적) 내보내기
 
--- 테이블 데이터 rcdb.RC_FILE:~0 rows (대략적) 내보내기
+-- 테이블 데이터 rcdb.RC_BOARD_FILE:~3 rows (대략적) 내보내기
+INSERT INTO `RC_BOARD_FILE` (`UID`, `BOARD_UID`, `FILE_UID`, `FILE_NAME`, `CREATED_AT`, `UPDATED_AT`) VALUES
+	(1, 35, '04aa53f1-b284-4be8-b627-566de01e12b6', '경기도기능경기대회 특성화직종 입상 확인서.hwp', '2024-06-05 17:29:20', '2024-06-05 17:29:20'),
+	(2, 35, '04aa53f1-b284-4be8-b627-566de01e12b6', '경기도기능경기대회 특성화직종 입상 확인서.hwp', '2024-06-05 17:29:20', '2024-06-05 17:29:20'),
+	(3, 35, '04aa53f1-b284-4be8-b627-566de01e12b6', '경기도기능경기대회 특성화직종 입상 확인서.hwp', '2024-06-05 17:29:20', '2024-06-05 17:29:20');
+
+-- 테이블 데이터 rcdb.RC_FILE:~4 rows (대략적) 내보내기
+INSERT INTO `RC_FILE` (`UID`, `PATH`, `NAME`, `SIZE`, `MD5`, `CREATED_AT`, `UPDATED_AT`) VALUES
+	('04aa53f1-b284-4be8-b627-566de01e12b6', '/tmp', 'ec86c77d-5310-4887-8a5a-3753d0218fa6', 438272, 'd2524e0158f619740cad470739a133da', '2024-06-05 17:27:25', '2024-06-05 17:27:25'),
+	('184c96e8-c093-4631-b5ac-2a62da092da8', '/tmp', '97d27a19-5fb6-40a6-8552-ee3bb67b770f', 11799, 'd41d8cd98f00b204e9800998ecf8427e', '2024-06-05 17:24:13', '2024-06-05 17:24:13'),
+	('9851549c-6b45-489c-9eb7-375eb1495603', '/tmp', '81ba1c0f-9d45-4abf-9c7d-baae612769fe', 19877839, 'cd9ebdb502fdfc80a9aa6600c4922237', '2024-06-05 17:24:48', '2024-06-05 17:24:48'),
+	('bdc8cc66-1db4-45bb-ba07-c3b0b0fbb555', '/tmp', '964ca732-c8b7-4067-b802-152a41401db6', 2498849, '71f99cb8b45ffb89a53844a68f749033', '2024-06-05 17:24:13', '2024-06-05 17:24:13');
 
 -- 테이블 데이터 rcdb.RC_USER:~2 rows (대략적) 내보내기
 INSERT INTO `RC_USER` (`UID`, `EMAIL`, `PW`, `NAME`, `NICKNAME`, `LEVEL_UID`, `CREATED_AT`, `UPDATED_AT`) VALUES
