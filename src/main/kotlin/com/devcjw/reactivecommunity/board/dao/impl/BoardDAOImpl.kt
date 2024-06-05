@@ -240,4 +240,17 @@ class BoardDAOImpl(
             .bind("file_name", inBoardInsertFileVO.fileName)
             .then()
     }
+
+    override fun deleteFile(boardFileUid: Long): Mono<Void> {
+        val sql = """
+            DELETE FROM 
+                RC_BOARD_FILE
+            WHERE
+                `UID` = :file_uid
+        """
+
+        return databaseClient.sql(sql)
+            .bind("file_uid", boardFileUid)
+            .then()
+    }
 }

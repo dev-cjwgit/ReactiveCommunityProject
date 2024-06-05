@@ -81,7 +81,7 @@ class BoardController(
         @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") boardUid: Long,
     ): Flux<RestResponseVO<RepBoardFileListVO>> {
-        TODO("NOT YET")
+        return boardService.getBoardFileList(rcUser, bbsPath, boardUid)
     }
 
     // 7
@@ -90,22 +90,20 @@ class BoardController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") boardUid: Long,
-        @RequestBody reqBoardInsertFileVO: Flux<ReqBoardInsertFileVO>,
-    ): Mono<RestResponseVO<Void>> {
-        TODO("NOT YET")
-
+        @RequestBody reqBoardInsertFileVO: List<ReqBoardFileInsertVO>,
+    ): Flux<RestResponseVO<RepBoardFileInsertVO>> {
+        return boardService.insertBoardFile(rcUser, bbsPath, boardUid, reqBoardInsertFileVO)
     }
 
     // 8
-    @DeleteMapping("/{bbs_path}/{board_uid}/file/{file_uid}")
+    @DeleteMapping("/{bbs_path}/{board_uid}/file/{board_file_uid}")
     fun deleteBoardFile(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") boardUid: Long,
-        @PathVariable("file_uid") fileUid: String,
-    ) {
-        TODO("NOT YET")
-
+        @PathVariable("board_file_uid") boardFileUid: List<ReqBoardFileDeleteVO>,
+    ): Flux<RestResponseVO<RepBoardFileDeleteVO>> {
+        return boardService.deleteBoardFile(rcUser, bbsPath, boardUid, boardFileUid)
     }
 
 

@@ -23,4 +23,5 @@ interface BoardDAO {
 
     fun insertFile(inBoardInsertFileVO: InBoardInsertFileVO): Mono<Void>
 
+    fun deleteFile(boardFileUid: Long): Mono<Void>
 }

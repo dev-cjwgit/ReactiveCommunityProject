@@ -126,9 +126,9 @@ class BoardServiceImpl(
             // 5
             .then<RestResponseVO<Void>?>(Mono.defer { Mono.just(RestResponseVO(true)) })
             .onErrorResume {
-                if(it is DataIntegrityViolationException){
+                if (it is DataIntegrityViolationException) {
                     Mono.error(RcException(RcErrorMessage.INVALID_FILE_UID_EXCEPTION))
-                }else{
+                } else {
                     Mono.error(it)
                 }
             }
@@ -197,4 +197,46 @@ class BoardServiceImpl(
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
 
+    override fun getBoardFileList(
+        rcUser: RcUserJwtClaims,
+        bbsPath: String,
+        boardUid: Long
+    ): Flux<RestResponseVO<RepBoardFileListVO>> {
+        /**
+         * 1. BBS Path 체크
+         * 2. 게시글 확인
+         * 3. DB 조회 및 반환
+         */
+        TODO("Not yet implemented")
+    }
+
+    override fun insertBoardFile(
+        rcUser: RcUserJwtClaims,
+        bbsPath: String,
+        boardUid: Long,
+        reqBoardInsertFileVO: List<ReqBoardFileInsertVO>
+    ): Flux<RestResponseVO<RepBoardFileInsertVO>> {
+        /**
+         * 1. BBS Path 체크
+         * 2. 게시글 확인
+         * 3. 작성자가 맞는지 확인
+         * 4. 첨부파일 연결
+         */
+        TODO("NOT YET")
+    }
+
+    override fun deleteBoardFile(
+        rcUser: RcUserJwtClaims,
+        bbsPath: String,
+        boardUid: Long,
+        boardFileUid: List<ReqBoardFileDeleteVO>
+    ): Flux<RestResponseVO<RepBoardFileDeleteVO>> {
+        /**
+         * 1. BBS Path 체크
+         * 2. 게시글 확인
+         * 3. 작성자가 맞는지 확인
+         * 4. 삭제 DB
+         */
+        TODO("NOT YET")
+    }
 }

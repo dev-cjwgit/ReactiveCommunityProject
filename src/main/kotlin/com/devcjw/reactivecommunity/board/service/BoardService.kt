@@ -13,4 +13,7 @@ interface BoardService {
     fun insert(rcUser: RcUserJwtClaims, reqBoardInsertVO: ReqBoardInsertVO): Mono<RestResponseVO<Void>>
     fun update(rcUser: RcUserJwtClaims, reqBoardUpdateDTO: ReqBoardUpdateDTO): Mono<RestResponseVO<Void>>
     fun delete(rcUser: RcUserJwtClaims, reqBoardDeleteVO: ReqBoardDeleteVO): Mono<RestResponseVO<Void>>
+    fun getBoardFileList(rcUser: RcUserJwtClaims, bbsPath: String, boardUid: Long): Flux<RestResponseVO<RepBoardFileListVO>>
+    fun insertBoardFile(rcUser: RcUserJwtClaims, bbsPath: String, boardUid: Long, reqBoardInsertFileVO: List<ReqBoardFileInsertVO>): Flux<RestResponseVO<RepBoardFileInsertVO>>
+    fun deleteBoardFile(rcUser: RcUserJwtClaims, bbsPath: String, boardUid: Long, boardFileUid: List<ReqBoardFileDeleteVO>): Flux<RestResponseVO<RepBoardFileDeleteVO>>
 }
