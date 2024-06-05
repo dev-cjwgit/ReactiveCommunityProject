@@ -15,7 +15,7 @@ interface BoardDAO {
 
     fun selectDetail(boardUid: Long): Mono<BoardSelectDetailVO>
 
-    fun insert(boardInsertDTO: BoardInsertDTO): Mono<Void>
+    fun insert(boardInsertDTO: BoardInsertDTO): Mono<Long>
 
     fun update(boardUpdateDTO: BoardUpdateDTO): Mono<Void>
 

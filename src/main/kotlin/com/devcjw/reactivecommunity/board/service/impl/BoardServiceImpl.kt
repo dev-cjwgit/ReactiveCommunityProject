@@ -4,6 +4,7 @@ import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.dao.BoardDAO
 import com.devcjw.reactivecommunity.board.model.domain.*
 import com.devcjw.reactivecommunity.board.model.entity.BoardInsertDTO
+import com.devcjw.reactivecommunity.board.model.entity.BoardInsertFileDTO
 import com.devcjw.reactivecommunity.board.model.entity.BoardUpdateDTO
 import com.devcjw.reactivecommunity.board.service.BoardService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
@@ -109,7 +110,16 @@ class BoardServiceImpl(
             }
             // 3
             .flatMap { boardDAO.insert(it) }
-
+            // 4
+            .flatMap { boardUid ->
+                boardReqInsertDTO.files?.let { files ->
+                    Flux.fromIterable(files)
+                        .flatMap { file ->
+                            boardDAO.insertFile(BoardInsertFileDTO(boardUid, file.fileUid, file.fileName))
+                        }
+                        .then(Mono.just(boardUid))  // To continue the chain after processing files
+                } ?: Mono.just(boardUid)  // If there are no files, continue with the UID
+            }
             // 5
             .then(Mono.defer { Mono.just(RestResponseVO(true)) })
     }
