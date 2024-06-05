@@ -3,15 +3,17 @@ package com.devcjw.reactivecommunity.board.service.impl
 import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.dao.BoardDAO
 import com.devcjw.reactivecommunity.board.model.domain.*
-import com.devcjw.reactivecommunity.board.model.entity.InBoardInsertVO
 import com.devcjw.reactivecommunity.board.model.entity.InBoardInsertFileVO
+import com.devcjw.reactivecommunity.board.model.entity.InBoardInsertVO
 import com.devcjw.reactivecommunity.board.model.entity.InBoardUpdateVO
 import com.devcjw.reactivecommunity.board.service.BoardService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import lombok.RequiredArgsConstructor
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
@@ -85,6 +87,7 @@ class BoardServiceImpl(
             }
     }
 
+    @Transactional
     override fun insert(rcUser: RcUserJwtClaims, reqBoardInsertVO: ReqBoardInsertVO): Mono<RestResponseVO<Void>> {
         /**
          * 1. 게시판 존재 확인
@@ -121,7 +124,14 @@ class BoardServiceImpl(
                 } ?: Mono.just(boardUid)  // If there are no files, continue with the UID
             }
             // 5
-            .then(Mono.defer { Mono.just(RestResponseVO(true)) })
+            .then<RestResponseVO<Void>?>(Mono.defer { Mono.just(RestResponseVO(true)) })
+            .onErrorResume {
+                if(it is DataIntegrityViolationException){
+                    Mono.error(RcException(RcErrorMessage.INVALID_FILE_UID_EXCEPTION))
+                }else{
+                    Mono.error(it)
+                }
+            }
     }
 
     override fun update(rcUser: RcUserJwtClaims, reqBoardUpdateDTO: ReqBoardUpdateDTO): Mono<RestResponseVO<Void>> {

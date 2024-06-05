@@ -30,6 +30,9 @@ enum class RcErrorMessage(
     NOT_FOUND_FILE_DB_EXCEPTION("#{msg.board.not_found_file_to_db}", "파일을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_FILE_NAS_EXCEPTION("#{msg.board.not_found_file_to_nas}", "파일을 찾을 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
     NOT_FOUND_PATH_SAVE_FILE_EXCEPTION("#{msg.board.not_found_path}", "파일을 저장할 경로가 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    INVALID_FILE_UID_EXCEPTION("#{msg.board.invalid_file_uid}", "첨부 파일 정보가 잘못 되었습니다.", HttpStatus.BAD_REQUEST),
+    EXIST_FILE_MD5_EXCEPTION("#{msg.board.exist_file_md5}", "이미 첨부파일이 존재합니다.", HttpStatus.BAD_REQUEST),
+
 
     NOT_FOUND_COMMENT_EXCEPTION("#{msg.board.not_found_comment}", "댓글을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 

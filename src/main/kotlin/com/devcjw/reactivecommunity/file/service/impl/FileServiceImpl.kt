@@ -13,6 +13,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.core.io.buffer.DataBufferUtils
 import org.springframework.core.io.buffer.DefaultDataBufferFactory
+import org.springframework.dao.DuplicateKeyException
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
@@ -85,23 +86,35 @@ class FileServiceImpl(
                         RestResponseVO(result = true, data = fileRepListVO)
                     }
                     .onErrorResume { ex ->
-                        if (ex is NoSuchFileException) {
-                            Mono.just(
-                                RestResponseVO(
-                                    result = false,
-                                    data = null,
-                                    message = RcErrorMessage.NOT_FOUND_PATH_SAVE_FILE_EXCEPTION.message
+                        when (ex) {
+                            is NoSuchFileException -> {
+                                Mono.just(
+                                    RestResponseVO(
+                                        result = false,
+                                        data = null,
+                                        message = RcErrorMessage.NOT_FOUND_PATH_SAVE_FILE_EXCEPTION.message
+                                    )
                                 )
-                            )
-                        } else {
-                            logger.error(ex) { "Exception" }
-                            Mono.just(
-                                RestResponseVO(
-                                    result = false,
-                                    data = null,
-                                    message = RcErrorMessage.UNKNOWN_EXCEPTION.message
+                            }
+                            is DuplicateKeyException -> {
+                                Mono.just(
+                                    RestResponseVO(
+                                        result = false,
+                                        data = null,
+                                        message = RcErrorMessage.EXIST_FILE_MD5_EXCEPTION.message
+                                    )
                                 )
-                            )
+                            }
+                            else -> {
+                                logger.error(ex) { "Exception" }
+                                Mono.just(
+                                    RestResponseVO(
+                                        result = false,
+                                        data = null,
+                                        message = RcErrorMessage.UNKNOWN_EXCEPTION.message
+                                    )
+                                )
+                            }
                         }
                     }
             }

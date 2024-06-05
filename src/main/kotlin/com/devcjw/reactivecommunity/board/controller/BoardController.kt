@@ -22,6 +22,9 @@ class BoardController(
      * 3. 글 쓰기 (POST)
      * 4. 글 수정 (PATCH)
      * 5. 글 삭제 (DELETE)
+     * 6. 게시글 파일 목록 불러오기 (GET)
+     * 7. 글 수정 시 파일 업로드 (POST)
+     * 8. 글 수정 시 파일 삭제 (DELETE)
      */
 
     // 1
@@ -70,5 +73,40 @@ class BoardController(
     ): Mono<RestResponseVO<Void>> {
         return boardService.delete(rcUser, ReqBoardDeleteVO(bbsPath, boardUid))
     }
+
+    // 6
+    @GetMapping("/{bbs_path}/{board_uid}/file")
+    fun getBoardFileList(
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("bbs_path") bbsPath: String,
+        @PathVariable("board_uid") boardUid: Long,
+    ): Flux<RestResponseVO<RepBoardFileListVO>> {
+        TODO("NOT YET")
+    }
+
+    // 7
+    @PostMapping("/{bbs_path}/{board_uid}/file")
+    fun insertBoardFile(
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("bbs_path") bbsPath: String,
+        @PathVariable("board_uid") boardUid: Long,
+        @RequestBody reqBoardInsertFileVO: Flux<ReqBoardInsertFileVO>,
+    ): Mono<RestResponseVO<Void>> {
+        TODO("NOT YET")
+
+    }
+
+    // 8
+    @DeleteMapping("/{bbs_path}/{board_uid}/file/{file_uid}")
+    fun deleteBoardFile(
+        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+        @PathVariable("bbs_path") bbsPath: String,
+        @PathVariable("board_uid") boardUid: Long,
+        @PathVariable("file_uid") fileUid: String,
+    ) {
+        TODO("NOT YET")
+
+    }
+
 
 }
