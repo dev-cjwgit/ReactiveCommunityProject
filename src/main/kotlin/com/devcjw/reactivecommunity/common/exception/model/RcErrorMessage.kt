@@ -7,6 +7,7 @@ enum class RcErrorMessage(
     val description: String,
     val httpStatus: HttpStatus
 ) {
+    UNKNOWN_EXCEPTION("{msg.common.unknown}","알 수 없는 예외가 발생하였습니다." , HttpStatus.INTERNAL_SERVER_ERROR),
     NOT_FOUND_USER_EMAIL_EXCEPTION("#{msg.auth.email_not_found}", "유저 이메일 정보가 존재하지 않습니다.", HttpStatus.BAD_REQUEST),
     NOT_MATCH_USER_PASSWORD_EXCEPTION("#{msg.auth.password_not_match}", "유저 비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
     LISTEN_JOIN_USER_EXCEPTION("#{msg.auth.user_listen_join}", "가입 대기 상태입니다.", HttpStatus.BAD_REQUEST),
@@ -28,6 +29,7 @@ enum class RcErrorMessage(
     NOT_FOUND_BOARD_EXCEPTION("#{msg.board.not_found_board}", "게시글을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_FILE_DB_EXCEPTION("#{msg.board.not_found_file_to_db}", "파일을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_FILE_NAS_EXCEPTION("#{msg.board.not_found_file_to_nas}", "파일을 찾을 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+    NOT_FOUND_PATH_SAVE_FILE_EXCEPTION("#{msg.board.not_found_path}", "파일을 저장할 경로가 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
 
     NOT_FOUND_COMMENT_EXCEPTION("#{msg.board.not_found_comment}", "댓글을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 
