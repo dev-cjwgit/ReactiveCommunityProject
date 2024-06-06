@@ -4,6 +4,7 @@ import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.model.domain.RepBbsListVO
 import com.devcjw.reactivecommunity.board.service.BbsService
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
+import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import lombok.RequiredArgsConstructor
 import org.springframework.security.core.annotation.AuthenticationPrincipal
@@ -20,6 +21,7 @@ class BbsController(
     private val bbsService: BbsService
 ) {
     @GetMapping
+    @Operation(summary = "게시판 목록 불러오기", description = "게시판 목록을 불러오는 API")
     fun list(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims
     ): Flux<RestResponseVO<RepBbsListVO>> {
