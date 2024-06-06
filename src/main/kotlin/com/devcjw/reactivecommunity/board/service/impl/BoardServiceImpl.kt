@@ -207,7 +207,20 @@ class BoardServiceImpl(
          * 2. 게시글 확인
          * 3. DB 조회 및 반환
          */
-        TODO("Not yet implemented")
+        return boardDAO.isBbsPath(bbsPath)
+            // 1
+            .filter { exists -> exists }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
+            // 2
+            .filterWhen {
+                boardDAO.isBoardUid(boardUid)
+            }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BOARD_EXCEPTION)))
+            .flatMapMany {
+                boardDAO.selectFileList(boardUid)
+                    .map { RepBoardFileListVO(it.uid, it.fileUid, it.fileName, it.fileSize) }
+                    .map { RestResponseVO(result = true, data = it) }
+            }
     }
 
     override fun insertBoardFile(

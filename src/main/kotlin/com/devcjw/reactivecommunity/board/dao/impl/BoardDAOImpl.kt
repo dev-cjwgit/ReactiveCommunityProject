@@ -272,4 +272,44 @@ class BoardDAOImpl(
             .bind("file_uid", boardFileUid)
             .then()
     }
+
+    override fun selectFileList(boardUid: Long): Flux<OutBoardFileListVO> {
+        val sql = """
+            SELECT
+                RBF.`UID`,
+                RBF.`FILE_UID`,
+                RBF.`FILE_NAME`,
+                RC.`SIZE`
+            FROM
+                RC_BOARD_FILE RBF
+            LEFT JOIN
+                RC_FILE RC
+            ON
+                RBF.FILE_UID = RC.UID
+            
+            WHERE
+                RBF.`BOARD_UID` = :board_uid
+
+        """
+
+        return databaseClient.sql(sql)
+            .bind("board_uid", boardUid)
+            .map { row, _ ->
+                OutBoardFileListVO(
+                    uid = row.get("uid", Long::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+
+                    fileUid = row.get("file_uid", String::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+
+                    fileName = row.get("file_name", String::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+
+                    fileSize = row.get("size", Int::class.java)
+                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION)
+
+                )
+            }
+            .all()
+    }
 }
