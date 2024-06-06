@@ -120,8 +120,8 @@ class BoardServiceImpl(
                         .flatMap { file ->
                             boardDAO.insertFile(InBoardInsertFileVO(boardUid, file.fileUid, file.fileName))
                         }
-                        .then(Mono.just(boardUid))  // To continue the chain after processing files
-                } ?: Mono.just(boardUid)  // If there are no files, continue with the UID
+                        .then(Mono.just(boardUid))
+                } ?: Mono.just(boardUid)
             }
             // 5
             .then<RestResponseVO<Void>?>(Mono.defer { Mono.just(RestResponseVO(true)) })
@@ -222,7 +222,42 @@ class BoardServiceImpl(
          * 3. 작성자가 맞는지 확인
          * 4. 첨부파일 연결
          */
-        TODO("NOT YET")
+        return boardDAO.isBbsPath(bbsPath)
+            // 1
+            .filter { exists -> exists }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
+            // 2
+            .filterWhen {
+                boardDAO.isBoardUid(boardUid)
+            }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BOARD_EXCEPTION)))
+            // 3
+            .filterWhen {
+                boardDAO.isWriterBoard(boardUid, rcUser.uid)
+            }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_WRITER_UID_EXCEPTION)))
+            // 4
+            .flatMapMany {
+                Flux.fromIterable(reqBoardInsertFileVO)
+                    .flatMap { file ->
+                        boardDAO.insertFile(InBoardInsertFileVO(boardUid, file.fileUid, file.fileName))
+                            .then(
+                                Mono.just(
+                                    RestResponseVO(
+                                        result = true,
+                                        data = RepBoardFileInsertVO(file.order)
+                                    )
+                                )
+                            )
+                    }
+            }
+            .onErrorResume {
+                if (it is DataIntegrityViolationException) {
+                    Mono.error(RcException(RcErrorMessage.INVALID_FILE_UID_EXCEPTION))
+                } else {
+                    Mono.error(it)
+                }
+            }
     }
 
     override fun deleteBoardFile(
@@ -237,6 +272,41 @@ class BoardServiceImpl(
          * 3. 작성자가 맞는지 확인
          * 4. 삭제 DB
          */
-        TODO("NOT YET")
+        return boardDAO.isBbsPath(bbsPath)
+            // 1
+            .filter { exists -> exists }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BBS_BOARD_EXCEPTION)))
+            // 2
+            .filterWhen {
+                boardDAO.isBoardUid(boardUid)
+            }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_BOARD_EXCEPTION)))
+            // 3
+            .filterWhen {
+                boardDAO.isWriterBoard(boardUid, rcUser.uid)
+            }
+            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_WRITER_UID_EXCEPTION)))
+            // 4
+            .flatMapMany {
+                Flux.fromIterable(boardFileUid)
+                    .flatMap { file ->
+                        boardDAO.deleteFile(file.boardFileUid)
+                            .then(
+                                Mono.just(
+                                    RestResponseVO(
+                                        result = true,
+                                        data = RepBoardFileDeleteVO(file.boardFileUid)
+                                    )
+                                )
+                            )
+                    }
+            }
+            .onErrorResume {
+                if (it is DataIntegrityViolationException) {
+                    Mono.error(RcException(RcErrorMessage.INVALID_FILE_UID_EXCEPTION))
+                } else {
+                    Mono.error(it)
+                }
+            }
     }
 }
