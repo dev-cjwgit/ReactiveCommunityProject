@@ -76,7 +76,7 @@ class AdminController(
     @Operation(summary = "리소스 등록", description = "리소스 패턴을 등록하는 API")
     fun insertResource(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @RequestBody repAdminResourceInsertVO: RepAdminResourceInsertVO
+        @RequestBody reqAdminResourceInsertVO: ReqAdminResourceInsertVO
     ): Mono<RestResponseVO<Void>> {
         TODO("NOT YET IMPLEMENTATION")
     }
@@ -85,7 +85,7 @@ class AdminController(
     @Operation(summary = "리소스 수정", description = "리소스 패턴을 수정하는 API")
     fun updateResource(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @RequestBody repAdminResourceUpdateVO: RepAdminResourceUpdateVO
+        @RequestBody reqAdminResourceUpdateVO: ReqAdminResourceUpdateVO
     ): Mono<RestResponseVO<Void>> {
         TODO("NOT YET IMPLEMENTATION")
     }
@@ -94,7 +94,7 @@ class AdminController(
     @Operation(summary = "리소스 삭제", description = "리소스 패턴을 삭제하는 API")
     fun deleteResource(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @RequestBody repAdminResourceDeleteVO: RepAdminResourceDeleteVO
+        @RequestBody reqAdminResourceDeleteVO: ReqAdminResourceDeleteVO
     ): Mono<RestResponseVO<Void>> {
         TODO("NOT YET IMPLEMENTATION")
     }
@@ -113,7 +113,7 @@ class AdminController(
     @Operation(summary = "등급별 자원 등록", description = "등급별 자원을 등록하는 API")
     fun insertRole(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @RequestBody repAdminRoleInsertVO: RepAdminRoleInsertVO
+        @RequestBody reqAdminRoleInsertVO: ReqAdminRoleInsertVO
     ) {
         TODO("NOT YET IMPLEMENTATION")
     }
