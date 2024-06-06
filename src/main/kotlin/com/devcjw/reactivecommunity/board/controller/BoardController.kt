@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono
 @RestController
 @RequestMapping("/board")
 @RequiredArgsConstructor
-@Tag(name = "게시판/게시글 컨트롤러", description = "게시판 CRUD 등을 담당하는 컨트롤러")
+@Tag(name = "게시글 컨트롤러", description = "게시판 CRUD 등을 담당하는 컨트롤러")
 class BoardController(
     private val boardService: BoardService
 ) {
