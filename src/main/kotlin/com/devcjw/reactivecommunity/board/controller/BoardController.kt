@@ -106,13 +106,13 @@ class BoardController(
     }
 
     // 8
-    @DeleteMapping("/{bbs_path}/{board_uid}/file/{board_file_uid}")
+    @DeleteMapping("/{bbs_path}/{board_uid}/file")
     @Operation(summary = "게시글 첨부파일 삭제", description = "특정 게시글의 첨부파일을 삭제하는 API")
     fun deleteBoardFile(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") boardUid: Long,
-        @PathVariable("board_file_uid") boardFileUid: List<ReqBoardFileDeleteVO>,
+        @RequestBody boardFileUid: List<ReqBoardFileDeleteVO>,
     ): Flux<RestResponseVO<RepBoardFileDeleteVO>> {
         return boardService.deleteBoardFile(rcUser, bbsPath, boardUid, boardFileUid)
     }

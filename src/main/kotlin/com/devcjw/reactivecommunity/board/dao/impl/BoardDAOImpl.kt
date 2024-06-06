@@ -94,6 +94,25 @@ class BoardDAOImpl(
             .map { count -> count > 0 }
     }
 
+    override fun isExistBoardFile(boardFileUid: Long): Mono<Boolean> {
+        val sql = """
+            SELECT
+                COUNT(*)
+            FROM
+                RC_BOARD_FILE RBF
+            WHERE
+                RBF.`UID` = :board_file_uid
+        """
+
+        return databaseClient.sql(sql)
+            .bind("board_file_uid", boardFileUid)
+            .map { row, _ ->
+                row.get(0, Long::class.java) ?: 0L
+            }
+            .one()
+            .map { count -> count > 0 }
+    }
+
     override fun selectList(bbsPath: String): Flux<OutBoardSelectListVO> {
         val sql = """
             SELECT

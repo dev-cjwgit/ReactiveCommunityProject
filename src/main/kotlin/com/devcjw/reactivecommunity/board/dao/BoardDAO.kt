@@ -10,6 +10,7 @@ interface BoardDAO {
     fun isBbsPath(path: String): Mono<Boolean>
     fun isBoardUid(uid: Long): Mono<Boolean>
     fun isWriterBoard(boardUid: Long, writerUid: String): Mono<Boolean>
+    fun isExistBoardFile(boardFileUid: Long): Mono<Boolean>
 
     fun selectList(bbsPath: String): Flux<OutBoardSelectListVO>
 

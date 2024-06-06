@@ -249,15 +249,22 @@ class BoardServiceImpl(
                                     )
                                 )
                             )
+                            .onErrorResume {
+                                if (it is DataIntegrityViolationException) {
+                                    Mono.just(
+                                        RestResponseVO(
+                                            result = false,
+                                            data = RepBoardFileInsertVO(file.order),
+                                            message = RcErrorMessage.INVALID_FILE_UID_EXCEPTION.message
+                                        )
+                                    )
+                                } else {
+                                    Mono.error(it)
+                                }
+                            }
                     }
             }
-            .onErrorResume {
-                if (it is DataIntegrityViolationException) {
-                    Mono.error(RcException(RcErrorMessage.INVALID_FILE_UID_EXCEPTION))
-                } else {
-                    Mono.error(it)
-                }
-            }
+
     }
 
     override fun deleteBoardFile(
@@ -270,7 +277,8 @@ class BoardServiceImpl(
          * 1. BBS Path 체크
          * 2. 게시글 확인
          * 3. 작성자가 맞는지 확인
-         * 4. 삭제 DB
+         * 4. boardFileUid가 존재하는지 확인
+         * 5. 삭제 DB
          */
         return boardDAO.isBbsPath(bbsPath)
             // 1
@@ -286,27 +294,48 @@ class BoardServiceImpl(
                 boardDAO.isWriterBoard(boardUid, rcUser.uid)
             }
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_WRITER_UID_EXCEPTION)))
-            // 4
+
             .flatMapMany {
                 Flux.fromIterable(boardFileUid)
                     .flatMap { file ->
-                        boardDAO.deleteFile(file.boardFileUid)
-                            .then(
-                                Mono.just(
-                                    RestResponseVO(
-                                        result = true,
-                                        data = RepBoardFileDeleteVO(file.boardFileUid)
+                        // 4
+                        boardDAO.isExistBoardFile(file.boardFileUid)
+                            .flatMap { exists ->
+                                if (exists) {
+                                    // 5
+                                    boardDAO.deleteFile(file.boardFileUid)
+                                        .then(
+                                            Mono.just(
+                                                RestResponseVO(
+                                                    result = true,
+                                                    data = RepBoardFileDeleteVO(file.boardFileUid)
+                                                )
+                                            )
+                                        )
+                                } else {
+                                    Mono.just(
+                                        RestResponseVO(
+                                            result = false,
+                                            data = RepBoardFileDeleteVO(file.boardFileUid),
+                                            message = RcErrorMessage.INVALID_FILE_UID_EXCEPTION.message
+                                        )
                                     )
-                                )
-                            )
+                                }
+                            }
+                            .onErrorResume {
+                                if (it is DataIntegrityViolationException) {
+                                    Mono.just(
+                                        RestResponseVO(
+                                            result = false,
+                                            data = RepBoardFileDeleteVO(file.boardFileUid),
+                                            message = RcErrorMessage.INVALID_FILE_UID_EXCEPTION.message
+                                        )
+                                    )
+                                } else {
+                                    Mono.error(it)
+                                }
+                            }
                     }
-            }
-            .onErrorResume {
-                if (it is DataIntegrityViolationException) {
-                    Mono.error(RcException(RcErrorMessage.INVALID_FILE_UID_EXCEPTION))
-                } else {
-                    Mono.error(it)
-                }
             }
     }
 }
