@@ -21,7 +21,7 @@ class BbsController(
     private val bbsService: BbsService
 ) {
     @GetMapping
-    @Operation(summary = "게시판 목록 불러오기", description = "게시판 목록을 불러오는 API")
+    @Operation(summary = "게시판 목록", description = "게시판 목록을 불러오는 API")
     fun list(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims
     ): Flux<RestResponseVO<RepBbsListVO>> {

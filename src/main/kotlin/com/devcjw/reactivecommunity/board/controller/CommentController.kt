@@ -28,7 +28,7 @@ class CommentController(
 
     // 1
     @GetMapping("/{board_uid}")
-    @Operation(summary = "댓글 목록 불러오기", description = "특정 게시글의 댓글 목록을 불러오는 API")
+    @Operation(summary = "댓글 목록", description = "특정 게시글의 댓글 목록을 불러오는 API")
     fun list(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("board_uid") boardUid: Long,
@@ -48,7 +48,7 @@ class CommentController(
 
     // 3
     @PatchMapping
-    @Operation(summary = "댓글 수정하기", description = "특정 게시글에 댓글을 수정하는 API")
+    @Operation(summary = "댓글 수정", description = "특정 게시글에 댓글을 수정하는 API")
     fun update(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqCommentUpdateVO: ReqCommentUpdateVO,
@@ -57,7 +57,7 @@ class CommentController(
     }
 
     @DeleteMapping("/{uid}")
-    @Operation(summary = "댓글 삭제하기", description = "특정 게시글에 댓글을 삭제하는 API")
+    @Operation(summary = "댓글 삭제", description = "특정 게시글에 댓글을 삭제하는 API")
     fun delete(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("uid") uid: Long,

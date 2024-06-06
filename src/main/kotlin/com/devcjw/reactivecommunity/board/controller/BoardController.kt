@@ -32,7 +32,7 @@ class BoardController(
 
     // 1
     @GetMapping("/{bbs_path}")
-    @Operation(summary = "게시글 목록 불러오기", description = "특정 게시판의 게시글을 불러오는 API")
+    @Operation(summary = "게시글 목록", description = "특정 게시판의 게시글을 불러오는 API")
     fun list(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("bbs_path") bbsPath: String,
@@ -42,7 +42,7 @@ class BoardController(
 
     // 2
     @GetMapping("/{bbs_path}/{board_uid}")
-    @Operation(summary = "게시글 상세보기", description = "특정 게시글을 상세하게 불러오는 API")
+    @Operation(summary = "게시글 상세", description = "특정 게시글을 상세하게 불러오는 API")
     fun detail(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("bbs_path") bbsPath: String,
@@ -63,7 +63,7 @@ class BoardController(
 
     // 4
     @PatchMapping
-    @Operation(summary = "게시글 수정하기", description = "특정 게시글을 수정하는 API")
+    @Operation(summary = "게시글 수정", description = "특정 게시글을 수정하는 API")
     fun update(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqBoardUpdateDTO: ReqBoardUpdateDTO,
@@ -73,7 +73,7 @@ class BoardController(
 
     // 5
     @DeleteMapping("/{bbs_path}/{board_uid}")
-    @Operation(summary = "게시글 삭제하기", description = "특정 게시글을 삭제하는 API")
+    @Operation(summary = "게시글 삭제", description = "특정 게시글을 삭제하는 API")
     fun delete(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("bbs_path") bbsPath: String,
@@ -84,7 +84,7 @@ class BoardController(
 
     // 6
     @GetMapping("/{bbs_path}/{board_uid}/file")
-    @Operation(summary = "게시글 첨부파일 목록 불러오기", description = "특정 게시글의 첨부파일 목록을 불러오는 API")
+    @Operation(summary = "게시글 첨부파일 목록", description = "특정 게시글의 첨부파일 목록을 불러오는 API")
     fun getBoardFileList(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("bbs_path") bbsPath: String,
