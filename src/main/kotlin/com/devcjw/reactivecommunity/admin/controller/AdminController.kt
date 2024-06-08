@@ -32,7 +32,7 @@ class AdminController(
     fun getLevelList(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
     ): Flux<RestResponseVO<RepAdminLevelListVO>> {
-        TODO("NOT YET IMPLEMENTATION")
+        return adminService.getLevelList(rcUser)
     }
 
     @PostMapping("/level")
@@ -41,7 +41,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminLevelInsertVO: ReqAdminLevelInsertVO
     ): Mono<RestResponseVO<Void>> {
-        TODO("NOT YET IMPLEMENTATION")
+        return adminService.insertLevel(rcUser, reqAdminLevelInsertVO)
     }
 
     @PatchMapping("/level")
@@ -50,7 +50,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminLevelUpdateVO: ReqAdminLevelUpdateVO
     ): Mono<RestResponseVO<Void>> {
-        TODO("NOT YET IMPLEMENTATION")
+        return adminService.updateLevel(rcUser, reqAdminLevelUpdateVO)
     }
 
     @DeleteMapping("/level")
@@ -59,7 +59,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminLevelDeleteVO: ReqAdminLevelDeleteVO
     ): Mono<RestResponseVO<Void>> {
-        TODO("NOT YET IMPLEMENTATION")
+        return adminService.deleteLevel(rcUser, reqAdminLevelDeleteVO)
     }
     // endregion
 
@@ -69,7 +69,7 @@ class AdminController(
     fun getResourceList(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
     ): Flux<RestResponseVO<RepAdminResourceListVO>> {
-        TODO("NOT YET IMPLEMENTATION")
+        return adminService.getResourceList(rcUser)
     }
 
     @PostMapping("/resource")
@@ -78,7 +78,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminResourceInsertVO: ReqAdminResourceInsertVO
     ): Mono<RestResponseVO<Void>> {
-        TODO("NOT YET IMPLEMENTATION")
+        return adminService.insertResource(rcUser, reqAdminResourceInsertVO)
     }
 
     @PatchMapping("/resource")
@@ -87,7 +87,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminResourceUpdateVO: ReqAdminResourceUpdateVO
     ): Mono<RestResponseVO<Void>> {
-        TODO("NOT YET IMPLEMENTATION")
+        return adminService.updateResource(rcUser, reqAdminResourceUpdateVO)
     }
 
     @DeleteMapping("/resource")
@@ -96,7 +96,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminResourceDeleteVO: ReqAdminResourceDeleteVO
     ): Mono<RestResponseVO<Void>> {
-        TODO("NOT YET IMPLEMENTATION")
+        return adminService.deleteResource(rcUser, reqAdminResourceDeleteVO)
     }
     // endregion
 
@@ -106,7 +106,7 @@ class AdminController(
     fun getRoleList(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
     ): Flux<RestResponseVO<RepAdminRoleListVO>> {
-        TODO("NOT YET IMPLEMENTATION")
+        return adminService.getRoleList(rcUser)
     }
 
     @PostMapping("/role")
@@ -114,8 +114,8 @@ class AdminController(
     fun insertRole(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminRoleInsertVO: ReqAdminRoleInsertVO
-    ) {
-        TODO("NOT YET IMPLEMENTATION")
+    ): Mono<RestResponseVO<Void>> {
+        return adminService.insertRole(rcUser, reqAdminRoleInsertVO)
     }
 
     @PatchMapping("/role")
@@ -123,8 +123,8 @@ class AdminController(
     fun updateRole(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminRoleUpdateVO: ReqAdminRoleUpdateVO
-    ) {
-        TODO("NOT YET IMPLEMENTATION")
+    ): Mono<RestResponseVO<Void>> {
+        return adminService.updateRole(rcUser, reqAdminRoleUpdateVO)
     }
 
     @DeleteMapping("/role")
@@ -132,8 +132,8 @@ class AdminController(
     fun deleteRole(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminRoleDeleteVO: ReqAdminRoleDeleteVO
-    ) {
-        TODO("NOT YET IMPLEMENTATION")
+    ): Mono<RestResponseVO<Void>> {
+        return adminService.deleteRole(rcUser, reqAdminRoleDeleteVO)
     }
     // endregion
 }
