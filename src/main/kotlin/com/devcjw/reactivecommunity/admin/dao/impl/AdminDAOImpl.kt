@@ -21,7 +21,7 @@ class AdminDAOImpl(
 
 
     override fun selectLevelList(): Flux<OutAdminLevelSelectVO> {
-        val sql = "SELECT UID, NAME, CREATED_AT, UPDATED_AT FROM RC_USER_LEVEL"
+        val sql = "SELECT `UID`, `NAME`, `CREATED_AT`, `UPDATED_AT` FROM RC_ROLE"
         return databaseClient.sql(sql)
             .map { row, _ ->
                 OutAdminLevelSelectVO(
@@ -39,14 +39,14 @@ class AdminDAOImpl(
     }
 
     override fun insertLevel(inAdminLevelInsertVO: InAdminLevelInsertVO): Mono<Void> {
-        val sql = "INSERT INTO RC_USER_LEVEL (NAME) VALUES (:name)"
+        val sql = "INSERT INTO RC_ROLE (`NAME`) VALUES (:name)"
         return databaseClient.sql(sql)
             .bind("name", inAdminLevelInsertVO.name)
             .then()
     }
 
     override fun updateLevel(inAdminLevelUpdateVO: InAdminLevelUpdateVO): Mono<Void> {
-        val sql = "UPDATE RC_USER_LEVEL SET NAME = :name WHERE UID = :uid"
+        val sql = "UPDATE RC_ROLE SET `NAME` = :name WHERE `UID` = :uid"
         return databaseClient.sql(sql)
             .bind("uid", inAdminLevelUpdateVO.uid)
             .bind("name", inAdminLevelUpdateVO.name)
@@ -54,14 +54,14 @@ class AdminDAOImpl(
     }
 
     override fun deleteLevel(uid: Long): Mono<Void> {
-        val sql = "DELETE FROM RC_USER_LEVEL WHERE UID = :uid"
+        val sql = "DELETE FROM RC_ROLE WHERE `UID` = :uid"
         return databaseClient.sql(sql)
             .bind("uid", uid)
             .then()
     }
 
     override fun selectResourceList(): Flux<OutAdminResourceSelectVO> {
-        val sql = "SELECT UID, METHOD, PATTERN, DESCRIPTION, CREATED_AT, UPDATED_AT FROM RC_USER_RESOURCE"
+        val sql = "SELECT `UID`, `METHOD`, `URL_PATTERN`, `DESCRIPTION`, `CREATED_AT`, `UPDATED_AT` FROM RC_RESOURCE"
         return databaseClient.sql(sql)
             .map { row, _ ->
                 OutAdminResourceSelectVO(
@@ -84,7 +84,7 @@ class AdminDAOImpl(
     }
 
     override fun insertResource(inAdminResourceInsertVO: InAdminResourceInsertVO): Mono<Void> {
-        val sql = "INSERT INTO RC_USER_RESOURCE (METHOD, PATTERN, DESCRIPTION) VALUES (:method, :pattern, :description)"
+        val sql = "INSERT INTO RC_RESOURCE (`METHOD`, `URL_PATTERN`, `DESCRIPTION`) VALUES (:method, :pattern, :description)"
         return databaseClient.sql(sql)
             .bind("method", inAdminResourceInsertVO.method)
             .bind("pattern", inAdminResourceInsertVO.pattern)
@@ -94,7 +94,7 @@ class AdminDAOImpl(
 
     override fun updateResource(inAdminResourceUpdateVO: InAdminResourceUpdateVO): Mono<Void> {
         val sql =
-            "UPDATE RC_USER_RESOURCE SET METHOD = :method, PATTERN = :pattern, DESCRIPTION = :description WHERE UID = :uid"
+            "UPDATE RC_RESOURCE SET `METHOD` = :method, `URL_PATTERN` = :pattern, `DESCRIPTION` = :description WHERE `UID` = :uid"
         return databaseClient.sql(sql)
             .bind("uid", inAdminResourceUpdateVO.uid)
             .bind("method", inAdminResourceUpdateVO.method)
@@ -104,7 +104,7 @@ class AdminDAOImpl(
     }
 
     override fun deleteResource(uid: Long): Mono<Void> {
-        val sql = "DELETE FROM RC_USER_RESOURCE WHERE UID = :uid"
+        val sql = "DELETE FROM RC_RESOURCE WHERE `UID` = :uid"
         return databaseClient.sql(sql)
             .bind("uid", uid)
             .then()
@@ -112,23 +112,21 @@ class AdminDAOImpl(
 
     override fun selectRoleList(): Flux<OutAdminRoleSelectVO> {
         val sql = """
-            SELECT RRR.UID, RRR.LEVEL_UID, RRR.RESOURCE_UID, RUR.DESCRIPTION , RUL.NAME, RUR.PATTERN, RUR.METHOD , RRR.CREATED_AT, RRR.UPDATED_AT
-            FROM RD_ROLE_RESOURCE RRR 
-            JOIN RC_USER_LEVEL RUL ON RRR.LEVEL_UID = RUL.UID 
-            JOIN RC_USER_RESOURCE RUR ON RRR.RESOURCE_UID = RUR.UID
+            SELECT RRR.`RC_ROLE_UID`, RRR.`RC_RESOURCE_UID`, RRE.`DESCRIPTION` , RR.`NAME`, RRE.`URL_PATTERN`, RRE.`METHOD` , RRR.`CREATED_AT`, RRR.`UPDATED_AT`
+            FROM RC_ROLE_RESOURCE RRR 
+            JOIN RC_ROLE RR ON RRR.`RC_ROLE_UID` = RR.`UID` 
+            JOIN RC_RESOURCE RRE ON RRR.`RC_RESOURCE_UID` = RRE.`UID`
         """
         return databaseClient.sql(sql)
             .map { row, _ ->
                 OutAdminRoleSelectVO(
-                    uid = row.get("uid", Long::class.java)
+                    rcRoleUid = row.get("rc_role_uid", Long::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    levelUid = row.get("level_uid", Long::class.java)
+                    rcResourceUid = row.get("rc_resource_uid", Long::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    resourceUid = row.get("resource_uid", Long::class.java)
+                    roleName = row.get("name", String::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    levelName = row.get("name", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    resourcePattern = row.get("pattern", String::class.java)
+                    roleResourcePattern = row.get("url_pattern", String::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                     resourceDescription = row.get("description", String::class.java)
                         ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
@@ -143,27 +141,46 @@ class AdminDAOImpl(
             .all()
     }
 
-    override fun insertRole(inAdminRoleInsertVO: InAdminRoleInsertVO): Mono<Void> {
-        val sql = "INSERT INTO RD_ROLE_RESOURCE (LEVEL_UID, RESOURCE_UID) VALUES (:levelUid, :resourceUid)"
+    override fun insertRoleResource(inAdminRoleInsertVO: InAdminRoleInsertVO): Mono<Void> {
+        val sql = "INSERT INTO RC_ROLE_RESOURCE (`RC_ROLE_UID`, `RC_RESOURCE_UID`) VALUES (:role_uid, :resource_uid)"
         return databaseClient.sql(sql)
-            .bind("levelUid", inAdminRoleInsertVO.levelUid)
-            .bind("resourceUid", inAdminRoleInsertVO.resourceUid)
+            .bind("role_uid", inAdminRoleInsertVO.roleUid)
+            .bind("resource_uid", inAdminRoleInsertVO.resourceUid)
             .then()
     }
 
-    override fun updateRole(inAdminRoleUpdateVO: InAdminRoleUpdateVO): Mono<Void> {
-        val sql = "UPDATE RD_ROLE_RESOURCE SET LEVEL_UID = :levelUid, RESOURCE_UID = :resourceUid WHERE UID = :uid"
+    override fun updateRoleResource(inAdminRoleUpdateVO: InAdminRoleUpdateVO): Mono<Void> {
+        val sql = """
+            UPDATE 
+                RC_ROLE_RESOURCE 
+            SET 
+                RC_ROLE_UID = :after_role_uid,
+                RC_RESOURCE_UID = :after_resource_uid
+            WHERE
+                RC_ROLE_UID = :before_role_uid 
+            AND
+                RC_RESOURCE_UID = :before_resource_uid
+            """.trimIndent()
         return databaseClient.sql(sql)
-            .bind("uid", inAdminRoleUpdateVO.uid)
-            .bind("levelUid", inAdminRoleUpdateVO.levelUid)
-            .bind("resourceUid", inAdminRoleUpdateVO.resourceUid)
+            .bind("before_role_uid", inAdminRoleUpdateVO.beforeRoleUid)
+            .bind("before_resource_uid", inAdminRoleUpdateVO.beforeResourceUid)
+            .bind("after_role_uid", inAdminRoleUpdateVO.afterRoleUid)
+            .bind("after_resource_uid", inAdminRoleUpdateVO.afterResourceUid)
             .then()
     }
 
-    override fun deleteRole(uid: Long): Mono<Void> {
-        val sql = "DELETE FROM RD_ROLE_RESOURCE WHERE UID = :uid"
+    override fun deleteRoleResource(inAdminRoleDeleteVO: InAdminRoleDeleteVO): Mono<Void> {
+        val sql = """
+            DELETE FROM
+                RC_ROLE_RESOURCE 
+            WHERE 
+                `RC_ROLE_UID` = :role_uid 
+            AND 
+                `RC_RESOURCE_UID` = :resource_uid
+            """.trimIndent()
         return databaseClient.sql(sql)
-            .bind("uid", uid)
+            .bind("role_uid", inAdminRoleDeleteVO.roleUid)
+            .bind("resource_uid", inAdminRoleDeleteVO.resourceUid)
             .then()
     }
 }

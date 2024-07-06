@@ -16,7 +16,7 @@ interface AdminDAO {
     fun deleteResource(uid: Long): Mono<Void>
 
     fun selectRoleList(): Flux<OutAdminRoleSelectVO>
-    fun insertRole(inAdminRoleInsertVO: InAdminRoleInsertVO): Mono<Void>
-    fun updateRole(inAdminRoleUpdateVO: InAdminRoleUpdateVO): Mono<Void>
-    fun deleteRole(uid: Long): Mono<Void>
+    fun insertRoleResource(inAdminRoleInsertVO: InAdminRoleInsertVO): Mono<Void>
+    fun updateRoleResource(inAdminRoleUpdateVO: InAdminRoleUpdateVO): Mono<Void>
+    fun deleteRoleResource(inAdminRoleDeleteVO: InAdminRoleDeleteVO): Mono<Void>
 }

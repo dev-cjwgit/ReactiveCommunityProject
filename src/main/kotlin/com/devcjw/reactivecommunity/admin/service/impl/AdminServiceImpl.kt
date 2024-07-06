@@ -141,11 +141,10 @@ class AdminServiceImpl(
         return adminDAO.selectRoleList()
             .map {
                 val repAdminRoleListVO = RepAdminRoleListVO(
-                    it.uid,
-                    it.levelUid,
-                    it.levelName,
-                    it.resourceUid,
-                    it.resourcePattern,
+                    it.rcRoleUid,
+                    it.roleName,
+                    it.rcResourceUid,
+                    it.roleResourcePattern,
                     it.resourceDescription,
                     it.createdAt,
                     it.updatedAt
@@ -164,7 +163,7 @@ class AdminServiceImpl(
         return Mono.just(reqAdminRoleInsertVO)
             .map { InAdminRoleInsertVO(it.levelUid, it.resourceUid) }
             .flatMap {
-                adminDAO.insertRole(it)
+                adminDAO.insertRoleResource(it)
             }
             .then(Mono.just(RestResponseVO(true)))
     }
@@ -177,9 +176,9 @@ class AdminServiceImpl(
          * 1. 등급별 자원 수정
          */
         return Mono.just(reqAdminRoleUpdateVO)
-            .map { InAdminRoleUpdateVO(it.uid, it.levelUid, it.resourceUid) }
+            .map { InAdminRoleUpdateVO(it.beforeRoleUid, it.beforeResourceUid, it.afterRoleUid, it.afterResourceUid) }
             .flatMap {
-                adminDAO.updateRole(it)
+                adminDAO.updateRoleResource(it)
             }
             .then(Mono.just(RestResponseVO(true)))
     }
@@ -192,8 +191,9 @@ class AdminServiceImpl(
          * 1. 등급별 자원 삭제
          */
         return Mono.just(reqAdminRoleDeleteVO)
+            .map { InAdminRoleDeleteVO(it.roleUid, it.resourceUid) }
             .flatMap {
-                adminDAO.deleteRole(it.uid)
+                adminDAO.deleteRoleResource(it)
             }
             .then(Mono.just(RestResponseVO(true)))
     }

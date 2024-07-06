@@ -23,8 +23,8 @@ class BoardDAOImpl(
             SELECT
                 COUNT(*)
             FROM
-                RC_BOARD_BBS RBB
-            WHERE RBB.`UID` = :bbs_uid
+                RC_BBS RB
+            WHERE RB.`UID` = :bbs_uid
         """
 
         return databaseClient.sql(sql)
@@ -41,8 +41,8 @@ class BoardDAOImpl(
             SELECT
                 COUNT(*)
             FROM
-                RC_BOARD_BBS RBB
-            WHERE RBB.`PATH` = :path
+                RC_BBS RB
+            WHERE RB.`PATH` = :path
         """
 
         return databaseClient.sql(sql)
@@ -81,7 +81,7 @@ class BoardDAOImpl(
             WHERE
                 RB.`UID` = :board_uid
             AND
-                RB.`WRITER_UID` = :writer_uid
+                RB.`RC_USER_UID` = :writer_uid
         """
 
         return databaseClient.sql(sql)
@@ -94,18 +94,21 @@ class BoardDAOImpl(
             .map { count -> count > 0 }
     }
 
-    override fun isExistBoardFile(boardFileUid: Long): Mono<Boolean> {
+    override fun isExistBoardFile(boardUid: Long, fileUid: String): Mono<Boolean> {
         val sql = """
             SELECT
                 COUNT(*)
             FROM
                 RC_BOARD_FILE RBF
             WHERE
-                RBF.`UID` = :board_file_uid
+                RBF.`RC_BOARD_UID` = :board_uid
+            AND
+                RBF.`RC_FILE_UID` = :file_uid
         """
 
         return databaseClient.sql(sql)
-            .bind("board_file_uid", boardFileUid)
+            .bind("board_uid", boardUid)
+            .bind("file_uid", boardUid)
             .map { row, _ ->
                 row.get(0, Long::class.java) ?: 0L
             }
@@ -127,10 +130,10 @@ class BoardDAOImpl(
             LEFT JOIN
                 RC_USER RU
             ON
-                RB.`WRITER_UID` = RU.`UID` 
+                RB.`RC_USER_UID` = RU.`UID` 
             WHERE
-                RB.`BBS_UID` = (
-                    SELECT RBB.`UID` FROM RC_BOARD_BBS RBB WHERE RBB.`PATH` = :bbs_path
+                RB.`RC_BBS_UID` = (
+                    SELECT RBB.`UID` FROM RC_BBS RBB WHERE RBB.`PATH` = :bbs_path
                 )
         """
 
@@ -171,7 +174,7 @@ class BoardDAOImpl(
             LEFT JOIN 
                 RC_USER RU
             ON 
-                RB.`WRITER_UID` = RU.`UID`
+                RB.`RC_USER_UID` = RU.`UID`
             WHERE
                 RB.`UID` = :board_uid
         """
@@ -203,7 +206,7 @@ class BoardDAOImpl(
     override fun insert(inBoardInsertVO: InBoardInsertVO): Mono<Long> {
         return databaseClient.sql(
             """
-                INSERT INTO RC_BOARD (BBS_UID, TITLE, CONTENTS, WRITER_UID)
+                INSERT INTO RC_BOARD (`RC_BBS_UID`, `TITLE`, `CONTENTS`, `RC_USER_UID`)
                 VALUES (:bbs_uid, :title, :contents, :writer_uid)
             """.trimIndent()
         )
@@ -250,7 +253,7 @@ class BoardDAOImpl(
     override fun insertFile(inBoardInsertFileVO: InBoardInsertFileVO): Mono<Void> {
         return databaseClient.sql(
             """
-                INSERT INTO RC_BOARD_FILE (`BOARD_UID`,`FILE_UID`,`FILE_NAME`)
+                INSERT INTO RC_BOARD_FILE (`RC_BOARD_UID`,`RC_FILE_UID`,`FILE_NAME`)
                 VALUES (:board_uid,:file_uid,:file_name)
             """.trimIndent()
         )
@@ -260,24 +263,27 @@ class BoardDAOImpl(
             .then()
     }
 
-    override fun deleteFile(boardFileUid: Long): Mono<Void> {
+    override fun deleteFile(boardUid: Long, fileUid: String): Mono<Void> {
         val sql = """
             DELETE FROM 
                 RC_BOARD_FILE
             WHERE
-                `UID` = :file_uid
+                `RC_BOARD_UID` = :board_uid
+            AND
+                `RC_FILE_UID` = :file_uid
         """
 
         return databaseClient.sql(sql)
-            .bind("file_uid", boardFileUid)
+            .bind("board_uid", boardUid)
+            .bind("file_uid", fileUid)
             .then()
     }
 
     override fun selectFileList(boardUid: Long): Flux<OutBoardFileListVO> {
         val sql = """
             SELECT
-                RBF.`UID`,
-                RBF.`FILE_UID`,
+                RBF.`RC_BOARD_UID`,
+                RBF.`RC_FILE_UID`,
                 RBF.`FILE_NAME`,
                 RC.`SIZE`
             FROM
@@ -285,10 +291,9 @@ class BoardDAOImpl(
             LEFT JOIN
                 RC_FILE RC
             ON
-                RBF.FILE_UID = RC.UID
-            
+                RBF.RC_FILE_UID = RC.UID
             WHERE
-                RBF.`BOARD_UID` = :board_uid
+                RBF.`RC_BOARD_UID` = :board_uid
 
         """
 

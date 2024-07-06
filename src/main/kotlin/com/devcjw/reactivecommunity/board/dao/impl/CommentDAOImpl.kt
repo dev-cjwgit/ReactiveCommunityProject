@@ -2,8 +2,8 @@ package com.devcjw.reactivecommunity.board.dao.impl
 
 import com.devcjw.reactivecommunity.board.dao.CommentDAO
 import com.devcjw.reactivecommunity.board.model.entity.InCommentInsertVO
-import com.devcjw.reactivecommunity.board.model.entity.OutCommentSelectVO
 import com.devcjw.reactivecommunity.board.model.entity.InCommentUpdateVO
+import com.devcjw.reactivecommunity.board.model.entity.OutCommentSelectVO
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import lombok.RequiredArgsConstructor
@@ -46,7 +46,7 @@ class CommentDAOImpl(
             WHERE
                 RBC.`UID` = :board_uid
             AND
-                RBC.`WRITER_UID` = :writer_uid
+                RBC.`RC_BOARD_UID` = :writer_uid
         """
 
         return databaseClient.sql(sql)
@@ -63,14 +63,14 @@ class CommentDAOImpl(
         val sql = """
             SELECT
                 RBC.`UID`,
-                RBC.`WRITER_UID`,
+                RBC.`RC_USER_UID`,
                 RBC.`CONTENTS`,
                 RBC.`CREATED_AT`,
                 RBC.`UPDATED_AT`
             FROM
                 RC_BOARD_COMMENT RBC
             WHERE
-                RBC.`BOARD_UID` = :board_uid
+                RBC.`RC_BOARD_UID` = :board_uid
         """
 
         return databaseClient.sql(sql)
@@ -96,7 +96,7 @@ class CommentDAOImpl(
     override fun insert(inCommentInsertVO: InCommentInsertVO): Mono<Void> {
         return databaseClient.sql(
             """
-                INSERT INTO RC_BOARD_COMMENT (`BOARD_UID`,`WRITER_UID`,`CONTENTS`)
+                INSERT INTO RC_BOARD_COMMENT (`RC_BOARD_UID`,`RC_USER_UID`,`CONTENTS`)
                 VALUES (:board_uid,:writer_uid,:contents)
             """.trimIndent()
         )

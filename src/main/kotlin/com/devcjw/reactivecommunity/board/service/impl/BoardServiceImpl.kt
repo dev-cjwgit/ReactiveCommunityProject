@@ -290,7 +290,7 @@ class BoardServiceImpl(
          * 1. BBS Path 체크
          * 2. 게시글 확인
          * 3. 작성자가 맞는지 확인
-         * 4. boardFileUid가 존재하는지 확인
+         * 4. 파일이 존재하는지 확인
          * 5. 삭제 DB
          */
         return boardDAO.isBbsPath(bbsPath)
@@ -312,16 +312,16 @@ class BoardServiceImpl(
                 Flux.fromIterable(boardFileUid)
                     .flatMap { file ->
                         // 4
-                        boardDAO.isExistBoardFile(file.boardFileUid)
+                        boardDAO.isExistBoardFile(boardUid, file.fileUid)
                             .flatMap { exists ->
                                 if (exists) {
                                     // 5
-                                    boardDAO.deleteFile(file.boardFileUid)
+                                    boardDAO.deleteFile(boardUid, file.fileUid)
                                         .then(
                                             Mono.just(
                                                 RestResponseVO(
                                                     result = true,
-                                                    data = RepBoardFileDeleteVO(file.boardFileUid)
+                                                    data = RepBoardFileDeleteVO(boardUid, file.fileUid)
                                                 )
                                             )
                                         )
@@ -329,7 +329,7 @@ class BoardServiceImpl(
                                     Mono.just(
                                         RestResponseVO(
                                             result = false,
-                                            data = RepBoardFileDeleteVO(file.boardFileUid),
+                                            data = RepBoardFileDeleteVO(boardUid, file.fileUid),
                                             message = RcErrorMessage.INVALID_FILE_UID_EXCEPTION.message
                                         )
                                     )
@@ -340,7 +340,7 @@ class BoardServiceImpl(
                                     Mono.just(
                                         RestResponseVO(
                                             result = false,
-                                            data = RepBoardFileDeleteVO(file.boardFileUid),
+                                            data = RepBoardFileDeleteVO(boardUid, file.fileUid),
                                             message = RcErrorMessage.INVALID_FILE_UID_EXCEPTION.message
                                         )
                                     )

@@ -18,13 +18,13 @@ class BbsDAOImpl(
     override fun list(): Flux<OutBbsListVO> {
         val sql = """
             SELECT
-                RBB.`UID`,
-                RBB.`PATH`,
-                RBB.`TITLE`,
-                RBB.`CREATED_AT`,
-                RBB.`UPDATED_AT`
+                RB.`UID`,
+                RB.`PATH`,
+                RB.`NAME`,
+                RB.`CREATED_AT`,
+                RB.`UPDATED_AT`
             FROM
-                RC_BOARD_BBS RBB
+                RC_BBS RB
         """
 
         return databaseClient.sql(sql)

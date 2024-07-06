@@ -21,10 +21,11 @@ class AuthDAOImpl(
 
     override fun insertRcUser(rcUserEntity: RcUserEntity): Mono<Void> {
         logger.info { "insert Rc User : $rcUserEntity" }
+        // RC_ROLE_UID 2 = 일반 사용자
         return databaseClient.sql(
             """
-            INSERT INTO RC_USER (`UID`,`EMAIL`,`PW`,`NAME`,`NICKNAME`)
-            VALUES (:uid,:email,:password,:name,:nickname)
+            INSERT INTO RC_USER (`UID`,`EMAIL`,`RC_ROLE_UID`, `PASSWORD`,`NAME`,`NICKNAME`)
+            VALUES (:uid,:email,2,:password,:name,:nickname)
         """.trimIndent()
         )
             .bind("uid", rcUserEntity.uid)
@@ -39,16 +40,16 @@ class AuthDAOImpl(
         logger.info { "select User Level Resource" }
         val sql = """
             SELECT
-                RUL.`UID`,
-                GROUP_CONCAT(CONCAT(RUR.`METHOD`, ',', RUR.`PATTERN`) ORDER BY RUR.`PATTERN`, RUR.`METHOD` SEPARATOR '|') AS resources
+                RR.`UID`,
+                GROUP_CONCAT(CONCAT(RUR.`METHOD`, ',', RUR.`URL_PATTERN`) ORDER BY RUR.`URL_PATTERN`, RUR.`METHOD` SEPARATOR '|') AS resources
             FROM
-                RC_USER_LEVEL RUL
+                RC_ROLE RR
                     JOIN
-                RD_ROLE_RESOURCE RRR ON RUL.`UID` = RRR.`LEVEL_UID`
+                RC_ROLE_RESOURCE RRR ON RR.`UID` = RRR.`RC_ROLE_UID`
                     JOIN
-                RC_USER_RESOURCE RUR ON RRR.`RESOURCE_UID` = RUR.`UID`
+                RC_RESOURCE RUR ON RUR.`UID` = RRR.`RC_RESOURCE_UID`
             GROUP BY
-                RUL.`UID`
+                RR.`UID`
         """
 
         return databaseClient.sql(sql)

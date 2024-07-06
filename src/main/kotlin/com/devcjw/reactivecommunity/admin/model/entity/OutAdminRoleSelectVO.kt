@@ -3,12 +3,11 @@ package com.devcjw.reactivecommunity.admin.model.entity
 import java.time.LocalDateTime
 
 data class OutAdminRoleSelectVO(
-    val uid: Long,
-    val levelUid: Long,
-    val levelName: String,
-    val resourceUid: Long,
+    val rcRoleUid: Long,
+    val rcResourceUid: Long,
+    val roleName: String,
     val resourceMethod: String,
-    val resourcePattern: String,
+    val roleResourcePattern: String,
     val resourceDescription: String,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
