@@ -4,7 +4,7 @@ import com.devcjw.reactivecommunity.admin.dao.AdminDAO
 import com.devcjw.reactivecommunity.admin.model.domain.*
 import com.devcjw.reactivecommunity.admin.model.entity.*
 import com.devcjw.reactivecommunity.admin.service.AdminService
-import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import io.github.oshai.kotlinlogging.KotlinLogging
 import lombok.RequiredArgsConstructor

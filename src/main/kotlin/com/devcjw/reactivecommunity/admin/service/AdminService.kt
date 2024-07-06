@@ -1,7 +1,7 @@
 package com.devcjw.reactivecommunity.admin.service
 
 import com.devcjw.reactivecommunity.admin.model.domain.*
-import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono

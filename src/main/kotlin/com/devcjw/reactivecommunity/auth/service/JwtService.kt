@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.auth.service
 
-import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 
 interface JwtService {
     fun createAccessToken(uid: String, level: Long): String

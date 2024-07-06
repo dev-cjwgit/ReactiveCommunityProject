@@ -2,7 +2,7 @@ package com.devcjw.reactivecommunity.admin.controller
 
 import com.devcjw.reactivecommunity.admin.model.domain.*
 import com.devcjw.reactivecommunity.admin.service.AdminService
-import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag

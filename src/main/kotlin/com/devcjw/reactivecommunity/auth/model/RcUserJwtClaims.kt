@@ -1,4 +1,4 @@
-package com.devcjw.reactivecommunity.auth.model.domain
+package com.devcjw.reactivecommunity.auth.model
 
 data class RcUserJwtClaims(
     val uid: String,

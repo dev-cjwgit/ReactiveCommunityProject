@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.board.controller
 
-import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.model.domain.RepBbsListVO
 import com.devcjw.reactivecommunity.board.service.BbsService
 import com.devcjw.reactivecommunity.common.model.RestResponseVO

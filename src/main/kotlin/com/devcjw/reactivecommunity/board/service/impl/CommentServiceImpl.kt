@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.board.service.impl
 
-import com.devcjw.reactivecommunity.auth.model.domain.RcUserJwtClaims
+import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.dao.BoardDAO
 import com.devcjw.reactivecommunity.board.dao.CommentDAO
 import com.devcjw.reactivecommunity.board.model.domain.RepCommentListVO
