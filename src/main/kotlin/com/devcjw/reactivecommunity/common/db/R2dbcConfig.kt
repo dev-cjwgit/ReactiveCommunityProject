@@ -33,7 +33,8 @@ class R2dbcConfig : AbstractR2dbcConfiguration() {
     override fun connectionFactory(): ConnectionFactory {
         return ConnectionFactories.get(
             ConnectionFactoryOptions.builder()
-                .option(ConnectionFactoryOptions.DRIVER, "mariadb")
+                .option(ConnectionFactoryOptions.DRIVER, "pool")
+                .option(ConnectionFactoryOptions.PROTOCOL, "mysql")
                 .option(ConnectionFactoryOptions.HOST, host!!)
                 .option(ConnectionFactoryOptions.PORT, port)
                 .option(ConnectionFactoryOptions.DATABASE, "rcdb")

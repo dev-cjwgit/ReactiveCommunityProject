@@ -10,20 +10,21 @@ import java.time.LocalDateTime
 @Table("RC_USER")
 data class RcUserEntity(
     @Id val uid: String,
+    val rcRoleUid: Long ,
     val email: String,
     val pw: String,
+    val state: String,
     val name: String,
     val nickname: String,
-    val levelUid: Long = 0,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime
 
 ) : UserDetails {
 
-    fun getLevel(): Long = levelUid
+    fun getRole(): Long = rcRoleUid
 
     override fun getAuthorities(): Collection<GrantedAuthority> =
-        listOf(SimpleGrantedAuthority(levelUid.toString()))
+        listOf(SimpleGrantedAuthority(rcRoleUid.toString()))
 
     override fun getPassword(): String = pw
 

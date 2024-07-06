@@ -24,13 +24,13 @@ class AuthDAOImpl(
         // RC_ROLE_UID 2 = 일반 사용자
         return databaseClient.sql(
             """
-            INSERT INTO RC_USER (`UID`,`EMAIL`,`RC_ROLE_UID`, `PASSWORD`,`NAME`,`NICKNAME`)
+            INSERT INTO RC_USER (`UID`,`EMAIL`,`RC_ROLE_UID`, `PW`,`NAME`,`NICKNAME`)
             VALUES (:uid,:email,2,:password,:name,:nickname)
         """.trimIndent()
         )
             .bind("uid", rcUserEntity.uid)
             .bind("email", rcUserEntity.email)
-            .bind("password", rcUserEntity.pw)
+            .bind("password", rcUserEntity.password)
             .bind("name", rcUserEntity.name)
             .bind("nickname", rcUserEntity.nickname)
             .then()

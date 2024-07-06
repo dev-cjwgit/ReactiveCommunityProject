@@ -38,7 +38,10 @@ dependencies {
     implementation("org.springframework.kafka:spring-kafka")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("org.mariadb:r2dbc-mariadb:1.1.3")
+
+    // https://mvnrepository.com/artifact/io.r2dbc/r2dbc-pool
+    implementation("io.asyncer:r2dbc-mysql:1.1.0")
+
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

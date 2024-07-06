@@ -54,7 +54,7 @@ class AuthServiceImpl(
             .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_USER_PASSWORD_EXCEPTION)))
             // 3
             .filter {
-                var result = it.authorities.stream().findFirst().get().authority != "0"
+                val result = it.state == "ACCEPT"
                 logger.info { "join listener : $result" }
                 result
             }
@@ -75,8 +75,8 @@ class AuthServiceImpl(
             // 5
             .flatMap {
                 Mono.defer {
-                    val accessToken = jwtService.createAccessToken(it.uid, it.getLevel())
-                    val refreshToken = jwtService.createRefreshToken(it.uid, it.getLevel())
+                    val accessToken = jwtService.createAccessToken(it.uid, it.getRole())
+                    val refreshToken = jwtService.createRefreshToken(it.uid, it.getRole())
                     logger.info { "login success : accessToken => $accessToken refreshToken => $refreshToken" }
                     // 6
                     redisTemplate.opsForValue()
@@ -119,6 +119,8 @@ class AuthServiceImpl(
                             RcUserEntity(
                                 uid = UUID.randomUUID().toString(),
                                 email = reqAuthSignupVO.email,
+                                rcRoleUid = 0,
+                                state = "LISTEN",
                                 pw = passwordEncoder.encode(reqAuthSignupVO.password),
                                 name = reqAuthSignupVO.name,
                                 nickname = reqAuthSignupVO.nickname,
@@ -183,7 +185,7 @@ class AuthServiceImpl(
                         // 3
                         if (storedRefreshToken == reqAuthReissueVO.refreshToken) {
                             // Refresh token이 일치하면 새로운 Access token을 생성
-                            val newAccessToken = jwtService.createAccessToken(userEntity.uid, userEntity.getLevel())
+                            val newAccessToken = jwtService.createAccessToken(userEntity.uid, userEntity.getRole())
                             Mono.just(RestResponseVO(result = true, data = RepAuthReissueVO(newAccessToken)))
                         } else {
                             // Refresh token이 일치하지 않으면 오류 발생
