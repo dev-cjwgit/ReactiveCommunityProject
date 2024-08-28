@@ -37,7 +37,7 @@ class BoardServiceImpl(
             .map {
                 // 3
                 val repBoardListVO =
-                    RepBoardListVO(it.uid, it.title, it.writerNickname, it.hit, it.createdAt, it.updatedAt)
+                    RepBoardListVO(it.uid, it.title, it.createdUserNickname, it.hit, it.createdUtcAt, it.updatedUtcAt)
                 RestResponseVO(
                     result = true,
                     data = repBoardListVO
@@ -74,8 +74,8 @@ class BoardServiceImpl(
                     contents = it.contents,
                     writerNickname = it.writerNickname,
                     hit = it.hit,
-                    createdAt = it.createdAt,
-                    updatedAt = it.updatedAt
+                    createdAt = it.createdUtcAt,
+                    updatedAt = it.updatedUtcAt
                 )
             }
             // 5

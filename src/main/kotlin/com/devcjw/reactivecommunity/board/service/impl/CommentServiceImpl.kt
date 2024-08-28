@@ -34,7 +34,7 @@ class CommentServiceImpl(
                 commentDAO.selectList(boardUid)
             }
             .map {
-                RepCommentListVO(it.uid, it.contents, it.createdAt, it.updatedAt)
+                RepCommentListVO(it.uid, it.contents, it.createdUtcAt, it.updatedUtcAt)
             }
             .map {
                 RestResponseVO(

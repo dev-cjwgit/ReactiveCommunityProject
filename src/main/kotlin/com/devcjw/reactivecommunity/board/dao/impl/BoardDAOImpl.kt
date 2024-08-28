@@ -16,24 +16,24 @@ import java.time.LocalDateTime
 @Repository
 @RequiredArgsConstructor
 class BoardDAOImpl(
-    val databaseClient: DatabaseClient
+        val databaseClient: DatabaseClient
 ) : BoardDAO {
     override fun isBbsUid(uid: Short): Mono<Boolean> {
         val sql = """
             SELECT
                 COUNT(*)
             FROM
-                RC_BBS RB
-            WHERE RB.`UID` = :bbs_uid
+                rc_bbs RB
+            WHERE RB.`uid` = :bbs_uid
         """
 
         return databaseClient.sql(sql)
-            .bind("bbs_uid", uid)
-            .map { row, _ ->
-                row.get(0, Long::class.java) ?: 0L
-            }
-            .one()
-            .map { count -> count > 0 }
+                .bind("bbs_uid", uid)
+                .map { row, _ ->
+                    row.get(0, Long::class.java) ?: 0L
+                }
+                .one()
+                .map { count -> count > 0 }
     }
 
     override fun isBbsPath(path: String): Mono<Boolean> {
@@ -41,17 +41,17 @@ class BoardDAOImpl(
             SELECT
                 COUNT(*)
             FROM
-                RC_BBS RB
-            WHERE RB.`PATH` = :path
+                rc_bbs RB
+            WHERE RB.`path` = :path
         """
 
         return databaseClient.sql(sql)
-            .bind("path", path)
-            .map { row, _ ->
-                row.get(0, Long::class.java) ?: 0L
-            }
-            .one()
-            .map { count -> count > 0 }
+                .bind("path", path)
+                .map { row, _ ->
+                    row.get(0, Long::class.java) ?: 0L
+                }
+                .one()
+                .map { count -> count > 0 }
     }
 
     override fun isBoardUid(uid: Long): Mono<Boolean> {
@@ -59,39 +59,39 @@ class BoardDAOImpl(
             SELECT
                 COUNT(*)
             FROM
-                RC_BOARD RB
-            WHERE RB.`UID` = :uid
+                rc_board RB
+            WHERE RB.`uid` = :uid
         """
 
         return databaseClient.sql(sql)
-            .bind("uid", uid)
-            .map { row, _ ->
-                row.get(0, Long::class.java) ?: 0L
-            }
-            .one()
-            .map { count -> count > 0 }
+                .bind("uid", uid)
+                .map { row, _ ->
+                    row.get(0, Long::class.java) ?: 0L
+                }
+                .one()
+                .map { count -> count > 0 }
     }
 
-    override fun isWriterBoard(boardUid: Long, writerUid: String): Mono<Boolean> {
+    override fun isWriterBoard(boardUid: Long, createdUserUid: String): Mono<Boolean> {
         val sql = """
             SELECT
                 COUNT(*)
             FROM
-                RC_BOARD RB
+                rc_board RB
             WHERE
-                RB.`UID` = :board_uid
+                RB.`uid` = :board_uid
             AND
-                RB.`RC_USER_UID` = :writer_uid
+                RB.`created_user_uid` = :created_user_uid
         """
 
         return databaseClient.sql(sql)
-            .bind("board_uid", boardUid)
-            .bind("writer_uid", writerUid)
-            .map { row, _ ->
-                row.get(0, Long::class.java) ?: 0L
-            }
-            .one()
-            .map { count -> count > 0 }
+                .bind("board_uid", boardUid)
+                .bind("created_user_uid", createdUserUid)
+                .map { row, _ ->
+                    row.get(0, Long::class.java) ?: 0L
+                }
+                .one()
+                .map { count -> count > 0 }
     }
 
     override fun isExistBoardFile(boardUid: Long, fileUid: String): Mono<Boolean> {
@@ -99,222 +99,222 @@ class BoardDAOImpl(
             SELECT
                 COUNT(*)
             FROM
-                RC_BOARD_FILE RBF
+                rc_board_file RBF
             WHERE
-                RBF.`RC_BOARD_UID` = :board_uid
+                RBF.`board_uid` = :board_uid
             AND
-                RBF.`RC_FILE_UID` = :file_uid
+                RBF.`file_uid` = :file_uid
         """
 
         return databaseClient.sql(sql)
-            .bind("board_uid", boardUid)
-            .bind("file_uid", boardUid)
-            .map { row, _ ->
-                row.get(0, Long::class.java) ?: 0L
-            }
-            .one()
-            .map { count -> count > 0 }
+                .bind("board_uid", boardUid)
+                .bind("file_uid", boardUid)
+                .map { row, _ ->
+                    row.get(0, Long::class.java) ?: 0L
+                }
+                .one()
+                .map { count -> count > 0 }
     }
 
     override fun selectList(bbsPath: String): Flux<OutBoardSelectListVO> {
         val sql = """
             SELECT
-                RB.`UID`,
-                RB.`TITLE`,
-                RU.`NICKNAME`,
-                RB.`HIT`,
-                RB.`CREATED_AT`,
-                RB.`UPDATED_AT`
+                RB.`uid`,
+                RB.`title`,
+                RU.`nickname`,
+                RB.`hit`,
+                RB.`created_utc_at`,
+                RB.`updated_utc_at`
             FROM
-                RC_BOARD RB
+                rc_board RB
             LEFT JOIN
-                RC_USER RU
+                rc_user RU
             ON
-                RB.`RC_USER_UID` = RU.`UID` 
+                RB.`created_user_uid` = RU.`uid` 
             WHERE
-                RB.`RC_BBS_UID` = (
-                    SELECT RBB.`UID` FROM RC_BBS RBB WHERE RBB.`PATH` = :bbs_path
+                RB.`bbs_uid` = (
+                    SELECT RBB.`uid` FROM rc_bbs RBB WHERE RBB.`path` = :bbs_path
                 )
         """
 
         return databaseClient.sql(sql)
-            .bind("bbs_path", bbsPath)
-            .map { row, _ ->
-                OutBoardSelectListVO(
-                    uid = row.get("uid", Long::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    title = row.get("title", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    writerNickname = row.get("nickname", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    hit = row.get("hit", Int::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    createdAt = row.get("created_at", LocalDateTime::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    updatedAt = row.get("updated_at", LocalDateTime::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                .bind("bbs_path", bbsPath)
+                .map { row, _ ->
+                    OutBoardSelectListVO(
+                            uid = row.get("uid", Long::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            title = row.get("title", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            createdUserNickname = row.get("nickname", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            hit = row.get("hit", Int::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            createdUtcAt = row.get("created_utc_at", LocalDateTime::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            updatedUtcAt = row.get("updated_utc_at", LocalDateTime::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
 
-                    )
-            }
-            .all()
+                            )
+                }
+                .all()
     }
 
     override fun selectDetail(boardUid: Long): Mono<OutBoardSelectDetailVO> {
         val sql = """
             SELECT
-                RB.`UID`,
-                RB.`TITLE`,
-                RB.`CONTENTS`,
-                RU.`NICKNAME`,
-                RB.`HIT`,
-                RB.`CREATED_AT`,
-                RB.`UPDATED_AT`
+                RB.`uid`,
+                RB.`title`,
+                RB.`contents`,
+                RU.`nickname`,
+                RB.`hit`,
+                RB.`created_utc_at`,
+                RB.`updated_utc_at`
             FROM
-                RC_BOARD RB 
+                rc_board RB 
             LEFT JOIN 
-                RC_USER RU
+                rc_user RU
             ON 
-                RB.`RC_USER_UID` = RU.`UID`
+                RB.`created_user_uid` = RU.`uid`
             WHERE
-                RB.`UID` = :board_uid
+                RB.`uid` = :board_uid
         """
 
         return databaseClient.sql(sql)
-            .bind("board_uid", boardUid)
-            .map { row, _ ->
-                OutBoardSelectDetailVO(
-                    uid = row.get("uid", Long::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    title = row.get("title", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    contents = row.get("contents", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    writerNickname = row.get("nickname", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    hit = row.get("hit", Int::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    createdAt = row.get("created_at", LocalDateTime::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    updatedAt = row.get("updated_at", LocalDateTime::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                )
-            }.one()
+                .bind("board_uid", boardUid)
+                .map { row, _ ->
+                    OutBoardSelectDetailVO(
+                            uid = row.get("uid", Long::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            title = row.get("title", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            contents = row.get("contents", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            writerNickname = row.get("nickname", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            hit = row.get("hit", Int::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            createdUtcAt = row.get("created_utc_at", LocalDateTime::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            updatedUtcAt = row.get("updated_utc_at", LocalDateTime::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                    )
+                }.one()
     }
 
 
     @Transactional
     override fun insert(inBoardInsertVO: InBoardInsertVO): Mono<Long> {
         return databaseClient.sql(
-            """
-                INSERT INTO RC_BOARD (`RC_BBS_UID`, `TITLE`, `CONTENTS`, `RC_USER_UID`)
-                VALUES (:bbs_uid, :title, :contents, :writer_uid)
+                """
+                INSERT INTO rc_board (`bbs_uid`, `title`, `contents`, `created_user_uid`)
+                VALUES (:bbs_uid, :title, :contents, :created_user_uid)
             """.trimIndent()
         )
-            .bind("bbs_uid", inBoardInsertVO.bbsUid)
-            .bind("title", inBoardInsertVO.title)
-            .bind("contents", inBoardInsertVO.contents)
-            .bind("writer_uid", inBoardInsertVO.writerUid)
-            .then() // Proceed to next operation after insert
+                .bind("bbs_uid", inBoardInsertVO.bbsUid)
+                .bind("title", inBoardInsertVO.title)
+                .bind("contents", inBoardInsertVO.contents)
+                .bind("created_user_uid", inBoardInsertVO.createdUserUid)
+                .then()
 
-            .then(databaseClient.sql("SELECT LAST_INSERT_ID() AS last_uid")
-                .map { row, _ -> row.get("last_uid", Long::class.java) ?: -1L }
-                .one()
-            )
+                .then(databaseClient.sql("SELECT LAST_INSERT_ID() AS last_uid")
+                        .map { row, _ -> row.get("last_uid", Long::class.java) ?: -1L }
+                        .one()
+                )
     }
 
     override fun update(inBoardUpdateVO: InBoardUpdateVO): Mono<Void> {
         return databaseClient.sql(
-            """
-                UPDATE RC_BOARD RB
-                SET RB.`TITLE` = :title,
-                    RB.`CONTENTS` = :contents
-                WHERE RB.`UID` = :uid
+                """
+                UPDATE rc_board RB
+                SET RB.`title` = :title,
+                    RB.`contents` = :contents
+                WHERE RB.`uid` = :uid
             """.trimIndent()
         )
-            .bind("uid", inBoardUpdateVO.uid)
-            .bind("title", inBoardUpdateVO.title)
-            .bind("contents", inBoardUpdateVO.contents)
-            .then()
+                .bind("uid", inBoardUpdateVO.uid)
+                .bind("title", inBoardUpdateVO.title)
+                .bind("contents", inBoardUpdateVO.contents)
+                .then()
     }
 
     override fun delete(boardUid: Long): Mono<Void> {
         return databaseClient.sql(
-            """
+                """
                 DELETE FROM 
-                    RC_BOARD
+                    rc_board
                 WHERE
-                    `UID` = :uid
+                    `uid` = :uid
             """.trimIndent()
         )
-            .bind("uid", boardUid)
-            .then()
+                .bind("uid", boardUid)
+                .then()
     }
 
     override fun insertFile(inBoardInsertFileVO: InBoardInsertFileVO): Mono<Void> {
         return databaseClient.sql(
-            """
-                INSERT INTO RC_BOARD_FILE (`RC_BOARD_UID`,`RC_FILE_UID`,`FILE_NAME`)
+                """
+                INSERT INTO rc_board_file (`board_uid`,`file_uid`,`file_name`)
                 VALUES (:board_uid,:file_uid,:file_name)
             """.trimIndent()
         )
-            .bind("board_uid", inBoardInsertFileVO.boardUid)
-            .bind("file_uid", inBoardInsertFileVO.fileUid)
-            .bind("file_name", inBoardInsertFileVO.fileName)
-            .then()
+                .bind("board_uid", inBoardInsertFileVO.boardUid)
+                .bind("file_uid", inBoardInsertFileVO.fileUid)
+                .bind("file_name", inBoardInsertFileVO.fileName)
+                .then()
     }
 
     override fun deleteFile(boardUid: Long, fileUid: String): Mono<Void> {
         val sql = """
             DELETE FROM 
-                RC_BOARD_FILE
+                rc_board_file
             WHERE
-                `RC_BOARD_UID` = :board_uid
+                `board_uid` = :board_uid
             AND
-                `RC_FILE_UID` = :file_uid
+                `file_uid` = :file_uid
         """
 
         return databaseClient.sql(sql)
-            .bind("board_uid", boardUid)
-            .bind("file_uid", fileUid)
-            .then()
+                .bind("board_uid", boardUid)
+                .bind("file_uid", fileUid)
+                .then()
     }
 
     override fun selectFileList(boardUid: Long): Flux<OutBoardFileListVO> {
         val sql = """
             SELECT
-                RBF.`RC_BOARD_UID`,
-                RBF.`RC_FILE_UID`,
-                RBF.`FILE_NAME`,
-                RC.`SIZE`
+                RBF.`board_uid`,
+                RBF.`file_uid`,
+                RBF.`file_name`,
+                RF.`size`
             FROM
-                RC_BOARD_FILE RBF
+                rc_board_file RBF
             LEFT JOIN
-                RC_FILE RC
+                rc_file RF
             ON
-                RBF.RC_FILE_UID = RC.UID
+                RBF.`file_uid` = RF.`uid`
             WHERE
-                RBF.`RC_BOARD_UID` = :board_uid
+                RBF.`board_uid` = :board_uid
 
         """
 
         return databaseClient.sql(sql)
-            .bind("board_uid", boardUid)
-            .map { row, _ ->
-                OutBoardFileListVO(
-                    uid = row.get("uid", Long::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                .bind("board_uid", boardUid)
+                .map { row, _ ->
+                    OutBoardFileListVO(
+                            uid = row.get("uid", Long::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
 
-                    fileUid = row.get("file_uid", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            fileUid = row.get("file_uid", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
 
-                    fileName = row.get("file_name", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            fileName = row.get("file_name", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
 
-                    fileSize = row.get("size", Int::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION)
+                            fileSize = row.get("size", Int::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION)
 
-                )
-            }
-            .all()
+                    )
+                }
+                .all()
     }
 }

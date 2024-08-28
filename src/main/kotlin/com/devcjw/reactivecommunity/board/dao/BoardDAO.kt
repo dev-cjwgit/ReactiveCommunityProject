@@ -10,7 +10,7 @@ interface BoardDAO {
     fun isBbsPath(path: String): Mono<Boolean>
     fun isBoardUid(uid: Long): Mono<Boolean>
     fun isWriterBoard(boardUid: Long, writerUid: String): Mono<Boolean>
-    fun isExistBoardFile(boardUid: Long, fileUid:String): Mono<Boolean>
+    fun isExistBoardFile(boardUid: Long, fileUid: String): Mono<Boolean>
 
     fun selectList(bbsPath: String): Flux<OutBoardSelectListVO>
 
@@ -24,7 +24,7 @@ interface BoardDAO {
 
     fun insertFile(inBoardInsertFileVO: InBoardInsertFileVO): Mono<Void>
 
-    fun deleteFile(boardUid:Long, fileUid: String): Mono<Void>
+    fun deleteFile(boardUid: Long, fileUid: String): Mono<Void>
 
     fun selectFileList(boardUid: Long): Flux<OutBoardFileListVO>
 }

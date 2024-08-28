@@ -12,7 +12,7 @@ import java.time.LocalDateTime
 
 @Repository
 class BbsDAOImpl(
-    val databaseClient: DatabaseClient
+        val databaseClient: DatabaseClient
 ) : BbsDAO {
     private val logger = KotlinLogging.logger {}
     override fun list(): Flux<OutBbsListVO> {
@@ -21,28 +21,28 @@ class BbsDAOImpl(
                 RB.`UID`,
                 RB.`PATH`,
                 RB.`NAME`,
-                RB.`CREATED_AT`,
-                RB.`UPDATED_AT`
+                RB.`created_utc_at`,
+                RB.`updated_utc_at`
             FROM
-                RC_BBS RB
+                rc_bbs RB
         """
 
         return databaseClient.sql(sql)
-            .map { row, _ ->
-                OutBbsListVO(
-                    uid = row.get("uid", Long::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    path = row.get("path", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    title = row.get("title", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    createdAt = row.get("created_at", LocalDateTime::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    updatedAt = row.get("updated_at", LocalDateTime::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                )
-            }
-            .all()
+                .map { row, _ ->
+                    OutBbsListVO(
+                            uid = row.get("uid", Long::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            path = row.get("path", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            title = row.get("title", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            createdUtcAt = row.get("created_utc_at", LocalDateTime::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            updatedUtcAt = row.get("updated_utc_at", LocalDateTime::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                    )
+                }
+                .all()
     }
 
 }
