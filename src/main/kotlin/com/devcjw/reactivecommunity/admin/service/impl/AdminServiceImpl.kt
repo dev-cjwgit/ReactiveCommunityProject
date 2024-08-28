@@ -39,7 +39,7 @@ class AdminServiceImpl(
          * 1. 유저 등급 추가
          */
         return Mono.just(reqAdminLevelInsertVO)
-            .map { InAdminLevelInsertVO(it.name) }
+            .map { InAdminLevelInsertVO(it.name, rcUser.uid) }
             .flatMap {
                 adminDAO.insertLevel(it)
             }
@@ -97,7 +97,7 @@ class AdminServiceImpl(
          * 1. 자원 패턴 추가
          */
         return Mono.just(reqAdminResourceInsertVO)
-            .map { InAdminResourceInsertVO(it.method, it.pattern, it.description) }
+            .map { InAdminResourceInsertVO(it.method, it.pattern, it.description, rcUser.uid) }
             .flatMap {
                 adminDAO.insertResource(it)
             }
@@ -161,7 +161,7 @@ class AdminServiceImpl(
          * 1. 등급별 자원 등록
          */
         return Mono.just(reqAdminRoleInsertVO)
-            .map { InAdminRoleInsertVO(it.levelUid, it.resourceUid) }
+            .map { InAdminRoleInsertVO(it.levelUid, it.resourceUid, rcUser.uid) }
             .flatMap {
                 adminDAO.insertRoleResource(it)
             }

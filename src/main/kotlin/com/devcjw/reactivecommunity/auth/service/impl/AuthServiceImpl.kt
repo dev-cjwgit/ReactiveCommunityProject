@@ -22,12 +22,12 @@ import java.util.*
 
 @Service
 class AuthServiceImpl(
-    private val authDAO: AuthDAO,
-    private val authRepository: AuthRepository,
-    private val jwtService: JwtService,
-    private val passwordEncoder: PasswordEncoder,
-    private val redisTemplate: ReactiveRedisTemplate<String, Any>,
-    private val authManager: AuthManager,
+        private val authDAO: AuthDAO,
+        private val authRepository: AuthRepository,
+        private val jwtService: JwtService,
+        private val passwordEncoder: PasswordEncoder,
+        private val redisTemplate: ReactiveRedisTemplate<String, Any>,
+        private val authManager: AuthManager,
 ) : AuthService {
     private val logger = KotlinLogging.logger {}
 
@@ -44,53 +44,53 @@ class AuthServiceImpl(
 
         // 1
         return authRepository.findByEmail(loginDTO.email)
-            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_USER_EMAIL_EXCEPTION)))
-            // 2
-            .filter { userEntity ->
-                val result = passwordEncoder.matches(loginDTO.password, userEntity.password)
-                logger.info { "match password : $result" }
-                result
-            }
-            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_USER_PASSWORD_EXCEPTION)))
-            // 3
-            .filter {
-                val result = it.state == "ACCEPT"
-                logger.info { "join listener : $result" }
-                result
-            }
-            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.LISTEN_JOIN_USER_EXCEPTION)))
-            // 4
-            .flatMap { userEntity ->
-                redisTemplate.opsForValue().get(userEntity.uid)
-                    .flatMap { existingRefreshToken ->
-                        if (existingRefreshToken != null) {
-                            logger.info { "already login" }
-                            Mono.error(RcException(RcErrorMessage.DUPLICATE_LOGIN_EXCEPTION))
-                        } else {
-                            Mono.just(userEntity)
-                        }
-                    }
-                    .switchIfEmpty(Mono.just(userEntity))
-            }
-            // 5
-            .flatMap {
-                Mono.defer {
-                    val accessToken = jwtService.createAccessToken(it.uid, it.getRole())
-                    val refreshToken = jwtService.createRefreshToken(it.uid, it.getRole())
-                    logger.info { "login success : accessToken => $accessToken refreshToken => $refreshToken" }
-                    // 6
-                    redisTemplate.opsForValue()
-                        .set(it.uid, refreshToken)
-                        .thenReturn(
-                            RestResponseVO(
-                                result = true,
-                                data = RepAuthTokenVO(
-                                    accessToken, refreshToken
-                                )
-                            )
-                        )
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_USER_EMAIL_EXCEPTION)))
+                // 2
+                .filter { userEntity ->
+                    val result = passwordEncoder.matches(loginDTO.password, userEntity.password)
+                    logger.info { "match password : $result" }
+                    result
                 }
-            }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_MATCH_USER_PASSWORD_EXCEPTION)))
+                // 3
+                .filter {
+                    val result = it.state == "ACCEPT"
+                    logger.info { "join listener : $result" }
+                    result
+                }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.LISTEN_JOIN_USER_EXCEPTION)))
+                // 4
+                .flatMap { userEntity ->
+                    redisTemplate.opsForValue().get(userEntity.uid)
+                            .flatMap { existingRefreshToken ->
+                                if (existingRefreshToken != null) {
+                                    logger.info { "already login" }
+                                    Mono.error(RcException(RcErrorMessage.DUPLICATE_LOGIN_EXCEPTION))
+                                } else {
+                                    Mono.just(userEntity)
+                                }
+                            }
+                            .switchIfEmpty(Mono.just(userEntity))
+                }
+                // 5
+                .flatMap {
+                    Mono.defer {
+                        val accessToken = jwtService.createAccessToken(it.uid, it.getRole())
+                        val refreshToken = jwtService.createRefreshToken(it.uid, it.getRole())
+                        logger.info { "login success : accessToken => $accessToken refreshToken => $refreshToken" }
+                        // 6
+                        redisTemplate.opsForValue()
+                                .set(it.uid, refreshToken)
+                                .thenReturn(
+                                        RestResponseVO(
+                                                result = true,
+                                                data = RepAuthTokenVO(
+                                                        accessToken, refreshToken
+                                                )
+                                        )
+                                )
+                    }
+                }
     }
 
     override fun signup(reqAuthSignupVO: ReqAuthSignupVO): Mono<RestResponseVO<Void>> {
@@ -102,41 +102,43 @@ class AuthServiceImpl(
          * 3. 데이터 추가
          */
         return authRepository.findByEmail(reqAuthSignupVO.email)
-            // 1
-            .flatMap {
-                logger.info { "exists email ${it.email}" }
-                Mono.error<Boolean>(RcException(RcErrorMessage.ALREADY_JOIN_EMAIL_EXCEPTION))
-            }
-            .switchIfEmpty(
-                // 2
-                authRepository.findByNickname(reqAuthSignupVO.nickname)
-                    .flatMap {
-                        Mono.error<Boolean>(RcException(RcErrorMessage.ALREADY_USE_NICKNAME_EXCEPTION))
-                    }
-                    // 3
-                    .switchIfEmpty(
-                        authDAO.insertRcUser(
-                            RcUserEntity(
-                                uid = UUID.randomUUID().toString(),
-                                email = reqAuthSignupVO.email,
-                                rcRoleUid = 0,
-                                state = "LISTEN",
-                                pw = passwordEncoder.encode(reqAuthSignupVO.password),
-                                name = reqAuthSignupVO.name,
-                                nickname = reqAuthSignupVO.nickname,
-                                createdAt = LocalDateTime.now(),
-                                updatedAt = LocalDateTime.now(),
-                            )
-                        ).thenReturn(true)
-                    )
-            )
-            .then(
-                Mono.just(RestResponseVO(true, null))
-            )
+                // 1
+                .flatMap {
+                    logger.info { "exists email ${it.email}" }
+                    Mono.error<Boolean>(RcException(RcErrorMessage.ALREADY_JOIN_EMAIL_EXCEPTION))
+                }
+                .switchIfEmpty(
+                        // 2
+                        authRepository.findByNickname(reqAuthSignupVO.nickname)
+                                .flatMap {
+                                    Mono.error<Boolean>(RcException(RcErrorMessage.ALREADY_USE_NICKNAME_EXCEPTION))
+                                }
+                                // 3
+                                .switchIfEmpty(
+                                        authDAO.insertRcUser(
+                                                RcUserEntity(
+                                                        uid = UUID.randomUUID().toString(),
+                                                        email = reqAuthSignupVO.email,
+                                                        rcRoleUid = 0,
+                                                        state = "LISTEN",
+                                                        pw = passwordEncoder.encode(reqAuthSignupVO.password),
+                                                        name = reqAuthSignupVO.name,
+                                                        nickname = reqAuthSignupVO.nickname,
+                                                        createdUtcAt = LocalDateTime.now(),
+                                                        updatedUtcAt = LocalDateTime.now(),
+                                                        joinedRegion = "KOR",
+
+                                                        )
+                                        ).thenReturn(true)
+                                )
+                )
+                .then(
+                        Mono.just(RestResponseVO(true, null))
+                )
     }
 
     override fun check(
-        reqAuthCheckVO: ReqAuthCheckVO,
+            reqAuthCheckVO: ReqAuthCheckVO,
     ): Mono<RestResponseVO<Void>> {
         logger.info { "auth check : $reqAuthCheckVO" }
         /**
@@ -146,26 +148,26 @@ class AuthServiceImpl(
          * 4. 결과 반환
          */
         return Mono.just(jwtService.validateToken(reqAuthCheckVO.accessToken))
-            .filter { exists -> exists }
-            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.AUTHENTICATION_EXCEPTION)))
-            .map {
-                val result = jwtService.getRcUser(reqAuthCheckVO.accessToken)
-                logger.info { "rc info : $result" }
-                result
-            }
-            .flatMap {
-                val authentication = UsernamePasswordAuthenticationToken(
-                    it,
-                    null,
-                    listOf(SimpleGrantedAuthority(it.level.toString()))
-                )
+                .filter { exists -> exists }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.AUTHENTICATION_EXCEPTION)))
+                .map {
+                    val result = jwtService.getRcUser(reqAuthCheckVO.accessToken)
+                    logger.info { "rc info : $result" }
+                    result
+                }
+                .flatMap {
+                    val authentication = UsernamePasswordAuthenticationToken(
+                            it,
+                            null,
+                            listOf(SimpleGrantedAuthority(it.level.toString()))
+                    )
 
-                authManager.check(Mono.just(authentication), "GET", reqAuthCheckVO.path)
-            }
-            .flatMap<RestResponseVO<Void>?> { decision ->
-                Mono.just(RestResponseVO(decision))
-            }
-            .onErrorReturn(RestResponseVO(false))
+                    authManager.check(Mono.just(authentication), "GET", reqAuthCheckVO.path)
+                }
+                .flatMap<RestResponseVO<Void>?> { decision ->
+                    Mono.just(RestResponseVO(decision))
+                }
+                .onErrorReturn(RestResponseVO(false))
     }
 
     override fun reissue(reqAuthReissueVO: ReqAuthReissueVO): Mono<RestResponseVO<RepAuthReissueVO>> {
@@ -177,22 +179,22 @@ class AuthServiceImpl(
          */
         // 1
         return authRepository.findByEmail(reqAuthReissueVO.email)
-            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_USER_EMAIL_EXCEPTION)))
-            .flatMap { userEntity ->
-                // 2
-                redisTemplate.opsForValue().get(userEntity.uid)
-                    .flatMap { storedRefreshToken ->
-                        // 3
-                        if (storedRefreshToken == reqAuthReissueVO.refreshToken) {
-                            // Refresh token이 일치하면 새로운 Access token을 생성
-                            val newAccessToken = jwtService.createAccessToken(userEntity.uid, userEntity.getRole())
-                            Mono.just(RestResponseVO(result = true, data = RepAuthReissueVO(newAccessToken)))
-                        } else {
-                            // Refresh token이 일치하지 않으면 오류 발생
-                            Mono.error(RcException(RcErrorMessage.NOT_MATCH_REFRESH_TOKEN_EXCEPTION))
-                        }
-                    }
-                    .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_LOGIN_INFO_EXCEPTION)))
-            }
+                .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_USER_EMAIL_EXCEPTION)))
+                .flatMap { userEntity ->
+                    // 2
+                    redisTemplate.opsForValue().get(userEntity.uid)
+                            .flatMap { storedRefreshToken ->
+                                // 3
+                                if (storedRefreshToken == reqAuthReissueVO.refreshToken) {
+                                    // Refresh token이 일치하면 새로운 Access token을 생성
+                                    val newAccessToken = jwtService.createAccessToken(userEntity.uid, userEntity.getRole())
+                                    Mono.just(RestResponseVO(result = true, data = RepAuthReissueVO(newAccessToken)))
+                                } else {
+                                    // Refresh token이 일치하지 않으면 오류 발생
+                                    Mono.error(RcException(RcErrorMessage.NOT_MATCH_REFRESH_TOKEN_EXCEPTION))
+                                }
+                            }
+                            .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_LOGIN_INFO_EXCEPTION)))
+                }
     }
 }

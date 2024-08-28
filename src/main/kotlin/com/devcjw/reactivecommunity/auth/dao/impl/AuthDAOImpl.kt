@@ -24,8 +24,8 @@ class AuthDAOImpl(
         // RC_ROLE_UID 2 = 일반 사용자
         return databaseClient.sql(
                 """
-            INSERT INTO rc_user (`uid`,`email`,`role_uid`, `pw`,`name`,`nickname`, `joined_region`, `accept_user_uid`)
-            VALUES (:uid, :email, 2, :password, :name, :nickname, :joined_region, :accept_user_uid)
+            INSERT INTO rc_user (`uid`,`email`,`role_uid`, `pw`,`name`,`nickname`, `joined_region`)
+            VALUES (:uid, :email, 2, :password, :name, :nickname, :joined_region)
         """.trimIndent()
         )
                 .bind("uid", rcUserEntity.uid)
@@ -33,7 +33,6 @@ class AuthDAOImpl(
                 .bind("password", rcUserEntity.password)
                 .bind("name", rcUserEntity.name)
                 .bind("joined_region", rcUserEntity.joinedRegion)
-                .bind("accept_user_uid", rcUserEntity.acceptUserUid)
                 .then()
     }
 

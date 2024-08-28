@@ -16,10 +16,10 @@ data class RcUserEntity(
         val state: String,
         val name: String,
         val nickname: String,
-        val createdAt: LocalDateTime,
-        val updatedAt: LocalDateTime,
+        val createdUtcAt: LocalDateTime,
+        val updatedUtcAt: LocalDateTime,
         val joinedRegion: String,
-        val acceptUserUid: String
+        val acceptUserUid: String? = null
 
 ) : UserDetails {
 
