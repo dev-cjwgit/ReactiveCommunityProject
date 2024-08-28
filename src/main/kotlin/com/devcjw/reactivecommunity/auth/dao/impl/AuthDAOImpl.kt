@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono
 @Repository
 @RequiredArgsConstructor
 class AuthDAOImpl(
-    val databaseClient: DatabaseClient
+        val databaseClient: DatabaseClient
 ) : AuthDAO {
     private val logger = KotlinLogging.logger {}
 
@@ -23,45 +23,46 @@ class AuthDAOImpl(
         logger.info { "insert Rc User : $rcUserEntity" }
         // RC_ROLE_UID 2 = 일반 사용자
         return databaseClient.sql(
-            """
-            INSERT INTO RC_USER (`UID`,`EMAIL`,`RC_ROLE_UID`, `PW`,`NAME`,`NICKNAME`)
-            VALUES (:uid,:email,2,:password,:name,:nickname)
+                """
+            INSERT INTO rc_user (`uid`,`email`,`role_uid`, `pw`,`name`,`nickname`, `joined_region`, `accept_user_uid`)
+            VALUES (:uid, :email, 2, :password, :name, :nickname, :joined_region, :accept_user_uid)
         """.trimIndent()
         )
-            .bind("uid", rcUserEntity.uid)
-            .bind("email", rcUserEntity.email)
-            .bind("password", rcUserEntity.password)
-            .bind("name", rcUserEntity.name)
-            .bind("nickname", rcUserEntity.nickname)
-            .then()
+                .bind("uid", rcUserEntity.uid)
+                .bind("email", rcUserEntity.email)
+                .bind("password", rcUserEntity.password)
+                .bind("name", rcUserEntity.name)
+                .bind("joined_region", rcUserEntity.joinedRegion)
+                .bind("accept_user_uid", rcUserEntity.acceptUserUid)
+                .then()
     }
 
     override fun selectUserLevelResource(): Flux<OutAuthLevelResourcesVO> {
         logger.info { "select User Level Resource" }
         val sql = """
             SELECT
-                RR.`UID`,
-                GROUP_CONCAT(CONCAT(RUR.`METHOD`, ',', RUR.`URL_PATTERN`) ORDER BY RUR.`URL_PATTERN`, RUR.`METHOD` SEPARATOR '|') AS resources
+                RR.`uid`,
+                GROUP_CONCAT(CONCAT(RUR.`method`, ',', RUR.`url_pattern`) ORDER BY RUR.`url_pattern`, RUR.`method` SEPARATOR '|') AS resources
             FROM
-                RC_ROLE RR
+                rc_role RR
                     JOIN
-                RC_ROLE_RESOURCE RRR ON RR.`UID` = RRR.`RC_ROLE_UID`
+                rc_role_resource RRR ON RR.`uid` = RRR.`role_uid`
                     JOIN
-                RC_RESOURCE RUR ON RUR.`UID` = RRR.`RC_RESOURCE_UID`
+                rc_resource RUR ON RUR.`uid` = RRR.`resource_uid`
             GROUP BY
-                RR.`UID`
+                RR.`uid`
         """
 
         return databaseClient.sql(sql)
-            .map { row, _ ->
-                OutAuthLevelResourcesVO(
-                    levelUid = row.get("uid", Long::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                    resources = row.get("resources", String::class.java)
-                        ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION)
-                )
-            }
-            .all()
+                .map { row, _ ->
+                    OutAuthLevelResourcesVO(
+                            roleUid = row.get("uid", Long::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
+                            resources = row.get("resources", String::class.java)
+                                    ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION)
+                    )
+                }
+                .all()
     }
 
 }

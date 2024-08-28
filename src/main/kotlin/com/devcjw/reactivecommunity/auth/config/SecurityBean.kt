@@ -46,7 +46,7 @@ class SecurityBean(
                     val (method, pattern) = it.split(",")
                     OutRestfulEntity(method, pattern)
                 }
-                roleMapping()[userLevelResources.levelUid] = ArrayList(resourcesList)
+                roleMapping()[userLevelResources.roleUid] = ArrayList(resourcesList)
             }.subscribe()
     }
 }
