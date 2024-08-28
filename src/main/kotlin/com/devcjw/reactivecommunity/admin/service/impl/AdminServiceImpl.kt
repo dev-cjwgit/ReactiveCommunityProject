@@ -83,7 +83,7 @@ class AdminServiceImpl(
         return adminDAO.selectResourceList()
             .map {
                 val repAdminResourceListVO = RepAdminResourceListVO(
-                    it.uid, it.method, it.pattern, it.description, it.createdAt, it.updatedAt
+                    it.uid, it.method, it.urlPattern, it.description, it.createdUtcAt, it.updatedUtcAt
                 )
                 RestResponseVO(result = true, data = repAdminResourceListVO)
             }
@@ -141,13 +141,13 @@ class AdminServiceImpl(
         return adminDAO.selectRoleList()
             .map {
                 val repAdminRoleListVO = RepAdminRoleListVO(
-                    it.rcRoleUid,
+                    it.roleUid,
                     it.roleName,
-                    it.rcResourceUid,
-                    it.roleResourcePattern,
+                    it.resourceUid,
+                    it.urlPattern,
                     it.resourceDescription,
-                    it.createdAt,
-                    it.updatedAt
+                    it.createdUtcAt,
+                    it.updatedUtcAt
                 )
                 RestResponseVO(result = true, data = repAdminRoleListVO)
             }
