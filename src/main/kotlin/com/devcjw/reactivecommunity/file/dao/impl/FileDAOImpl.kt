@@ -8,20 +8,20 @@ import reactor.core.publisher.Mono
 
 @Repository
 class FileDAOImpl(
-    val databaseClient: DatabaseClient
+        val databaseClient: DatabaseClient
 ) : FileDAO {
     override fun insert(inFileInsertEntity: InFileInsertEntity): Mono<Void> {
         return databaseClient.sql(
-            """
-                INSERT INTO RC_FILE (`UID`, `PATH`, `NAME`, `SIZE`, `MD5`)
-                VALUES (:uid,:path,:name,:size,:md5)
+                """
+                INSERT INTO rc_file (`uid`, `path`, `name`, `size`, `md5`)
+                VALUES (:uid, :path, :name, :size, :md5)
             """.trimIndent()
         )
-            .bind("uid", inFileInsertEntity.uid)
-            .bind("path", inFileInsertEntity.path)
-            .bind("name", inFileInsertEntity.name)
-            .bind("size", inFileInsertEntity.size)
-            .bind("md5", inFileInsertEntity.md5)
-            .then()
+                .bind("uid", inFileInsertEntity.uid)
+                .bind("path", inFileInsertEntity.path)
+                .bind("name", inFileInsertEntity.name)
+                .bind("size", inFileInsertEntity.size)
+                .bind("md5", inFileInsertEntity.md5)
+                .then()
     }
 }
