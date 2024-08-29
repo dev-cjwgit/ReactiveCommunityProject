@@ -119,7 +119,7 @@ class AuthServiceImpl(
                                                 RcUserEntity(
                                                         uid = UUID.randomUUID().toString(),
                                                         email = reqAuthSignupVO.email,
-                                                        rcRoleUid = 0,
+                                                        roleUid = 0,
                                                         state = "LISTEN",
                                                         pw = passwordEncoder.encode(reqAuthSignupVO.password),
                                                         name = reqAuthSignupVO.name,

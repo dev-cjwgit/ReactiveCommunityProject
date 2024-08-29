@@ -7,26 +7,26 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.time.LocalDateTime
 
-@Table("RC_USER")
+@Table("rc_user")
 data class RcUserEntity(
         @Id val uid: String,
-        val rcRoleUid: Long,
+        val roleUid: Long,
         val email: String,
         val pw: String,
         val state: String,
+        val acceptUserUid: String? = null,
         val name: String,
         val nickname: String,
-        val createdUtcAt: LocalDateTime,
-        val updatedUtcAt: LocalDateTime,
         val joinedRegion: String,
-        val acceptUserUid: String? = null
+        val createdUtcAt: LocalDateTime,
+        val updatedUtcAt: LocalDateTime
 
 ) : UserDetails {
 
-    fun getRole(): Long = rcRoleUid
+    fun getRole(): Long = roleUid
 
     override fun getAuthorities(): Collection<GrantedAuthority> =
-            listOf(SimpleGrantedAuthority(rcRoleUid.toString()))
+            listOf(SimpleGrantedAuthority(roleUid.toString()))
 
     override fun getPassword(): String = pw
 
