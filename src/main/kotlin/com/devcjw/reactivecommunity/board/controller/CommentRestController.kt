@@ -4,7 +4,7 @@ import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.model.domain.RepCommentListVO
 import com.devcjw.reactivecommunity.board.model.domain.ReqCommentInsertDTO
 import com.devcjw.reactivecommunity.board.model.domain.ReqCommentUpdateVO
-import com.devcjw.reactivecommunity.board.service.CommentService
+import com.devcjw.reactivecommunity.board.service.CommentRestService
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -16,8 +16,8 @@ import reactor.core.publisher.Mono
 @RestController
 @RequestMapping("/comment")
 @Tag(name = "댓글 컨트롤러", description = "댓글의 CRUD 등을 담당하는 컨트롤러")
-class CommentController(
-    private val commentService: CommentService
+class CommentRestController(
+    private val commentRestService: CommentRestService
 ) {
     /**
      * 1. 댓글 리스트 조회 (GET) boardUid
@@ -33,7 +33,7 @@ class CommentController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("board_uid") boardUid: Long,
     ): Flux<RestResponseVO<RepCommentListVO>> {
-        return commentService.list(rcUser, boardUid)
+        return commentRestService.list(rcUser, boardUid)
     }
 
     // 2
@@ -43,7 +43,7 @@ class CommentController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqCommentInsertDTO: ReqCommentInsertDTO,
     ): Mono<RestResponseVO<Void>> {
-        return commentService.insert(rcUser, reqCommentInsertDTO)
+        return commentRestService.insert(rcUser, reqCommentInsertDTO)
     }
 
     // 3
@@ -53,7 +53,7 @@ class CommentController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqCommentUpdateVO: ReqCommentUpdateVO,
     ): Mono<RestResponseVO<Void>> {
-        return commentService.update(rcUser, reqCommentUpdateVO)
+        return commentRestService.update(rcUser, reqCommentUpdateVO)
     }
 
     @DeleteMapping("/{uid}")
@@ -62,6 +62,6 @@ class CommentController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("uid") uid: Long,
     ): Mono<RestResponseVO<Void>> {
-        return commentService.delete(rcUser, uid)
+        return commentRestService.delete(rcUser, uid)
     }
 }

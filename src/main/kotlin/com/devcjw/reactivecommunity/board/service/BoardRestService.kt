@@ -7,7 +7,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 
-interface BoardService {
+interface BoardRestService {
     fun list(rcUser: RcUserJwtClaims, bbsPath: String): Flux<RestResponseVO<RepBoardListVO>>
     fun detail(rcUser: RcUserJwtClaims, bbsPath: String, uid: Long): Mono<RestResponseVO<RepBoardDetailVO>>
     fun insert(rcUser: RcUserJwtClaims, reqBoardInsertVO: ReqBoardInsertVO): Mono<RestResponseVO<Void>>

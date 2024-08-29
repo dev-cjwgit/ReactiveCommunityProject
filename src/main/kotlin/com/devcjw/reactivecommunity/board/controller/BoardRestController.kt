@@ -2,7 +2,7 @@ package com.devcjw.reactivecommunity.board.controller
 
 import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 import com.devcjw.reactivecommunity.board.model.domain.*
-import com.devcjw.reactivecommunity.board.service.BoardService
+import com.devcjw.reactivecommunity.board.service.BoardRestService
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -16,8 +16,8 @@ import reactor.core.publisher.Mono
 @RequestMapping("/board")
 @RequiredArgsConstructor
 @Tag(name = "게시글 컨트롤러", description = "게시판 CRUD 등을 담당하는 컨트롤러")
-class BoardController(
-    private val boardService: BoardService
+class BoardRestController(
+    private val boardRestService: BoardRestService
 ) {
     /**
      * 1. 글 리스트 조회 (GET)
@@ -37,7 +37,7 @@ class BoardController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @PathVariable("bbs_path") bbsPath: String,
     ): Flux<RestResponseVO<RepBoardListVO>> {
-        return boardService.list(rcUser, bbsPath)
+        return boardRestService.list(rcUser, bbsPath)
     }
 
     // 2
@@ -48,7 +48,7 @@ class BoardController(
         @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") uid: Long,
     ): Mono<RestResponseVO<RepBoardDetailVO>> {
-        return boardService.detail(rcUser, bbsPath, uid)
+        return boardRestService.detail(rcUser, bbsPath, uid)
     }
 
     // 3
@@ -58,7 +58,7 @@ class BoardController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqBoardInsertVO: ReqBoardInsertVO
     ): Mono<RestResponseVO<Void>> {
-        return boardService.insert(rcUser, reqBoardInsertVO)
+        return boardRestService.insert(rcUser, reqBoardInsertVO)
     }
 
     // 4
@@ -68,7 +68,7 @@ class BoardController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqBoardUpdateDTO: ReqBoardUpdateDTO,
     ): Mono<RestResponseVO<Void>> {
-        return boardService.update(rcUser, reqBoardUpdateDTO)
+        return boardRestService.update(rcUser, reqBoardUpdateDTO)
     }
 
     // 5
@@ -79,7 +79,7 @@ class BoardController(
         @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") boardUid: Long,
     ): Mono<RestResponseVO<Void>> {
-        return boardService.delete(rcUser, ReqBoardDeleteVO(bbsPath, boardUid))
+        return boardRestService.delete(rcUser, ReqBoardDeleteVO(bbsPath, boardUid))
     }
 
     // 6
@@ -90,7 +90,7 @@ class BoardController(
         @PathVariable("bbs_path") bbsPath: String,
         @PathVariable("board_uid") boardUid: Long,
     ): Flux<RestResponseVO<RepBoardFileListVO>> {
-        return boardService.getBoardFileList(rcUser, bbsPath, boardUid)
+        return boardRestService.getBoardFileList(rcUser, bbsPath, boardUid)
     }
 
     // 7
@@ -102,7 +102,7 @@ class BoardController(
         @PathVariable("board_uid") boardUid: Long,
         @RequestBody reqBoardInsertFileVO: List<ReqBoardFileInsertVO>,
     ): Flux<RestResponseVO<RepBoardFileInsertVO>> {
-        return boardService.insertBoardFile(rcUser, bbsPath, boardUid, reqBoardInsertFileVO)
+        return boardRestService.insertBoardFile(rcUser, bbsPath, boardUid, reqBoardInsertFileVO)
     }
 
     // 8
@@ -114,7 +114,7 @@ class BoardController(
         @PathVariable("board_uid") boardUid: Long,
         @RequestBody boardFileUid: List<ReqBoardFileDeleteVO>,
     ): Flux<RestResponseVO<RepBoardFileDeleteVO>> {
-        return boardService.deleteBoardFile(rcUser, bbsPath, boardUid, boardFileUid)
+        return boardRestService.deleteBoardFile(rcUser, bbsPath, boardUid, boardFileUid)
     }
 
 

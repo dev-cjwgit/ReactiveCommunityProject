@@ -5,6 +5,6 @@ import com.devcjw.reactivecommunity.board.model.domain.RepBbsListVO
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import reactor.core.publisher.Flux
 
-interface BbsService {
+interface BbsRestService {
     fun list(rcUser: RcUserJwtClaims): Flux<RestResponseVO<RepBbsListVO>>
 }

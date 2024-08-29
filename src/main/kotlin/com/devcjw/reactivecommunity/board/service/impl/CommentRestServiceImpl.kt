@@ -8,7 +8,7 @@ import com.devcjw.reactivecommunity.board.model.domain.ReqCommentInsertDTO
 import com.devcjw.reactivecommunity.board.model.domain.ReqCommentUpdateVO
 import com.devcjw.reactivecommunity.board.model.entity.InCommentUpdateVO
 import com.devcjw.reactivecommunity.board.model.entity.InCommentInsertVO
-import com.devcjw.reactivecommunity.board.service.CommentService
+import com.devcjw.reactivecommunity.board.service.CommentRestService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
@@ -19,10 +19,10 @@ import reactor.core.publisher.Mono
 
 @Service
 @RequiredArgsConstructor
-class CommentServiceImpl(
+class CommentRestServiceImpl(
     private val boardDAO: BoardDAO,
     private val commentDAO: CommentDAO,
-) : CommentService {
+) : CommentRestService {
     override fun list(rcUser: RcUserJwtClaims, boardUid: Long): Flux<RestResponseVO<RepCommentListVO>> {
         /**
          * 1. 게시글 존재 확인

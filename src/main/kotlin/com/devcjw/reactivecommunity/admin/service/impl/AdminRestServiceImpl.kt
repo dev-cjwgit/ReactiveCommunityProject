@@ -3,7 +3,7 @@ package com.devcjw.reactivecommunity.admin.service.impl
 import com.devcjw.reactivecommunity.admin.dao.AdminDAO
 import com.devcjw.reactivecommunity.admin.model.domain.*
 import com.devcjw.reactivecommunity.admin.model.entity.*
-import com.devcjw.reactivecommunity.admin.service.AdminService
+import com.devcjw.reactivecommunity.admin.service.AdminRestService
 import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import io.github.oshai.kotlinlogging.KotlinLogging
@@ -14,9 +14,9 @@ import reactor.core.publisher.Mono
 
 @Service
 @RequiredArgsConstructor
-class AdminServiceImpl(
+class AdminRestServiceImpl(
     private val adminDAO: AdminDAO
-) : AdminService {
+) : AdminRestService {
     private val logger = KotlinLogging.logger {}
 
     override fun getLevelList(rcUser: RcUserJwtClaims): Flux<RestResponseVO<RepAdminLevelListVO>> {

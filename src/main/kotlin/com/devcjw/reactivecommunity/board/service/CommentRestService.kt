@@ -8,7 +8,7 @@ import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-interface CommentService {
+interface CommentRestService {
     fun list(rcUser: RcUserJwtClaims, boardUid: Long): Flux<RestResponseVO<RepCommentListVO>>
 
     fun insert(rcUser: RcUserJwtClaims, reqCommentInsertDTO: ReqCommentInsertDTO): Mono<RestResponseVO<Void>>

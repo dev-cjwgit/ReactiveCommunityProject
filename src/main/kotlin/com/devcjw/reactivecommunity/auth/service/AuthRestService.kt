@@ -4,7 +4,7 @@ import com.devcjw.reactivecommunity.auth.model.domain.*
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import reactor.core.publisher.Mono
 
-interface AuthService {
+interface AuthRestService {
     fun login(loginDTO: ReqAuthLoginVO): Mono<RestResponseVO<RepAuthTokenVO>>
     fun signup(reqAuthSignupVO: ReqAuthSignupVO): Mono<RestResponseVO<Void>>
 

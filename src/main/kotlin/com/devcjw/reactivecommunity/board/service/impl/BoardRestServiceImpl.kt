@@ -6,7 +6,7 @@ import com.devcjw.reactivecommunity.board.model.domain.*
 import com.devcjw.reactivecommunity.board.model.entity.InBoardInsertFileVO
 import com.devcjw.reactivecommunity.board.model.entity.InBoardInsertVO
 import com.devcjw.reactivecommunity.board.model.entity.InBoardUpdateVO
-import com.devcjw.reactivecommunity.board.service.BoardService
+import com.devcjw.reactivecommunity.board.service.BoardRestService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
@@ -19,9 +19,9 @@ import reactor.core.publisher.Mono
 
 @Service
 @RequiredArgsConstructor
-class BoardServiceImpl(
+class BoardRestServiceImpl(
     private val boardDAO: BoardDAO,
-) : BoardService {
+) : BoardRestService {
     override fun list(rcUser: RcUserJwtClaims, bbsPath: String): Flux<RestResponseVO<RepBoardListVO>> {
         /**
          * 1. 게시판 존재 확인

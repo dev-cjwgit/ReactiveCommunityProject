@@ -5,7 +5,7 @@ import com.devcjw.reactivecommunity.auth.manager.AuthManager
 import com.devcjw.reactivecommunity.auth.model.domain.*
 import com.devcjw.reactivecommunity.auth.model.entity.RcUserEntity
 import com.devcjw.reactivecommunity.auth.repository.AuthRepository
-import com.devcjw.reactivecommunity.auth.service.AuthService
+import com.devcjw.reactivecommunity.auth.service.AuthRestService
 import com.devcjw.reactivecommunity.auth.service.JwtService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
@@ -21,14 +21,14 @@ import java.time.LocalDateTime
 import java.util.*
 
 @Service
-class AuthServiceImpl(
+class AuthRestServiceImpl(
         private val authDAO: AuthDAO,
         private val authRepository: AuthRepository,
         private val jwtService: JwtService,
         private val passwordEncoder: PasswordEncoder,
         private val redisTemplate: ReactiveRedisTemplate<String, Any>,
         private val authManager: AuthManager,
-) : AuthService {
+) : AuthRestService {
     private val logger = KotlinLogging.logger {}
 
     override fun login(loginDTO: ReqAuthLoginVO): Mono<RestResponseVO<RepAuthTokenVO>> {

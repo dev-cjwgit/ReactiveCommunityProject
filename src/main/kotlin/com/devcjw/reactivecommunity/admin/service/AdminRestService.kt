@@ -6,7 +6,7 @@ import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
-interface AdminService {
+interface AdminRestService {
     fun getLevelList(rcUser: RcUserJwtClaims): Flux<RestResponseVO<RepAdminLevelListVO>>
     fun insertLevel(rcUser: RcUserJwtClaims, reqAdminLevelInsertVO: ReqAdminLevelInsertVO): Mono<RestResponseVO<Void>>
     fun updateLevel(rcUser: RcUserJwtClaims, reqAdminLevelUpdateVO: ReqAdminLevelUpdateVO): Mono<RestResponseVO<Void>>

@@ -1,7 +1,7 @@
 package com.devcjw.reactivecommunity.admin.controller
 
 import com.devcjw.reactivecommunity.admin.model.domain.*
-import com.devcjw.reactivecommunity.admin.service.AdminService
+import com.devcjw.reactivecommunity.admin.service.AdminRestService
 import com.devcjw.reactivecommunity.auth.model.RcUserJwtClaims
 import com.devcjw.reactivecommunity.common.model.RestResponseVO
 import io.swagger.v3.oas.annotations.Operation
@@ -17,8 +17,8 @@ import reactor.core.publisher.Mono
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 @Tag(name = "관리자 컨트롤러", description = "Rc Community Role을 담당하는 컨트롤러")
-class AdminController(
-    private val adminService: AdminService
+class AdminRestController(
+    private val adminRestService: AdminRestService
 ) {
     /**
      * 1. 유저 레벨 CRUD
@@ -32,7 +32,7 @@ class AdminController(
     fun getLevelList(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
     ): Flux<RestResponseVO<RepAdminLevelListVO>> {
-        return adminService.getLevelList(rcUser)
+        return adminRestService.getLevelList(rcUser)
     }
 
     @PostMapping("/level")
@@ -41,7 +41,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminLevelInsertVO: ReqAdminLevelInsertVO
     ): Mono<RestResponseVO<Void>> {
-        return adminService.insertLevel(rcUser, reqAdminLevelInsertVO)
+        return adminRestService.insertLevel(rcUser, reqAdminLevelInsertVO)
     }
 
     @PatchMapping("/level")
@@ -50,7 +50,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminLevelUpdateVO: ReqAdminLevelUpdateVO
     ): Mono<RestResponseVO<Void>> {
-        return adminService.updateLevel(rcUser, reqAdminLevelUpdateVO)
+        return adminRestService.updateLevel(rcUser, reqAdminLevelUpdateVO)
     }
 
     @DeleteMapping("/level")
@@ -59,7 +59,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminLevelDeleteVO: ReqAdminLevelDeleteVO
     ): Mono<RestResponseVO<Void>> {
-        return adminService.deleteLevel(rcUser, reqAdminLevelDeleteVO)
+        return adminRestService.deleteLevel(rcUser, reqAdminLevelDeleteVO)
     }
     // endregion
 
@@ -69,7 +69,7 @@ class AdminController(
     fun getResourceList(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
     ): Flux<RestResponseVO<RepAdminResourceListVO>> {
-        return adminService.getResourceList(rcUser)
+        return adminRestService.getResourceList(rcUser)
     }
 
     @PostMapping("/resource")
@@ -78,7 +78,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminResourceInsertVO: ReqAdminResourceInsertVO
     ): Mono<RestResponseVO<Void>> {
-        return adminService.insertResource(rcUser, reqAdminResourceInsertVO)
+        return adminRestService.insertResource(rcUser, reqAdminResourceInsertVO)
     }
 
     @PatchMapping("/resource")
@@ -87,7 +87,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminResourceUpdateVO: ReqAdminResourceUpdateVO
     ): Mono<RestResponseVO<Void>> {
-        return adminService.updateResource(rcUser, reqAdminResourceUpdateVO)
+        return adminRestService.updateResource(rcUser, reqAdminResourceUpdateVO)
     }
 
     @DeleteMapping("/resource")
@@ -96,7 +96,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminResourceDeleteVO: ReqAdminResourceDeleteVO
     ): Mono<RestResponseVO<Void>> {
-        return adminService.deleteResource(rcUser, reqAdminResourceDeleteVO)
+        return adminRestService.deleteResource(rcUser, reqAdminResourceDeleteVO)
     }
     // endregion
 
@@ -106,7 +106,7 @@ class AdminController(
     fun getRoleList(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
     ): Flux<RestResponseVO<RepAdminRoleListVO>> {
-        return adminService.getRoleList(rcUser)
+        return adminRestService.getRoleList(rcUser)
     }
 
     @PostMapping("/role")
@@ -115,7 +115,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminRoleInsertVO: ReqAdminRoleInsertVO
     ): Mono<RestResponseVO<Void>> {
-        return adminService.insertRole(rcUser, reqAdminRoleInsertVO)
+        return adminRestService.insertRole(rcUser, reqAdminRoleInsertVO)
     }
 
     @PatchMapping("/role")
@@ -124,7 +124,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminRoleUpdateVO: ReqAdminRoleUpdateVO
     ): Mono<RestResponseVO<Void>> {
-        return adminService.updateRole(rcUser, reqAdminRoleUpdateVO)
+        return adminRestService.updateRole(rcUser, reqAdminRoleUpdateVO)
     }
 
     @DeleteMapping("/role")
@@ -133,7 +133,7 @@ class AdminController(
         @AuthenticationPrincipal rcUser: RcUserJwtClaims,
         @RequestBody reqAdminRoleDeleteVO: ReqAdminRoleDeleteVO
     ): Mono<RestResponseVO<Void>> {
-        return adminService.deleteRole(rcUser, reqAdminRoleDeleteVO)
+        return adminRestService.deleteRole(rcUser, reqAdminRoleDeleteVO)
     }
     // endregion
 }

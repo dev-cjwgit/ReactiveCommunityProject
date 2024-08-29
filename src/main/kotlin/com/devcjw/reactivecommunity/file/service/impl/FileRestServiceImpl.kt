@@ -8,7 +8,7 @@ import com.devcjw.reactivecommunity.file.model.domain.RepFileListVO
 import com.devcjw.reactivecommunity.file.model.entity.FileEntity
 import com.devcjw.reactivecommunity.file.model.entity.InFileInsertEntity
 import com.devcjw.reactivecommunity.file.repository.FileRepository
-import com.devcjw.reactivecommunity.file.service.FileService
+import com.devcjw.reactivecommunity.file.service.FileRestService
 import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.core.io.buffer.DataBuffer
 import org.springframework.core.io.buffer.DataBufferUtils
@@ -26,10 +26,10 @@ import java.time.LocalDateTime.now
 import java.util.*
 
 @Service
-class FileServiceImpl(
+class FileRestServiceImpl(
     private val fileRepository: FileRepository,
     private val fileDAO: FileDAO,
-) : FileService {
+) : FileRestService {
     private val logger = KotlinLogging.logger {}
 
     override fun upload(fileParts: Flux<FilePart>): Flux<RestResponseVO<RepFileListVO>> {
