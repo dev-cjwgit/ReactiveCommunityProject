@@ -21,7 +21,7 @@ class FileRestController(
 ) {
     @GetMapping("/preview/{file_uid}")
     fun imagePreview(@PathVariable("file_uid") fileUid: String) {
-
+        // TODO: 구현 필요
     }
 
     @GetMapping("/{file_uid}")

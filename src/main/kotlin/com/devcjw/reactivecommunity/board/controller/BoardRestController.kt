@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono
 @RequiredArgsConstructor
 @Tag(name = "게시글 컨트롤러", description = "게시판 CRUD 등을 담당하는 컨트롤러")
 class BoardRestController(
-    private val boardRestService: BoardRestService
+        private val boardRestService: BoardRestService
 ) {
     /**
      * 1. 글 리스트 조회 (GET)
@@ -34,29 +34,28 @@ class BoardRestController(
     @GetMapping("/{bbs_path}")
     @Operation(summary = "게시글 목록", description = "특정 게시판의 게시글을 불러오는 API")
     fun list(
-        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @PathVariable("bbs_path") bbsPath: String,
+            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+            @PathVariable("bbs_path") bbsPath: String,
     ): Flux<RestResponseVO<RepBoardListVO>> {
         return boardRestService.list(rcUser, bbsPath)
     }
 
     // 2
-    @GetMapping("/{bbs_path}/{board_uid}")
+    @GetMapping("{board_uid}")
     @Operation(summary = "게시글 상세", description = "특정 게시글을 상세하게 불러오는 API")
     fun detail(
-        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @PathVariable("bbs_path") bbsPath: String,
-        @PathVariable("board_uid") uid: Long,
+            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+            @PathVariable("board_uid") uid: Long,
     ): Mono<RestResponseVO<RepBoardDetailVO>> {
-        return boardRestService.detail(rcUser, bbsPath, uid)
+        return boardRestService.detail(rcUser, uid)
     }
 
     // 3
     @PostMapping
     @Operation(summary = "게시글 쓰기", description = "특정 게시판에 글을 등록하는 API")
     fun insert(
-        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @RequestBody reqBoardInsertVO: ReqBoardInsertVO
+            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+            @RequestBody reqBoardInsertVO: ReqBoardInsertVO
     ): Mono<RestResponseVO<Void>> {
         return boardRestService.insert(rcUser, reqBoardInsertVO)
     }
@@ -65,56 +64,52 @@ class BoardRestController(
     @PatchMapping
     @Operation(summary = "게시글 수정", description = "특정 게시글을 수정하는 API")
     fun update(
-        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @RequestBody reqBoardUpdateDTO: ReqBoardUpdateDTO,
+            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+            @RequestBody reqBoardUpdateDTO: ReqBoardUpdateDTO,
     ): Mono<RestResponseVO<Void>> {
         return boardRestService.update(rcUser, reqBoardUpdateDTO)
     }
 
     // 5
-    @DeleteMapping("/{bbs_path}/{board_uid}")
+    @DeleteMapping("/{board_uid}")
     @Operation(summary = "게시글 삭제", description = "특정 게시글을 삭제하는 API")
     fun delete(
-        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @PathVariable("bbs_path") bbsPath: String,
-        @PathVariable("board_uid") boardUid: Long,
+            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+            @PathVariable("board_uid") boardUid: Long,
     ): Mono<RestResponseVO<Void>> {
-        return boardRestService.delete(rcUser, ReqBoardDeleteVO(bbsPath, boardUid))
+        return boardRestService.delete(rcUser, boardUid)
     }
 
     // 6
-    @GetMapping("/{bbs_path}/{board_uid}/file")
+    @GetMapping("/{board_uid}/file")
     @Operation(summary = "게시글 첨부파일 목록", description = "특정 게시글의 첨부파일 목록을 불러오는 API")
     fun getBoardFileList(
-        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @PathVariable("bbs_path") bbsPath: String,
-        @PathVariable("board_uid") boardUid: Long,
+            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+            @PathVariable("board_uid") boardUid: Long,
     ): Flux<RestResponseVO<RepBoardFileListVO>> {
-        return boardRestService.getBoardFileList(rcUser, bbsPath, boardUid)
+        return boardRestService.getBoardFileList(rcUser, boardUid)
     }
 
     // 7
-    @PostMapping("/{bbs_path}/{board_uid}/file")
+    @PostMapping("/{board_uid}/file")
     @Operation(summary = "게시글 첨부파일 등록", description = "특정 게시글의 첨부파일을 등록하는 API")
     fun insertBoardFile(
-        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @PathVariable("bbs_path") bbsPath: String,
-        @PathVariable("board_uid") boardUid: Long,
-        @RequestBody reqBoardInsertFileVO: List<ReqBoardFileInsertVO>,
+            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+            @PathVariable("board_uid") boardUid: Long,
+            @RequestBody reqBoardInsertFileVO: List<ReqBoardFileInsertVO>,
     ): Flux<RestResponseVO<RepBoardFileInsertVO>> {
-        return boardRestService.insertBoardFile(rcUser, bbsPath, boardUid, reqBoardInsertFileVO)
+        return boardRestService.insertBoardFile(rcUser, boardUid, reqBoardInsertFileVO)
     }
 
     // 8
-    @DeleteMapping("/{bbs_path}/{board_uid}/file")
+    @DeleteMapping("/{board_uid}/file")
     @Operation(summary = "게시글 첨부파일 삭제", description = "특정 게시글의 첨부파일을 삭제하는 API")
     fun deleteBoardFile(
-        @AuthenticationPrincipal rcUser: RcUserJwtClaims,
-        @PathVariable("bbs_path") bbsPath: String,
-        @PathVariable("board_uid") boardUid: Long,
-        @RequestBody boardFileUid: List<ReqBoardFileDeleteVO>,
+            @AuthenticationPrincipal rcUser: RcUserJwtClaims,
+            @PathVariable("board_uid") boardUid: Long,
+            @RequestBody boardFileUid: List<ReqBoardFileDeleteVO>,
     ): Flux<RestResponseVO<RepBoardFileDeleteVO>> {
-        return boardRestService.deleteBoardFile(rcUser, bbsPath, boardUid, boardFileUid)
+        return boardRestService.deleteBoardFile(rcUser, boardUid, boardFileUid)
     }
 
 
