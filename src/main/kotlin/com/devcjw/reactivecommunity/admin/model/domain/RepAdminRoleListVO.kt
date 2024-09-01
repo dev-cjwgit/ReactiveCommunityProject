@@ -8,6 +8,6 @@ data class RepAdminRoleListVO(
         val resourceUid: Long,
         val resourcePattern: String,
         val resourceDescription: String,
-        val createdAt: LocalDateTime,
-        val updatedAt: LocalDateTime,
+        val createdUtcAt: LocalDateTime,
+        val updatedUtcAt: LocalDateTime,
 )

@@ -29,9 +29,9 @@ class AdminDAOImpl(
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                             name = row.get("name", String::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            createdAt = row.get("created_utc_at", LocalDateTime::class.java)
+                            createdUtcAt = row.get("created_utc_at", LocalDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            updatedAt = row.get("updated_utc_at", LocalDateTime::class.java)
+                            updatedUtcAt = row.get("updated_utc_at", LocalDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION)
                     )
                 }

@@ -7,6 +7,6 @@ data class RepAdminResourceListVO(
         val method: String,
         val pattern: String,
         val description: String,
-        val createdAt: LocalDateTime,
-        val updatedAt: LocalDateTime,
+        val createdUtcAt: LocalDateTime,
+        val updatedUtcAt: LocalDateTime,
 )

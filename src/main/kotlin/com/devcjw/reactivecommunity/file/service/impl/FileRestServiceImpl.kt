@@ -66,9 +66,7 @@ class FileRestServiceImpl(
                                     path = "/tmp",
                                     size = fileSize,
                                     name = filename,
-                                    md5 = md5Hex,
-                                    createdAt = now(),
-                                    updatedAt = now()
+                                    md5 = md5Hex
                                 )
                                 filePart.transferTo(File("/tmp/$filename"))
                                     .thenReturn(fileEntity)

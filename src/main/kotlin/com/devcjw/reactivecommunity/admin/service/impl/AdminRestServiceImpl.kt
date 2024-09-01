@@ -26,7 +26,7 @@ class AdminRestServiceImpl(
          */
         return adminDAO.selectLevelList()
             .map {
-                val repAdminLevelListVO = RepAdminLevelListVO(it.uid, it.name, it.createdAt, it.updatedAt)
+                val repAdminLevelListVO = RepAdminLevelListVO(it.uid, it.name, it.createdUtcAt, it.updatedUtcAt)
                 RestResponseVO(result = true, data = repAdminLevelListVO)
             }
     }

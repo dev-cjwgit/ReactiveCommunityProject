@@ -8,6 +8,6 @@ data class RepBoardDetailVO(
         val contents: String,
         val writerNickname: String,
         val hit: Int,
-        val createdAt: LocalDateTime,
-        val updatedAt: LocalDateTime,
+        val createdUtcAt: LocalDateTime,
+        val updatedUtcAt: LocalDateTime,
 )

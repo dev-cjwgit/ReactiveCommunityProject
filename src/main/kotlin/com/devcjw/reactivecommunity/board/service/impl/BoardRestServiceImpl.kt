@@ -68,8 +68,8 @@ class BoardRestServiceImpl(
                             contents = it.contents,
                             writerNickname = it.writerNickname,
                             hit = it.hit,
-                            createdAt = it.createdUtcAt,
-                            updatedAt = it.updatedUtcAt
+                            createdUtcAt = it.createdUtcAt,
+                            updatedUtcAt = it.updatedUtcAt
                     )
                 }
                 // 4

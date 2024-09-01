@@ -5,6 +5,6 @@ import java.time.LocalDateTime
 data class OutAdminLevelSelectVO(
         val uid: Long,
         val name: String,
-        val createdAt: LocalDateTime,
-        val updatedAt: LocalDateTime,
+        val createdUtcAt: LocalDateTime,
+        val updatedUtcAt: LocalDateTime,
 )
