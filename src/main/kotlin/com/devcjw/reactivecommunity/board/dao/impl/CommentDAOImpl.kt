@@ -11,7 +11,7 @@ import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 @Repository
 @RequiredArgsConstructor
@@ -83,9 +83,9 @@ class CommentDAOImpl(
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                             contents = row.get("contents", String::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            createdUtcAt = row.get("created_utc_at", LocalDateTime::class.java)
+                            createdUtcAt = row.get("created_utc_at", ZonedDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            updatedUtcAt = row.get("updated_utc_at", LocalDateTime::class.java)
+                            updatedUtcAt = row.get("updated_utc_at", ZonedDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
 
                             )

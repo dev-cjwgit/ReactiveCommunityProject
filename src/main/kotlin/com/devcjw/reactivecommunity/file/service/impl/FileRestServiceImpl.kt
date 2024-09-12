@@ -22,7 +22,7 @@ import java.io.File
 import java.nio.file.NoSuchFileException
 import java.nio.file.Paths
 import java.security.MessageDigest
-import java.time.LocalDateTime.now
+import java.time.ZonedDateTime.now
 import java.util.*
 
 @Service

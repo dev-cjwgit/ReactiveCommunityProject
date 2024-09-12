@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.admin.model.entity
 
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 data class OutAdminRoleSelectVO(
         val roleUid: Long,
@@ -9,6 +9,6 @@ data class OutAdminRoleSelectVO(
         val resourceMethod: String,
         val urlPattern: String,
         val resourceDescription: String,
-        val createdUtcAt: LocalDateTime,
-        val updatedUtcAt: LocalDateTime,
+        val createdUtcAt: ZonedDateTime,
+        val updatedUtcAt: ZonedDateTime,
 )

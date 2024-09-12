@@ -41,11 +41,12 @@ class BoardRestController(
     }
 
     // 2
-    @GetMapping("{board_uid}")
+    @GetMapping("/{bbs_path}/{board_uid}")
     @Operation(summary = "게시글 상세", description = "특정 게시글을 상세하게 불러오는 API")
     fun detail(
             @AuthenticationPrincipal rcUser: RcUserJwtClaims,
             @PathVariable("board_uid") uid: Long,
+            @PathVariable("bbs_path") bbsPath: String,
     ): Mono<RestResponseVO<RepBoardDetailVO>> {
         return boardRestService.detail(rcUser, uid)
     }

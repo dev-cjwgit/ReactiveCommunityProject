@@ -8,7 +8,7 @@ import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Flux
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 @Repository
 class BbsDAOImpl(
@@ -34,11 +34,11 @@ class BbsDAOImpl(
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                             path = row.get("path", String::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            title = row.get("title", String::class.java)
+                            name = row.get("name", String::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            createdUtcAt = row.get("created_utc_at", LocalDateTime::class.java)
+                            createdUtcAt = row.get("created_utc_at", ZonedDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            updatedUtcAt = row.get("updated_utc_at", LocalDateTime::class.java)
+                            updatedUtcAt = row.get("updated_utc_at", ZonedDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                     )
                 }

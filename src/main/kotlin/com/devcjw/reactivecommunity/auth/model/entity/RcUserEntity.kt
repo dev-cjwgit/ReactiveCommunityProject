@@ -5,7 +5,7 @@ import org.springframework.data.relational.core.mapping.Table
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 @Table("rc_user")
 data class RcUserEntity(
@@ -18,8 +18,8 @@ data class RcUserEntity(
         val name: String,
         val nickname: String,
         val joinedRegion: String,
-        val createdUtcAt: LocalDateTime,
-        val updatedUtcAt: LocalDateTime
+        val createdUtcAt: ZonedDateTime,
+        val updatedUtcAt: ZonedDateTime
 
 ) : UserDetails {
 

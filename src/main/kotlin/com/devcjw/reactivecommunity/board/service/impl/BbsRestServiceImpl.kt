@@ -18,7 +18,7 @@ class BbsRestServiceImpl(
     private val logger = KotlinLogging.logger {}
     override fun list(rcUser: RcUserJwtClaims): Flux<RestResponseVO<RepBbsListVO>> {
         return bbsDAO.list()
-            .map { RepBbsListVO(it.uid, it.path, it.title) }
+            .map { RepBbsListVO(it.uid, it.path, it.name) }
             .map { RestResponseVO(result = true, data = it) }
     }
 

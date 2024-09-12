@@ -1,11 +1,11 @@
 package com.devcjw.reactivecommunity.board.model.entity
 
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 data class OutBbsListVO(
         val uid: Long,
         val path: String,
-        val title: String,
-        val createdUtcAt: LocalDateTime,
-        val updatedUtcAt: LocalDateTime
+        val name: String,
+        val createdUtcAt: ZonedDateTime,
+        val updatedUtcAt: ZonedDateTime
 )

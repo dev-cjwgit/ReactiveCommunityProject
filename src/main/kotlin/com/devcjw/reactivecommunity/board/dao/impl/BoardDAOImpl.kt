@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 
 @Repository
@@ -149,9 +149,9 @@ class BoardDAOImpl(
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                             hit = row.get("hit", Int::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            createdUtcAt = row.get("created_utc_at", LocalDateTime::class.java)
+                            createdUtcAt = row.get("created_utc_at", ZonedDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            updatedUtcAt = row.get("updated_utc_at", LocalDateTime::class.java)
+                            updatedUtcAt = row.get("updated_utc_at", ZonedDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
 
                             )
@@ -193,9 +193,9 @@ class BoardDAOImpl(
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                             hit = row.get("hit", Int::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            createdUtcAt = row.get("created_utc_at", LocalDateTime::class.java)
+                            createdUtcAt = row.get("created_utc_at", ZonedDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
-                            updatedUtcAt = row.get("updated_utc_at", LocalDateTime::class.java)
+                            updatedUtcAt = row.get("updated_utc_at", ZonedDateTime::class.java)
                                     ?: throw RcException(RcErrorMessage.R2DBC_MAPPING_EXCEPTION),
                     )
                 }.one()

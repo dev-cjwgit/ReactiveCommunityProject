@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.board.model.domain
 
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 data class RepBoardDetailVO(
         val uid: Long,
@@ -8,6 +8,6 @@ data class RepBoardDetailVO(
         val contents: String,
         val writerNickname: String,
         val hit: Int,
-        val createdUtcAt: LocalDateTime,
-        val updatedUtcAt: LocalDateTime,
+        val createdUtcAt: ZonedDateTime,
+        val updatedUtcAt: ZonedDateTime,
 )

@@ -17,7 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
-import java.time.LocalDateTime
+import java.time.ZonedDateTime
 import java.util.*
 
 @Service
@@ -124,8 +124,8 @@ class AuthRestServiceImpl(
                                                         pw = passwordEncoder.encode(reqAuthSignupVO.password),
                                                         name = reqAuthSignupVO.name,
                                                         nickname = reqAuthSignupVO.nickname,
-                                                        createdUtcAt = LocalDateTime.now(),
-                                                        updatedUtcAt = LocalDateTime.now(),
+                                                        createdUtcAt = ZonedDateTime.now(),
+                                                        updatedUtcAt = ZonedDateTime.now(),
                                                         joinedRegion = "KOR",
 
                                                         )
