@@ -2,7 +2,7 @@ package com.devcjw.reactivecommunity.auth.dao.impl
 
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
 import com.devcjw.reactivecommunity.auth.model.entity.OutAuthLevelResourcesVO
-import com.devcjw.reactivecommunity.auth.model.entity.RcUserEntity
+import com.devcjw.reactivecommunity.common.model.entity.RcUserEntity
 import com.devcjw.reactivecommunity.common.exception.config.RcException
 import com.devcjw.reactivecommunity.common.exception.model.RcErrorMessage
 import io.github.oshai.kotlinlogging.KotlinLogging

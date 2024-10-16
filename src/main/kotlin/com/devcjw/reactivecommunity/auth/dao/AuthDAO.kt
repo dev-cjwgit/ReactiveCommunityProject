@@ -1,6 +1,6 @@
 package com.devcjw.reactivecommunity.auth.dao
 
-import com.devcjw.reactivecommunity.auth.model.entity.RcUserEntity
+import com.devcjw.reactivecommunity.common.model.entity.RcUserEntity
 import com.devcjw.reactivecommunity.auth.model.entity.OutAuthLevelResourcesVO
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono

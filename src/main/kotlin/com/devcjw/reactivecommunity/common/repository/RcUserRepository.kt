@@ -1,13 +1,13 @@
-package com.devcjw.reactivecommunity.auth.repository
+package com.devcjw.reactivecommunity.common.repository
 
-import com.devcjw.reactivecommunity.auth.model.entity.RcUserEntity
+import com.devcjw.reactivecommunity.common.model.entity.RcUserEntity
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.stereotype.Repository
 import reactor.core.publisher.Mono
 
 
 @Repository
-interface AuthRepository : ReactiveCrudRepository<RcUserEntity, Long> {
+interface RcUserRepository : ReactiveCrudRepository<RcUserEntity, Long> {
     fun findByEmail(email: String): Mono<RcUserEntity>
 
     fun findByNickname(nickname: String): Mono<RcUserEntity>

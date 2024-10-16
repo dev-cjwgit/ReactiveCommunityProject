@@ -3,8 +3,8 @@ package com.devcjw.reactivecommunity.auth.service.impl
 import com.devcjw.reactivecommunity.auth.dao.AuthDAO
 import com.devcjw.reactivecommunity.auth.manager.AuthManager
 import com.devcjw.reactivecommunity.auth.model.domain.*
-import com.devcjw.reactivecommunity.auth.model.entity.RcUserEntity
-import com.devcjw.reactivecommunity.auth.repository.AuthRepository
+import com.devcjw.reactivecommunity.common.model.entity.RcUserEntity
+import com.devcjw.reactivecommunity.common.repository.RcUserRepository
 import com.devcjw.reactivecommunity.auth.service.AuthRestService
 import com.devcjw.reactivecommunity.auth.service.JwtService
 import com.devcjw.reactivecommunity.common.exception.config.RcException
@@ -22,12 +22,12 @@ import java.util.*
 
 @Service
 class AuthRestServiceImpl(
-        private val authDAO: AuthDAO,
-        private val authRepository: AuthRepository,
-        private val jwtService: JwtService,
-        private val passwordEncoder: PasswordEncoder,
-        private val redisTemplate: ReactiveRedisTemplate<String, Any>,
-        private val authManager: AuthManager,
+    private val authDAO: AuthDAO,
+    private val rcUserRepository: RcUserRepository,
+    private val jwtService: JwtService,
+    private val passwordEncoder: PasswordEncoder,
+    private val redisTemplate: ReactiveRedisTemplate<String, Any>,
+    private val authManager: AuthManager,
 ) : AuthRestService {
     private val logger = KotlinLogging.logger {}
 
@@ -43,7 +43,7 @@ class AuthRestServiceImpl(
          */
 
         // 1
-        return authRepository.findByEmail(loginDTO.email)
+        return rcUserRepository.findByEmail(loginDTO.email)
                 .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_USER_EMAIL_EXCEPTION)))
                 // 2
                 .filter { userEntity ->
@@ -101,7 +101,7 @@ class AuthRestServiceImpl(
          * 2. 닉네임 중복 체크
          * 3. 데이터 추가
          */
-        return authRepository.findByEmail(reqAuthSignupVO.email)
+        return rcUserRepository.findByEmail(reqAuthSignupVO.email)
                 // 1
                 .flatMap {
                     logger.info { "exists email ${it.email}" }
@@ -109,7 +109,7 @@ class AuthRestServiceImpl(
                 }
                 .switchIfEmpty(
                         // 2
-                        authRepository.findByNickname(reqAuthSignupVO.nickname)
+                        rcUserRepository.findByNickname(reqAuthSignupVO.nickname)
                                 .flatMap {
                                     Mono.error<Boolean>(RcException(RcErrorMessage.ALREADY_USE_NICKNAME_EXCEPTION))
                                 }
@@ -178,7 +178,7 @@ class AuthRestServiceImpl(
          * 3. refresh 확인
          */
         // 1
-        return authRepository.findByEmail(reqAuthReissueVO.email)
+        return rcUserRepository.findByEmail(reqAuthReissueVO.email)
                 .switchIfEmpty(Mono.error(RcException(RcErrorMessage.NOT_FOUND_USER_EMAIL_EXCEPTION)))
                 .flatMap { userEntity ->
                     // 2
