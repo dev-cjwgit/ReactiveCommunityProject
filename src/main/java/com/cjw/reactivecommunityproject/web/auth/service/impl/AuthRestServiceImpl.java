@@ -31,7 +31,7 @@ public class AuthRestServiceImpl implements AuthRestService {
 
         var accessToken = jwtService.createAccessToken(SecurityAccessJwtVO.builder()
                 .userUid("qwer")
-                .roleUid(1L)
+                .roleUid(10L)
                 .build());
         var refreshToken = jwtService.createRefreshToken();
 

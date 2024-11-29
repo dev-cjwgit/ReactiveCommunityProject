@@ -3,5 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cjw.reactivecommunityproject.common.security.dao.SecurityDAO">
-    
+    <select id="selectResourceByRoleUid" resultType="SecurityResourceByRoleUidVO">
+        SELECT `uid`,
+               `method`,
+               `url_pattern`,
+               `description`,
+               `enabled`,
+               `created_user_uid`,
+               `created_utc_at`,
+               `updated_user_uid`,
+               `updated_utc_at`
+        FROM `rc_resource`
+        WHERE `uid` IN (SELECT `resource_uid`
+                        FROM rc_role_resource
+                        WHERE `role_uid` = #{role_uid, jdbcType=INTEGER})
+
+    </select>
 </mapper>

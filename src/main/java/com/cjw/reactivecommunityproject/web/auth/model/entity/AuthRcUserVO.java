@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.auth.model.entity;
 
-import com.cjw.reactivecommunityproject.common.model.entity.CommonEnabled;
+import com.cjw.reactivecommunityproject.common.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.model.entity.RcUserStateEnum;
 
 import java.time.ZonedDateTime;
@@ -15,7 +15,7 @@ public record AuthRcUserVO(
         String name,
         String nickname,
         String joinedRegion,
-        CommonEnabled enabled,
+        CommonEnabledEnum enabled,
         ZonedDateTime createdUtcAt,
         ZonedDateTime updatedUtcAt
 ) {

@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.common.model.entity;
 
-public enum CommonEnabled {
+public enum CommonEnabledEnum {
     Y,
     N
 }

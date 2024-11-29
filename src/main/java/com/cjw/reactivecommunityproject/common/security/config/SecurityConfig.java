@@ -1,5 +1,6 @@
 package com.cjw.reactivecommunityproject.common.security.config;
 
+import com.cjw.reactivecommunityproject.common.security.dao.SecurityDAO;
 import com.cjw.reactivecommunityproject.common.security.filter.JwtAuthenticationFilter;
 import com.cjw.reactivecommunityproject.common.security.filter.JwtAuthorizationFilter;
 import com.cjw.reactivecommunityproject.common.security.handler.JwtAuthenticationFailedHandler;
@@ -23,6 +24,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 public class SecurityConfig {
     private final JwtService jwtService;
     private final UserDetailsService userDetailsService;
+
+    private final SecurityDAO securityDAO;
+
     private final CorsConfigurationSource corsConfigurationSource;
 
     private static final String[] ALLOW_PATH_URL_LIST = {"/rest/auth/**"};
@@ -55,7 +59,7 @@ public class SecurityConfig {
                                 .requestMatchers(ALLOW_PATH_URL_LIST)
                                 .permitAll()
                                 .anyRequest()
-                                .access(new JwtAuthorizationFilter())
+                                .access(new JwtAuthorizationFilter(securityDAO))
                 )
 
                 .exceptionHandling(exceptionHandle ->
