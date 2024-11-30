@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjw.reactivecommunityproject.server.cache.dao.CacheDAO">
+    <select id="selectCommonRegionList" parameterType="CacheCommonRegionVO">
+        /* CacheDAO.selectCommonRegionList */
+        SELECT `region`,
+               `enabled`,
+               `updated_utc_at`
+        FROM rc_common_region
+    </select>
+
+    <select id="selectCommonEnvCodeList" parameterType="CacheCommonEnvCodeVO">
+        /* CacheDAO.selectCommonEnvCodeList */
+        SELECT `path`,
+               `code`,
+               `order`,
+               `value`,
+               `category`,
+               `updated_utc_at`
+        FROM rc_common_env_code
+    </select>
+
+    <select id="selectCommonLanguageCodeList" parameterType="CacheCommonLanguageCodeVO">
+        /* CacheDAO.selectCommonLanguageCodeList */
+        SELECT `path`,
+               `code`,
+               `value`,
+               `updated_utc_at`
+        FROM rc_common_language_code
+    </select>
+
+    <select id="selectManageResourceList" parameterType="CacheManageResourceVO">
+        /* CacheDAO.selectManageResourceList */
+        SELECT `uid`,
+               `method`,
+               `url_pattern`,
+               `enabled`,
+               `updated_utc_at`
+        FROM rc_manage_resource
+    </select>
+</mapper>

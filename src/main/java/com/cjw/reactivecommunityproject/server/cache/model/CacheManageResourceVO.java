@@ -1,19 +1,15 @@
-package com.cjw.reactivecommunityproject.common.security.model.entity;
+package com.cjw.reactivecommunityproject.server.cache.model;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageResourceMethodEnum;
 
 import java.time.ZonedDateTime;
 
-public record SecurityResourceByRoleUidVO(
+public record CacheManageResourceVO(
         Long uid,
         RcManageResourceMethodEnum method,
         String urlPattern,
-        String description,
         CommonEnabledEnum enabled,
-        String createdUserUid,
-        ZonedDateTime createdUtcAt,
-        String updatedUserUid,
         ZonedDateTime updatedUtcAt
 ) {
 }

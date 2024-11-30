@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.common.spring.model.entity;
 
-public enum RcResourceMethodEnum {
+public enum RcManageResourceMethodEnum {
     POST,
     GET,
     PATCH,

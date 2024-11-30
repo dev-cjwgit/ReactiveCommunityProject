@@ -40,6 +40,8 @@ ext {
     mybatisVersion = '3.0.4'
     // OpenAPI
     openApiVersion = '2.7.0'
+    // Jackson
+    jsr310Version = '2.18.2'
 }
 
 dependencies {
@@ -53,6 +55,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-cache"
     implementation "org.springframework.boot:spring-boot-starter-data-jdbc"
     implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
@@ -77,6 +80,8 @@ dependencies {
     implementation "org.apache.commons:commons-collections4:${apacheCollectionUtilsVersion}"
     implementation "org.apache.commons:commons-lang3:${apacheLangUtilsVersion}"
     implementation "org.apache.commons:commons-compress:${apacheCompressUtilsVersion}"
+    implementation "org.apache.commons:commons-text:${apacheTextUtilsVersion}"
+
 
     // Open API
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}"
@@ -84,8 +89,9 @@ dependencies {
     // MariaDB Driver
     implementation "org.mariadb.jdbc:mariadb-java-client"
 
-    // Text
-    implementation "org.apache.commons:commons-text:${apacheTextUtilsVersion}"
+    // jackson
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jsr310Version}"
+
 }
 
 tasks.named("test") {

@@ -5,6 +5,7 @@ import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.server.auth.model.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.server.auth.service.AuthService;
+import com.cjw.reactivecommunityproject.server.cache.service.RedisCacheDataService;
 import com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDAO;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestException;
@@ -31,8 +32,10 @@ public class AuthRestServiceImpl implements AuthRestService {
 
     private final JwtService jwtService;
     private final AuthService authService;
+    private final RedisCacheDataService redisCacheDataService;
 
     private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public RestResponseVO<Void> register(AuthRestRegisterVO authRestRegisterVO) {
@@ -81,7 +84,7 @@ public class AuthRestServiceImpl implements AuthRestService {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
         }
 
-        if (!passwordEncoder.matches(rcUserEntity.pw(), authRestLoginVO.pw())) {
+        if (!passwordEncoder.matches(authRestLoginVO.pw(), rcUserEntity.pw())) {
             throw new AuthRestException(AuthRestErrorMessage.INVALID_USER_PASSWORD);
         }
 
