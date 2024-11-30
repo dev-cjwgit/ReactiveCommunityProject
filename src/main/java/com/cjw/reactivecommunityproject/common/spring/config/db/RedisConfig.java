@@ -50,7 +50,8 @@ public class RedisConfig {
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer(objectMapper)))
-                .entryTtl(Duration.ofMinutes(5L)); // 캐시 수명 30분
+                // TODO: 프로퍼티 변경
+                .entryTtl(Duration.ofMinutes(1L));
 
         return RedisCacheManager.RedisCacheManagerBuilder
                 .fromConnectionFactory(cf)

@@ -75,7 +75,10 @@ public class AuthRestServiceImpl implements AuthRestService {
     @Override
     public RestResponseVO<AuthRestJwtTokenVO> login(AuthRestLoginVO authRestLoginVO) {
         var rcUserEntity = authRestDAO.selectRcUser(authRestLoginVO.email());
-
+        var list1 = redisCacheDataService.getCacheCommonRegionList();
+        var list2 = redisCacheDataService.getCacheCommonEnvCodeList();
+        var list3 = redisCacheDataService.getCacheCommonLanguageCodeList();
+        var list4 = redisCacheDataService.getCacheManageResourceList();
         if (rcUserEntity == null) {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
         }

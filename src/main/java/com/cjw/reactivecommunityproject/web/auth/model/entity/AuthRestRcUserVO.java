@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.auth.model.entity;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
-import com.cjw.reactivecommunityproject.common.spring.model.entity.RcUserStateEnum;
+import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageUserStateEnum;
 
 import java.time.ZonedDateTime;
 
@@ -10,7 +10,7 @@ public record AuthRestRcUserVO(
         Integer roleUid,
         String email,
         String pw,
-        RcUserStateEnum state,
+        RcManageUserStateEnum state,
         String acceptUserUid,
         String name,
         String nickname,

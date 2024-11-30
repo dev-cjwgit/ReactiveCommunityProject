@@ -6,9 +6,38 @@
     <select id="selectCommonRegionList" parameterType="CacheCommonRegionVO">
         /* CacheDAO.selectCommonRegionList */
         SELECT `region`,
-               `description`,
                `enabled`,
                `updated_utc_at`
         FROM rc_common_region
+    </select>
+
+    <select id="selectCommonEnvCodeList" parameterType="CacheCommonEnvCodeVO">
+        /* CacheDAO.selectCommonEnvCodeList */
+        SELECT `path`,
+               `code`,
+               `order`,
+               `value`,
+               `category`,
+               `updated_utc_at`
+        FROM rc_common_env_code
+    </select>
+
+    <select id="selectCommonLanguageCodeList" parameterType="CacheCommonLanguageCodeVO">
+        /* CacheDAO.selectCommonLanguageCodeList */
+        SELECT `path`,
+               `code`,
+               `value`,
+               `updated_utc_at`
+        FROM rc_common_language_code
+    </select>
+
+    <select id="selectManageResourceList" parameterType="CacheManageResourceVO">
+        /* CacheDAO.selectManageResourceList */
+        SELECT `uid`,
+               `method`,
+               `url_pattern`,
+               `enabled`,
+               `updated_utc_at`
+        FROM rc_manage_resource
     </select>
 </mapper>
