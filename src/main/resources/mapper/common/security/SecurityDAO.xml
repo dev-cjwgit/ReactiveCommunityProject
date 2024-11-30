@@ -13,9 +13,9 @@
                `created_utc_at`,
                `updated_user_uid`,
                `updated_utc_at`
-        FROM `rc_resource`
+        FROM `rc_manage_resource`
         WHERE `uid` IN (SELECT `resource_uid`
-                        FROM rc_role_resource
+                        FROM rc_manage_role_resource
                         WHERE `role_uid` = #{role_uid, jdbcType=INTEGER})
 
     </select>
