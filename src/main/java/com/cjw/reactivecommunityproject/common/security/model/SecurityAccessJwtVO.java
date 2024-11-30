@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 public record SecurityAccessJwtVO(
         String userUid,
-        Long roleUid
+        Integer roleUid
 ) implements Authentication, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

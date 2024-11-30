@@ -69,7 +69,7 @@ public class JwtServiceImpl implements JwtService {
                             claims.getPayload().getSubject()
                     )
                     .roleUid(
-                            claims.getPayload().get("role", Long.class)
+                            claims.getPayload().get("role", Integer.class)
                     )
                     .build(); // 토큰이 유효함
         } catch (SignatureException e) {

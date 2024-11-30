@@ -14,6 +14,7 @@ import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtToken
 import com.cjw.reactivecommunityproject.web.auth.service.AuthRestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -76,9 +77,28 @@ public class AuthRestServiceImpl implements AuthRestService {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
         }
 
+        if (StringUtils.equalsIgnoreCase(rcUserEntity.enabled().name(), "N")) {
+            throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
+        }
+
+        if (!passwordEncoder.matches(rcUserEntity.pw(), authRestLoginVO.pw())) {
+            throw new AuthRestException(AuthRestErrorMessage.INVALID_USER_PASSWORD);
+        }
+
+        switch (rcUserEntity.state().name().toUpperCase()) {
+            case "LISTEN":
+                throw new AuthRestException(AuthRestErrorMessage.LISTEN_JOINED_USER);
+            case "REFUSE":
+                throw new AuthRestException(AuthRestErrorMessage.REFUSE_JOINED_STATE);
+            case "BEN":
+                throw new AuthRestException(AuthRestErrorMessage.BEN_JOINED_STATE);
+            case "WITHDRAW":
+                throw new AuthRestException(AuthRestErrorMessage.WITHDRAW_JOINED_STATE);
+        }
+
         var accessToken = jwtService.createAccessToken(SecurityAccessJwtVO.builder()
-                .userUid("qwer")
-                .roleUid(10L)
+                .userUid(rcUserEntity.uid())
+                .roleUid(rcUserEntity.roleUid())
                 .build());
         var refreshToken = jwtService.createRefreshToken();
 
