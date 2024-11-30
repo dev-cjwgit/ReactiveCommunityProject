@@ -16,19 +16,19 @@
                `enabled`,
                `created_utc_at`,
                `updated_utc_at`
-        FROM `rc_user`
+        FROM `rc_manage_user`
         WHERE `email` = #{email, jdbcType=VARCHAR}
     </select>
 
     <select id="isExistUserByEmail" resultType="Boolean">
         SELECT COUNT(*) > 0
-        FROM `rc_user`
+        FROM `rc_manage_user`
         WHERE `email` = #{email, jdbcType=VARCHAR}
     </select>
 
     <select id="isExistUserByNickname" resultType="Boolean">
         SELECT COUNT(*) > 0
-        FROM `rc_user`
+        FROM `rc_manage_user`
         WHERE `nickname` = #{nickname, jdbcType=VARCHAR}
     </select>
 </mapper>
