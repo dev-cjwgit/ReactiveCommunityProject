@@ -81,7 +81,7 @@ public class AuthRestServiceImpl implements AuthRestService {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
         }
 
-        if (!passwordEncoder.matches(rcUserEntity.pw(), authRestLoginVO.pw())) {
+        if (!passwordEncoder.matches(authRestLoginVO.pw(), rcUserEntity.pw())) {
             throw new AuthRestException(AuthRestErrorMessage.INVALID_USER_PASSWORD);
         }
 
