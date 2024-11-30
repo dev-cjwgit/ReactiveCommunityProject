@@ -7,6 +7,7 @@ import com.cjw.reactivecommunityproject.web.auth.dao.AuthDAO;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthException;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthLoginVO;
+import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.web.auth.model.response.AuthJwtTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.service.AuthRestService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,12 @@ public class AuthRestServiceImpl implements AuthRestService {
     private final AuthDAO authDAO;
 
     private final JwtService jwtService;
+
+
+    @Override
+    public RestResponseVO<Void> register(AuthRegisterVO authRegisterVO) {
+        return null;
+    }
 
     @Override
     public RestResponseVO<AuthJwtTokenVO> login(AuthLoginVO authLoginVO) {
