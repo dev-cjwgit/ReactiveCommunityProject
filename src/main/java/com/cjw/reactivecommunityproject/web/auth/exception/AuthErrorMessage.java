@@ -4,7 +4,11 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import org.springframework.http.HttpStatus;
 
 public enum AuthErrorMessage implements RcBaseErrorMessage {
-    NOT_FOUNT_RC_USER(null, "not found user info", HttpStatus.NOT_FOUND);
+    NOT_FOUND_EMAIL(null, "가입되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST),
+    EXIST_ADDED_EMAIL(null, "이미 등록된 이메일입니다.", HttpStatus.BAD_REQUEST),
+    EXIST_ADDED_NICKNAME(null, "이미 등록된 별명입니다.", HttpStatus.BAD_REQUEST),
+
+    DUMMY(null, null, null);
 
     private final Long errorCode;
     private final String errorMessage;

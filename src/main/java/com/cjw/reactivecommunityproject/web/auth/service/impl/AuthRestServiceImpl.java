@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.auth.service.impl;
 
-import com.cjw.reactivecommunityproject.common.model.response.RestResponseVO;
+import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtVO;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.web.auth.dao.AuthDAO;
@@ -25,6 +25,15 @@ public class AuthRestServiceImpl implements AuthRestService {
 
     @Override
     public RestResponseVO<Void> register(AuthRegisterVO authRegisterVO) {
+        if (authDAO.isExistUserByEmail(authRegisterVO.email())) {
+            throw new AuthException(AuthErrorMessage.EXIST_ADDED_EMAIL);
+        }
+
+        if (authDAO.isExistUserByNickname(authRegisterVO.nickname())) {
+            throw new AuthException(AuthErrorMessage.EXIST_ADDED_NICKNAME);
+        }
+
+
         return null;
     }
 
@@ -33,7 +42,7 @@ public class AuthRestServiceImpl implements AuthRestService {
         var rcUserEntity = authDAO.selectRcUser(authLoginVO.email());
 
         if (rcUserEntity == null) {
-            throw new AuthException(AuthErrorMessage.NOT_FOUNT_RC_USER);
+            throw new AuthException(AuthErrorMessage.NOT_FOUND_EMAIL);
         }
 
         var accessToken = jwtService.createAccessToken(SecurityAccessJwtVO.builder()

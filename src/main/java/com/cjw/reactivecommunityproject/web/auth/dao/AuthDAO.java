@@ -7,4 +7,8 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface AuthDAO {
     AuthRcUserVO selectRcUser(@Param("email") String email);
+
+    Boolean isExistUserByEmail(@Param("email") String email);
+
+    Boolean isExistUserByNickname(@Param("nickname") String nickname);
 }

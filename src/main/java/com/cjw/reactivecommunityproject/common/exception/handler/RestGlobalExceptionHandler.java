@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.common.exception.handler;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
-import com.cjw.reactivecommunityproject.common.model.response.RestResponseVO;
+import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;

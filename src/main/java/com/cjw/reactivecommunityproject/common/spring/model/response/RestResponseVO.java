@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.model.response;
+package com.cjw.reactivecommunityproject.common.spring.model.response;
 
 import lombok.Builder;
 

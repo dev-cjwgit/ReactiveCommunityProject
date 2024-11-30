@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.auth.model.entity;
 
-import com.cjw.reactivecommunityproject.common.model.entity.CommonEnabledEnum;
-import com.cjw.reactivecommunityproject.common.model.entity.RcUserStateEnum;
+import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
+import com.cjw.reactivecommunityproject.common.spring.model.entity.RcUserStateEnum;
 
 import java.time.ZonedDateTime;
 

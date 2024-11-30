@@ -19,4 +19,16 @@
         FROM `rc_user`
         WHERE `email` = #{email, jdbcType=VARCHAR}
     </select>
+
+    <select id="isExistUserByEmail" resultType="Boolean">
+        SELECT COUNT(*) > 0
+        FROM `rc_user`
+        WHERE `email` = #{email, jdbcType=VARCHAR}
+    </select>
+
+    <select id="isExistUserByNickname" resultType="Boolean">
+        SELECT COUNT(*) > 0
+        FROM `rc_user`
+        WHERE `nickname` = #{nickname, jdbcType=VARCHAR}
+    </select>
 </mapper>

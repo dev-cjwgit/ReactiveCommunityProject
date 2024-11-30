@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.model.entity;
+package com.cjw.reactivecommunityproject.common.spring.model.entity;
 
 public enum RcResourceMethodEnum {
     POST,

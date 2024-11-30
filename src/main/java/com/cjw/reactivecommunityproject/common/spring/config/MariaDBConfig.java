@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.config;
+package com.cjw.reactivecommunityproject.common.spring.config;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;

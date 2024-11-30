@@ -23,7 +23,7 @@ public record AuthRegisterVO(
         @Pattern(groups = {AuthValidationGroup.register.class},
                 regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]*$",
                 message = "비밀번호는 공백을 포함할 수 없으며 특수문자, 알파벳, 숫자 조합이 필요합니다."
-        )  // 특수문자, 소문자, 대문자, 숫자 중 최소 3개 이상의 조합
+        )
         String pw,
 
         @NotBlank(groups = {AuthValidationGroup.register.class}, message = "이름은 공백일 수 없습니다.")
@@ -33,11 +33,19 @@ public record AuthRegisterVO(
         )
         @Pattern(groups = {AuthValidationGroup.register.class},
                 regexp = "^[\\p{L}\\s]*$",
-                message = "이름은 특수문자가 들어갈 수 없습니다"
+                message = "이름은 특수문자가 들어갈 수 없습니다."
         )
         String name,
 
-        @NotBlank(groups = {AuthValidationGroup.register.class})
+        @NotBlank(groups = {AuthValidationGroup.register.class}, message = "별명은 공백일 수 없습니다.")
+        @Size(groups = {AuthValidationGroup.register.class},
+                min = 4, max = 20,
+                message = "별명은 최소 4글자 이상 20글자 이하 여야합니다."
+        )
+        @Pattern(groups = {AuthValidationGroup.register.class},
+                regexp = "^[\\p{L}\\s]*$",
+                message = "별명은 특수문자가 들어갈 수 없습니다."
+        )
         String nickname
 ) {
 }

@@ -20,7 +20,7 @@ public record AuthLoginVO(
         @Pattern(groups = {AuthValidationGroup.login.class},
                 regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]*$",
                 message = "비밀번호는 공백을 포함할 수 없으며 특수문자, 알파벳, 숫자 조합이 필요합니다."
-        )  // 특수문자, 소문자, 대문자, 숫자 중 최소 3개 이상의 조합
+        )
         String pw
 ) {
 }
