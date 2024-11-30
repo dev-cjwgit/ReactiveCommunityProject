@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.spring.config;
+package com.cjw.reactivecommunityproject.common.spring.config.db;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -22,8 +22,6 @@ import javax.sql.DataSource;
 @Configuration
 @RequiredArgsConstructor
 public class MariaDBConfig {
-    private final ApplicationContext applicationContext;
-
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.hikari")
     public HikariConfig hikariConfig() {
@@ -31,7 +29,7 @@ public class MariaDBConfig {
     }
 
     @Bean(name = "dataSource")
-    public HikariDataSource hikariDataSource(@Autowired HikariConfig hikariConfig) throws Exception {
+    public HikariDataSource hikariDataSource(@Autowired HikariConfig hikariConfig) {
         return new HikariDataSource(hikariConfig);
     }
 
