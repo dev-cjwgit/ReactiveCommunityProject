@@ -1,13 +1,13 @@
 package com.cjw.reactivecommunityproject.web.auth.service;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.web.auth.model.request.AuthLoginVO;
-import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRegisterVO;
-import com.cjw.reactivecommunityproject.web.auth.model.response.AuthJwtTokenVO;
+import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestLoginVO;
+import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestRegisterVO;
+import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtTokenVO;
 
 public interface AuthRestService {
-    RestResponseVO<Void> register(AuthRegisterVO authRegisterVO);
+    RestResponseVO<Void> register(AuthRestRegisterVO authRestRegisterVO);
 
-    RestResponseVO<AuthJwtTokenVO> login(AuthLoginVO authLoginVO);
+    RestResponseVO<AuthRestJwtTokenVO> login(AuthRestLoginVO authRestLoginVO);
 
 }

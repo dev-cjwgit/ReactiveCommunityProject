@@ -5,7 +5,7 @@ import com.cjw.reactivecommunityproject.common.spring.model.entity.RcUserStateEn
 
 import java.time.ZonedDateTime;
 
-public record AuthRcUserVO(
+public record AuthRestRcUserVO(
         String uid,
         Integer roleUid,
         String email,

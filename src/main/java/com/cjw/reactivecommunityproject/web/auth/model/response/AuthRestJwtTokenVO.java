@@ -3,7 +3,7 @@ package com.cjw.reactivecommunityproject.web.auth.model.response;
 import lombok.Builder;
 
 @Builder
-public record AuthJwtTokenVO(
+public record AuthRestJwtTokenVO(
         String accessToken,
         String refreshToken
 ) {

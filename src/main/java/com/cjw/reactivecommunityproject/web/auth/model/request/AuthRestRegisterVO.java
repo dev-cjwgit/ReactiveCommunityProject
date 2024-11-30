@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record AuthRegisterVO(
+public record AuthRestRegisterVO(
         @NotBlank(groups = {AuthValidationGroup.register.class}, message = "이메일은 공백일 수 없습니다.")
         @Email(groups = {AuthValidationGroup.register.class}, message = "이메일 형태가 아닙니다.")
         @Size(groups = {AuthValidationGroup.register.class},
@@ -39,8 +39,8 @@ public record AuthRegisterVO(
 
         @NotBlank(groups = {AuthValidationGroup.register.class}, message = "별명은 공백일 수 없습니다.")
         @Size(groups = {AuthValidationGroup.register.class},
-                min = 4, max = 20,
-                message = "별명은 최소 4글자 이상 20글자 이하 여야합니다."
+                min = 3, max = 20,
+                message = "별명은 최소 3글자 이상 20글자 이하 여야합니다."
         )
         @Pattern(groups = {AuthValidationGroup.register.class},
                 regexp = "^[\\p{L}\\s]*$",
