@@ -1,6 +1,7 @@
 package com.cjw.reactivecommunityproject.common.exception.handler;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
+import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -55,7 +56,8 @@ public class RestGlobalExceptionHandler {
         return new ResponseEntity<>(
                 RestResponseVO.<Void>builder()
                         .result(false)
-                        .message("unknown exception")
+                        .code(RcCommonErrorMessage.UNKNOWN_EXCEPTION.getErrorCode())
+                        .message(RcCommonErrorMessage.UNKNOWN_EXCEPTION.getErrorMessage())
                         .build()
                 , HttpStatus.INTERNAL_SERVER_ERROR
         );
