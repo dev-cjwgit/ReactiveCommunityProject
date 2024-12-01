@@ -6,8 +6,17 @@ import java.util.List;
 
 public interface CacheDataService {
     List<CacheDataCommonRegionVO> getCacheCommonRegionList();
+    void clearCacheCommonRegionList();
+
     List<CacheDataCommonEnvCodeVO> getCacheCommonEnvCodeList();
+    void clearCacheCommonEnvCodeList();
+
     List<CacheDataCommonLanguageCodeVO> getCacheCommonLanguageCodeList();
+    void clearCacheCommonLanguageCodeList();
+
     List<CacheDataCommonLanguageGbCodeVO> getCacheCommonLanguageGbCodeList(String lang);
+    void clearCacheCommonLanguageGbCodeList();
+
     List<CacheDataManageResourceVO> getCacheManageResourceList();
+    void clearCacheManageResourceList();
 }

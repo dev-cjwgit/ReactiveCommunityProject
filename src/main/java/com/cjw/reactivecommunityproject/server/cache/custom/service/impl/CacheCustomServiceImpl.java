@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,12 @@ public class CacheCustomServiceImpl implements CacheCustomService {
     }
 
     @Override
+    @CacheEvict(value = "rc_common_env_code", allEntries = true, cacheManager = "redisCacheManager")
+    public void clearCommonCustomEnvCode() {
+        log.info("CacheCustomServiceImpl.clearCommonCustomEnvCode()");
+    }
+
+    @Override
     @Cacheable(value = "rc_common_env_code", key = "'category=' + #category", cacheManager = "redisCacheManager")
     public List<CacheCustomEnvCodeVO> getCommonCustomEnvCodeByCategoryList(String category) {
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
@@ -56,6 +63,12 @@ public class CacheCustomServiceImpl implements CacheCustomService {
                         .build())
                 .sorted(Comparator.comparing(CacheCustomEnvCodeVO::getOrder, Comparator.nullsLast(Comparator.naturalOrder())))
                 .toList();
+    }
+
+    @Override
+    @CacheEvict(value = "rc_common_env_code", allEntries = true, cacheManager = "redisCacheManager")
+    public void clearCommonCustomEnvCodeByCategoryList() {
+        log.info("CacheCustomServiceImpl.clearCommonCustomEnvCodeByCategoryList()");
     }
 
     @Override
@@ -81,5 +94,11 @@ public class CacheCustomServiceImpl implements CacheCustomService {
                             .build();
                 })
                 .toList();
+    }
+
+    @Override
+    @CacheEvict(value = "custom_common_language", allEntries = true, cacheManager = "redisCacheManager")
+    public void clearCommonCustomLanguageList() {
+        log.info("CacheCustomServiceImpl.clearCommonCustomLanguageList()");
     }
 }
