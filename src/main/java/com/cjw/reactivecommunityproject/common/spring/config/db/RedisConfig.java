@@ -4,7 +4,7 @@ import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProper
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,19 +24,14 @@ import java.time.Duration;
 @EnableRedisRepositories
 @RequiredArgsConstructor
 public class RedisConfig {
+    private final RedisProperties redisProperties;
     private final RcProperties rcProperties;
     private final ObjectMapper objectMapper;
 
-    // TODO: Properties 변경
-    @Value("${spring.data.redis.host}")
-    private String host;
-
-    @Value("${spring.data.redis.port}")
-    private Integer port;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
+        return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
     }
 
     private ObjectMapper getObjectMapper() {
