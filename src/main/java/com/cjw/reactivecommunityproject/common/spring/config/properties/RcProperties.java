@@ -12,7 +12,8 @@ public record RcProperties(
         CacheProperties cache
 ) implements Serializable {
     public record ConfigProperties(
-            String defaultRegion
+            String defaultRegion,
+            String defaultLanguage
     ) implements Serializable {
     }
 
