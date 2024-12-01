@@ -16,16 +16,16 @@ public enum AuthRestErrorMessage implements RcBaseErrorMessage {
 
     DUMMY(null, null, null);
 
-    private final Long errorCode;
+    private final Integer errorCode;
     private final String errorMessage;
     private final HttpStatus httpStatus;
     private final Boolean isDisplay;
 
-    AuthRestErrorMessage(Long errorCode, String errorMessage, HttpStatus httpStatus) {
+    AuthRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
         this(errorCode, errorMessage, httpStatus, true);
     }
 
-    AuthRestErrorMessage(Long errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
+    AuthRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
         this.httpStatus = httpStatus;
@@ -33,7 +33,7 @@ public enum AuthRestErrorMessage implements RcBaseErrorMessage {
     }
 
     @Override
-    public Long getErrorCode() {
+    public Integer getErrorCode() {
         return errorCode;
     }
 

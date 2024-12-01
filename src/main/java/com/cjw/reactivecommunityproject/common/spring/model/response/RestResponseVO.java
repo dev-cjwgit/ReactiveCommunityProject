@@ -5,7 +5,7 @@ import lombok.Builder;
 @Builder
 public record RestResponseVO<T>(
         Boolean result,
-        Long code,
+        Integer code,
         String message,
         T data
 ) {

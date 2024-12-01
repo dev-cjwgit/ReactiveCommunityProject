@@ -14,7 +14,7 @@ public class AuthRestException extends RcBaseException {
     }
 
     @Override
-    public Long getErrorCode() {
+    public Integer getErrorCode() {
         return super.errorCode;
     }
 
