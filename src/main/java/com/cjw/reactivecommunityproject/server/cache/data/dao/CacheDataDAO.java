@@ -1,10 +1,8 @@
 package com.cjw.reactivecommunityproject.server.cache.data.dao;
 
-import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataCommonEnvCodeVO;
-import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataCommonLanguageCodeVO;
-import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataCommonRegionVO;
-import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataManageResourceVO;
+import com.cjw.reactivecommunityproject.server.cache.data.model.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -15,6 +13,8 @@ public interface CacheDataDAO {
     List<CacheDataCommonEnvCodeVO> selectCommonEnvCodeList();
 
     List<CacheDataCommonLanguageCodeVO> selectCommonLanguageCodeList();
+
+    List<CacheDataCommonLanguageGbCodeVO> selectCommonLanguageGbCodeList(@Param("lang") String lang);
 
     List<CacheDataManageResourceVO> selectManageResourceList();
 

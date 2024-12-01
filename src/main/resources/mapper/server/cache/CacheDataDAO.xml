@@ -31,6 +31,17 @@
         FROM rc_common_language_code
     </select>
 
+    <select id="selectCommonLanguageGbCodeList" parameterType="CacheDataCommonLanguageGbCodeVO">
+        /* CacheDAO.selectCommonLanguageGbCodeList */
+        SELECT `path`,
+               `code`,
+               `lang`,
+               `value`,
+               `updated_utc_at`
+        FROM rc_common_language_gb_code
+        WHERE `lang` = #{lang, jdbcType=VARCHAR}
+    </select>
+
     <select id="selectManageResourceList" parameterType="CacheDataManageResourceVO">
         /* CacheDAO.selectManageResourceList */
         SELECT `uid`,
