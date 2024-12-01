@@ -18,7 +18,6 @@ public class RestGlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RestResponseVO<Void>> methodArgsNotValidExceptionHandle(MethodArgumentNotValidException notValidException) {
         var bindingResult = notValidException.getBindingResult();
-        var argsObject = bindingResult.getObjectName();
 
         var errorMessageList = CollectionUtils.emptyIfNull(bindingResult.getAllErrors())
                 .stream()
@@ -38,11 +37,13 @@ public class RestGlobalExceptionHandler {
     @ExceptionHandler(RcBaseException.class)
     public ResponseEntity<RestResponseVO<Void>> rcExceptionHandle(RcBaseException baseException) {
         log.warn("RestGlobalExceptionHandler.rcExceptionHandle() : {}", baseException.getErrorMessage());
+        var errorCode = baseException.getErrorCode();
+        var message = baseException.isDisplay() ? baseException.getErrorMessage() : "관리자에게 문의하세요.";
         return new ResponseEntity<>(
                 RestResponseVO.<Void>builder()
                         .result(false)
-                        .code(baseException.getErrorCode())
-                        .message(baseException.getErrorMessage())
+                        .code(errorCode)
+                        .message(message)
                         .build()
                 , baseException.getHttpStatus()
         );

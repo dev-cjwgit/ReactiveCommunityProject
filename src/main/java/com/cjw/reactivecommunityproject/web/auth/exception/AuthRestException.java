@@ -10,6 +10,7 @@ public class AuthRestException extends RcBaseException {
         this.errorCode = rcBaseErrorMessage.getErrorCode();
         this.errorMessage = rcBaseErrorMessage.getErrorMessage();
         this.httpStatus = rcBaseErrorMessage.getHttpStatus();
+        this.isDisplay = rcBaseErrorMessage.isDisplay();
     }
 
     @Override
@@ -25,5 +26,10 @@ public class AuthRestException extends RcBaseException {
     @Override
     public HttpStatus getHttpStatus() {
         return super.httpStatus;
+    }
+
+    @Override
+    public Boolean isDisplay() {
+        return super.isDisplay ;
     }
 }

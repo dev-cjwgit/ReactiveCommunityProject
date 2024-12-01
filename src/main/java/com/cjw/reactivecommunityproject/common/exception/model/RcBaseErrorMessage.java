@@ -6,4 +6,5 @@ public interface RcBaseErrorMessage {
     Long getErrorCode();
     String getErrorMessage();
     HttpStatus getHttpStatus();
+    Boolean isDisplay();
 }

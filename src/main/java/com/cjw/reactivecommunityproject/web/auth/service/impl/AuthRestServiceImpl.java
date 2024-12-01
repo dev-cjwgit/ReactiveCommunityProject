@@ -1,5 +1,6 @@
 package com.cjw.reactivecommunityproject.web.auth.service.impl;
 
+import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtVO;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
@@ -18,6 +19,7 @@ import com.cjw.reactivecommunityproject.web.auth.service.AuthRestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -40,6 +42,17 @@ public class AuthRestServiceImpl implements AuthRestService {
     private final RcProperties rcProperties;
     private final PasswordEncoder passwordEncoder;
 
+    private Integer getRoleUidByCommonEnvCode() {
+        var envcode = cacheCustomService.getCommonCustomEnvCode("web.auth.service", "default.register.role.uid");
+        if (envcode == null) {
+            throw new AuthRestException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
+        }
+        if(!NumberUtils.isDigits(envcode.getValue())){
+            throw new AuthRestException(RcCommonErrorMessage.INVALID_ENV_CODE);
+        }
+
+        return NumberUtils.toInt(envcode.getValue());
+    }
 
     @Override
     public RestResponseVO<Void> register(AuthRestRegisterVO authRestRegisterVO) {
@@ -61,8 +74,7 @@ public class AuthRestServiceImpl implements AuthRestService {
 
         authService.register(AuthRegisterVO.builder()
                 .uid(uid)
-                // TODO: 환경코드 반영
-                .roleUid(10)
+                .roleUid(getRoleUidByCommonEnvCode())
                 .email(authRestRegisterVO.email())
                 .pw(password)
                 .name(authRestRegisterVO.name())
@@ -78,7 +90,7 @@ public class AuthRestServiceImpl implements AuthRestService {
     @Override
     public RestResponseVO<AuthRestJwtTokenVO> login(AuthRestLoginVO authRestLoginVO) {
         var rcUserEntity = authRestDAO.selectRcUser(authRestLoginVO.email());
-        var obj = cacheCustomService.getCommonCustomEnvCode("web.auth.service", "default.register.role.uid");
+
         if (rcUserEntity == null) {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
         }

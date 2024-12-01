@@ -4,6 +4,7 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import org.springframework.http.HttpStatus;
 
 public enum AuthRestErrorMessage implements RcBaseErrorMessage {
+
     NOT_FOUND_EMAIL(null, "가입되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST),
     EXIST_ADDED_EMAIL(null, "이미 등록된 이메일입니다.", HttpStatus.BAD_REQUEST),
     EXIST_ADDED_NICKNAME(null, "이미 등록된 별명입니다.", HttpStatus.BAD_REQUEST),
@@ -18,11 +19,17 @@ public enum AuthRestErrorMessage implements RcBaseErrorMessage {
     private final Long errorCode;
     private final String errorMessage;
     private final HttpStatus httpStatus;
+    private final Boolean isDisplay;
 
     AuthRestErrorMessage(Long errorCode, String errorMessage, HttpStatus httpStatus) {
+        this(errorCode, errorMessage, httpStatus, true);
+    }
+
+    AuthRestErrorMessage(Long errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
         this.httpStatus = httpStatus;
+        this.isDisplay = isDisplay;
     }
 
     @Override
@@ -38,5 +45,10 @@ public enum AuthRestErrorMessage implements RcBaseErrorMessage {
     @Override
     public HttpStatus getHttpStatus() {
         return httpStatus;
+    }
+
+    @Override
+    public Boolean isDisplay() {
+        return isDisplay;
     }
 }

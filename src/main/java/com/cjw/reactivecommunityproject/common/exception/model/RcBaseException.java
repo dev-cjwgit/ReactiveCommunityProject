@@ -7,4 +7,5 @@ public abstract class RcBaseException extends RuntimeException implements RcBase
     protected Long errorCode;
     protected String errorMessage;
     protected HttpStatus httpStatus;
+    protected Boolean isDisplay;
 }
