@@ -2,11 +2,11 @@ package com.cjw.reactivecommunityproject.common.security.service.impl;
 
 import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtVO;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
+import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
-import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,29 +19,25 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
-    // TODO: 하드코딩 제거
-    private static final String secretKey = "SpringSecurityKey_P@ssword_http://Spring.io";
-    private final SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    private final RcProperties rcProperties;
+    private final SecretKey secretKey;
 
 
-    // TODO: 하드코딩 제거
-    private final long expiresTime = 500000;
-
-    private String createToken(SecurityAccessJwtVO securityAccessJwtVO) {
+    private String createToken(SecurityAccessJwtVO securityAccessJwtVO, Long expiresMinutes) {
         return Jwts.builder()
                 .subject(securityAccessJwtVO.userUid())
                 .claim("role", securityAccessJwtVO.roleUid())
 
                 .issuedAt(new Date())
-                .expiration(new Date(new Date().getTime() + expiresTime))
+                .expiration(new Date(new Date().getTime() + expiresMinutes))
 
-                .signWith(key)
+                .signWith(secretKey)
                 .compact();
     }
 
     @Override
     public String createAccessToken(SecurityAccessJwtVO securityAccessJwtVO) {
-        return createToken(securityAccessJwtVO);
+        return createToken(securityAccessJwtVO, rcProperties.jwt().accessTokenExpiresMinutes() * 1000 * 60);
     }
 
     @Override
@@ -49,7 +45,7 @@ public class JwtServiceImpl implements JwtService {
         return createToken(SecurityAccessJwtVO.builder()
                 .userUid(null)
                 .roleUid(null)
-                .build());
+                .build(), rcProperties.jwt().refreshTokenExpiresMinutes() * 1000 * 60);
     }
 
     @Override
@@ -61,7 +57,7 @@ public class JwtServiceImpl implements JwtService {
     public SecurityAccessJwtVO getClaims(String token) {
         try {
             var claims = Jwts.parser()
-                    .verifyWith(key)
+                    .verifyWith(secretKey)
                     .build()
                     .parseSignedClaims(token);
             return SecurityAccessJwtVO.builder()

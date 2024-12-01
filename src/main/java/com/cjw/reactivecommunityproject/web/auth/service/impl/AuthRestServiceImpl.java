@@ -2,10 +2,11 @@ package com.cjw.reactivecommunityproject.web.auth.service.impl;
 
 import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtVO;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
+import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.server.auth.model.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.server.auth.service.AuthService;
-import com.cjw.reactivecommunityproject.server.cache.service.RedisCacheDataService;
+import com.cjw.reactivecommunityproject.server.cache.data.service.RedisCacheDataService;
 import com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDAO;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestException;
@@ -34,6 +35,7 @@ public class AuthRestServiceImpl implements AuthRestService {
     private final AuthService authService;
     private final RedisCacheDataService redisCacheDataService;
 
+    private final RcProperties rcProperties;
     private final PasswordEncoder passwordEncoder;
 
 
@@ -63,8 +65,7 @@ public class AuthRestServiceImpl implements AuthRestService {
                 .pw(password)
                 .name(authRestRegisterVO.name())
                 .nickname(authRestRegisterVO.nickname())
-                // TODO: Properties 변경
-                .joinedRegion("KOR")
+                .joinedRegion(rcProperties.config().defaultRegion())
                 .build());
 
         return RestResponseVO.<Void>builder()

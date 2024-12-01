@@ -1,8 +1,8 @@
-package com.cjw.reactivecommunityproject.server.cache.model;
+package com.cjw.reactivecommunityproject.server.cache.data.model;
 
 import java.time.ZonedDateTime;
 
-public record CacheCommonEnvCodeVO(
+public record CacheDataCommonEnvCodeVO(
         String path,
         String code,
         Integer order,

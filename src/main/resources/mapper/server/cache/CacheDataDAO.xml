@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cjw.reactivecommunityproject.server.cache.dao.CacheDAO">
-    <select id="selectCommonRegionList" parameterType="CacheCommonRegionVO">
+<mapper namespace="com.cjw.reactivecommunityproject.server.cache.data.dao.CacheDataDAO">
+    <select id="selectCommonRegionList" parameterType="CacheDataCommonRegionVO">
         /* CacheDAO.selectCommonRegionList */
         SELECT `region`,
                `enabled`,
@@ -11,7 +11,7 @@
         FROM rc_common_region
     </select>
 
-    <select id="selectCommonEnvCodeList" parameterType="CacheCommonEnvCodeVO">
+    <select id="selectCommonEnvCodeList" parameterType="CacheDataCommonEnvCodeVO">
         /* CacheDAO.selectCommonEnvCodeList */
         SELECT `path`,
                `code`,
@@ -22,7 +22,7 @@
         FROM rc_common_env_code
     </select>
 
-    <select id="selectCommonLanguageCodeList" parameterType="CacheCommonLanguageCodeVO">
+    <select id="selectCommonLanguageCodeList" parameterType="CacheDataCommonLanguageCodeVO">
         /* CacheDAO.selectCommonLanguageCodeList */
         SELECT `path`,
                `code`,
@@ -31,7 +31,7 @@
         FROM rc_common_language_code
     </select>
 
-    <select id="selectManageResourceList" parameterType="CacheManageResourceVO">
+    <select id="selectManageResourceList" parameterType="CacheDataManageResourceVO">
         /* CacheDAO.selectManageResourceList */
         SELECT `uid`,
                `method`,
