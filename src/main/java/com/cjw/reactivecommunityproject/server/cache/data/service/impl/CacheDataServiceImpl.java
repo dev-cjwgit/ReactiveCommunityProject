@@ -20,25 +20,25 @@ public class CacheDataServiceImpl implements CacheDataService {
     private final CacheDataDAO cacheDataDAO;
 
     @Override
-    @Cacheable(value = "getCacheCommonRegionList", cacheManager = "redisCacheManager")
+    @Cacheable(value = "rc_common_region", cacheManager = "redisCacheManager")
     public List<CacheDataCommonRegionVO> getCacheCommonRegionList() {
         return cacheDataDAO.selectCommonRegionList();
     }
 
     @Override
-    @Cacheable(value = "getCacheCommonEnvCodeList", cacheManager = "redisCacheManager")
+    @Cacheable(value = "rc_common_env_code", cacheManager = "redisCacheManager")
     public List<CacheDataCommonEnvCodeVO> getCacheCommonEnvCodeList() {
         return cacheDataDAO.selectCommonEnvCodeList();
     }
 
     @Override
-    @Cacheable(value = "getCacheCommonLanguageCodeList", cacheManager = "redisCacheManager")
+    @Cacheable(value = "rc_common_language_code", cacheManager = "redisCacheManager")
     public List<CacheDataCommonLanguageCodeVO> getCacheCommonLanguageCodeList() {
         return cacheDataDAO.selectCommonLanguageCodeList();
     }
 
     @Override
-    @Cacheable(value = "getCacheManageResourceList", cacheManager = "redisCacheManager")
+    @Cacheable(value = "rc_manage_resource", cacheManager = "redisCacheManager")
     public List<CacheDataManageResourceVO> getCacheManageResourceList() {
         return cacheDataDAO.selectManageResourceList();
     }
