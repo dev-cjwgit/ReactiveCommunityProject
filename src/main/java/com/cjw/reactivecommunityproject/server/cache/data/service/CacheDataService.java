@@ -7,7 +7,7 @@ import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataManageR
 
 import java.util.List;
 
-public interface RedisCacheDataService {
+public interface CacheDataService {
     List<CacheDataCommonRegionVO> getCacheCommonRegionList();
     List<CacheDataCommonEnvCodeVO> getCacheCommonEnvCodeList();
     List<CacheDataCommonLanguageCodeVO> getCacheCommonLanguageCodeList();

@@ -1,6 +1,8 @@
 package com.cjw.reactivecommunityproject.common.spring.model.entity;
 
-public enum RcManageUserStateEnum {
+import java.io.Serializable;
+
+public enum RcManageUserStateEnum implements Serializable {
     LISTEN,
     ACCEPT,
     REFUSE,

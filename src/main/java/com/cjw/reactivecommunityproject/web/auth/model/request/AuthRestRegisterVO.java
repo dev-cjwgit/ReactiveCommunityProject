@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
+
 public record AuthRestRegisterVO(
         @NotBlank(groups = {AuthValidationGroup.register.class}, message = "이메일은 공백일 수 없습니다.")
         @Email(groups = {AuthValidationGroup.register.class}, message = "이메일 형태가 아닙니다.")
@@ -47,5 +49,5 @@ public record AuthRestRegisterVO(
                 message = "별명은 특수문자가 들어갈 수 없습니다."
         )
         String nickname
-) {
+) implements Serializable {
 }

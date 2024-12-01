@@ -6,7 +6,8 @@ import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProper
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.server.auth.model.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.server.auth.service.AuthService;
-import com.cjw.reactivecommunityproject.server.cache.data.service.RedisCacheDataService;
+import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
+import com.cjw.reactivecommunityproject.server.cache.data.service.CacheDataService;
 import com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDAO;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestException;
@@ -33,7 +34,8 @@ public class AuthRestServiceImpl implements AuthRestService {
 
     private final JwtService jwtService;
     private final AuthService authService;
-    private final RedisCacheDataService redisCacheDataService;
+    private final CacheDataService cacheDataService;
+    private final CacheCustomService cacheCustomService;
 
     private final RcProperties rcProperties;
     private final PasswordEncoder passwordEncoder;
@@ -59,8 +61,8 @@ public class AuthRestServiceImpl implements AuthRestService {
 
         authService.register(AuthRegisterVO.builder()
                 .uid(uid)
-                // TODO: 환경 코드로 변경
-                .roleUid(10L)
+                // TODO: 환경코드 반영
+                .roleUid(10)
                 .email(authRestRegisterVO.email())
                 .pw(password)
                 .name(authRestRegisterVO.name())
@@ -76,7 +78,7 @@ public class AuthRestServiceImpl implements AuthRestService {
     @Override
     public RestResponseVO<AuthRestJwtTokenVO> login(AuthRestLoginVO authRestLoginVO) {
         var rcUserEntity = authRestDAO.selectRcUser(authRestLoginVO.email());
-
+        var obj = cacheCustomService.getCommonCustomEnvCode("web.auth.service", "default.register.role.uid");
         if (rcUserEntity == null) {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
         }

@@ -1,6 +1,8 @@
 package com.cjw.reactivecommunityproject.common.spring.model.entity;
 
-public enum RcManageResourceMethodEnum {
+import java.io.Serializable;
+
+public enum RcManageResourceMethodEnum implements Serializable {
     POST,
     GET,
     PATCH,

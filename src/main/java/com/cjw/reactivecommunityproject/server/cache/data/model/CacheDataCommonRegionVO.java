@@ -1,12 +1,16 @@
 package com.cjw.reactivecommunityproject.server.cache.data.model;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
+import lombok.Getter;
+import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-public record CacheDataCommonRegionVO(
-        String region,
-        CommonEnabledEnum enabled,
-        ZonedDateTime updatedUtcAt
-) {
+@Getter
+@ToString
+public class CacheDataCommonRegionVO implements Serializable {
+    private String region;
+    private CommonEnabledEnum enabled;
+    private ZonedDateTime updatedUtcAt;
 }

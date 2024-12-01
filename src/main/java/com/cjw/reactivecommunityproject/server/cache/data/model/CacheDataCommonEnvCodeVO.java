@@ -1,13 +1,18 @@
 package com.cjw.reactivecommunityproject.server.cache.data.model;
 
+import lombok.Getter;
+import lombok.ToString;
+
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-public record CacheDataCommonEnvCodeVO(
-        String path,
-        String code,
-        Integer order,
-        String value,
-        String category,
-        ZonedDateTime updatedUtcAt
-) {
+@Getter
+@ToString
+public class CacheDataCommonEnvCodeVO implements Serializable {
+    private String path;
+    private String code;
+    private String value;
+    private Integer order;
+    private String category;
+    private ZonedDateTime updatedUtcAt;
 }
