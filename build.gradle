@@ -42,6 +42,8 @@ ext {
     openApiVersion = '2.7.0'
     // Jackson
     jsr310Version = '2.18.2'
+    // Elasticsearch Client
+    elasticsearhClientVersion = '8.16.1'
 }
 
 dependencies {
@@ -67,9 +69,10 @@ dependencies {
     testImplementation "org.springframework.batch:spring-batch-test"
     testRuntimeOnly "org.junit.platform:junit-platform-launcher"
 
+    // MariaDB Driver
+    implementation "org.mariadb.jdbc:mariadb-java-client"
 
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
-
 
     // JWT 의존성
     implementation "io.jsonwebtoken:jjwt-api:${jjwtVersion}"
@@ -82,16 +85,14 @@ dependencies {
     implementation "org.apache.commons:commons-compress:${apacheCompressUtilsVersion}"
     implementation "org.apache.commons:commons-text:${apacheTextUtilsVersion}"
 
-
     // Open API
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}"
-
-    // MariaDB Driver
-    implementation "org.mariadb.jdbc:mariadb-java-client"
 
     // jackson
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jsr310Version}"
 
+    // Elasticsearch Rest Client
+    implementation "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearhClientVersion}"
 }
 
 tasks.named("test") {
