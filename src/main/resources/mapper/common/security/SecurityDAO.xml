@@ -4,6 +4,7 @@
 
 <mapper namespace="com.cjw.reactivecommunityproject.common.security.dao.SecurityDAO">
     <select id="selectResourceByRoleUid" resultType="SecurityResourceByRoleUidVO">
+        /*SecurityDAO.selectResourceByRoleUid*/
         SELECT `uid`,
                `method`,
                `url_pattern`,

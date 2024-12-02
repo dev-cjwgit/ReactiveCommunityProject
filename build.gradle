@@ -44,6 +44,8 @@ ext {
     jsr310Version = '2.18.2'
     // Elasticsearch Client
     elasticsearhClientVersion = '8.16.1'
+    // Log4j2
+    log4j2Version = '1.16'
 }
 
 dependencies {
@@ -93,6 +95,8 @@ dependencies {
 
     // Elasticsearch Rest Client
     implementation "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearhClientVersion}"
+
+    implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4j2Version}"
 }
 
 tasks.named("test") {

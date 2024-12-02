@@ -4,6 +4,7 @@
 
 <mapper namespace="com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDAO">
     <select id="selectRcUser" resultType="AuthRestRcUserVO">
+        /*AuthRestDAO.selectRcUser*/
         SELECT `uid`,
                `role_uid`,
                `email`,
@@ -21,12 +22,14 @@
     </select>
 
     <select id="isExistUserByEmail" resultType="Boolean">
+        /*AuthRestDAO.isExistUserByEmail*/
         SELECT COUNT(*) > 0
         FROM `rc_manage_user`
         WHERE `email` = #{email, jdbcType=VARCHAR}
     </select>
 
     <select id="isExistUserByNickname" resultType="Boolean">
+        /*AuthRestDAO.isExistUserByNickname*/
         SELECT COUNT(*) > 0
         FROM `rc_manage_user`
         WHERE `nickname` = #{nickname, jdbcType=VARCHAR}
