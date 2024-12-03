@@ -4,11 +4,11 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.model.ElasticsearchLogExceptionDocument;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.service.ElasticsearchLogExceptionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
@@ -24,7 +24,7 @@ import java.util.UUID;
 @RestControllerAdvice
 @RequiredArgsConstructor
 public class RestGlobalExceptionHandler {
-    private final ElasticsearchLogExceptionService elasticsearchLogExceptionService;
+    private final ApplicationEventPublisher publisher;
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RestResponseVO<Void>> methodArgsNotValidExceptionHandle(MethodArgumentNotValidException notValidException) {
@@ -63,8 +63,9 @@ public class RestGlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     public ResponseEntity<RestResponseVO<Void>> unknownExceptionHandle(Throwable t) {
         log.error("RestGlobalExceptionHandler.unknownExceptionHandle()", t);
+        String inquiryNumber = String.valueOf(UUID.randomUUID());
+
         try {
-            String inquiryNumber = String.valueOf(UUID.randomUUID());
 
             var exceptionDocument = ElasticsearchLogExceptionDocument.builder()
                     .inquiryNumber(inquiryNumber)
@@ -73,8 +74,8 @@ public class RestGlobalExceptionHandler {
                     .timestamp(ZonedDateTime.now())
                     .build();
 
-            var document = elasticsearchLogExceptionService.insert(exceptionDocument);
-            log.info("RestGlobalExceptionHandler.unknownExceptionHandle()-elasticsearch result : {}", document);
+            publisher.publishEvent(exceptionDocument);
+            log.info("RestGlobalExceptionHandler.unknownExceptionHandle() : publisher -> {}", exceptionDocument);
         } catch (Exception e) {
             log.error("RestGlobalExceptionHandler.unknownExceptionHandle()-elasticsearch exception", e);
         }
@@ -82,7 +83,7 @@ public class RestGlobalExceptionHandler {
                 RestResponseVO.<Void>builder()
                         .result(false)
                         .code(RcCommonErrorMessage.UNKNOWN_EXCEPTION.getErrorCode())
-                        .message(RcCommonErrorMessage.UNKNOWN_EXCEPTION.getErrorMessage())
+                        .message(inquiryNumber)
                         .build()
                 , HttpStatus.INTERNAL_SERVER_ERROR
         );
