@@ -29,17 +29,17 @@ public class RedisConfig {
     private final ObjectMapper objectMapper;
 
 
-    @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
-    }
-
     private ObjectMapper getObjectMapper() {
         var typeValidator = BasicPolymorphicTypeValidator.builder()
                 .allowIfBaseType(Object.class)
                 .build();
         return objectMapper.copy()
                 .activateDefaultTyping(typeValidator, ObjectMapper.DefaultTyping.NON_FINAL);
+    }
+
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory() {
+        return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
     }
 
     @Bean
