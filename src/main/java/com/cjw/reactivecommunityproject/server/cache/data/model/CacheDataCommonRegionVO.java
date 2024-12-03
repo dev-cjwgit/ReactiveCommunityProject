@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 
 @Getter
 @ToString
-public class CacheDataCommonRegionVO implements Serializable {
+public class CacheDataCommonRegionVO {
     private String region;
     private CommonEnabledEnum enabled;
     private ZonedDateTime updatedUtcAt;

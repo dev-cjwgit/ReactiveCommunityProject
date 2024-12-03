@@ -8,8 +8,6 @@ import com.cjw.reactivecommunityproject.common.spring.model.response.RestRespons
 import com.cjw.reactivecommunityproject.server.auth.model.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.server.auth.service.AuthService;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
-import com.cjw.reactivecommunityproject.server.cache.data.service.CacheDataService;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.service.ElasticsearchLogExceptionService;
 import com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDAO;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestException;
@@ -37,12 +35,10 @@ public class AuthRestServiceImpl implements AuthRestService {
 
     private final JwtService jwtService;
     private final AuthService authService;
-    private final CacheDataService cacheDataService;
     private final CacheCustomService cacheCustomService;
 
     private final RcProperties rcProperties;
     private final PasswordEncoder passwordEncoder;
-    private final ElasticsearchLogExceptionService elasticsearchLogExceptionService;
 
     private Integer getRoleUidByCommonEnvCode() {
         var envcode = cacheCustomService.getCommonCustomEnvCode("web.auth.service", "default.register.role.uid");

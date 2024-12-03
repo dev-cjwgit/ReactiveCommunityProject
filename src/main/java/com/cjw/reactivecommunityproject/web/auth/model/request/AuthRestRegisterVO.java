@@ -49,5 +49,5 @@ public record AuthRestRegisterVO(
                 message = "별명은 특수문자가 들어갈 수 없습니다."
         )
         String nickname
-) implements Serializable {
+) {
 }

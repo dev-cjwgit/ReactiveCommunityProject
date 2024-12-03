@@ -8,5 +8,5 @@ import java.io.Serializable;
 public record AuthRestJwtTokenVO(
         String accessToken,
         String refreshToken
-) implements Serializable {
+) {
 }

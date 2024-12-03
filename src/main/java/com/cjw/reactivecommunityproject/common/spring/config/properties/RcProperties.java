@@ -10,22 +10,22 @@ public record RcProperties(
         ConfigProperties config,
         JwtProperties jwt,
         CacheProperties cache
-) implements Serializable {
+) {
     public record ConfigProperties(
             String defaultRegion,
             String defaultLanguage
-    ) implements Serializable {
+    ) {
     }
 
     public record JwtProperties(
             long accessTokenExpiresMinutes,
             long refreshTokenExpiresMinutes,
             String secretKey
-    ) implements Serializable {
+    ) {
     }
 
     public record CacheProperties(
             int expiresMinutes
-    ) implements Serializable {
+    ) {
     }
 }

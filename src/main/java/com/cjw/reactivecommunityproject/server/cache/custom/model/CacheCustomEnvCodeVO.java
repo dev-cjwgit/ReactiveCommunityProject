@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 @Getter
 @Builder
 @ToString
-public class CacheCustomEnvCodeVO implements Serializable {
+public class CacheCustomEnvCodeVO {
     private String path;
     private String code;
     private String value;

@@ -13,5 +13,5 @@ public record AuthRegisterVO(
         String name,
         String nickname,
         String joinedRegion
-) implements Serializable {
+) {
 }

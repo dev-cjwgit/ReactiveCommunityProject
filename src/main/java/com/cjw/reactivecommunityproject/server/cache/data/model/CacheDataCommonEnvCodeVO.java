@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 
 @Getter
 @ToString
-public class CacheDataCommonEnvCodeVO implements Serializable {
+public class CacheDataCommonEnvCodeVO {
     private String path;
     private String code;
     private String value;

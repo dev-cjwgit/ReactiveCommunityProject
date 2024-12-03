@@ -19,5 +19,5 @@ public record AuthRestRcUserVO(
         CommonEnabledEnum enabled,
         ZonedDateTime createdUtcAt,
         ZonedDateTime updatedUtcAt
-) implements Serializable {
+) {
 }

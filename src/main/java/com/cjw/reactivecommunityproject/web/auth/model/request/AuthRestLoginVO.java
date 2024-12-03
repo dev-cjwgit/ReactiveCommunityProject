@@ -24,5 +24,5 @@ public record AuthRestLoginVO(
                 message = "비밀번호는 공백을 포함할 수 없으며 특수문자, 알파벳, 숫자 조합이 필요합니다."
         )
         String pw
-) implements Serializable {
+) {
 }

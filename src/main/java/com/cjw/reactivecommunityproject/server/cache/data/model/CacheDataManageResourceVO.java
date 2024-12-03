@@ -10,7 +10,7 @@ import java.time.ZonedDateTime;
 
 @Getter
 @ToString
-public class CacheDataManageResourceVO implements Serializable {
+public class CacheDataManageResourceVO {
     private Long uid;
     private RcManageResourceMethodEnum method;
     private String urlPattern;
