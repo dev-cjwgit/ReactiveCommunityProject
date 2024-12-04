@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 
 public class AuthRestException extends RcBaseException {
 
+
     public AuthRestException(RcBaseErrorMessage rcBaseErrorMessage) {
+        super(rcBaseErrorMessage.getErrorMessage());
         this.errorCode = rcBaseErrorMessage.getErrorCode();
         this.errorMessage = rcBaseErrorMessage.getErrorMessage();
         this.httpStatus = rcBaseErrorMessage.getHttpStatus();

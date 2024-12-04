@@ -8,4 +8,8 @@ public abstract class RcBaseException extends RuntimeException implements RcBase
     protected String errorMessage;
     protected HttpStatus httpStatus;
     protected Boolean isDisplay;
+
+    protected RcBaseException(String errorMessage) {
+        super(errorMessage);
+    }
 }

@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -23,15 +22,12 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
-
     private final SecurityDAO securityDAO;
-
     private final CorsConfigurationSource corsConfigurationSource;
 
     private static final String[] ALLOW_PATH_URL_LIST = {"/rest/auth/**"};
 
-    private static final String[] PUBLIC_PATH_LIST = {"/webjars/**", "/opendoc.html", "/rest/auth/**"};
+    private static final String[] PUBLIC_PATH_LIST = {"/webjars/**", "/opendoc.html", "/rest/auth/**", "/rest/test4"};
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
@@ -52,7 +48,7 @@ public class SecurityConfig {
 
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
 
-                .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
                 .securityMatcher("/rest/**")
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests

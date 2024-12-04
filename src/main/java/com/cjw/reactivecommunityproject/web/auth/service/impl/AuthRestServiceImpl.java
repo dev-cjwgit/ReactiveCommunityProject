@@ -67,7 +67,7 @@ public class AuthRestServiceImpl implements AuthRestService {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        // TODO: Salt 반영
+        
         String salt = BCrypt.hashpw(uid + calendar.getTime(), BCrypt.gensalt());
 
         authService.register(AuthRegisterVO.builder()
@@ -78,7 +78,8 @@ public class AuthRestServiceImpl implements AuthRestService {
                 .name(authRestRegisterVO.name())
                 .nickname(authRestRegisterVO.nickname())
                 .joinedRegion(rcProperties.config().defaultRegion())
-                .build());
+                .build()
+        , salt);
 
         return RestResponseVO.<Void>builder()
                 .result(true)

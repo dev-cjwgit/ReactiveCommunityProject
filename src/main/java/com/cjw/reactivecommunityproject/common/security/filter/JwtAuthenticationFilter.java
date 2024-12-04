@@ -10,38 +10,43 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
-    private final UserDetailsService userDetailsService;
+
 
     @Override
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            FilterChain filterChain
+            @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        extractJwtToken(request)
-                .map(jwtService::getClaims)
-                .ifPresent(securityAccessJwtVO -> {
-                    SecurityContextHolder.getContext().setAuthentication(securityAccessJwtVO);
-                });
-        filterChain.doFilter(request, response);
+        try {
+            var token = extractJwtToken(request);
+
+            // 해당 메소드에서 모든 예외 처리를 수행하고 null 만 반환
+            var claims = jwtService.getClaims(token);
+
+            SecurityContextHolder.getContext().setAuthentication(claims);
+        } catch (Exception e) {
+            SecurityContextHolder.clearContext();
+            log.error("JwtAuthenticationFilter.doFilterInternal", e);
+        } finally {
+            filterChain.doFilter(request, response);
+        }
     }
 
-    private Optional<String> extractJwtToken(HttpServletRequest request) {
+    private String extractJwtToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
         if (StringUtils.startsWith(header, "Bearer ")) {
-            return Optional.of(header.substring(7)); // "Bearer " 부분을 잘라낸 JWT 토큰 반환
+            return header.substring(7); // "Bearer " 부분을 잘라낸 JWT 토큰 반환
         }
-        return Optional.empty();
+        return null;
     }
 
 }

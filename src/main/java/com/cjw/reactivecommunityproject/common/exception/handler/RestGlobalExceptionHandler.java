@@ -46,27 +46,53 @@ public class RestGlobalExceptionHandler {
     }
 
     @ExceptionHandler(RcBaseException.class)
-    public ResponseEntity<RestResponseVO<Void>> rcExceptionHandle(RcBaseException baseException) {
+    public ResponseEntity<RestResponseVO<String>> rcExceptionHandle(RcBaseException baseException) {
         log.warn("RestGlobalExceptionHandler.rcExceptionHandle() : {}", baseException.getErrorMessage());
-        var errorCode = baseException.getErrorCode();
-        var message = baseException.isDisplay() ? baseException.getErrorMessage() : "관리자에게 문의하세요.";
+        baseException.getErrorCode();
+        Integer errorCode;
+        String message;
+
+        String inquiryNumber;
+
+        if (baseException.isDisplay()) {
+            errorCode = baseException.getErrorCode();
+            message = baseException.getErrorMessage();
+
+            inquiryNumber = null;
+        } else {
+            errorCode = RcCommonErrorMessage.INQUIRE_TO_ADMIN.getErrorCode();
+            message = RcCommonErrorMessage.INQUIRE_TO_ADMIN.getErrorMessage();
+
+            inquiryNumber = String.valueOf(UUID.randomUUID());
+
+            var exceptionDocument = ElasticsearchLogExceptionDocument.builder()
+                    .inquiryNumber(inquiryNumber)
+                    .message(baseException.getMessage())
+                    .stackTrace(Arrays.toString(baseException.getStackTrace()))
+                    .timestamp(ZonedDateTime.now())
+                    .build();
+
+            publisher.publishEvent(exceptionDocument);
+            log.info("RestGlobalExceptionHandler.rcExceptionHandle() : publisher -> {}", exceptionDocument);
+        }
+
         return new ResponseEntity<>(
-                RestResponseVO.<Void>builder()
+                RestResponseVO.<String>builder()
                         .result(false)
                         .code(errorCode)
                         .message(message)
+                        .data(inquiryNumber)
                         .build()
                 , baseException.getHttpStatus()
         );
     }
 
     @ExceptionHandler(Throwable.class)
-    public ResponseEntity<RestResponseVO<Void>> unknownExceptionHandle(Throwable t) {
+    public ResponseEntity<RestResponseVO<String>> unknownExceptionHandle(Throwable t) {
         log.error("RestGlobalExceptionHandler.unknownExceptionHandle()", t);
         String inquiryNumber = String.valueOf(UUID.randomUUID());
 
         try {
-
             var exceptionDocument = ElasticsearchLogExceptionDocument.builder()
                     .inquiryNumber(inquiryNumber)
                     .message(t.getMessage())
@@ -80,10 +106,11 @@ public class RestGlobalExceptionHandler {
             log.error("RestGlobalExceptionHandler.unknownExceptionHandle()-elasticsearch exception", e);
         }
         return new ResponseEntity<>(
-                RestResponseVO.<Void>builder()
+                RestResponseVO.<String>builder()
                         .result(false)
                         .code(RcCommonErrorMessage.UNKNOWN_EXCEPTION.getErrorCode())
-                        .message(inquiryNumber)
+                        .message(RcCommonErrorMessage.UNKNOWN_EXCEPTION.getErrorMessage())
+                        .data(inquiryNumber)
                         .build()
                 , HttpStatus.INTERNAL_SERVER_ERROR
         );

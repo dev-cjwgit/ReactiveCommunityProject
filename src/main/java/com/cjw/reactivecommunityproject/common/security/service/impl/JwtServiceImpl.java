@@ -1,18 +1,28 @@
 package com.cjw.reactivecommunityproject.common.security.service.impl;
 
+import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
+import com.cjw.reactivecommunityproject.common.security.exception.SecurityErrorMessage;
+import com.cjw.reactivecommunityproject.common.security.exception.SecurityException;
 import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtVO;
+import com.cjw.reactivecommunityproject.common.security.model.SecurityJwtPayloadVO;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.util.Base64;
 import java.util.Date;
 
 @Slf4j
@@ -20,8 +30,39 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
     private final RcProperties rcProperties;
-    private final SecretKey secretKey;
+    private final ObjectMapper objectMapper;
+    private final RedisTemplate<String, Object> redisTemplate;
 
+    private String getUserUidByJwtPayload(String token) {
+        String[] parts = StringUtils.split(token, ".");
+        if (parts.length != 3) {
+            throw new SecurityException(SecurityErrorMessage.INVALID_TOKEN_STRUCT);
+        }
+
+        String payload = parts[1];
+        byte[] decodedPayload = Base64.getUrlDecoder().decode(payload);
+        try {
+            var jwtPayloadVO = objectMapper.readValue(new String(decodedPayload), SecurityJwtPayloadVO.class);
+            return jwtPayloadVO.sub();
+        } catch (JsonProcessingException ex) {
+            throw new SecurityException(SecurityErrorMessage.INVALID_TOKEN_PAYLOAD);
+        }
+    }
+
+    private SecretKey getSecretKey(String userUid) {
+        String salt;
+        if (StringUtils.isBlank(userUid)) {
+            salt = "";
+        } else {
+            salt = String.valueOf(redisTemplate.opsForValue().get(userUid + ".salt"));
+        }
+        if (StringUtils.equalsIgnoreCase(salt, "null")) {
+            throw new SecurityException(SecurityErrorMessage.NOT_FOUND_USER_SALT);
+        }
+
+        var secretKey = rcProperties.jwt().secretKey() + "." + salt;
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
 
     private String createToken(SecurityAccessJwtVO securityAccessJwtVO, Long expiresMinutes) {
         return Jwts.builder()
@@ -31,7 +72,7 @@ public class JwtServiceImpl implements JwtService {
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + expiresMinutes))
 
-                .signWith(secretKey)
+                .signWith(this.getSecretKey(securityAccessJwtVO.userUid()))
                 .compact();
     }
 
@@ -56,8 +97,9 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public SecurityAccessJwtVO getClaims(String token) {
         try {
+            var userUid = this.getUserUidByJwtPayload(token);
             var claims = Jwts.parser()
-                    .verifyWith(secretKey)
+                    .verifyWith(this.getSecretKey(userUid))
                     .build()
                     .parseSignedClaims(token);
             return SecurityAccessJwtVO.builder()
@@ -78,6 +120,8 @@ public class JwtServiceImpl implements JwtService {
             log.warn("JwtServiceImpl.getClaims(): Unsupported Jwt Token");
         } catch (IllegalArgumentException e) {
             log.warn("JwtServiceImpl.getClaims(): Jwt Token is empty");
+        } catch (RcBaseException e) {
+            log.warn("JwtServiceImpl.getClaims(): {}", e.getErrorMessage());
         } catch (Exception e) {
             log.error("JwtServiceImpl.getClaims(): {}", e.getMessage(), e);
         }

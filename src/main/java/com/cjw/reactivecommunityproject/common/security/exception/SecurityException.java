@@ -1,12 +1,12 @@
-package com.cjw.reactivecommunityproject.server.mail.exception;
+package com.cjw.reactivecommunityproject.common.security.exception;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessage;
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import org.springframework.http.HttpStatus;
 
-public class MailException extends RcBaseException {
+public class SecurityException extends RcBaseException {
 
-    public MailException(RcBaseErrorMessage rcBaseErrorMessage) {
+    public SecurityException(RcBaseErrorMessage rcBaseErrorMessage) {
         super(rcBaseErrorMessage.getErrorMessage());
         this.errorCode = rcBaseErrorMessage.getErrorCode();
         this.errorMessage = rcBaseErrorMessage.getErrorMessage();
