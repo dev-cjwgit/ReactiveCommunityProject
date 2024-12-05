@@ -2,14 +2,11 @@ package com.cjw.reactivecommunityproject.common.spring.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.io.Serializable;
-
 
 @ConfigurationProperties(prefix = "rc")
 public record RcProperties(
         ConfigProperties config,
-        JwtProperties jwt,
-        CacheProperties cache
+        CacheManagerProperties cacheManager
 ) {
     public record ConfigProperties(
             String defaultRegion,
@@ -17,14 +14,7 @@ public record RcProperties(
     ) {
     }
 
-    public record JwtProperties(
-            long accessTokenExpiresMinutes,
-            long refreshTokenExpiresMinutes,
-            String secretKey
-    ) {
-    }
-
-    public record CacheProperties(
+    public record CacheManagerProperties(
             int expiresMinutes
     ) {
     }

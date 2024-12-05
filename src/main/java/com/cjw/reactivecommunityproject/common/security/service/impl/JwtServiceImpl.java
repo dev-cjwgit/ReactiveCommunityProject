@@ -1,12 +1,15 @@
 package com.cjw.reactivecommunityproject.common.security.service.impl;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
+import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityErrorMessage;
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityException;
 import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtVO;
 import com.cjw.reactivecommunityproject.common.security.model.SecurityJwtPayloadVO;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
+import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
+import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -18,6 +21,7 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +36,40 @@ public class JwtServiceImpl implements JwtService {
     private final RcProperties rcProperties;
     private final ObjectMapper objectMapper;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final CacheCustomService cacheCustomService;
+
+
+    private Long getTokenExpiresByCommonEnvCode(String tokenType) {
+        var envcode = cacheCustomService.getCommonCustomEnvCode("rc.jwt", tokenType);
+        if (envcode == null) {
+            throw new AuthRestException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
+        }
+        if (!NumberUtils.isDigits(envcode.getValue())) {
+            throw new AuthRestException(RcCommonErrorMessage.INVALID_ENV_CODE);
+        }
+
+        return NumberUtils.toLong(envcode.getValue());
+    }
+
+    private Long getAccessTokenExpiresByCommonEnvCode() {
+        return getTokenExpiresByCommonEnvCode("access.token.expires.minutes");
+    }
+
+    private Long getRefreshTokenExpiresByCommonEnvCode() {
+        return getTokenExpiresByCommonEnvCode("refresh.token.expires.minutes");
+    }
+
+    private String getSecretKeyByCommonEnvCode() {
+        var envcode = cacheCustomService.getCommonCustomEnvCode("rc.jwt", "secret.key");
+        if (envcode == null) {
+            throw new AuthRestException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
+        }
+        if (StringUtils.isBlank(envcode.getValue())) {
+            throw new AuthRestException(RcCommonErrorMessage.INVALID_ENV_CODE);
+        }
+
+        return envcode.getValue();
+    }
 
     private String getUserUidByJwtPayload(String token) {
         String[] parts = StringUtils.split(token, ".");
@@ -60,7 +98,7 @@ public class JwtServiceImpl implements JwtService {
             throw new SecurityException(SecurityErrorMessage.NOT_FOUND_USER_SALT);
         }
 
-        var secretKey = rcProperties.jwt().secretKey() + "." + salt;
+        var secretKey = this.getSecretKeyByCommonEnvCode() + "." + salt;
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
@@ -76,9 +114,10 @@ public class JwtServiceImpl implements JwtService {
                 .compact();
     }
 
+
     @Override
     public String createAccessToken(SecurityAccessJwtVO securityAccessJwtVO) {
-        return createToken(securityAccessJwtVO, rcProperties.jwt().accessTokenExpiresMinutes() * 1000 * 60);
+        return createToken(securityAccessJwtVO, this.getAccessTokenExpiresByCommonEnvCode() * 1000 * 60);
     }
 
     @Override
@@ -86,7 +125,7 @@ public class JwtServiceImpl implements JwtService {
         return createToken(SecurityAccessJwtVO.builder()
                 .userUid(userUid)
                 .roleUid(null)
-                .build(), rcProperties.jwt().refreshTokenExpiresMinutes() * 1000 * 60);
+                .build(), this.getRefreshTokenExpiresByCommonEnvCode() * 1000 * 60);
     }
 
     @Override
