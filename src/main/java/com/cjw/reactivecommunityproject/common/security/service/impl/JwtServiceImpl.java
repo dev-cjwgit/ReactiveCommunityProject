@@ -82,9 +82,9 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public String createRefreshToken() {
+    public String createRefreshToken(String userUid) {
         return createToken(SecurityAccessJwtVO.builder()
-                .userUid(null)
+                .userUid(userUid)
                 .roleUid(null)
                 .build(), rcProperties.jwt().refreshTokenExpiresMinutes() * 1000 * 60);
     }

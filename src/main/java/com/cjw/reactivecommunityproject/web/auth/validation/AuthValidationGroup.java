@@ -7,10 +7,14 @@ public class AuthValidationGroup {
 
     }
 
-    public interface register extends Default {
+    public interface Register extends Default {
     }
 
-    public interface login extends Default {
+    public interface Login extends Default {
+    }
+
+    public interface ReissueRefreshToken extends Default {
+
     }
 
 }

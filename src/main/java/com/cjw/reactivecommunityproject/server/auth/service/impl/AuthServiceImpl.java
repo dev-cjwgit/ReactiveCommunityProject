@@ -1,6 +1,7 @@
 package com.cjw.reactivecommunityproject.server.auth.service.impl;
 
 import com.cjw.reactivecommunityproject.server.auth.dao.AuthDAO;
+import com.cjw.reactivecommunityproject.server.auth.model.AuthLoginVO;
 import com.cjw.reactivecommunityproject.server.auth.model.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.server.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,13 @@ public class AuthServiceImpl implements AuthService {
         log.info("AuthDAO.register() : {}", res);
 
         redisTemplate.opsForValue().set(StringUtils.join(authRegisterVO.uid(), ".salt"), salt);
-        log.info("redisTemplate.opsForValue.set : {}", salt);
+        log.info("AuthServiceImpl.register - redisTemplate.opsForValue.set : [String] {}", salt);
+    }
+
+    @Override
+    @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
+    public void login(AuthLoginVO authLoginVO) {
+        redisTemplate.opsForValue().set(StringUtils.join(authLoginVO.userUid(), ".refresh"), authLoginVO.refreshToken());
+        log.info("AuthServiceImpl.login - redisTemplate.opsForValue.set : [AuthLoginVO] {}", authLoginVO);
     }
 }

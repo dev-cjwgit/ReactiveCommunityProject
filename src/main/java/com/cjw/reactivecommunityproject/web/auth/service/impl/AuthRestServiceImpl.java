@@ -5,20 +5,24 @@ import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtV
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
+import com.cjw.reactivecommunityproject.server.auth.model.AuthLoginVO;
 import com.cjw.reactivecommunityproject.server.auth.model.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.server.auth.service.AuthService;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
 import com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDAO;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestException;
+import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestReissueJwtTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestLoginVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestRegisterVO;
+import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtAccessTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.service.AuthRestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthRestServiceImpl implements AuthRestService {
     private final AuthRestDAO authRestDAO;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     private final JwtService jwtService;
     private final AuthService authService;
@@ -40,12 +45,13 @@ public class AuthRestServiceImpl implements AuthRestService {
     private final RcProperties rcProperties;
     private final PasswordEncoder passwordEncoder;
 
+
     private Integer getRoleUidByCommonEnvCode() {
         var envcode = cacheCustomService.getCommonCustomEnvCode("web.auth.service", "default.register.role.uid");
         if (envcode == null) {
             throw new AuthRestException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }
-        if(!NumberUtils.isDigits(envcode.getValue())){
+        if (!NumberUtils.isDigits(envcode.getValue())) {
             throw new AuthRestException(RcCommonErrorMessage.INVALID_ENV_CODE);
         }
 
@@ -67,19 +73,19 @@ public class AuthRestServiceImpl implements AuthRestService {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        
+
         String salt = BCrypt.hashpw(uid + calendar.getTime(), BCrypt.gensalt());
 
         authService.register(AuthRegisterVO.builder()
-                .uid(uid)
-                .roleUid(getRoleUidByCommonEnvCode())
-                .email(authRestRegisterVO.email())
-                .pw(password)
-                .name(authRestRegisterVO.name())
-                .nickname(authRestRegisterVO.nickname())
-                .joinedRegion(rcProperties.config().defaultRegion())
-                .build()
-        , salt);
+                        .uid(uid)
+                        .roleUid(getRoleUidByCommonEnvCode())
+                        .email(authRestRegisterVO.email())
+                        .pw(password)
+                        .name(authRestRegisterVO.name())
+                        .nickname(authRestRegisterVO.nickname())
+                        .joinedRegion(rcProperties.config().defaultRegion())
+                        .build()
+                , salt);
 
         return RestResponseVO.<Void>builder()
                 .result(true)
@@ -88,7 +94,7 @@ public class AuthRestServiceImpl implements AuthRestService {
 
     @Override
     public RestResponseVO<AuthRestJwtTokenVO> login(AuthRestLoginVO authRestLoginVO) {
-        var rcUserEntity = authRestDAO.selectRcUser(authRestLoginVO.email());
+        var rcUserEntity = authRestDAO.selectRcUserByEmail(authRestLoginVO.email());
 
         if (rcUserEntity == null) {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
@@ -117,13 +123,60 @@ public class AuthRestServiceImpl implements AuthRestService {
                 .userUid(rcUserEntity.uid())
                 .roleUid(rcUserEntity.roleUid())
                 .build());
-        var refreshToken = jwtService.createRefreshToken();
+        var refreshToken = jwtService.createRefreshToken(rcUserEntity.uid());
+
 
         var result = AuthRestJwtTokenVO.builder()
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+
+        authService.login(
+                AuthLoginVO.builder()
+                        .userUid(rcUserEntity.uid())
+                        .refreshToken(refreshToken)
+                        .build()
+        );
+
         return RestResponseVO.<AuthRestJwtTokenVO>builder()
+                .result(true)
+                .data(result)
+                .build();
+    }
+
+    @Override
+    public RestResponseVO<AuthRestJwtAccessTokenVO> reissueByRefreshToken(AuthRestReissueJwtTokenVO authRestReissueJwtTokenVO) {
+        var claims = jwtService.getClaims(authRestReissueJwtTokenVO.refreshToken());
+        if (claims == null) {
+            throw new AuthRestException(AuthRestErrorMessage.INVALID_REFRESH_TOKEN);
+        }
+
+        String refreshToken = String.valueOf(redisTemplate.opsForValue().get(claims.getName() + ".refresh"));
+        if (StringUtils.equalsIgnoreCase(refreshToken, "null")) {
+            throw new AuthRestException(AuthRestErrorMessage.NOT_LOGGED_IN_USER);
+        }
+
+        if (!StringUtils.equals(refreshToken, authRestReissueJwtTokenVO.refreshToken())) {
+            throw new AuthRestException(AuthRestErrorMessage.NOT_MATCH_REFRESH_TOKEN);
+        }
+
+        var rcUserEntity = authRestDAO.selectRcUserByUserUid(claims.userUid());
+
+        if (rcUserEntity == null) {
+            throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_USER);
+        }
+
+        String accessToken = jwtService.createAccessToken(
+                SecurityAccessJwtVO.builder()
+                        .userUid(claims.userUid())
+                        .roleUid(rcUserEntity.roleUid())
+                        .build()
+        );
+        var result = AuthRestJwtAccessTokenVO.builder()
+                .accessToken(accessToken)
+                .build();
+
+        return RestResponseVO.<AuthRestJwtAccessTokenVO>builder()
                 .result(true)
                 .data(result)
                 .build();

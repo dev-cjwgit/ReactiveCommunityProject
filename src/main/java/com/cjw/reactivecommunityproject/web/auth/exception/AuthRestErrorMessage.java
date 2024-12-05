@@ -4,6 +4,7 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import org.springframework.http.HttpStatus;
 
 public enum AuthRestErrorMessage implements RcBaseErrorMessage {
+    NOT_FOUND_USER(null, "유저를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 
     NOT_FOUND_EMAIL(null, "가입되지 않은 이메일입니다.", HttpStatus.BAD_REQUEST),
     EXIST_ADDED_EMAIL(null, "이미 등록된 이메일입니다.", HttpStatus.BAD_REQUEST),
@@ -13,6 +14,9 @@ public enum AuthRestErrorMessage implements RcBaseErrorMessage {
     REFUSE_JOINED_STATE(null, "가입 거절당한 계정입니다.", HttpStatus.BAD_REQUEST),
     BEN_JOINED_STATE(null, "일시정지 되어있는 계정입니다.", HttpStatus.BAD_REQUEST),
     WITHDRAW_JOINED_STATE(null, "탈퇴한 계정입니다.", HttpStatus.BAD_REQUEST),
+    NOT_LOGGED_IN_USER(null, "로그인 중인 계정이 아닙니다.", HttpStatus.BAD_REQUEST),
+    INVALID_REFRESH_TOKEN(null, "올바르지 않은 refresh token 입니다.", HttpStatus.BAD_REQUEST),
+    NOT_MATCH_REFRESH_TOKEN(null, "refresh 토큰이 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
 
     DUMMY(null, null, null);
 
