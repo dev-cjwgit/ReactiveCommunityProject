@@ -21,6 +21,9 @@ public record AuthRestLoginVO(
                 regexp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@!%*#?&])[A-Za-z\\d$@!%*#?&]*$",
                 message = "비밀번호는 공백을 포함할 수 없으며 특수문자, 알파벳, 숫자 조합이 필요합니다."
         )
-        String pw
+        String pw,
+
+        @NotNull(groups = {AuthValidationGroup.Login.class}, message = "중복 로그인 여부는 null 일 수 없습니다.")
+        Boolean duplicationLogin
 ) {
 }

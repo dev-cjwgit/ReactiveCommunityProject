@@ -119,6 +119,15 @@ public class AuthRestServiceImpl implements AuthRestService {
                 throw new AuthRestException(AuthRestErrorMessage.WITHDRAW_JOINED_STATE);
         }
 
+        // 중복 로그인 허용이면 하위 로직 무시
+        if (!authRestLoginVO.duplicationLogin()) {
+            var userRefreshToken = String.valueOf(redisTemplate.opsForValue().get(rcUserEntity.uid() + ".refresh"));
+
+            if (StringUtils.isNotBlank(userRefreshToken)) {
+                throw new AuthRestException(AuthRestErrorMessage.ALREADY_LOGGED_IN_USER);
+            }
+        }
+
         var accessToken = jwtService.createAccessToken(SecurityAccessJwtVO.builder()
                 .userUid(rcUserEntity.uid())
                 .roleUid(rcUserEntity.roleUid())
