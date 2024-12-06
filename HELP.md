@@ -16,7 +16,7 @@ For further reference, please consider the following sections:
 * [Validation](https://docs.spring.io/spring-boot/3.4.0/reference/io/validation.html)
 * [Spring Web](https://docs.spring.io/spring-boot/3.4.0/reference/web/servlet.html)
 
-### Guides
+### Guides 
 
 The following guides illustrate how to use some features concretely:
 
