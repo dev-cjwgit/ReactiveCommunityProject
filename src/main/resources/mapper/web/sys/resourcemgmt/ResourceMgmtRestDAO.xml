@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjw.reactivecommunityproject.web.sys.resourcemgmt.dao.SysResourceMgmtRestDAO">
+    <select id="selectList" parameterType="PaginationVO" resultType="SysResourceMgmtListVO">
+        SELECT `uid`,
+               `method`,
+               `url_pattern`,
+               `created_user_uid`,
+               `created_utc_at`,
+               `updated_user_uid`,
+               `updated_utc_at`
+        FROM rc_manage_resource
+        <where>
+            <if test="pagination.method != null">
+                AND `method` LIKE CONCAT('%', #{pagination.method, jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="pagination.urlPattern != null">
+                AND `url_pattern` LIKE CONCAT('%', #{pagination.urlPattern}, '%')
+            </if>
+            <if test="pagination.startDate != null and endDate != null">
+                AND `created_utc_at` <![CDATA[>=]]> #{pagination.startDate}
+            </if>
+            <if test="pagination.endDate != null">
+                AND `created_utc_at` <![CDATA[<=]]> #{pagination.endDate}
+            </if>
+        </where>
+        LIMIT #{pagination.limit, jdbcType=INTEGER} OFFSET #{pagination.offset, jdbcType=INTEGER}
+    </select>
+</mapper>
