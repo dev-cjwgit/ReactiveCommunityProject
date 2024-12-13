@@ -1,6 +1,7 @@
 package com.cjw.reactivecommunityproject.common.spring.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -12,6 +13,11 @@ public class DateUtils {
     public static final String yyyy_MM_dd = "yyyy-MM-dd";
 
     public static ZonedDateTime convert(String inputDate, String format) {
+        if (StringUtils.isBlank(inputDate) && StringUtils.isBlank(format)) {
+            log.debug("DateUtils.convert is null : {} - {}", inputDate, format);
+            return null;
+        }
+
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
             LocalDate localStartDate = LocalDate.parse(inputDate, formatter);

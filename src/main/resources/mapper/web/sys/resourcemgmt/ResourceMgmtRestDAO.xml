@@ -28,4 +28,25 @@
         </where>
         LIMIT #{pagination.limit, jdbcType=INTEGER} OFFSET #{pagination.offset, jdbcType=INTEGER}
     </select>
+
+    <select id="selectDetail" resultType="SysResourceMgmtDetailVO">
+        SELECT `uid`,
+               `method`,
+               `url_pattern`,
+               `description`,
+               `enabled`,
+               `created_user_uid`,
+               `created_utc_at`,
+               `updated_user_uid`,
+               `updated_utc_at`
+        FROM rc_manage_resource
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </select>
+
+    <select id="isDuplicate" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM `rc_manage_resource`
+        WHERE `method` = #{method, jdbcType=VARCHAR}
+          AND `url_pattern` = #{url_pattern, jdbcType=VARCHAR}
+    </select>
 </mapper>

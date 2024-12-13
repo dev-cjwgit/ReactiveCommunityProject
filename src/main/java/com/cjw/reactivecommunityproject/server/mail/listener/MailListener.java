@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.server.mail.listener;
 
-import com.cjw.reactivecommunityproject.server.mail.model.MailSendVO;
 import com.cjw.reactivecommunityproject.server.mail.service.MailService;
+import com.cjw.reactivecommunityproject.server.mail.model.MailSendVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

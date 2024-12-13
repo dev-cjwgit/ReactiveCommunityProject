@@ -3,7 +3,10 @@ package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.exception;
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessage;
 import org.springframework.http.HttpStatus;
 
-public enum ResourceMgmtRestErrorMessage implements RcBaseErrorMessage {
+public enum SysResourceMgmtRestErrorMessage implements RcBaseErrorMessage {
+    NOT_FOUND_RESOURCE_DETAIL(null, "상세 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
+    DUPLICATE_RESOURCE_INFO(null, "이미 중복된 데이터입니다.", HttpStatus.BAD_REQUEST),
+
     DUMMY(null, null, null);
 
     private final Integer errorCode;
@@ -11,11 +14,11 @@ public enum ResourceMgmtRestErrorMessage implements RcBaseErrorMessage {
     private final HttpStatus httpStatus;
     private final Boolean isDisplay;
 
-    ResourceMgmtRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
+    SysResourceMgmtRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
         this(errorCode, errorMessage, httpStatus, true);
     }
 
-    ResourceMgmtRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
+    SysResourceMgmtRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
         this.httpStatus = httpStatus;

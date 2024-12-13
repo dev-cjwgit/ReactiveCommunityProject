@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,21 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RestGlobalExceptionHandler {
     private final ApplicationEventPublisher publisher;
+
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<RestResponseVO<Void>> methodArgsNotValidaValueExceptionHandle(HttpMessageNotReadableException httpMessageNotReadableException) {
+        log.warn("RestGlobalExceptionHandler.methodArgsNotValidaValueExceptionHandle: {}", httpMessageNotReadableException.getMessage());
+
+        return new ResponseEntity<>(
+                RestResponseVO.<Void>builder()
+                        .result(false)
+                        .message(RcCommonErrorMessage.INVALID_PARAMETER_DATA.getErrorMessage())
+                        .code(RcCommonErrorMessage.INVALID_PARAMETER_DATA.getErrorCode())
+                        .build()
+                , RcCommonErrorMessage.INVALID_PARAMETER_DATA.getHttpStatus()
+        );
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<RestResponseVO<Void>> methodArgsNotValidExceptionHandle(MethodArgumentNotValidException notValidException) {

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjw.reactivecommunityproject.server.sys.resourcemgmt.dao.SysResourceMgmtDAO">
+    <insert id="insertResourceMgmt" parameterType="SysResourceMgmtInsertVO">
+        /* SysResourceMgmtDAO.insertResourceMgmt */
+        INSERT INTO rc_manage_resource(`method`,
+                                       `url_pattern`,
+                                       `description`,
+                                       `enabled`,
+                                       `created_user_uid`,
+                                       `created_utc_at`,
+                                       `updated_user_uid`,
+                                       `updated_utc_at`)
+        VALUES (#{method, jdbcType=VARCHAR},
+                #{urlPattern, jdbcType=INTEGER},
+                #{description, jdbcType=VARCHAR},
+                'Y',
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP(),
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP())
+    </insert>
+</mapper>

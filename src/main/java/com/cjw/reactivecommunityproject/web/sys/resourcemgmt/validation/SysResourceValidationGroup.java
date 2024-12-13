@@ -7,6 +7,6 @@ public class SysResourceValidationGroup {
 
     }
 
-    public interface Template extends Default {
+    public interface CreateResource extends Default {
     }
 }
