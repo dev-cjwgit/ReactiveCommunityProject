@@ -5,6 +5,7 @@ import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabled
 import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomEnvCodeVO;
 import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomLanguageVO;
 import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomRoleFunctionVO;
+import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomRoleResourceVO;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
 import com.cjw.reactivecommunityproject.server.cache.data.service.CacheDataService;
 import lombok.RequiredArgsConstructor;
@@ -66,7 +67,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
                         .updatedUtcAt(o.getUpdatedUtcAt())
                         .build())
                 .sorted(Comparator.comparing(CacheCustomEnvCodeVO::getOrder, Comparator.nullsLast(Comparator.naturalOrder())))
-                .toList();
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -97,7 +98,8 @@ public class CacheCustomServiceImpl implements CacheCustomService {
                             .updatedUtcAt(gbCode != null ? gbCode.getUpdatedUtcAt() : o.getUpdatedUtcAt())
                             .build();
                 })
-                .toList();
+                .collect(Collectors.toList());
+
     }
 
     @Override
@@ -135,5 +137,36 @@ public class CacheCustomServiceImpl implements CacheCustomService {
     @CacheEvict(value = "custom_manage_role_function", allEntries = true, cacheManager = "redisCacheManager")
     public void clearCustomManageRoleFunctionList() {
         log.info("CacheCustomServiceImpl.clearCustomManageRoleFunctionList()");
+    }
+
+    @Override
+    @Cacheable(value = "custom_manage_role_resource", key = "'path=' + #roleUid", cacheManager = "redisCacheManager")
+    public List<CacheCustomRoleResourceVO> getCustomManageRoleResourceList(Integer roleUid) {
+        var functionList = cacheDataService.getCacheManageResourceList();
+        return cacheDataService.getCacheManageRoleResourceList()
+                .parallelStream()
+                .filter(roleFunction -> Objects.equals(roleFunction.getRoleUid(), roleUid))
+                .filter(roleFunction -> roleFunction.getEnabled() == CommonEnabledEnum.Y)
+                .flatMap(roleFunction -> CollectionUtils.emptyIfNull(functionList)
+                        .parallelStream()
+                        .filter(resource -> Objects.equals(roleFunction.getResourceUid(), resource.getUid()))
+                        .filter(resource -> resource.getEnabled() == CommonEnabledEnum.Y)
+                        .map(resource -> CacheCustomRoleResourceVO.builder()
+                                .roleUid(roleFunction.getRoleUid())
+                                .resourceUid(resource.getUid())
+                                .method(resource.getMethod())
+                                .urlPattern(resource.getUrlPattern())
+                                .enabled(roleFunction.getEnabled())
+                                .updatedUtcAt(roleFunction.getUpdatedUtcAt())
+                                .build()
+                        )
+                )
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @CacheEvict(value = "custom_manage_role_resource", allEntries = true, cacheManager = "redisCacheManager")
+    public void clearCustomManageRoleResourceList() {
+        log.info("CacheCustomServiceImpl.clearCustomManageRoleResourceList()");
     }
 }

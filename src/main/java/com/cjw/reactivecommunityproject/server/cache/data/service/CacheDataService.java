@@ -25,4 +25,7 @@ public interface CacheDataService {
 
     List<CacheDataManageRoleFunctionVO> getCacheManageRoleFunctionList();
     void clearCacheManageRoleFunctionList();
+
+    List<CacheDataManageRoleResourceVO> getCacheManageRoleResourceList();
+    void clearCacheManageRoleResourceList();
 }

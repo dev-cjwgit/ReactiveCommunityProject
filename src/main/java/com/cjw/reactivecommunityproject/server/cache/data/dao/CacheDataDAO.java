@@ -21,4 +21,6 @@ public interface CacheDataDAO {
     List<CacheDataManageFunctionVO> selectManageFunctionList();
 
     List<CacheDataManageRoleFunctionVO> selectManageRoleFunctionList();
+
+    List<CacheDataManageRoleResourceVO> selectManageRoleResourceList();
 }
