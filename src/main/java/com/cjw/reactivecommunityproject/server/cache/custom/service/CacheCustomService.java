@@ -2,6 +2,7 @@ package com.cjw.reactivecommunityproject.server.cache.custom.service;
 
 import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomEnvCodeVO;
 import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomLanguageVO;
+import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomRoleFunctionVO;
 
 import java.util.List;
 
@@ -14,4 +15,7 @@ public interface CacheCustomService {
 
     List<CacheCustomLanguageVO> getCommonCustomLangaugeList(String path, String lang);
     void clearCommonCustomLanguageList();
+
+    List<CacheCustomRoleFunctionVO> getCustomManageRoleFunctionList(Integer roleUid);
+    void clearCustomManageRoleFunctionList();
 }

@@ -51,4 +51,23 @@
                `updated_utc_at`
         FROM rc_manage_resource
     </select>
+
+    <select id="selectManageFunctionList" parameterType="CacheDataManageFunctionVO">
+        /* CacheDAO.selectManageFunctionList */
+        SELECT `uid`,
+               `name`,
+               `type`,
+               `enabled`,
+               `updated_utc_at`
+        FROM rc_manage_function
+    </select>
+
+    <select id="selectManageRoleFunctionList" parameterType="CacheDataManageRoleFunctionVO">
+        /* CacheDAO.selectManageRoleFunctionList */
+        SELECT `role_uid`,
+               `function_uid`,
+               `enabled`,
+               `updated_utc_at`
+        FROM rc_manage_role_function
+    </select>
 </mapper>

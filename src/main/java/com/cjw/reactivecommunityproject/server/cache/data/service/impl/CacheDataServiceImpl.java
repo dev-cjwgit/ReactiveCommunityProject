@@ -76,4 +76,28 @@ public class CacheDataServiceImpl implements CacheDataService {
     public void clearCacheManageResourceList() {
         log.info("CacheDataServiceImpl.clearCacheManageResourceList()");
     }
+
+    @Override
+    @Cacheable(value = "rc_manage_function", cacheManager = "redisCacheManager")
+    public List<CacheDataManageFunctionVO> getCacheManageFunctionList() {
+        return cacheDataDAO.selectManageFunctionList();
+    }
+
+    @Override
+    @CacheEvict(value = "rc_manage_function", cacheManager = "redisCacheManager")
+    public void clearCacheManageFunctionList() {
+        log.info("CacheDataServiceImpl.clearCacheManageFunctionList()");
+    }
+
+    @Override
+    @Cacheable(value = "rc_manage_role_function", cacheManager = "redisCacheManager")
+    public List<CacheDataManageRoleFunctionVO> getCacheManageRoleFunctionList() {
+        return cacheDataDAO.selectManageRoleFunctionList();
+    }
+
+    @Override
+    @CacheEvict(value = "rc_manage_role_function", cacheManager = "redisCacheManager")
+    public void clearCacheManageRoleFunctionList() {
+        log.info("CacheDataServiceImpl.clearCacheManageRoleFunctionList()");
+    }
 }
