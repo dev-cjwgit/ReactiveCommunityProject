@@ -1,6 +1,8 @@
 package com.cjw.reactivecommunityproject.common.security.filter;
 
 import com.cjw.reactivecommunityproject.common.security.dao.SecurityDAO;
+import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
+import com.cjw.reactivecommunityproject.server.cache.data.service.CacheDataService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -12,12 +14,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.util.AntPathMatcher;
 
+import java.util.Objects;
 import java.util.function.Supplier;
 
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter implements AuthorizationManager<RequestAuthorizationContext> {
     private final SecurityDAO securityDAO;
+    private final CacheDataService cacheDataService;
 
 
     private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -43,11 +47,16 @@ public class JwtAuthorizationFilter implements AuthorizationManager<RequestAutho
         if (!NumberUtils.isDigits(roleUid)) {
             return FALSE;
         }
-        var resourceByRoleUid = securityDAO.selectResourceByRoleUid(NumberUtils.toInt(roleUid));
+        var resourceByRoleUid = securityDAO.selectRoleResourceMapping(NumberUtils.toInt(roleUid));
 
         return resourceByRoleUid.parallelStream()
-                .filter(o -> StringUtils.equalsAnyIgnoreCase(o.method().name(), "ALL") || StringUtils.equalsAnyIgnoreCase(o.method().name(), method))
-                .anyMatch(o -> antPathMatcher.match(o.urlPattern(), path))
+                .filter(o -> o.enabled() == CommonEnabledEnum.Y)
+                .flatMap(o -> cacheDataService.getCacheManageResourceList()
+                        .parallelStream()
+                        .filter(o1 -> Objects.equals(o1.getUid(), o.resourceUid())))
+                .filter(o1 -> StringUtils.equalsAnyIgnoreCase(o1.getMethod().name(), "ALL") || StringUtils.equalsAnyIgnoreCase(o1.getMethod().name(), method))
+                .anyMatch(o -> antPathMatcher.match(o.getUrlPattern(), path))
                 ? TRUE : FALSE;
+
     }
 }
