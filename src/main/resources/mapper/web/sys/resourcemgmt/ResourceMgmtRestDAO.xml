@@ -4,6 +4,7 @@
 
 <mapper namespace="com.cjw.reactivecommunityproject.web.sys.resourcemgmt.dao.SysResourceMgmtRestDAO">
     <select id="selectList" parameterType="PaginationVO" resultType="SysResourceMgmtListVO">
+        /* SysResourceMgmtRestDAO.selectList */
         SELECT `uid`,
                `method`,
                `url_pattern`,
@@ -30,6 +31,7 @@
     </select>
 
     <select id="selectDetail" resultType="SysResourceMgmtDetailVO">
+        /* SysResourceMgmtRestDAO.selectDetail */
         SELECT `uid`,
                `method`,
                `url_pattern`,
@@ -44,6 +46,7 @@
     </select>
 
     <select id="isDuplicate" resultType="boolean">
+        /* SysResourceMgmtRestDAO.isDuplicate */
         SELECT COUNT(*) > 0
         FROM `rc_manage_resource`
         WHERE `method` = #{method, jdbcType=VARCHAR}
@@ -51,6 +54,7 @@
     </select>
 
     <select id="isOwner" resultType="boolean">
+        /* SysResourceMgmtRestDAO.isOwner */
         SELECT COUNT(*) > 0
         FROM `rc_manage_resource`
         WHERE `uid` = #{uid, jdbcType=BIGINT}
