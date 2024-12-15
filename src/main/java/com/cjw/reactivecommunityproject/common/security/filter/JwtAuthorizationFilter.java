@@ -53,6 +53,7 @@ public class JwtAuthorizationFilter implements AuthorizationManager<RequestAutho
                 .filter(o -> o.enabled() == CommonEnabledEnum.Y)
                 .flatMap(o -> cacheDataService.getCacheManageResourceList()
                         .parallelStream()
+                        .filter(o1 -> o1.getEnabled() == CommonEnabledEnum.Y)
                         .filter(o1 -> Objects.equals(o1.getUid(), o.resourceUid())))
                 .filter(o1 -> StringUtils.equalsAnyIgnoreCase(o1.getMethod().name(), "ALL") || StringUtils.equalsAnyIgnoreCase(o1.getMethod().name(), method))
                 .anyMatch(o -> antPathMatcher.match(o.getUrlPattern(), path))
