@@ -47,7 +47,7 @@ public class AuthRestServiceImpl implements AuthRestService {
 
 
     private Integer getRoleUidByCommonEnvCode() {
-        var envcode = cacheCustomService.getCommonCustomEnvCode("web.auth.service", "default.register.role.uid");
+        var envcode = cacheCustomService.getCustomCommonEnvCode("web.auth.service", "default.register.role.uid");
         if (envcode == null) {
             throw new AuthRestException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }

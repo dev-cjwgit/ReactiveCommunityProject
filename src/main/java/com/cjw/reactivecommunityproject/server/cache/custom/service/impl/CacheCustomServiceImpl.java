@@ -30,7 +30,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @Cacheable(value = "rc_common_env_code", key = "'path=' + #path + '_' + 'code=' + #code", cacheManager = "redisCacheManager")
-    public CacheCustomEnvCodeVO getCommonCustomEnvCode(String path, String code) {
+    public CacheCustomEnvCodeVO getCustomCommonEnvCode(String path, String code) {
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
                 .stream()
                 .filter(o -> StringUtils.equals(o.getPath(), path) && StringUtils.equals(o.getCode(), code))
@@ -48,13 +48,13 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @CacheEvict(value = "rc_common_env_code", allEntries = true, cacheManager = "redisCacheManager")
-    public void clearCommonCustomEnvCode() {
+    public void clearCustomCommonEnvCode() {
         log.info("CacheCustomServiceImpl.clearCommonCustomEnvCode()");
     }
 
     @Override
     @Cacheable(value = "rc_common_env_code", key = "'category=' + #category", cacheManager = "redisCacheManager")
-    public List<CacheCustomEnvCodeVO> getCommonCustomEnvCodeByCategoryList(String category) {
+    public List<CacheCustomEnvCodeVO> getCustomCommonEnvCodeByCategoryList(String category) {
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
                 .stream()
                 .filter(o -> StringUtils.equals(o.getCategory(), category))
@@ -72,13 +72,13 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @CacheEvict(value = "rc_common_env_code", allEntries = true, cacheManager = "redisCacheManager")
-    public void clearCommonCustomEnvCodeByCategoryList() {
+    public void clearCustomCommonEnvCodeByCategoryList() {
         log.info("CacheCustomServiceImpl.clearCommonCustomEnvCodeByCategoryList()");
     }
 
     @Override
     @Cacheable(value = "custom_common_language", key = "'path=' + #path + '_' + 'lang=' + #lang", cacheManager = "redisCacheManager")
-    public List<CacheCustomLanguageVO> getCommonCustomLangaugeList(String path, String lang) {
+    public List<CacheCustomLanguageVO> getCustomCommonLangaugeList(String path, String lang) {
         var gbCodeList = cacheDataService.getCacheCommonLanguageGbCodeList(lang);
 
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonLanguageCodeList())
@@ -104,7 +104,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @CacheEvict(value = "custom_common_language", allEntries = true, cacheManager = "redisCacheManager")
-    public void clearCommonCustomLanguageList() {
+    public void clearCustomCommonLanguageList() {
         log.info("CacheCustomServiceImpl.clearCommonCustomLanguageList()");
     }
 

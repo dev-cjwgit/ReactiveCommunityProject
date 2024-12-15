@@ -8,14 +8,14 @@ import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomRol
 import java.util.List;
 
 public interface CacheCustomService {
-    CacheCustomEnvCodeVO getCommonCustomEnvCode(String path, String code);
-    void clearCommonCustomEnvCode();
+    CacheCustomEnvCodeVO getCustomCommonEnvCode(String path, String code);
+    void clearCustomCommonEnvCode();
 
-    List<CacheCustomEnvCodeVO> getCommonCustomEnvCodeByCategoryList(String category);
-    void clearCommonCustomEnvCodeByCategoryList();
+    List<CacheCustomEnvCodeVO> getCustomCommonEnvCodeByCategoryList(String category);
+    void clearCustomCommonEnvCodeByCategoryList();
 
-    List<CacheCustomLanguageVO> getCommonCustomLangaugeList(String path, String lang);
-    void clearCommonCustomLanguageList();
+    List<CacheCustomLanguageVO> getCustomCommonLangaugeList(String path, String lang);
+    void clearCustomCommonLanguageList();
 
     List<CacheCustomRoleFunctionVO> getCustomManageRoleFunctionList(Integer roleUid);
     void clearCustomManageRoleFunctionList();
