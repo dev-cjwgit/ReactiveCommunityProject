@@ -17,7 +17,7 @@
         FROM `rc_manage_resource`
         WHERE `uid` IN (SELECT `resource_uid`
                         FROM rc_manage_role_resource
-                        WHERE `role_uid` = #{role_uid, jdbcType=INTEGER})
+                        WHERE `role_uid` = #{roleUid, jdbcType=INTEGER})
 
     </select>
 </mapper>

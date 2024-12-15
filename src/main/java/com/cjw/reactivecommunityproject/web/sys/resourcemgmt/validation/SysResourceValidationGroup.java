@@ -7,6 +7,9 @@ public class SysResourceValidationGroup {
 
     }
 
-    public interface CreateResource extends Default {
+    public interface Create extends Default {
+    }
+
+    public interface Modify extends Default {
     }
 }

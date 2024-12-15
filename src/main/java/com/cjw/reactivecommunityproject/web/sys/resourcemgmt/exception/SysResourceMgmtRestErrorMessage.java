@@ -7,6 +7,8 @@ public enum SysResourceMgmtRestErrorMessage implements RcBaseErrorMessage {
     NOT_FOUND_RESOURCE_DETAIL(null, "상세 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     DUPLICATE_RESOURCE_INFO(null, "이미 중복된 데이터입니다.", HttpStatus.BAD_REQUEST),
 
+    UNAUTHORIZED_ACCESS(null, "해당 명령을 수행 할 권한이 없습니다.", HttpStatus.FORBIDDEN),
+
     DUMMY(null, null, null);
 
     private final Integer errorCode;

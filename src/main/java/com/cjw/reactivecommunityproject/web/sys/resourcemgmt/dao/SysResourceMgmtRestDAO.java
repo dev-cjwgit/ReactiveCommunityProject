@@ -17,6 +17,11 @@ public interface SysResourceMgmtRestDAO {
 
     Boolean isDuplicate(
             @Param("method") RcManageResourceMethodEnum method,
-            @Param("url_pattern") String urlPattern
+            @Param("urlPattern") String urlPattern
+    );
+
+    Boolean isOwner(
+            @Param("uid") Long uid,
+            @Param("userUid") String userUid
     );
 }

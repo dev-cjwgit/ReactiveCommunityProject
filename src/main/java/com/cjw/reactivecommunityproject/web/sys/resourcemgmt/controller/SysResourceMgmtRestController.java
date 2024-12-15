@@ -6,6 +6,7 @@ import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceMgmtDetailVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceMgmtListVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceMgmtCreateVO;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceMgmtModifyVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceMgmtReadListVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.service.SysResourceMgmtRestService;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.validation.SysResourceValidationGroup;
@@ -39,17 +40,32 @@ public class SysResourceMgmtRestController {
                         .build()));
     }
 
-    @GetMapping("/detail/{uid}")
-    public ResponseEntity<RestResponseVO<SysResourceMgmtDetailVO>> readResourceMgmtDetail(
+    @GetMapping("/{uid}")
+    public ResponseEntity<RestResponseVO<SysResourceMgmtDetailVO>> readDetail(
             @PathVariable("uid") Long uid
     ) {
-        return ResponseEntity.ok(sysResourceMgmtRestService.readResourceMgmtDetail(uid));
+        return ResponseEntity.ok(sysResourceMgmtRestService.readDetail(uid));
     }
 
     @PostMapping
-    public ResponseEntity<RestResponseVO<Void>> createResource(
-            @RequestBody @Validated(SysResourceValidationGroup.CreateResource.class) SysResourceMgmtCreateVO sysResourcemgmtCreateVO
+    public ResponseEntity<RestResponseVO<Void>> create(
+            @RequestBody @Validated(SysResourceValidationGroup.Create.class) SysResourceMgmtCreateVO sysResourcemgmtCreateVO
     ) {
-        return ResponseEntity.ok(sysResourceMgmtRestService.createResource(sysResourcemgmtCreateVO));
+        return ResponseEntity.ok(sysResourceMgmtRestService.create(sysResourcemgmtCreateVO));
+    }
+
+    @DeleteMapping("/{uid}")
+    public ResponseEntity<RestResponseVO<Void>> remove(
+            @PathVariable("uid") Long uid
+    ) {
+        return ResponseEntity.ok(sysResourceMgmtRestService.remove(uid));
+    }
+
+    @PatchMapping
+    public ResponseEntity<RestResponseVO<Void>> modify(
+            @RequestBody SysResourceMgmtModifyVO sysResourceMgmtModifyVO
+    ) {
+        return ResponseEntity.ok(sysResourceMgmtRestService.modify(sysResourceMgmtModifyVO));
     }
 }
+

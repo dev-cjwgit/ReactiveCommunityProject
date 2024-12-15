@@ -47,6 +47,13 @@
         SELECT COUNT(*) > 0
         FROM `rc_manage_resource`
         WHERE `method` = #{method, jdbcType=VARCHAR}
-          AND `url_pattern` = #{url_pattern, jdbcType=VARCHAR}
+          AND `url_pattern` = #{urlPattern, jdbcType=VARCHAR}
+    </select>
+
+    <select id="isOwner" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM `rc_manage_resource`
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+          AND `created_user_uid` = #{userUid, jdbcType=VARCHAR}
     </select>
 </mapper>

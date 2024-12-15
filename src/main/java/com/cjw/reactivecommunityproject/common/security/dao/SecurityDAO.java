@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface SecurityDAO {
-    List<SecurityResourceByRoleUidVO> selectResourceByRoleUid(@Param("role_uid") Integer roleUid);
+    List<SecurityResourceByRoleUidVO> selectResourceByRoleUid(@Param("roleUid") Integer roleUid);
 }
