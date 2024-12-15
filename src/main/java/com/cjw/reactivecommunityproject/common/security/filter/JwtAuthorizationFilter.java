@@ -46,9 +46,8 @@ public class JwtAuthorizationFilter implements AuthorizationManager<RequestAutho
 
         return cacheCustomService.getCustomManageRoleResourceList(NumberUtils.toInt(roleUid))
                 .parallelStream()
-                .filter(o1 -> StringUtils.equalsAnyIgnoreCase(o1.getMethod().name(), "ALL") || StringUtils.equalsAnyIgnoreCase(o1.getMethod().name(), method))
+                .filter(o -> StringUtils.equalsAnyIgnoreCase(o.getMethod().name(), "ALL") || StringUtils.equalsAnyIgnoreCase(o.getMethod().name(), method))
                 .anyMatch(o -> antPathMatcher.match(o.getUrlPattern(), path))
                 ? TRUE : FALSE;
-
     }
 }
