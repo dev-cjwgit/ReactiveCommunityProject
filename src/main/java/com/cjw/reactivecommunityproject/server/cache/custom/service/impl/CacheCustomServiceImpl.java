@@ -29,7 +29,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
     private final CacheDataService cacheDataService;
 
     @Override
-    @Cacheable(value = "rc_common_env_code", key = "'path=' + #path + '_' + 'code=' + #code", cacheManager = "redisCacheManager")
+    @Cacheable(value = "rc_common_env_code", key = "'envId=' + #envId", cacheManager = "redisCacheManager")
     public CacheCustomEnvCodeVO getCustomCommonEnvCode(String envId) {
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
                 .stream()
