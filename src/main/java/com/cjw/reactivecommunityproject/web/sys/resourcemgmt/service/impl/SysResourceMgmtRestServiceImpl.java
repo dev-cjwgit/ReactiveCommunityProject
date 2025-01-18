@@ -4,14 +4,13 @@ import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.service.PaginationService;
-import com.cjw.reactivecommunityproject.server.sys.resourcemgmt.model.SysResourceMgmtInsertVO;
-import com.cjw.reactivecommunityproject.server.sys.resourcemgmt.model.SysResourceMgmtUpdateVO;
-import com.cjw.reactivecommunityproject.server.sys.resourcemgmt.service.SysResourceMgmtService;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.mapper.SysResourceMgmtRestMapper;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.dao.SysResourceMgmtDao;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.exception.SysResourceMgmtRestErrorMessage;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.exception.SysResourceMgmtRestException;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceMgmtDetailVO;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceMgmtInsertVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceMgmtListVO;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceMgmtUpdateVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceMgmtCreateVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceMgmtModifyVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceMgmtReadListVO;
@@ -26,9 +25,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class SysResourceMgmtRestServiceImpl implements SysResourceMgmtRestService {
-    private final SysResourceMgmtRestMapper sysResourceMgmtRestMapper;
-
-    private final SysResourceMgmtService sysResourceMgmtService;
+    private final SysResourceMgmtDao sysResourceMgmtDao;
 
     private final PaginationService paginationService;
 
@@ -36,7 +33,7 @@ public class SysResourceMgmtRestServiceImpl implements SysResourceMgmtRestServic
 
     @Override
     public RestResponseVO<List<SysResourceMgmtListVO>> readResourceMgmtList(SysResourceMgmtReadListVO sysResourceMgmtReadListVO, PaginationRequestVO paginationRequestVO) {
-        var list = sysResourceMgmtRestMapper.selectList(
+        var list = sysResourceMgmtDao.selectList(
                 paginationService.createPagination(sysResourceMgmtReadListVO, paginationRequestVO)
         );
 
@@ -48,7 +45,7 @@ public class SysResourceMgmtRestServiceImpl implements SysResourceMgmtRestServic
 
     @Override
     public RestResponseVO<SysResourceMgmtDetailVO> readDetail(Long uid) {
-        var detail = sysResourceMgmtRestMapper.selectDetail(uid);
+        var detail = sysResourceMgmtDao.selectDetail(uid);
         if (detail == null) {
             throw new SysResourceMgmtRestException(SysResourceMgmtRestErrorMessage.NOT_FOUND_RESOURCE_DETAIL);
         }
@@ -60,7 +57,7 @@ public class SysResourceMgmtRestServiceImpl implements SysResourceMgmtRestServic
 
     @Override
     public RestResponseVO<Void> create(SysResourceMgmtCreateVO sysResourcemgmtCreateVO) {
-        var isDuplicate = sysResourceMgmtRestMapper.isDuplicate(
+        var isDuplicate = sysResourceMgmtDao.isDuplicate(
                 sysResourcemgmtCreateVO.method(),
                 sysResourcemgmtCreateVO.urlPattern()
         );
@@ -68,7 +65,7 @@ public class SysResourceMgmtRestServiceImpl implements SysResourceMgmtRestServic
         if (isDuplicate) {
             throw new SysResourceMgmtRestException(SysResourceMgmtRestErrorMessage.DUPLICATE_RESOURCE_INFO);
         }
-        sysResourceMgmtService.insert(
+        sysResourceMgmtDao.insertTransactional(
                 SysResourceMgmtInsertVO.builder()
                         .method(sysResourcemgmtCreateVO.method())
                         .urlPattern(sysResourcemgmtCreateVO.urlPattern())
@@ -85,13 +82,13 @@ public class SysResourceMgmtRestServiceImpl implements SysResourceMgmtRestServic
 
     @Override
     public RestResponseVO<Void> modify(SysResourceMgmtModifyVO sysResourceMgmtModifyVO) {
-        var isOwner = sysResourceMgmtRestMapper.isOwner(sysResourceMgmtModifyVO.uid(), rcUserComponent.getUserUid());
+        var isOwner = sysResourceMgmtDao.isOwner(sysResourceMgmtModifyVO.uid(), rcUserComponent.getUserUid());
 
         if (Boolean.FALSE.equals(isOwner)) {
             throw new SysResourceMgmtRestException(SysResourceMgmtRestErrorMessage.UNAUTHORIZED_ACCESS);
         }
 
-        sysResourceMgmtService.update(
+        sysResourceMgmtDao.updateTransactional(
                 SysResourceMgmtUpdateVO.builder()
                         .uid(sysResourceMgmtModifyVO.uid())
                         .method(sysResourceMgmtModifyVO.method())
@@ -110,13 +107,13 @@ public class SysResourceMgmtRestServiceImpl implements SysResourceMgmtRestServic
 
     @Override
     public RestResponseVO<Void> remove(Long uid) {
-        var isOwner = sysResourceMgmtRestMapper.isOwner(uid, rcUserComponent.getUserUid());
+        var isOwner = sysResourceMgmtDao.isOwner(uid, rcUserComponent.getUserUid());
 
         if (Boolean.FALSE.equals(isOwner)) {
             throw new SysResourceMgmtRestException(SysResourceMgmtRestErrorMessage.UNAUTHORIZED_ACCESS);
         }
 
-        sysResourceMgmtService.delete(uid);
+        sysResourceMgmtDao.deleteTransactional(uid);
 
         return RestResponseVO.<Void>builder()
                 .result(true)

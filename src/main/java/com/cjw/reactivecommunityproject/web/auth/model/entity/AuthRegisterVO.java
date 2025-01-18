@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.server.auth.model;
+package com.cjw.reactivecommunityproject.web.auth.model.entity;
 
 import lombok.Builder;
 

@@ -4,6 +4,6 @@
 
 <mapper namespace="com.cjw.reactivecommunityproject.web.template.mapper.TemplateRestMapper">
     <select id="select" resultType="TemplateRestEntityVO">
-        /* TemplateRestDAO.select */
+        /* TemplateRestDao.select */
     </select>
 </mapper>

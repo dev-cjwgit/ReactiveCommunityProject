@@ -5,16 +5,15 @@ import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtV
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.server.auth.model.AuthLoginVO;
-import com.cjw.reactivecommunityproject.server.auth.model.AuthRegisterVO;
-import com.cjw.reactivecommunityproject.server.auth.service.AuthService;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
-import com.cjw.reactivecommunityproject.web.auth.mapper.AuthRestMapper;
+import com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDao;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestException;
-import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestReissueJwtTokenVO;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthLoginVO;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestLoginVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestRegisterVO;
+import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestReissueJwtTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtAccessTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.service.AuthRestService;
@@ -35,11 +34,10 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AuthRestServiceImpl implements AuthRestService {
-    private final AuthRestMapper authRestMapper;
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final JwtService jwtService;
-    private final AuthService authService;
+    private final AuthRestDao authRestDao;
     private final CacheCustomService cacheCustomService;
 
     private final RcProperties rcProperties;
@@ -60,11 +58,11 @@ public class AuthRestServiceImpl implements AuthRestService {
 
     @Override
     public RestResponseVO<Void> register(AuthRestRegisterVO authRestRegisterVO) {
-        if (authRestMapper.isExistUserByEmail(authRestRegisterVO.email())) {
+        if (authRestDao.isExistUserByEmail(authRestRegisterVO.email())) {
             throw new AuthRestException(AuthRestErrorMessage.EXIST_ADDED_EMAIL);
         }
 
-        if (authRestMapper.isExistUserByNickname(authRestRegisterVO.nickname())) {
+        if (authRestDao.isExistUserByNickname(authRestRegisterVO.nickname())) {
             throw new AuthRestException(AuthRestErrorMessage.EXIST_ADDED_NICKNAME);
         }
 
@@ -76,7 +74,7 @@ public class AuthRestServiceImpl implements AuthRestService {
 
         String salt = BCrypt.hashpw(uid + calendar.getTime(), BCrypt.gensalt());
 
-        authService.register(AuthRegisterVO.builder()
+        authRestDao.registerTransactional(AuthRegisterVO.builder()
                         .uid(uid)
                         .roleUid(getRoleUidByCommonEnvCode())
                         .email(authRestRegisterVO.email())
@@ -94,7 +92,7 @@ public class AuthRestServiceImpl implements AuthRestService {
 
     @Override
     public RestResponseVO<AuthRestJwtTokenVO> login(AuthRestLoginVO authRestLoginVO) {
-        var rcUserEntity = authRestMapper.selectRcUserByEmail(authRestLoginVO.email());
+        var rcUserEntity = authRestDao.selectRcUserByEmail(authRestLoginVO.email());
 
         if (rcUserEntity == null) {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
@@ -140,7 +138,7 @@ public class AuthRestServiceImpl implements AuthRestService {
                 .refreshToken(refreshToken)
                 .build();
 
-        authService.login(
+        authRestDao.loginTransactional(
                 AuthLoginVO.builder()
                         .userUid(rcUserEntity.uid())
                         .refreshToken(refreshToken)
@@ -169,7 +167,7 @@ public class AuthRestServiceImpl implements AuthRestService {
             throw new AuthRestException(AuthRestErrorMessage.NOT_MATCH_REFRESH_TOKEN);
         }
 
-        var rcUserEntity = authRestMapper.selectRcUserByUserUid(claims.userUid());
+        var rcUserEntity = authRestDao.selectRcUserByUserUid(claims.userUid());
 
         if (rcUserEntity == null) {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_USER);

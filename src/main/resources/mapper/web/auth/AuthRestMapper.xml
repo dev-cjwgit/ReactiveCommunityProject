@@ -53,4 +53,22 @@
         FROM `rc_manage_user`
         WHERE `nickname` = #{nickname, jdbcType=VARCHAR}
     </select>
+
+    <insert id="register" parameterType="AuthRegisterVO">
+        /* AuthRestMapper.register */
+        INSERT INTO rc_manage_user(`uid`,
+                                   `role_uid`,
+                                   `email`,
+                                   `pw`,
+                                   `name`,
+                                   `nickname`,
+                                   `joined_region`)
+        VALUES (#{uid, jdbcType=VARCHAR},
+                #{roleUid, jdbcType=INTEGER},
+                #{email, jdbcType=VARCHAR},
+                #{pw, jdbcType=VARCHAR},
+                #{name, jdbcType=VARCHAR},
+                #{nickname, jdbcType=VARCHAR},
+                #{joinedRegion, jdbcType=VARCHAR})
+    </insert>
 </mapper>
