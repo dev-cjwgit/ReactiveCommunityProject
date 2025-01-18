@@ -1,6 +1,7 @@
 package com.cjw.reactivecommunityproject.common.security.filter.requestlimit;
 
 import com.cjw.reactivecommunityproject.common.security.model.RequestUserInfo;
+import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,8 +29,8 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
         String clientIP = request.getRemoteAddr();
         long currentTime = System.currentTimeMillis();
 
-        var limitEnvCode = cacheCustomService.getCustomCommonEnvCode("rc.request.filter.limit");
-        var timeWindowEnvCode = cacheCustomService.getCustomCommonEnvCode("rc.request.filter.time.window.sec");
+        var limitEnvCode = EnvCodeUtils.<Integer>convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.request.filter.limit"), Integer.class);
+        var timeWindowEnvCode = EnvCodeUtils.<Integer>convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.request.filter.time.window.sec"), Integer.class);
 
         if (limitEnvCode == null || timeWindowEnvCode == null) {
             log.error("RequestLimitingFilter.doFilterInternal env code is null");
@@ -39,7 +40,7 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
 
         log.info("RequestLimitingFilter.doFilterInternal: {}, {}", clientIP, currentTime);
         requestCounts.compute(clientIP, (ip, requestUserInfo) -> {
-            if (requestUserInfo == null || (currentTime - requestUserInfo.getStartTime() > Integer.parseInt(timeWindowEnvCode.getValue()) * 1000L)) {
+            if (requestUserInfo == null || (currentTime - requestUserInfo.getStartTime() > timeWindowEnvCode * 1000L)) {
                 // 새로운 윈도우 시작
                 return RequestUserInfo.builder()
                         .startTime(currentTime)
@@ -54,7 +55,7 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
 
         var userRequestInfo = requestCounts.get(clientIP);
         log.info("RequestLimitingFilter.doFilterInternal: request info : {}", userRequestInfo);
-        if (userRequestInfo != null && userRequestInfo.getRequestCount().get() > Integer.parseInt(limitEnvCode.getValue())) {
+        if (userRequestInfo != null && userRequestInfo.getRequestCount().get() > limitEnvCode) {
             // 요청 제한 초과
             response.setStatus(429); // 429 Too Many Requests
             response.getWriter().write("Too many requests. Please try again later.");

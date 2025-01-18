@@ -7,6 +7,7 @@ import com.cjw.reactivecommunityproject.common.security.exception.SecurityExcept
 import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwt;
 import com.cjw.reactivecommunityproject.common.security.model.SecurityJwtPayload;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
+import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -20,7 +21,6 @@ import io.jsonwebtoken.security.SignatureException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -37,36 +37,33 @@ public class JwtServiceImpl implements JwtService {
     private final CacheCustomService cacheCustomService;
 
 
-    private Long getTokenExpiresByCommonEnvCode(String tokenType) {
-        var envcode = cacheCustomService.getCustomCommonEnvCode(StringUtils.join("rc.jwt.", tokenType));
+    private Integer getTokenExpiresByCommonEnvCode(String tokenType) {
+        var envcode = EnvCodeUtils.<Integer>convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode(StringUtils.join("rc.jwt.", tokenType)), Integer.class);
         if (envcode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }
-        if (!NumberUtils.isDigits(envcode.getValue())) {
-            throw new AuthException(RcCommonErrorMessage.INVALID_ENV_CODE);
-        }
 
-        return NumberUtils.toLong(envcode.getValue());
+        return envcode;
     }
 
-    private Long getAccessTokenExpiresByCommonEnvCode() {
+    private Integer getAccessTokenExpiresByCommonEnvCode() {
         return getTokenExpiresByCommonEnvCode("access.token.expires.minutes");
     }
 
-    private Long getRefreshTokenExpiresByCommonEnvCode() {
+    private Integer getRefreshTokenExpiresByCommonEnvCode() {
         return getTokenExpiresByCommonEnvCode("refresh.token.expires.minutes");
     }
 
     private String getSecretKeyByCommonEnvCode() {
-        var envcode = cacheCustomService.getCustomCommonEnvCode("rc.jwt.secret.key");
+        var envcode = EnvCodeUtils.<String>convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.jwt.secret.key"), String.class);
         if (envcode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }
-        if (StringUtils.isBlank(envcode.getValue())) {
+        if (StringUtils.isBlank(envcode)) {
             throw new AuthException(RcCommonErrorMessage.INVALID_ENV_CODE);
         }
 
-        return envcode.getValue();
+        return envcode;
     }
 
     private String getUserUidByJwtPayload(String token) {
@@ -100,7 +97,7 @@ public class JwtServiceImpl implements JwtService {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    private String createToken(SecurityAccessJwt securityAccessJwt, Long expiresMinutes) {
+    private String createToken(SecurityAccessJwt securityAccessJwt, Integer expiresMinutes) {
         return Jwts.builder()
                 .subject(securityAccessJwt.userUid())
                 .claim("role", securityAccessJwt.roleUid())

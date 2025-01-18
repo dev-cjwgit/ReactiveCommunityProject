@@ -11,12 +11,11 @@ import java.time.ZonedDateTime;
 @Builder
 @ToString
 public class CacheCustomEnvCodeVO {
-    private String path;
+    private String id;
     private RcCommonEnvCodeTypeEnum type;
-    private String code;
     private String value;
-    private Integer order;
     private String category;
+    private Integer order;
     private ZonedDateTime updatedUtcAt;
 }
 
