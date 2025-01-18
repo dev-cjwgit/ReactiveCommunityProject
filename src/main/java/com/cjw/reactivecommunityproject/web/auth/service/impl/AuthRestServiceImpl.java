@@ -9,7 +9,7 @@ import com.cjw.reactivecommunityproject.server.auth.model.AuthLoginVO;
 import com.cjw.reactivecommunityproject.server.auth.model.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.server.auth.service.AuthService;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
-import com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDAO;
+import com.cjw.reactivecommunityproject.web.auth.mapper.AuthRestMapper;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestException;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRestReissueJwtTokenVO;
@@ -35,7 +35,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AuthRestServiceImpl implements AuthRestService {
-    private final AuthRestDAO authRestDAO;
+    private final AuthRestMapper authRestMapper;
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final JwtService jwtService;
@@ -60,11 +60,11 @@ public class AuthRestServiceImpl implements AuthRestService {
 
     @Override
     public RestResponseVO<Void> register(AuthRestRegisterVO authRestRegisterVO) {
-        if (authRestDAO.isExistUserByEmail(authRestRegisterVO.email())) {
+        if (authRestMapper.isExistUserByEmail(authRestRegisterVO.email())) {
             throw new AuthRestException(AuthRestErrorMessage.EXIST_ADDED_EMAIL);
         }
 
-        if (authRestDAO.isExistUserByNickname(authRestRegisterVO.nickname())) {
+        if (authRestMapper.isExistUserByNickname(authRestRegisterVO.nickname())) {
             throw new AuthRestException(AuthRestErrorMessage.EXIST_ADDED_NICKNAME);
         }
 
@@ -94,7 +94,7 @@ public class AuthRestServiceImpl implements AuthRestService {
 
     @Override
     public RestResponseVO<AuthRestJwtTokenVO> login(AuthRestLoginVO authRestLoginVO) {
-        var rcUserEntity = authRestDAO.selectRcUserByEmail(authRestLoginVO.email());
+        var rcUserEntity = authRestMapper.selectRcUserByEmail(authRestLoginVO.email());
 
         if (rcUserEntity == null) {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_EMAIL);
@@ -169,7 +169,7 @@ public class AuthRestServiceImpl implements AuthRestService {
             throw new AuthRestException(AuthRestErrorMessage.NOT_MATCH_REFRESH_TOKEN);
         }
 
-        var rcUserEntity = authRestDAO.selectRcUserByUserUid(claims.userUid());
+        var rcUserEntity = authRestMapper.selectRcUserByUserUid(claims.userUid());
 
         if (rcUserEntity == null) {
             throw new AuthRestException(AuthRestErrorMessage.NOT_FOUND_USER);

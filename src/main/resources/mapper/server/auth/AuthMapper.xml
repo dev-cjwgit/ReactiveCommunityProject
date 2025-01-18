@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cjw.reactivecommunityproject.server.auth.dao.AuthDAO">
+<mapper namespace="com.cjw.reactivecommunityproject.server.auth.mapper.AuthMapper">
     <insert id="register" parameterType="AuthRegisterVO">
         /* AuthDAO.register */
         INSERT INTO rc_manage_user(`uid`,

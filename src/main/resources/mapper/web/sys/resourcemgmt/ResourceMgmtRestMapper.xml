@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cjw.reactivecommunityproject.web.sys.resourcemgmt.dao.SysResourceMgmtRestDAO">
+<mapper namespace="com.cjw.reactivecommunityproject.web.sys.resourcemgmt.mapper.SysResourceMgmtRestMapper">
     <select id="selectList" parameterType="PaginationVO" resultType="SysResourceMgmtListVO">
-        /* SysResourceMgmtRestDAO.selectList */
+        /* SysResourceMgmtRestMapper.selectList */
         SELECT `uid`,
                `method`,
                `url_pattern`,
@@ -31,7 +31,7 @@
     </select>
 
     <select id="selectDetail" resultType="SysResourceMgmtDetailVO">
-        /* SysResourceMgmtRestDAO.selectDetail */
+        /* SysResourceMgmtRestMapper.selectDetail */
         SELECT `uid`,
                `method`,
                `url_pattern`,
@@ -46,7 +46,7 @@
     </select>
 
     <select id="isDuplicate" resultType="boolean">
-        /* SysResourceMgmtRestDAO.isDuplicate */
+        /* SysResourceMgmtRestMapper.isDuplicate */
         SELECT COUNT(*) > 0
         FROM `rc_manage_resource`
         WHERE `method` = #{method, jdbcType=VARCHAR}
@@ -54,7 +54,7 @@
     </select>
 
     <select id="isOwner" resultType="boolean">
-        /* SysResourceMgmtRestDAO.isOwner */
+        /* SysResourceMgmtRestMapper.isOwner */
         SELECT COUNT(*) > 0
         FROM `rc_manage_resource`
         WHERE `uid` = #{uid, jdbcType=BIGINT}

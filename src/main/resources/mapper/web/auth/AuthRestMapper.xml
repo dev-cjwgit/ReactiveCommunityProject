@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDAO">
+<mapper namespace="com.cjw.reactivecommunityproject.web.auth.mapper.AuthRestMapper">
     <select id="selectRcUserByEmail" resultType="AuthRestRcUserVO">
-        /*AuthRestDAO.selectRcUserByEmail*/
+        /*AuthRestMapper.selectRcUserByEmail*/
         SELECT `uid`,
                `role_uid`,
                `email`,
@@ -23,7 +23,7 @@
 
 
     <select id="selectRcUserByUserUid" resultType="AuthRestRcUserVO">
-        /*AuthRestDAO.selectRcUserByUserUid*/
+        /*AuthRestMapper.selectRcUserByUserUid*/
         SELECT `uid`,
                `role_uid`,
                `email`,
@@ -41,14 +41,14 @@
     </select>
 
     <select id="isExistUserByEmail" resultType="Boolean">
-        /*AuthRestDAO.isExistUserByEmail*/
+        /*AuthRestMapper.isExistUserByEmail*/
         SELECT COUNT(*) > 0
         FROM `rc_manage_user`
         WHERE `email` = #{email, jdbcType=VARCHAR}
     </select>
 
     <select id="isExistUserByNickname" resultType="Boolean">
-        /*AuthRestDAO.isExistUserByNickname*/
+        /*AuthRestMapper.isExistUserByNickname*/
         SELECT COUNT(*) > 0
         FROM `rc_manage_user`
         WHERE `nickname` = #{nickname, jdbcType=VARCHAR}

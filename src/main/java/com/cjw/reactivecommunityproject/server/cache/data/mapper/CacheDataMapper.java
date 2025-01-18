@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.server.cache.data.dao;
+package com.cjw.reactivecommunityproject.server.cache.data.mapper;
 
 import com.cjw.reactivecommunityproject.server.cache.data.model.*;
 import org.apache.ibatis.annotations.Mapper;
@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface CacheDataDAO {
+public interface CacheDataMapper {
     List<CacheDataCommonRegionVO> selectCommonRegionList();
 
     List<CacheDataCommonEnvCodeVO> selectCommonEnvCodeList();

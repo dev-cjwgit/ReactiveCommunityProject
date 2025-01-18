@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.template.service.impl;
 
-import com.cjw.reactivecommunityproject.web.template.dao.TemplateRestDAO;
+import com.cjw.reactivecommunityproject.web.template.mapper.TemplateRestMapper;
 import com.cjw.reactivecommunityproject.web.template.service.TemplateRestService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TemplateRestServiceImpl implements TemplateRestService {
-    private final TemplateRestDAO templateRestDAO;
+    private final TemplateRestMapper templateRestMapper;
 }

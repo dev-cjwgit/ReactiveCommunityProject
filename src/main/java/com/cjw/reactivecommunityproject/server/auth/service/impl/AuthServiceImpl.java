@@ -2,7 +2,7 @@ package com.cjw.reactivecommunityproject.server.auth.service.impl;
 
 import com.cjw.reactivecommunityproject.server.auth.model.AuthLoginVO;
 import com.cjw.reactivecommunityproject.server.auth.service.AuthService;
-import com.cjw.reactivecommunityproject.server.auth.dao.AuthDAO;
+import com.cjw.reactivecommunityproject.server.auth.mapper.AuthMapper;
 import com.cjw.reactivecommunityproject.server.auth.model.AuthRegisterVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-    private final AuthDAO authDAO;
+    private final AuthMapper authMapper;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -23,7 +23,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
     public void register(AuthRegisterVO authRegisterVO, String salt) {
-        int res = authDAO.register(authRegisterVO);
+        int res = authMapper.register(authRegisterVO);
         log.info("AuthDAO.register : {}", res);
 
         redisTemplate.opsForValue().set(StringUtils.join(authRegisterVO.uid(), ".salt"), salt);
