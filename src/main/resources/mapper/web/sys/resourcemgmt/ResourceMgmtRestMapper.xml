@@ -60,4 +60,54 @@
         WHERE `uid` = #{uid, jdbcType=BIGINT}
           AND `created_user_uid` = #{userUid, jdbcType=VARCHAR}
     </select>
+
+    <insert id="insert" parameterType="SysResourceMgmtInsertVO">
+        /* SysResourceMgmtRestMapper.insert */
+        INSERT INTO rc_manage_resource(`method`,
+                                       `url_pattern`,
+                                       `description`,
+                                       `enabled`,
+                                       `created_user_uid`,
+                                       `created_utc_at`,
+                                       `updated_user_uid`,
+                                       `updated_utc_at`)
+        VALUES (#{method, jdbcType=VARCHAR},
+                #{urlPattern, jdbcType=INTEGER},
+                #{description, jdbcType=VARCHAR},
+                'Y',
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP(),
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP())
+    </insert>
+
+    <update id="update" parameterType="SysResourceMgmtUpdateVO">
+        /* SysResourceMgmtRestMapper.update */
+        UPDATE rc_manage_resource
+        <set>
+            <if test="method != null">
+                `method` = #{method, jdbcType=VARCHAR},
+            </if>
+
+            <if test="urlPattern != null">
+                `url_pattern` = #{urlPattern, jdbcType=VARCHAR},
+            </if>
+
+            <if test="description != null">
+                `description` = #{description, jdbcType=VARCHAR},
+            </if>
+
+            `enabled` = #{enabled, jdbcType=VARCHAR},
+            `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
+            `updated_utc_at` = CURRENT_TIMESTAMP()
+        </set>
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        /* SysResourceMgmtRestMapper.delete */
+        DELETE
+        FROM rc_manage_resource
+        WHERE uid = #{uid, jdbcType=BIGINT}
+    </delete>
 </mapper>
