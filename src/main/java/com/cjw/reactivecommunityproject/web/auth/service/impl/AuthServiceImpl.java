@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.auth.service.impl;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
-import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtVO;
+import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwt;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
@@ -126,7 +126,7 @@ public class AuthServiceImpl implements AuthService {
             }
         }
 
-        var accessToken = jwtService.createAccessToken(SecurityAccessJwtVO.builder()
+        var accessToken = jwtService.createAccessToken(SecurityAccessJwt.builder()
                 .userUid(rcUserEntity.uid())
                 .roleUid(rcUserEntity.roleUid())
                 .build());
@@ -174,7 +174,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         String accessToken = jwtService.createAccessToken(
-                SecurityAccessJwtVO.builder()
+                SecurityAccessJwt.builder()
                         .userUid(claims.userUid())
                         .roleUid(rcUserEntity.roleUid())
                         .build()

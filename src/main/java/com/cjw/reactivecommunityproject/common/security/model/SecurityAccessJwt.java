@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Builder
-public record SecurityAccessJwtVO(
+public record SecurityAccessJwt(
         String userUid,
         Integer roleUid
 ) implements Authentication, Serializable {

@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.common.security.config;
 
-import com.cjw.reactivecommunityproject.common.security.filter.JwtAuthenticationFilter;
-import com.cjw.reactivecommunityproject.common.security.filter.JwtAuthorizationFilter;
+import com.cjw.reactivecommunityproject.common.security.filter.jwt.JwtAuthenticationFilter;
+import com.cjw.reactivecommunityproject.common.security.filter.jwt.JwtAuthorizationFilter;
 import com.cjw.reactivecommunityproject.common.security.handler.JwtAuthenticationFailedHandler;
 import com.cjw.reactivecommunityproject.common.security.handler.JwtAuthorizationDeniedHandler;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;

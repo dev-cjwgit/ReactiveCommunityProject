@@ -4,10 +4,9 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityErrorMessage;
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityException;
-import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtVO;
-import com.cjw.reactivecommunityproject.common.security.model.SecurityJwtPayloadVO;
+import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwt;
+import com.cjw.reactivecommunityproject.common.security.model.SecurityJwtPayload;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
-import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthException;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -33,7 +32,6 @@ import java.util.Date;
 @Service
 @RequiredArgsConstructor
 public class JwtServiceImpl implements JwtService {
-    private final RcProperties rcProperties;
     private final ObjectMapper objectMapper;
     private final RedisTemplate<String, Object> redisTemplate;
     private final CacheCustomService cacheCustomService;
@@ -80,7 +78,7 @@ public class JwtServiceImpl implements JwtService {
         String payload = parts[1];
         byte[] decodedPayload = Base64.getUrlDecoder().decode(payload);
         try {
-            var jwtPayloadVO = objectMapper.readValue(new String(decodedPayload), SecurityJwtPayloadVO.class);
+            var jwtPayloadVO = objectMapper.readValue(new String(decodedPayload), SecurityJwtPayload.class);
             return jwtPayloadVO.sub();
         } catch (JsonProcessingException ex) {
             throw new SecurityException(SecurityErrorMessage.INVALID_TOKEN_PAYLOAD);
@@ -102,27 +100,27 @@ public class JwtServiceImpl implements JwtService {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    private String createToken(SecurityAccessJwtVO securityAccessJwtVO, Long expiresMinutes) {
+    private String createToken(SecurityAccessJwt securityAccessJwt, Long expiresMinutes) {
         return Jwts.builder()
-                .subject(securityAccessJwtVO.userUid())
-                .claim("role", securityAccessJwtVO.roleUid())
+                .subject(securityAccessJwt.userUid())
+                .claim("role", securityAccessJwt.roleUid())
 
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + expiresMinutes))
 
-                .signWith(this.getSecretKey(securityAccessJwtVO.userUid()))
+                .signWith(this.getSecretKey(securityAccessJwt.userUid()))
                 .compact();
     }
 
 
     @Override
-    public String createAccessToken(SecurityAccessJwtVO securityAccessJwtVO) {
-        return createToken(securityAccessJwtVO, this.getAccessTokenExpiresByCommonEnvCode() * 1000 * 60);
+    public String createAccessToken(SecurityAccessJwt securityAccessJwt) {
+        return createToken(securityAccessJwt, this.getAccessTokenExpiresByCommonEnvCode() * 1000 * 60);
     }
 
     @Override
     public String createRefreshToken(String userUid) {
-        return createToken(SecurityAccessJwtVO.builder()
+        return createToken(SecurityAccessJwt.builder()
                 .userUid(userUid)
                 .roleUid(null)
                 .build(), this.getRefreshTokenExpiresByCommonEnvCode() * 1000 * 60);
@@ -134,14 +132,14 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public SecurityAccessJwtVO getClaims(String token) {
+    public SecurityAccessJwt getClaims(String token) {
         try {
             var userUid = this.getUserUidByJwtPayload(token);
             var claims = Jwts.parser()
                     .verifyWith(this.getSecretKey(userUid))
                     .build()
                     .parseSignedClaims(token);
-            return SecurityAccessJwtVO.builder()
+            return SecurityAccessJwt.builder()
                     .userUid(
                             claims.getPayload().getSubject()
                     )

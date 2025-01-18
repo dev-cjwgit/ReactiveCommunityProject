@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.security.filter;
+package com.cjw.reactivecommunityproject.common.security.filter.jwt;
 
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import jakarta.servlet.FilterChain;
