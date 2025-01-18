@@ -13,7 +13,7 @@ public class DateUtils {
     public static final String yyyy_MM_dd = "yyyy-MM-dd";
 
     public static ZonedDateTime convert(String inputDate, String format) {
-        if (StringUtils.isBlank(inputDate) && StringUtils.isBlank(format)) {
+        if (StringUtils.isBlank(inputDate) || StringUtils.isBlank(format)) {
             log.debug("DateUtils.convert is null : {} - {}", inputDate, format);
             return null;
         }
