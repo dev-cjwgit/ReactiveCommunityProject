@@ -45,20 +45,20 @@ public class SysResourceManagementDaoImpl implements SysResourceManagementDao {
     @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
     public void insertTransactional(SysResourceManagementInsertEntity sysResourceManagementInsertEntity) {
         var rtn = sysResourceManagementMapper.insert(sysResourceManagementInsertEntity);
-        log.info("SysResourceMgmtServiceImpl.insert : {}", rtn);
+        log.info("SysResourceMgmtServiceImpl.insert() : {}", rtn);
     }
 
     @Override
     @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
     public void updateTransactional(SysResourceManagementModifyEntity sysResourceManagementModifyEntity) {
         var rtn = sysResourceManagementMapper.update(sysResourceManagementModifyEntity);
-        log.info("SysResourceMgmtServiceImpl.update : {}", rtn);
+        log.info("SysResourceMgmtServiceImpl.update() : {}", rtn);
     }
 
     @Override
     @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
     public void deleteTransactional(Long uid) {
         var rtn = sysResourceManagementMapper.delete(uid);
-        log.info("SysResourceMgmtServiceImpl.delete : {}", rtn);
+        log.info("SysResourceMgmtServiceImpl.delete() : {}", rtn);
     }
 }

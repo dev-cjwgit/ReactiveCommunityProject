@@ -25,17 +25,17 @@ public class AuthDaoImpl implements AuthDao {
     @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
     public void registerTransactional(AuthRegisterEntity authRegisterEntity, String salt) {
         int res = authMapper.register(authRegisterEntity);
-        log.info("AuthDao.register : {}", res);
+        log.info("AuthDao.register() : {}", res);
 
         redisTemplate.opsForValue().set(StringUtils.join(authRegisterEntity.uid(), ".salt"), salt);
-        log.info("AuthServiceImpl.register - redisTemplate.opsForValue.set : [String] {}", salt);
+        log.info("AuthServiceImpl.register() - redisTemplate.opsForValue.set() : [String] {}", salt);
     }
 
     @Override
     @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
     public void loginTransactional(AuthLoginEntity authLoginEntity) {
         redisTemplate.opsForValue().set(StringUtils.join(authLoginEntity.userUid(), ".refresh"), authLoginEntity.refreshToken());
-        log.info("AuthServiceImpl.login - redisTemplate.opsForValue.set : [AuthLoginVO] {}", authLoginEntity);
+        log.info("AuthServiceImpl.login() - redisTemplate.opsForValue.set() : [AuthLoginVO] {}", authLoginEntity);
     }
 
     @Override
