@@ -28,8 +28,8 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
         String clientIP = request.getRemoteAddr();
         long currentTime = System.currentTimeMillis();
 
-        var limitEnvCode = cacheCustomService.getCustomCommonEnvCode("rc.request.filter", "limit");
-        var timeWindowEnvCode = cacheCustomService.getCustomCommonEnvCode("rc.request.filter", "time.window.sec");
+        var limitEnvCode = cacheCustomService.getCustomCommonEnvCode("rc.request.filter.limit");
+        var timeWindowEnvCode = cacheCustomService.getCustomCommonEnvCode("rc.request.filter.time.window.sec");
 
         if (limitEnvCode == null || timeWindowEnvCode == null) {
             log.error("RequestLimitingFilter.doFilterInternal env code is null");

@@ -13,8 +13,7 @@
 
     <select id="selectCommonEnvCodeList" parameterType="CacheDataCommonEnvCodeVO">
         /* CacheDao.selectCommonEnvCodeList */
-        SELECT `path`,
-               `code`,
+        SELECT `id`,
                `value`,
                `order`,
                `category`,

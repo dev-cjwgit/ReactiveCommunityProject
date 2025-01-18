@@ -1,10 +1,10 @@
 package com.cjw.reactivecommunityproject.server.cache.custom.model;
 
+import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 @Getter
@@ -12,6 +12,7 @@ import java.time.ZonedDateTime;
 @ToString
 public class CacheCustomEnvCodeVO {
     private String path;
+    private RcCommonEnvCodeTypeEnum type;
     private String code;
     private String value;
     private Integer order;

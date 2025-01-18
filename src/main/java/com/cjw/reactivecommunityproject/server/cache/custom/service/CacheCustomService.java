@@ -8,7 +8,7 @@ import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomRol
 import java.util.List;
 
 public interface CacheCustomService {
-    CacheCustomEnvCodeVO getCustomCommonEnvCode(String path, String code);
+    CacheCustomEnvCodeVO getCustomCommonEnvCode(String envId);
     void clearCustomCommonEnvCode();
 
     List<CacheCustomEnvCodeVO> getCustomCommonEnvCodeByCategoryList(String category);
