@@ -5,7 +5,7 @@ import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageResou
 
 import java.time.ZonedDateTime;
 
-public record SysResourceMgmtDetailVO(
+public record SysResourceManagementDetailVO(
         Long uid,
         RcManageResourceMethodEnum method,
         String urlPattern,

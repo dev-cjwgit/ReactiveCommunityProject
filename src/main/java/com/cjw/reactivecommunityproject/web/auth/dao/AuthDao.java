@@ -4,7 +4,7 @@ import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthLoginVO;
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRestRcUserVO;
 
-public interface AuthRestDao {
+public interface AuthDao {
     void registerTransactional(AuthRegisterVO authRegisterVO, String salt);
 
     void loginTransactional(AuthLoginVO authLoginVO);

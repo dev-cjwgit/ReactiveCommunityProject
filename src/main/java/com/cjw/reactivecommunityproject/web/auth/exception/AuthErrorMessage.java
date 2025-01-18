@@ -3,7 +3,7 @@ package com.cjw.reactivecommunityproject.web.auth.exception;
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessage;
 import org.springframework.http.HttpStatus;
 
-public enum AuthRestErrorMessage implements RcBaseErrorMessage {
+public enum AuthErrorMessage implements RcBaseErrorMessage {
     ALREADY_LOGGED_IN_USER(1, "이미 로그인 중인 계정입니다.", HttpStatus.OK),
 
     NOT_FOUND_USER(null, "유저를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
@@ -26,11 +26,11 @@ public enum AuthRestErrorMessage implements RcBaseErrorMessage {
     private final HttpStatus httpStatus;
     private final Boolean isDisplay;
 
-    AuthRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
+    AuthErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
         this(errorCode, errorMessage, httpStatus, true);
     }
 
-    AuthRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
+    AuthErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
         this.httpStatus = httpStatus;

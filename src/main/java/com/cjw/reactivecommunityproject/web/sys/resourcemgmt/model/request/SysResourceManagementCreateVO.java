@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record SysResourceMgmtCreateVO(
+public record SysResourceManagementCreateVO(
         @NotNull(groups = {SysResourceValidationGroup.Create.class}, message = "HTTP 메서드는 null 일 수 없습니다.")
         RcManageResourceMethodEnum method,
 

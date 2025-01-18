@@ -9,7 +9,7 @@ import com.cjw.reactivecommunityproject.common.security.model.SecurityJwtPayload
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
-import com.cjw.reactivecommunityproject.web.auth.exception.AuthRestException;
+import com.cjw.reactivecommunityproject.web.auth.exception.AuthException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -42,10 +42,10 @@ public class JwtServiceImpl implements JwtService {
     private Long getTokenExpiresByCommonEnvCode(String tokenType) {
         var envcode = cacheCustomService.getCustomCommonEnvCode("rc.jwt", tokenType);
         if (envcode == null) {
-            throw new AuthRestException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
+            throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }
         if (!NumberUtils.isDigits(envcode.getValue())) {
-            throw new AuthRestException(RcCommonErrorMessage.INVALID_ENV_CODE);
+            throw new AuthException(RcCommonErrorMessage.INVALID_ENV_CODE);
         }
 
         return NumberUtils.toLong(envcode.getValue());
@@ -62,10 +62,10 @@ public class JwtServiceImpl implements JwtService {
     private String getSecretKeyByCommonEnvCode() {
         var envcode = cacheCustomService.getCustomCommonEnvCode("rc.jwt", "secret.key");
         if (envcode == null) {
-            throw new AuthRestException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
+            throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }
         if (StringUtils.isBlank(envcode.getValue())) {
-            throw new AuthRestException(RcCommonErrorMessage.INVALID_ENV_CODE);
+            throw new AuthException(RcCommonErrorMessage.INVALID_ENV_CODE);
         }
 
         return envcode.getValue();

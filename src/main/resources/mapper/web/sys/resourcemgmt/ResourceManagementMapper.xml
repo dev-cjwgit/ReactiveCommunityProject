@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.cjw.reactivecommunityproject.web.sys.resourcemgmt.mapper.SysResourceMgmtRestMapper">
+<mapper namespace="com.cjw.reactivecommunityproject.web.sys.resourcemgmt.mapper.SysResourceManagementMapper">
     <select id="selectList" parameterType="PaginationVO" resultType="SysResourceMgmtListVO">
-        /* SysResourceMgmtRestMapper.selectList */
+        /* SysResourceMgmtMapper.selectList */
         SELECT `uid`,
                `method`,
                `url_pattern`,
@@ -31,7 +31,7 @@
     </select>
 
     <select id="selectDetail" resultType="SysResourceMgmtDetailVO">
-        /* SysResourceMgmtRestMapper.selectDetail */
+        /* SysResourceMgmtMapper.selectDetail */
         SELECT `uid`,
                `method`,
                `url_pattern`,
@@ -46,7 +46,7 @@
     </select>
 
     <select id="isDuplicate" resultType="boolean">
-        /* SysResourceMgmtRestMapper.isDuplicate */
+        /* SysResourceMgmtMapper.isDuplicate */
         SELECT COUNT(*) > 0
         FROM `rc_manage_resource`
         WHERE `method` = #{method, jdbcType=VARCHAR}
@@ -54,7 +54,7 @@
     </select>
 
     <select id="isOwner" resultType="boolean">
-        /* SysResourceMgmtRestMapper.isOwner */
+        /* SysResourceMgmtMapper.isOwner */
         SELECT COUNT(*) > 0
         FROM `rc_manage_resource`
         WHERE `uid` = #{uid, jdbcType=BIGINT}
@@ -62,7 +62,7 @@
     </select>
 
     <insert id="insert" parameterType="SysResourceMgmtInsertVO">
-        /* SysResourceMgmtRestMapper.insert */
+        /* SysResourceMgmtMapper.insert */
         INSERT INTO rc_manage_resource(`method`,
                                        `url_pattern`,
                                        `description`,
@@ -82,7 +82,7 @@
     </insert>
 
     <update id="update" parameterType="SysResourceMgmtUpdateVO">
-        /* SysResourceMgmtRestMapper.update */
+        /* SysResourceMgmtMapper.update */
         UPDATE rc_manage_resource
         <set>
             <if test="method != null">
@@ -105,7 +105,7 @@
     </update>
 
     <delete id="delete" parameterType="Long">
-        /* SysResourceMgmtRestMapper.delete */
+        /* SysResourceMgmtMapper.delete */
         DELETE
         FROM rc_manage_resource
         WHERE uid = #{uid, jdbcType=BIGINT}

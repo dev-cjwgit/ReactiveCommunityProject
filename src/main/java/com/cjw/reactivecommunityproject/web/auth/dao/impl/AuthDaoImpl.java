@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.auth.dao.impl;
 
-import com.cjw.reactivecommunityproject.web.auth.dao.AuthRestDao;
-import com.cjw.reactivecommunityproject.web.auth.mapper.AuthRestMapper;
+import com.cjw.reactivecommunityproject.web.auth.dao.AuthDao;
+import com.cjw.reactivecommunityproject.web.auth.mapper.AuthMapper;
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthLoginVO;
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRestRcUserVO;
@@ -15,8 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AuthRestDaoImpl implements AuthRestDao {
-    private final AuthRestMapper authRestMapper;
+public class AuthDaoImpl implements AuthDao {
+    private final AuthMapper authMapper;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
@@ -24,7 +24,7 @@ public class AuthRestDaoImpl implements AuthRestDao {
     @Override
     @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
     public void registerTransactional(AuthRegisterVO authRegisterVO, String salt) {
-        int res = authRestMapper.register(authRegisterVO);
+        int res = authMapper.register(authRegisterVO);
         log.info("AuthDao.register : {}", res);
 
         redisTemplate.opsForValue().set(StringUtils.join(authRegisterVO.uid(), ".salt"), salt);
@@ -40,21 +40,21 @@ public class AuthRestDaoImpl implements AuthRestDao {
 
     @Override
     public AuthRestRcUserVO selectRcUserByEmail(String email) {
-        return authRestMapper.selectRcUserByEmail(email);
+        return authMapper.selectRcUserByEmail(email);
     }
 
     @Override
     public AuthRestRcUserVO selectRcUserByUserUid(String uid) {
-        return authRestMapper.selectRcUserByUserUid(uid);
+        return authMapper.selectRcUserByUserUid(uid);
     }
 
     @Override
     public Boolean isExistUserByEmail(String email) {
-        return authRestMapper.isExistUserByEmail(email);
+        return authMapper.isExistUserByEmail(email);
     }
 
     @Override
     public Boolean isExistUserByNickname(String nickname) {
-        return authRestMapper.isExistUserByNickname(nickname);
+        return authMapper.isExistUserByNickname(nickname);
     }
 }

@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record SysResourceMgmtModifyVO(
+public record SysResourceManagementModifyVO(
         @NotNull(groups = {SysResourceValidationGroup.Modify.class}, message = "필수 값은 null 일 수 없습니다.")
         Long uid,
 

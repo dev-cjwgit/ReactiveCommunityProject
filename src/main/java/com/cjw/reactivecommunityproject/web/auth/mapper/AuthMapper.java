@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
-public interface AuthRestMapper {
+public interface AuthMapper {
     AuthRestRcUserVO selectRcUserByEmail(@Param("email") String email);
 
     AuthRestRcUserVO selectRcUserByUserUid(@Param("uid") String uid);

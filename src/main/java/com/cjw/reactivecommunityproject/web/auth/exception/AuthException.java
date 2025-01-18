@@ -4,10 +4,10 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import org.springframework.http.HttpStatus;
 
-public class AuthRestException extends RcBaseException {
+public class AuthException extends RcBaseException {
 
 
-    public AuthRestException(RcBaseErrorMessage rcBaseErrorMessage) {
+    public AuthException(RcBaseErrorMessage rcBaseErrorMessage) {
         super(rcBaseErrorMessage.getErrorMessage());
         this.errorCode = rcBaseErrorMessage.getErrorCode();
         this.errorMessage = rcBaseErrorMessage.getErrorMessage();

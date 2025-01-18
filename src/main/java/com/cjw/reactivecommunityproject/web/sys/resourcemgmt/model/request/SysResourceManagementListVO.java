@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.time.ZonedDateTime;
 
 @Builder
-public record SysResourceMgmtReadListVO(
+public record SysResourceManagementListVO(
         String method,
         String urlPattern,
         ZonedDateTime startDate,

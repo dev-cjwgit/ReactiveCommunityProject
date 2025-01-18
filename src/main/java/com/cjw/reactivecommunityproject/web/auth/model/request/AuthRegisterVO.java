@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record AuthRestRegisterVO(
+public record AuthRegisterVO(
         @NotBlank(groups = {AuthValidationGroup.Register.class}, message = "이메일은 공백일 수 없습니다.")
         @Email(groups = {AuthValidationGroup.Register.class}, message = "이메일 형태가 아닙니다.")
         @Size(groups = {AuthValidationGroup.Register.class},

@@ -3,12 +3,11 @@ package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.controller;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceMgmtDetailVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceMgmtListVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceMgmtCreateVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceMgmtModifyVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceMgmtReadListVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.service.SysResourceMgmtRestService;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementDetailVO;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementCreateVO;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementModifyVO;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementListVO;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.service.SysResourceManagementService;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.validation.SysResourceValidationGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,17 +19,17 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/rest/sys/resource-mgmt")
-public class SysResourceMgmtRestController {
-    private final SysResourceMgmtRestService sysResourceMgmtRestService;
+public class SysResourceManagementController {
+    private final SysResourceManagementService sysResourceManagementService;
 
     @GetMapping("/list")
-    public ResponseEntity<RestResponseVO<List<SysResourceMgmtListVO>>> readResourceMgmtList(
+    public ResponseEntity<RestResponseVO<List<com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementListVO>>> readResourceMgmtList(
             @RequestParam(value = "start-date", required = false) String startDate,
             @RequestParam(value = "end-date", required = false) String endDate,
             @RequestParam("page-number") Integer pageNumber,
             @RequestParam("page-size") Integer pageSize
     ) {
-        return ResponseEntity.ok(sysResourceMgmtRestService.readResourceMgmtList(SysResourceMgmtReadListVO.builder()
+        return ResponseEntity.ok(sysResourceManagementService.readResourceMgmtList(SysResourceManagementListVO.builder()
                         .startDate(DateUtils.convert(startDate, DateUtils.yyyy_MM_dd))
                         .endDate(DateUtils.convert(endDate, DateUtils.yyyy_MM_dd))
                         .build()
@@ -41,31 +40,31 @@ public class SysResourceMgmtRestController {
     }
 
     @GetMapping("/{uid}")
-    public ResponseEntity<RestResponseVO<SysResourceMgmtDetailVO>> readDetail(
+    public ResponseEntity<RestResponseVO<SysResourceManagementDetailVO>> readDetail(
             @PathVariable("uid") Long uid
     ) {
-        return ResponseEntity.ok(sysResourceMgmtRestService.readDetail(uid));
+        return ResponseEntity.ok(sysResourceManagementService.readDetail(uid));
     }
 
     @PostMapping
     public ResponseEntity<RestResponseVO<Void>> create(
-            @RequestBody @Validated(SysResourceValidationGroup.Create.class) SysResourceMgmtCreateVO sysResourcemgmtCreateVO
+            @RequestBody @Validated(SysResourceValidationGroup.Create.class) SysResourceManagementCreateVO sysResourcemgmtCreateVO
     ) {
-        return ResponseEntity.ok(sysResourceMgmtRestService.create(sysResourcemgmtCreateVO));
+        return ResponseEntity.ok(sysResourceManagementService.create(sysResourcemgmtCreateVO));
     }
 
     @DeleteMapping("/{uid}")
     public ResponseEntity<RestResponseVO<Void>> remove(
             @PathVariable("uid") Long uid
     ) {
-        return ResponseEntity.ok(sysResourceMgmtRestService.remove(uid));
+        return ResponseEntity.ok(sysResourceManagementService.remove(uid));
     }
 
     @PatchMapping
     public ResponseEntity<RestResponseVO<Void>> modify(
-            @RequestBody SysResourceMgmtModifyVO sysResourceMgmtModifyVO
+            @RequestBody SysResourceManagementModifyVO sysResourceManagementModifyVO
     ) {
-        return ResponseEntity.ok(sysResourceMgmtRestService.modify(sysResourceMgmtModifyVO));
+        return ResponseEntity.ok(sysResourceManagementService.modify(sysResourceManagementModifyVO));
     }
 }
 
