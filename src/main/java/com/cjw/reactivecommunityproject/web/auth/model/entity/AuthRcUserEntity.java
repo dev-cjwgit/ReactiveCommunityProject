@@ -3,10 +3,9 @@ package com.cjw.reactivecommunityproject.web.auth.model.entity;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageUserStateEnum;
 
-import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-public record AuthRestRcUserVO(
+public record AuthRcUserEntity(
         String uid,
         Integer roleUid,
         String email,

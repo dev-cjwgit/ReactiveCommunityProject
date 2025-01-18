@@ -1,5 +1,5 @@
 package com.cjw.reactivecommunityproject.web.template.dao;
 
-public interface TemplateRestDao {
+public interface TemplateDao {
 
 }

@@ -4,10 +4,10 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import org.springframework.http.HttpStatus;
 
-public class TemplateRestException extends RcBaseException {
+public class TemplateException extends RcBaseException {
 
 
-    public TemplateRestException(RcBaseErrorMessage rcBaseErrorMessage) {
+    public TemplateException(RcBaseErrorMessage rcBaseErrorMessage) {
         super(rcBaseErrorMessage.getErrorMessage());
         this.errorCode = rcBaseErrorMessage.getErrorCode();
         this.errorMessage = rcBaseErrorMessage.getErrorMessage();

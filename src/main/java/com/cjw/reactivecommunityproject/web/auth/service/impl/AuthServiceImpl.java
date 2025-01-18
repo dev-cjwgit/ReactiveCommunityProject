@@ -9,6 +9,8 @@ import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomS
 import com.cjw.reactivecommunityproject.web.auth.dao.AuthDao;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthException;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthLoginEntity;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterEntity;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthLoginVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthReissueJwtTokenVO;
@@ -72,7 +74,7 @@ public class AuthServiceImpl implements AuthService {
 
         String salt = BCrypt.hashpw(uid + calendar.getTime(), BCrypt.gensalt());
 
-        authDao.registerTransactional(com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterVO.builder()
+        authDao.registerTransactional(AuthRegisterEntity.builder()
                         .uid(uid)
                         .roleUid(getRoleUidByCommonEnvCode())
                         .email(authRegisterVO.email())
@@ -137,7 +139,7 @@ public class AuthServiceImpl implements AuthService {
                 .build();
 
         authDao.loginTransactional(
-                com.cjw.reactivecommunityproject.web.auth.model.entity.AuthLoginVO.builder()
+                AuthLoginEntity.builder()
                         .userUid(rcUserEntity.uid())
                         .refreshToken(refreshToken)
                         .build()

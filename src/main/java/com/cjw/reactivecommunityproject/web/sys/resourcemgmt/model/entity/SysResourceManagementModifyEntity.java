@@ -5,7 +5,7 @@ import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageResou
 import lombok.Builder;
 
 @Builder
-public record SysResourceManagementUpdateVO(
+public record SysResourceManagementModifyEntity(
         Long uid,
         RcManageResourceMethodEnum method,
         String urlPattern,

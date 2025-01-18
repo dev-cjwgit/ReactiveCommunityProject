@@ -3,7 +3,7 @@ package com.cjw.reactivecommunityproject.web.template.exception;
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessage;
 import org.springframework.http.HttpStatus;
 
-public enum TemplateRestErrorMessage implements RcBaseErrorMessage {
+public enum TemplateErrorMessage implements RcBaseErrorMessage {
     DUMMY(null, null, null);
 
     private final Integer errorCode;
@@ -11,11 +11,11 @@ public enum TemplateRestErrorMessage implements RcBaseErrorMessage {
     private final HttpStatus httpStatus;
     private final Boolean isDisplay;
 
-    TemplateRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
+    TemplateErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
         this(errorCode, errorMessage, httpStatus, true);
     }
 
-    TemplateRestErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
+    TemplateErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
         this.httpStatus = httpStatus;

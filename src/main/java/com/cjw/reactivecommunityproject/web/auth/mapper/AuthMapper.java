@@ -1,21 +1,21 @@
 package com.cjw.reactivecommunityproject.web.auth.mapper;
 
-import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterVO;
-import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRestRcUserVO;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterEntity;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRcUserEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface AuthMapper {
-    AuthRestRcUserVO selectRcUserByEmail(@Param("email") String email);
+    AuthRcUserEntity selectRcUserByEmail(@Param("email") String email);
 
-    AuthRestRcUserVO selectRcUserByUserUid(@Param("uid") String uid);
+    AuthRcUserEntity selectRcUserByUserUid(@Param("uid") String uid);
 
 
     Boolean isExistUserByEmail(@Param("email") String email);
 
     Boolean isExistUserByNickname(@Param("nickname") String nickname);
 
-    Integer register(AuthRegisterVO authRegisterVO);
+    Integer register(AuthRegisterEntity authRegisterEntity);
 
 }

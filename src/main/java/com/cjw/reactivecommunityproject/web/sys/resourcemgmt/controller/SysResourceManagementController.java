@@ -3,7 +3,8 @@ package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.controller;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementDetailVO;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementDetailEntity;
+import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementListEntity;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementListVO;
@@ -23,7 +24,7 @@ public class SysResourceManagementController {
     private final SysResourceManagementService sysResourceManagementService;
 
     @GetMapping("/list")
-    public ResponseEntity<RestResponseVO<List<com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementListVO>>> readResourceMgmtList(
+    public ResponseEntity<RestResponseVO<List<SysResourceManagementListEntity>>> readResourceMgmtList(
             @RequestParam(value = "start-date", required = false) String startDate,
             @RequestParam(value = "end-date", required = false) String endDate,
             @RequestParam("page-number") Integer pageNumber,
@@ -40,7 +41,7 @@ public class SysResourceManagementController {
     }
 
     @GetMapping("/{uid}")
-    public ResponseEntity<RestResponseVO<SysResourceManagementDetailVO>> readDetail(
+    public ResponseEntity<RestResponseVO<SysResourceManagementDetailEntity>> readDetail(
             @PathVariable("uid") Long uid
     ) {
         return ResponseEntity.ok(sysResourceManagementService.readDetail(uid));

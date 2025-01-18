@@ -1,4 +1,4 @@
 package com.cjw.reactivecommunityproject.web.template.model.entity;
 
-public record TemplateRestEntityVO() {
+public record TemplateEntity() {
 }

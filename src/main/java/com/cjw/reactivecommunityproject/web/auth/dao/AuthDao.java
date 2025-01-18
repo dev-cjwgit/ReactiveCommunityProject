@@ -1,17 +1,17 @@
 package com.cjw.reactivecommunityproject.web.auth.dao;
 
-import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthLoginVO;
-import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterVO;
-import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRestRcUserVO;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthLoginEntity;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterEntity;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRcUserEntity;
 
 public interface AuthDao {
-    void registerTransactional(AuthRegisterVO authRegisterVO, String salt);
+    void registerTransactional(AuthRegisterEntity authRegisterEntity, String salt);
 
-    void loginTransactional(AuthLoginVO authLoginVO);
+    void loginTransactional(AuthLoginEntity authLoginEntity);
 
-    AuthRestRcUserVO selectRcUserByEmail(String email);
+    AuthRcUserEntity selectRcUserByEmail(String email);
 
-    AuthRestRcUserVO selectRcUserByUserUid(String uid);
+    AuthRcUserEntity selectRcUserByUserUid(String uid);
 
 
     Boolean isExistUserByEmail(String email);
