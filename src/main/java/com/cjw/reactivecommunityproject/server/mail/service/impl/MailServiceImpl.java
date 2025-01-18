@@ -36,9 +36,9 @@ public class MailServiceImpl implements MailService {
         }
     }
 
-    private <T> T getConfigValueByCode(List<CacheCustomEnvCodeVO> configEnvCodeList, String code, Class<T> clazz) {
+    private <T> T getConfigValueByCode(List<CacheCustomEnvCodeVO> configEnvCodeList, String envId, Class<T> clazz) {
         return CollectionUtils.emptyIfNull(configEnvCodeList).stream()
-                .filter(o -> StringUtils.equalsIgnoreCase(o.getCode(), code))
+                .filter(o -> StringUtils.equalsIgnoreCase(o.getId(), envId))
                 .map(CacheCustomEnvCodeVO::getValue)
                 .findFirst()
                 .map(value -> convertToType(value, clazz))

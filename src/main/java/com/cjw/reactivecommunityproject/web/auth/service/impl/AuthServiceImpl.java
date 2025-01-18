@@ -5,6 +5,7 @@ import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwt;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
+import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
 import com.cjw.reactivecommunityproject.web.auth.dao.AuthDao;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthErrorMessage;
@@ -20,7 +21,6 @@ import com.cjw.reactivecommunityproject.web.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,15 +45,12 @@ public class AuthServiceImpl implements AuthService {
 
 
     private Integer getRoleUidByCommonEnvCode() {
-        var envcode = cacheCustomService.getCustomCommonEnvCode("web.auth.service", "default.register.role.uid");
+        var envcode = EnvCodeUtils.<Integer>convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("web.auth.service.default.register.role.uid"), Integer.class);
         if (envcode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }
-        if (!NumberUtils.isDigits(envcode.getValue())) {
-            throw new AuthException(RcCommonErrorMessage.INVALID_ENV_CODE);
-        }
 
-        return NumberUtils.toInt(envcode.getValue());
+        return envcode;
     }
 
     @Override

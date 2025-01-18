@@ -29,14 +29,14 @@ public class CacheCustomServiceImpl implements CacheCustomService {
     private final CacheDataService cacheDataService;
 
     @Override
-    @Cacheable(value = "rc_common_env_code", key = "'path=' + #path + '_' + 'code=' + #code", cacheManager = "redisCacheManager")
-    public CacheCustomEnvCodeVO getCustomCommonEnvCode(String path, String code) {
+    @Cacheable(value = "rc_common_env_code", key = "'envId=' + #envId", cacheManager = "redisCacheManager")
+    public CacheCustomEnvCodeVO getCustomCommonEnvCode(String envId) {
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
                 .stream()
-                .filter(o -> StringUtils.equals(o.getPath(), path) && StringUtils.equals(o.getCode(), code))
+                .filter(o -> StringUtils.equals(o.getId(), envId))
                 .map(o -> CacheCustomEnvCodeVO.builder()
-                        .path(o.getPath())
-                        .code(o.getCode())
+                        .id(o.getId())
+                        .type(o.getType())
                         .value(o.getValue())
                         .order(o.getOrder())
                         .category(o.getCategory())
@@ -59,8 +59,8 @@ public class CacheCustomServiceImpl implements CacheCustomService {
                 .stream()
                 .filter(o -> StringUtils.equals(o.getCategory(), category))
                 .map(o -> CacheCustomEnvCodeVO.builder()
-                        .path(o.getPath())
-                        .code(o.getCode())
+                        .id(o.getId())
+                        .type(o.getType())
                         .value(o.getValue())
                         .order(o.getOrder())
                         .category(o.getCategory())
