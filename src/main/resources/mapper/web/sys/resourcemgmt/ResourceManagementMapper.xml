@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjw.reactivecommunityproject.web.sys.resourcemgmt.mapper.SysResourceManagementMapper">
+    <select id="selectList" parameterType="PaginationVO" resultType="SysResourceManagementListEntity">
+        /* SysResourceManagementMapper.selectList */
+        SELECT `uid`,
+               `method`,
+               `url_pattern`,
+               `created_user_uid`,
+               `created_utc_at`,
+               `updated_user_uid`,
+               `updated_utc_at`
+        FROM rc_manage_resource
+        <where>
+            <if test="pagination.method != null">
+                AND `method` LIKE CONCAT('%', #{pagination.method, jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="pagination.urlPattern != null">
+                AND `url_pattern` LIKE CONCAT('%', #{pagination.urlPattern}, '%')
+            </if>
+            <if test="pagination.startDate != null and endDate != null">
+                AND `created_utc_at` <![CDATA[>=]]> #{pagination.startDate}
+            </if>
+            <if test="pagination.endDate != null">
+                AND `created_utc_at` <![CDATA[<=]]> #{pagination.endDate}
+            </if>
+        </where>
+        LIMIT #{pagination.limit, jdbcType=INTEGER} OFFSET #{pagination.offset, jdbcType=INTEGER}
+    </select>
+
+    <select id="selectDetail" resultType="SysResourceManagementDetailEntity">
+        /* SysResourceManagementMapper.selectDetail */
+        SELECT `uid`,
+               `method`,
+               `url_pattern`,
+               `description`,
+               `enabled`,
+               `created_user_uid`,
+               `created_utc_at`,
+               `updated_user_uid`,
+               `updated_utc_at`
+        FROM rc_manage_resource
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </select>
+
+    <select id="isDuplicate" resultType="boolean">
+        /* SysResourceManagementMapper.isDuplicate */
+        SELECT COUNT(*) > 0
+        FROM `rc_manage_resource`
+        WHERE `method` = #{method, jdbcType=VARCHAR}
+          AND `url_pattern` = #{urlPattern, jdbcType=VARCHAR}
+    </select>
+
+    <select id="isOwner" resultType="boolean">
+        /* SysResourceManagementMapper.isOwner */
+        SELECT COUNT(*) > 0
+        FROM `rc_manage_resource`
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+          AND `created_user_uid` = #{userUid, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="SysResourceManagementInsertEntity">
+        /* SysResourceManagementMapper.insert */
+        INSERT INTO rc_manage_resource(`method`,
+                                       `url_pattern`,
+                                       `description`,
+                                       `enabled`,
+                                       `created_user_uid`,
+                                       `created_utc_at`,
+                                       `updated_user_uid`,
+                                       `updated_utc_at`)
+        VALUES (#{method, jdbcType=VARCHAR},
+                #{urlPattern, jdbcType=INTEGER},
+                #{description, jdbcType=VARCHAR},
+                'Y',
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP(),
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP())
+    </insert>
+
+    <update id="update" parameterType="SysResourceManagementModifyEntity">
+        /* SysResourceManagementMapper.update */
+        UPDATE rc_manage_resource
+        <set>
+            <if test="method != null">
+                `method` = #{method, jdbcType=VARCHAR},
+            </if>
+
+            <if test="urlPattern != null">
+                `url_pattern` = #{urlPattern, jdbcType=VARCHAR},
+            </if>
+
+            <if test="description != null">
+                `description` = #{description, jdbcType=VARCHAR},
+            </if>
+
+            `enabled` = #{enabled, jdbcType=VARCHAR},
+            `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
+            `updated_utc_at` = CURRENT_TIMESTAMP()
+        </set>
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        /* SysResourceManagementMapper.delete */
+        DELETE
+        FROM rc_manage_resource
+        WHERE uid = #{uid, jdbcType=BIGINT}
+    </delete>
+</mapper>

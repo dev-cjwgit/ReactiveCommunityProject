@@ -1,13 +1,13 @@
 package com.cjw.reactivecommunityproject.common.security.service;
 
-import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwtVO;
+import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwt;
 
 public interface JwtService {
-    String createAccessToken(SecurityAccessJwtVO securityAccessJwtVO);
+    String createAccessToken(SecurityAccessJwt securityAccessJwt);
 
     String createRefreshToken(String userUid);
 
     Boolean validateToken(String token);
 
-    SecurityAccessJwtVO getClaims(String token);
+    SecurityAccessJwt getClaims(String token);
 }

@@ -19,4 +19,13 @@ public interface CacheDataService {
 
     List<CacheDataManageResourceVO> getCacheManageResourceList();
     void clearCacheManageResourceList();
+
+    List<CacheDataManageFunctionVO> getCacheManageFunctionList();
+    void clearCacheManageFunctionList();
+
+    List<CacheDataManageRoleFunctionVO> getCacheManageRoleFunctionList();
+    void clearCacheManageRoleFunctionList();
+
+    List<CacheDataManageRoleResourceVO> getCacheManageRoleResourceList();
+    void clearCacheManageRoleResourceList();
 }
