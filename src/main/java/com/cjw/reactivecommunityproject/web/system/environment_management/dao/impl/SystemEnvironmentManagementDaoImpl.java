@@ -30,8 +30,8 @@ public class SystemEnvironmentManagementDaoImpl implements SystemEnvironmentMana
     }
 
     @Override
-    public Boolean isIdDuplicate(String id) {
-        return systemEnvironmentManagementMapper.isIdDuplicate(id);
+    public Boolean isExistEnvCodeById(String id) {
+        return systemEnvironmentManagementMapper.isExistEnvCodeById(id);
     }
 
     @Override
@@ -43,6 +43,17 @@ public class SystemEnvironmentManagementDaoImpl implements SystemEnvironmentMana
     @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
     public void insertTransactional(SystemEnvironmentManagementInsertEntity systemEnvironmentManagementInsertEntity) {
         var rtn = systemEnvironmentManagementMapper.insert(systemEnvironmentManagementInsertEntity);
-        log.info("SystemEnvironmentManagementDaoImpl.insert() : {}", rtn);
+        log.info("SystemEnvironmentManagementDaoImpl.insertTransactional() : {}", rtn);
+    }
+
+    @Override
+    public Boolean isOwner(String envId, String userUid) {
+        return systemEnvironmentManagementMapper.isOwner(envId, userUid);
+    }
+
+    @Override
+    public void deleteTransactional(String id) {
+        var rtn = systemEnvironmentManagementMapper.delete(id);
+        log.info("SystemEnvironmentManagementDaoImpl.deleteTransactional() : {}", rtn);
     }
 }

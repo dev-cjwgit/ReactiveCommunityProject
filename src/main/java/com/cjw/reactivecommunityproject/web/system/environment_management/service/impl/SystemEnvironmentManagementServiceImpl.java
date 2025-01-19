@@ -1,5 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.environment_management.service.impl;
 
+import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
@@ -43,9 +44,11 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
     @Override
     public RestResponseVO<SystemEnvironmentManagementDetailEntity> readDetail(String id) {
         var detail = systemEnvironmentManagementDao.selectDetail(id);
+
         if (detail == null) {
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.NOT_FOUNT_ENV_CODE_DETAIL);
         }
+
         return RestResponseVO.<SystemEnvironmentManagementDetailEntity>builder()
                 .result(true)
                 .data(detail)
@@ -54,7 +57,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
     @Override
     public RestResponseVO<Void> create(SystemEnvironmentManagementCreateVO systemEnvironmentManagementCreateVO) {
-        var isIdDuplicate = systemEnvironmentManagementDao.isIdDuplicate(systemEnvironmentManagementCreateVO.id());
+        var isIdDuplicate = systemEnvironmentManagementDao.isExistEnvCodeById(systemEnvironmentManagementCreateVO.id());
 
         if (isIdDuplicate) {
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.DUPLICATE_ENVCODE_INFO);
@@ -87,6 +90,27 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
                         .userUid(rcUserComponent.getUserUid())
                         .build()
         );
+        return RestResponseVO.<Void>builder()
+                .result(true)
+                .build();
+    }
+
+    @Override
+    public RestResponseVO<Void> remove(String id) {
+        var isExist = systemEnvironmentManagementDao.isExistEnvCodeById(id);
+
+        if (Boolean.FALSE.equals(isExist)) {
+            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.NOT_FOUND_ENV_CODE);
+        }
+
+        var isOwner = systemEnvironmentManagementDao.isOwner(id, rcUserComponent.getUserUid());
+
+        if (Boolean.FALSE.equals(isOwner)) {
+            throw new SystemEnvironmentManagementException(RcCommonErrorMessage.UNAUTHORIZED_ACCESS);
+        }
+
+        systemEnvironmentManagementDao.deleteTransactional(id);
+
         return RestResponseVO.<Void>builder()
                 .result(true)
                 .build();

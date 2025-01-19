@@ -15,4 +15,6 @@ public interface SystemEnvironmentManagementService {
     RestResponseVO<SystemEnvironmentManagementDetailEntity> readDetail(String id);
 
     RestResponseVO<Void> create(SystemEnvironmentManagementCreateVO systemEnvironmentManagementCreateVO);
+
+    RestResponseVO<Void> remove(String id);
 }

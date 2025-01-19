@@ -61,4 +61,11 @@ public class SystemEnvironmentManagementController {
     ) {
         return ResponseEntity.ok(systemEnvironmentManagementService.create(systemEnvironmentManagementCreateVO));
     }
+
+    @DeleteMapping("/{env_id}")
+    public ResponseEntity<RestResponseVO<Void>> remove(
+            @PathVariable("env_id") String id
+    ){
+        return ResponseEntity.ok(systemEnvironmentManagementService.remove(id));
+    }
 }

@@ -56,8 +56,8 @@
         WHERE `id` = #{id, jdbcType=VARCHAR}
     </select>
 
-    <select id="isIdDuplicate" resultType="Boolean">
-        /* SystemEnvironmentManagementMapper.isIdDuplicate() */
+    <select id="isExistEnvCodeById" resultType="Boolean">
+        /* SystemEnvironmentManagementMapper.isExistEnvCodeById() */
         SELECT COUNT(*) > 0
         FROM rc_common_env_code
         WHERE `id` = #{id, jdbcType=VARCHAR}
@@ -72,7 +72,7 @@
     </select>
 
     <insert id="insert" parameterType="SystemEnvironmentManagementInsertEntity">
-        /* SystemEnvironmentManagementMapper.insert */
+        /* SystemEnvironmentManagementMapper.insert() */
         INSERT INTO rc_common_env_code(`id`,
                                        `type`,
                                        `value`,
@@ -92,4 +92,19 @@
                 #{userUid, jdbcType=VARCHAR},
                 CURRENT_TIMESTAMP())
     </insert>
+
+    <select id="isOwner" resultType="boolean">
+        /* SystemEnvironmentManagementMapper.isOwner() */
+        SELECT COUNT(*) > 0
+        FROM rc_common_env_code
+        WHERE `id` = #{id, jdbcType=VARCHAR}
+          AND `created_user_uid` = #{userUid, jdbcType=VARCHAR}
+    </select>
+
+    <delete id="delete">
+        /* SystemEnvironmentManagementMapper.delete() */
+        DELETE
+        FROM rc_common_env_code
+        WHERE `id` = #{id, jdbcType=VARCHAR}
+    </delete>
 </mapper>

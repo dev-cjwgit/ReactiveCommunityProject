@@ -13,7 +13,7 @@ public interface SystemEnvironmentManagementDao {
 
     SystemEnvironmentManagementDetailEntity selectDetail(String id);
 
-    Boolean isIdDuplicate(String id);
+    Boolean isExistEnvCodeById(String id);
 
     Boolean isCategoryAndOrderDuplicate(
             String category,
@@ -21,4 +21,8 @@ public interface SystemEnvironmentManagementDao {
     );
 
     void insertTransactional(SystemEnvironmentManagementInsertEntity systemEnvironmentManagementInsertEntity);
+
+    Boolean isOwner(String envId, String userUid);
+
+    void deleteTransactional(String id);
 }
