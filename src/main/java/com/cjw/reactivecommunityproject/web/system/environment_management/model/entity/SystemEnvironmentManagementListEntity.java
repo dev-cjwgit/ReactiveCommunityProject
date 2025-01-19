@@ -1,5 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.environment_management.model.entity;
 
+import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
 
 import java.time.ZonedDateTime;
@@ -10,6 +11,7 @@ public record SystemEnvironmentManagementListEntity(
         String value,
         String category,
         Integer order,
+        CommonEnabledEnum enabled,
         String createdUserUid,
         ZonedDateTime createdUtcAt,
         String updatedUserUid,

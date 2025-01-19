@@ -18,6 +18,7 @@
                `value`,
                `order`,
                `category`,
+               `enabled`,
                `updated_utc_at`
         FROM rc_common_env_code
     </select>

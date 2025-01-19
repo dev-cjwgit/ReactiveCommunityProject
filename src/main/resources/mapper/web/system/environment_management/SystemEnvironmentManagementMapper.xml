@@ -9,6 +9,7 @@
                 `value`,
                 `category`,
                 `order`,
+                `enabled`,
                 `created_user_uid`,
                 `created_utc_at`,
                 `updated_user_uid`,
