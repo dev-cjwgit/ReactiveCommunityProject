@@ -5,10 +5,13 @@ import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.P
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementListVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.service.SystemEnvironmentManagementService;
+import com.cjw.reactivecommunityproject.web.system.environment_management.validation.SystemEnvironmentManagementValidationGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,8 +51,14 @@ public class SystemEnvironmentManagementController {
     @GetMapping("/{env_id}")
     public ResponseEntity<RestResponseVO<SystemEnvironmentManagementDetailEntity>> readEnvironmentManagementDetail(
             @PathVariable("env_id") String id
-    ){
+    ) {
         return ResponseEntity.ok(systemEnvironmentManagementService.readDetail(id));
     }
 
+    @PostMapping
+    public ResponseEntity<RestResponseVO<Void>> create(
+            @RequestBody @Validated(SystemEnvironmentManagementValidationGroup.Create.class) SystemEnvironmentManagementCreateVO systemEnvironmentManagementCreateVO
+    ) {
+        return ResponseEntity.ok(systemEnvironmentManagementService.create(systemEnvironmentManagementCreateVO));
+    }
 }
