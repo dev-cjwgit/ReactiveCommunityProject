@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.exception;
+package com.cjw.reactivecommunityproject.web.system.resource_management.exception;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessage;
 import org.springframework.http.HttpStatus;

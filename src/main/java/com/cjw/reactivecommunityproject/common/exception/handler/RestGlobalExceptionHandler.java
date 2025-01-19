@@ -16,6 +16,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -27,10 +28,23 @@ import java.util.UUID;
 public class RestGlobalExceptionHandler {
     private final ApplicationEventPublisher publisher;
 
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<RestResponseVO<Void>> noResourceFoundExceptionHandle(NoResourceFoundException noResourceFoundException){
+        log.warn("RestGlobalExceptionHandler.noResourceFoundExceptionHandle() : {}", noResourceFoundException.getMessage());
+
+        return new ResponseEntity<>(
+                RestResponseVO.<Void>builder()
+                        .result(false)
+                        .message(RcCommonErrorMessage.NOTFOUND_RESOURCE.getErrorMessage())
+                        .code(RcCommonErrorMessage.NOTFOUND_RESOURCE.getErrorCode())
+                        .build()
+                , RcCommonErrorMessage.NOTFOUND_RESOURCE.getHttpStatus()
+        );
+    }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<RestResponseVO<Void>> methodArgsNotValidaValueExceptionHandle(HttpMessageNotReadableException httpMessageNotReadableException) {
-        log.warn("RestGlobalExceptionHandler.methodArgsNotValidaValueExceptionHandle: {}", httpMessageNotReadableException.getMessage());
+        log.warn("RestGlobalExceptionHandler.methodArgsNotValidaValueExceptionHandle() : {}", httpMessageNotReadableException.getMessage());
 
         return new ResponseEntity<>(
                 RestResponseVO.<Void>builder()

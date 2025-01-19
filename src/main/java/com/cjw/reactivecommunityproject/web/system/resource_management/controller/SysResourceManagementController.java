@@ -1,15 +1,15 @@
-package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.controller;
+package com.cjw.reactivecommunityproject.web.system.resource_management.controller;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementDetailEntity;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementListEntity;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementCreateVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementModifyVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementListVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.service.SysResourceManagementService;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.validation.SysResourceValidationGroup;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SysResourceManagementDetailEntity;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SysResourceManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SysResourceManagementCreateVO;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SysResourceManagementModifyVO;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SysResourceManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.resource_management.service.SysResourceManagementService;
+import com.cjw.reactivecommunityproject.web.system.resource_management.validation.SysResourceValidationGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/rest/sys/resource-mgmt")
+@RequestMapping("/rest/system/resource-management")
 public class SysResourceManagementController {
     private final SysResourceManagementService sysResourceManagementService;
 
@@ -63,7 +63,7 @@ public class SysResourceManagementController {
 
     @PatchMapping
     public ResponseEntity<RestResponseVO<Void>> modify(
-            @RequestBody SysResourceManagementModifyVO sysResourceManagementModifyVO
+            @RequestBody @Validated(SysResourceValidationGroup.Modify.class) SysResourceManagementModifyVO sysResourceManagementModifyVO
     ) {
         return ResponseEntity.ok(sysResourceManagementService.modify(sysResourceManagementModifyVO));
     }

@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity;
+package com.cjw.reactivecommunityproject.web.system.resource_management.model.entity;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageResourceMethodEnum;

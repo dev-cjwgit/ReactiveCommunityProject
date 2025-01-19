@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.validation;
+package com.cjw.reactivecommunityproject.web.system.resource_management.validation;
 
 import jakarta.validation.groups.Default;
 

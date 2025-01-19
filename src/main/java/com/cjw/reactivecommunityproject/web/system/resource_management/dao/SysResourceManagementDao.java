@@ -1,11 +1,11 @@
-package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.dao;
+package com.cjw.reactivecommunityproject.web.system.resource_management.dao;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageResourceMethodEnum;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.PaginationVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementDetailEntity;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementInsertEntity;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementListEntity;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementModifyEntity;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SysResourceManagementDetailEntity;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SysResourceManagementInsertEntity;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SysResourceManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SysResourceManagementModifyEntity;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

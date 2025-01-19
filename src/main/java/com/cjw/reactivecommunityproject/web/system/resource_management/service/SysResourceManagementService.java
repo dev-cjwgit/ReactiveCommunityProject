@@ -1,12 +1,12 @@
-package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.service;
+package com.cjw.reactivecommunityproject.web.system.resource_management.service;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementDetailEntity;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.entity.SysResourceManagementListEntity;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementCreateVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementModifyVO;
-import com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request.SysResourceManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SysResourceManagementDetailEntity;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SysResourceManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SysResourceManagementCreateVO;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SysResourceManagementModifyVO;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SysResourceManagementListVO;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.web.sys.resourcemgmt.model.request;
+package com.cjw.reactivecommunityproject.web.system.resource_management.model.request;
 
 import lombok.Builder;
 
