@@ -34,6 +34,7 @@
                 AND `created_utc_at` <![CDATA[<=]]> #{pagination.endDate}
             </if>
         </where>
+        ORDER BY `updated_utc_at` DESC
         LIMIT #{pagination.limit, jdbcType=INTEGER} OFFSET #{pagination.offset, jdbcType=INTEGER}
     </select>
 </mapper>
