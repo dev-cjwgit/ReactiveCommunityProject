@@ -4,7 +4,7 @@
 
 <mapper namespace="com.cjw.reactivecommunityproject.web.system.resource_management.mapper.SystemResourceManagementMapper">
     <select id="selectList" parameterType="PaginationVO" resultType="SystemResourceManagementListEntity">
-        /* SystemResourceManagementMapper.selectList */
+        /* SystemResourceManagementMapper.selectList() */
         SELECT `uid`,
                `method`,
                `url_pattern`,
@@ -32,7 +32,7 @@
     </select>
 
     <select id="selectDetail" resultType="SystemResourceManagementDetailEntity">
-        /* SystemResourceManagementMapper.selectDetail */
+        /* SystemResourceManagementMapper.selectDetail() */
         SELECT `uid`,
                `method`,
                `url_pattern`,
@@ -47,7 +47,7 @@
     </select>
 
     <select id="isDuplicate" resultType="boolean">
-        /* SystemResourceManagementMapper.isDuplicate */
+        /* SystemResourceManagementMapper.isDuplicate() */
         SELECT COUNT(*) > 0
         FROM rc_manage_resource
         WHERE `method` = #{method, jdbcType=VARCHAR}
@@ -55,7 +55,7 @@
     </select>
 
     <select id="isOwner" resultType="boolean">
-        /* SystemResourceManagementMapper.isOwner */
+        /* SystemResourceManagementMapper.isOwner() */
         SELECT COUNT(*) > 0
         FROM rc_manage_resource
         WHERE `uid` = #{uid, jdbcType=BIGINT}
@@ -63,7 +63,7 @@
     </select>
 
     <insert id="insert" parameterType="SystemResourceManagementInsertEntity">
-        /* SystemResourceManagementMapper.insert */
+        /* SystemResourceManagementMapper.insert() */
         INSERT INTO rc_manage_resource(`method`,
                                        `url_pattern`,
                                        `description`,
@@ -81,7 +81,7 @@
     </insert>
 
     <update id="update" parameterType="SystemResourceManagementModifyEntity">
-        /* SystemResourceManagementMapper.update */
+        /* SystemResourceManagementMapper.update() */
         UPDATE rc_manage_resource
         <set>
             <if test="method != null">
@@ -103,10 +103,17 @@
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </update>
 
-    <delete id="delete" parameterType="Long">
-        /* SystemResourceManagementMapper.delete */
+    <delete id="delete">
+        /* SystemResourceManagementMapper.delete() */
         DELETE
         FROM rc_manage_resource
-        WHERE uid = #{uid, jdbcType=BIGINT}
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
     </delete>
+
+    <select id="isExistResourceByUid" resultType="boolean">
+        /* SystemResourceManagementMapper.isExistResourceByUid() */
+        SELECT COUNT(*) > 0
+        FROM rc_manage_resource
+        WHERE `uid` = #{uid, jdbcType=VARCHAR}
+    </select>
 </mapper>

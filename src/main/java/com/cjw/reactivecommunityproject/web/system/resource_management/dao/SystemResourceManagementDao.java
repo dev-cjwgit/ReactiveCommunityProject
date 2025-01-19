@@ -30,4 +30,6 @@ public interface SystemResourceManagementDao {
             Long uid,
             String userUid
     );
+
+    Boolean isExistResourceByUid(Long uid);
 }

@@ -9,6 +9,7 @@ public enum RcCommonErrorMessage implements RcBaseErrorMessage {
     NOTFOUND_RESOURCE(null, "접근 가능한 URL이 존재하지 않습니다.", HttpStatus.NOT_FOUND, true),
     UNAUTHORIZED_USER(null, "인증 되지 않은 사용자입니다.", HttpStatus.UNAUTHORIZED, true),
     INQUIRE_TO_ADMIN(0, "관리자에게 문의하세요.", HttpStatus.INTERNAL_SERVER_ERROR, false),
+    UNAUTHORIZED_ACCESS(null, "해당 API 를 수행 할 권한이 없습니다.", HttpStatus.FORBIDDEN),
     UNKNOWN_EXCEPTION(-1, "알 수 없는 예외입니다.", HttpStatus.INTERNAL_SERVER_ERROR, false);
     private final Integer errorCode;
     private final String errorMessage;

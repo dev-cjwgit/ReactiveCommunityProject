@@ -42,6 +42,11 @@ public class SystemResourceManagementDaoImpl implements SystemResourceManagement
     }
 
     @Override
+    public Boolean isExistResourceByUid(Long uid) {
+        return systemResourceManagementMapper.isExistResourceByUid(uid);
+    }
+
+    @Override
     @Transactional(transactionManager = "txManager", rollbackFor = Exception.class)
     public void insertTransactional(SystemResourceManagementInsertEntity systemResourceManagementInsertEntity) {
         var rtn = systemResourceManagementMapper.insert(systemResourceManagementInsertEntity);

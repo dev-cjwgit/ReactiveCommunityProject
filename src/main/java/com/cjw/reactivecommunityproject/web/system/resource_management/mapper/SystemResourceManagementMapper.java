@@ -32,4 +32,6 @@ public interface SystemResourceManagementMapper {
     Integer update(SystemResourceManagementModifyEntity systemResourceManagementModifyEntity);
 
     Integer delete(@Param("uid") Long uid);
+
+    Boolean isExistResourceByUid(@Param("uid") Long uid);
 }
