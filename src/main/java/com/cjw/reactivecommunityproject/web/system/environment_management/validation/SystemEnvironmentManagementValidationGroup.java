@@ -7,6 +7,6 @@ public class SystemEnvironmentManagementValidationGroup {
 
     }
 
-    public interface Template extends Default {
+    public interface Create extends Default {
     }
 }

@@ -22,12 +22,12 @@ public interface SystemResourceManagementDao {
     SystemResourceManagementDetailEntity selectDetail(@Param("uid") Long uid);
 
     Boolean isDuplicate(
-            @Param("method") RcManageResourceMethodEnum method,
-            @Param("urlPattern") String urlPattern
+            RcManageResourceMethodEnum method,
+            String urlPattern
     );
 
     Boolean isOwner(
-            @Param("uid") Long uid,
-            @Param("userUid") String userUid
+            Long uid,
+            String userUid
     );
 }

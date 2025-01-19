@@ -5,6 +5,10 @@ import org.springframework.http.HttpStatus;
 
 public enum SystemEnvironmentManagementErrorMessage implements RcBaseErrorMessage {
     NOT_FOUNT_ENV_CODE_DETAIL(null, "상세 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
+    INVALID_CATEGORY_AND_ORDER_VALUE(null, "category 와 order 는 둘 다 null 이거나 null 이 아니여야 합니다.", HttpStatus.BAD_REQUEST),
+    DUPLICATE_ENVCODE_INFO(null, "이미 중복된 환경코드 id 입니다.", HttpStatus.BAD_REQUEST),
+    DUPLICATE_CATEGORY_AND_ORDER_INFO(null, "이미 중복된 category + order 입니다.", HttpStatus.BAD_REQUEST),
+
     DUMMY(null, null, null);
 
     private final Integer errorCode;
