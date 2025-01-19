@@ -97,7 +97,7 @@ public class JwtServiceImpl implements JwtService {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    private String createToken(SecurityAccessJwt securityAccessJwt, Integer expiresMinutes) {
+    private String createToken(SecurityAccessJwt securityAccessJwt, Long expiresMinutes) {
         return Jwts.builder()
                 .subject(securityAccessJwt.userUid())
                 .claim("role", securityAccessJwt.roleUid())
@@ -112,7 +112,7 @@ public class JwtServiceImpl implements JwtService {
 
     @Override
     public String createAccessToken(SecurityAccessJwt securityAccessJwt) {
-        return createToken(securityAccessJwt, this.getAccessTokenExpiresByCommonEnvCode() * 1000 * 60);
+        return createToken(securityAccessJwt, this.getAccessTokenExpiresByCommonEnvCode() * 1000 * 60L);
     }
 
     @Override
@@ -120,7 +120,7 @@ public class JwtServiceImpl implements JwtService {
         return createToken(SecurityAccessJwt.builder()
                 .userUid(userUid)
                 .roleUid(null)
-                .build(), this.getRefreshTokenExpiresByCommonEnvCode() * 1000 * 60);
+                .build(), this.getRefreshTokenExpiresByCommonEnvCode() * 1000 * 60L);
     }
 
     @Override
