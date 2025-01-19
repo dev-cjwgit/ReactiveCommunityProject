@@ -1,5 +1,6 @@
 package com.cjw.reactivecommunityproject.server.cache.custom.model;
 
+import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,6 +17,7 @@ public class CacheCustomEnvCodeVO {
     private String value;
     private String category;
     private Integer order;
+    private CommonEnabledEnum enabled;
     private ZonedDateTime updatedUtcAt;
 }
 

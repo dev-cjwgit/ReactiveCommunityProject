@@ -1,6 +1,7 @@
 package com.cjw.reactivecommunityproject.server.mail.service.impl;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
+import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
 import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomEnvCodeVO;
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
 import com.cjw.reactivecommunityproject.server.mail.exception.MailException;
@@ -16,6 +17,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @Service
@@ -23,25 +25,12 @@ import java.util.List;
 public class MailServiceImpl implements MailService {
     private final CacheCustomService cacheCustomService;
 
-    private <T> T convertToType(String value, Class<T> clazz) {
-        try {
-            return switch (clazz.getSimpleName()) {
-                case "String" -> clazz.cast(value);
-                case "Integer" -> clazz.cast(Integer.valueOf(value));
-                default -> throw new IllegalArgumentException("Unsupported type: " + clazz.getName());
-            };
-        } catch (Exception e) {
-            log.error("MailServiceImpl.convertToType", e);
-            throw new MailException(RcCommonErrorMessage.INVALID_ENV_CODE);
-        }
-    }
-
     private <T> T getConfigValueByCode(List<CacheCustomEnvCodeVO> configEnvCodeList, String envId, Class<T> clazz) {
         return CollectionUtils.emptyIfNull(configEnvCodeList).stream()
                 .filter(o -> StringUtils.equalsIgnoreCase(o.getId(), envId))
-                .map(CacheCustomEnvCodeVO::getValue)
+                .map(o -> EnvCodeUtils.convertEnvCodeByValue(o, clazz))
+                .filter(Objects::nonNull)
                 .findFirst()
-                .map(value -> convertToType(value, clazz))
                 .orElseThrow(() -> new MailException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE));
     }
 

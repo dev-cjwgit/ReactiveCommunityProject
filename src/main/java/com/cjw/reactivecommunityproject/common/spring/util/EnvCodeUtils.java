@@ -1,5 +1,6 @@
 package com.cjw.reactivecommunityproject.common.spring.util;
 
+import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
 import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomEnvCodeVO;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,10 @@ public class EnvCodeUtils {
                     || StringUtils.isBlank(cacheCustomEnvCodeVO.getValue())) {
                 return null;
             }
-
+            if (cacheCustomEnvCodeVO.getEnabled() == CommonEnabledEnum.N) {
+                log.warn("env code is enabled n : {}", cacheCustomEnvCodeVO);
+                return null;
+            }
             String value = cacheCustomEnvCodeVO.getValue();
             RcCommonEnvCodeTypeEnum type = cacheCustomEnvCodeVO.getType();
 

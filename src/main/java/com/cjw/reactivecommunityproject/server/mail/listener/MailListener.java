@@ -17,8 +17,8 @@ public class MailListener {
     @Async
     @EventListener(MailSendVO.class)
     public void listener(MailSendVO mailSendVO) {
-        log.info("MailListener.listener : start");
+        log.info("MailListener.listener() : start");
         mailService.sendMail(mailSendVO);
-        log.info("MailListener.listener : end");
+        log.info("MailListener.listener() : end");
     }
 }

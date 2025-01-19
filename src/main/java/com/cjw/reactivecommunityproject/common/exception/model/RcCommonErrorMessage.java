@@ -6,6 +6,7 @@ public enum RcCommonErrorMessage implements RcBaseErrorMessage {
     NOT_FOUND_ENV_CODE(null, "환경 코드를 찾을 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR, true),
     INVALID_ENV_CODE(null, "올바르지 않은 환경 코드입니다.", HttpStatus.INTERNAL_SERVER_ERROR, true),
     INVALID_PARAMETER_DATA(null, "올바르지 않은 파라미터입니다.", HttpStatus.BAD_REQUEST, true),
+    NOTFOUND_RESOURCE(null, "접근 가능한 URL이 존재하지 않습니다.", HttpStatus.NOT_FOUND, true),
     UNAUTHORIZED_USER(null, "인증 되지 않은 사용자입니다.", HttpStatus.UNAUTHORIZED, true),
     INQUIRE_TO_ADMIN(0, "관리자에게 문의하세요.", HttpStatus.INTERNAL_SERVER_ERROR, false),
     UNKNOWN_EXCEPTION(-1, "알 수 없는 예외입니다.", HttpStatus.INTERNAL_SERVER_ERROR, false);

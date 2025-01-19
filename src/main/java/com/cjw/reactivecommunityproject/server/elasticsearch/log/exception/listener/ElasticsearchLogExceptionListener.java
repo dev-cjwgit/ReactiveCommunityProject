@@ -17,8 +17,8 @@ public class ElasticsearchLogExceptionListener {
     @Async
     @EventListener(ElasticsearchLogExceptionDocument.class)
     public void listener(ElasticsearchLogExceptionDocument document) {
-        log.info("ElasticsearchLogExceptionListener.listener : start");
+        log.info("ElasticsearchLogExceptionListener.listener() : start");
         var result = elasticsearchLogExceptionService.insert(document);
-        log.info("ElasticsearchLogExceptionListener.listener : end -> {}", result);
+        log.info("ElasticsearchLogExceptionListener.listener() : end -> {}", result);
     }
 }

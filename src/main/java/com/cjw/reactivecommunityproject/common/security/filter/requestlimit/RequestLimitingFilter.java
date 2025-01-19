@@ -38,7 +38,7 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
             return;
         }
 
-        log.info("RequestLimitingFilter.doFilterInternal: {}, {}", clientIP, currentTime);
+        log.debug("RequestLimitingFilter.doFilterInternal: {}, {}", clientIP, currentTime);
         requestCounts.compute(clientIP, (ip, requestUserInfo) -> {
             if (requestUserInfo == null || (currentTime - requestUserInfo.getStartTime() > timeWindowEnvCode * 1000L)) {
                 // 새로운 윈도우 시작
@@ -54,7 +54,7 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
         });
 
         var userRequestInfo = requestCounts.get(clientIP);
-        log.info("RequestLimitingFilter.doFilterInternal: request info : {}", userRequestInfo);
+        log.debug("RequestLimitingFilter.doFilterInternal: request info : {}", userRequestInfo);
         if (userRequestInfo != null && userRequestInfo.getRequestCount().get() > limitEnvCode) {
             // 요청 제한 초과
             response.setStatus(429); // 429 Too Many Requests
