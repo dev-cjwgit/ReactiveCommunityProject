@@ -4,10 +4,10 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import org.springframework.http.HttpStatus;
 
-public class SysResourceManagementException extends RcBaseException {
+public class SystemResourceManagementException extends RcBaseException {
 
 
-    public SysResourceManagementException(RcBaseErrorMessage rcBaseErrorMessage) {
+    public SystemResourceManagementException(RcBaseErrorMessage rcBaseErrorMessage) {
         super(rcBaseErrorMessage.getErrorMessage());
         this.errorCode = rcBaseErrorMessage.getErrorCode();
         this.errorMessage = rcBaseErrorMessage.getErrorMessage();

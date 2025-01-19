@@ -2,8 +2,8 @@ package com.cjw.reactivecommunityproject.web.system.resource_management.validati
 
 import jakarta.validation.groups.Default;
 
-public class SysResourceValidationGroup {
-    private SysResourceValidationGroup() {
+public class SystemResourceValidationGroup {
+    private SystemResourceValidationGroup() {
 
     }
 
