@@ -9,7 +9,7 @@ import com.cjw.reactivecommunityproject.web.system.resource_management.model.req
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementListVO;
 import com.cjw.reactivecommunityproject.web.system.resource_management.service.SystemResourceManagementService;
-import com.cjw.reactivecommunityproject.web.system.resource_management.validation.SystemResourceValidationGroup;
+import com.cjw.reactivecommunityproject.web.system.resource_management.validation.SystemResourceManagementValidationGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -49,7 +49,7 @@ public class SystemResourceManagementController {
 
     @PostMapping
     public ResponseEntity<RestResponseVO<Void>> create(
-            @RequestBody @Validated(SystemResourceValidationGroup.Create.class) SystemResourceManagementCreateVO sysResourcemgmtCreateVO
+            @RequestBody @Validated(SystemResourceManagementValidationGroup.Create.class) SystemResourceManagementCreateVO sysResourcemgmtCreateVO
     ) {
         return ResponseEntity.ok(systemResourceManagementService.create(sysResourcemgmtCreateVO));
     }
@@ -63,7 +63,7 @@ public class SystemResourceManagementController {
 
     @PatchMapping
     public ResponseEntity<RestResponseVO<Void>> modify(
-            @RequestBody @Validated(SystemResourceValidationGroup.Modify.class) SystemResourceManagementModifyVO systemResourceManagementModifyVO
+            @RequestBody @Validated(SystemResourceManagementValidationGroup.Modify.class) SystemResourceManagementModifyVO systemResourceManagementModifyVO
     ) {
         return ResponseEntity.ok(systemResourceManagementService.modify(systemResourceManagementModifyVO));
     }
