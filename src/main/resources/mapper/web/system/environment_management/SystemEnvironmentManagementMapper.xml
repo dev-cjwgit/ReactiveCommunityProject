@@ -4,6 +4,7 @@
 
 <mapper namespace="com.cjw.reactivecommunityproject.web.system.environment_management.mapper.SystemEnvironmentManagementMapper">
     <select id="selectList" parameterType="PaginationVO" resultType="SystemEnvironmentManagementListEntity">
+        /* SystemEnvironmentManagementMapper.selectList() */
         SELECT  `id`,
                 `type`,
                 `value`,
@@ -37,5 +38,21 @@
         </where>
         ORDER BY `updated_utc_at` DESC
         LIMIT #{pagination.limit, jdbcType=INTEGER} OFFSET #{pagination.offset, jdbcType=INTEGER}
+    </select>
+
+    <select id="selectDetail" parameterType="String" resultType="SystemEnvironmentManagementDetailEntity">
+        /* SystemEnvironmentManagementMapper.selectDetail() */
+        SELECT `id`,
+               `type`,
+               `value`,
+               `category`,
+               `order`,
+               `enabled`,
+               `created_user_uid`,
+               `created_utc_at`,
+               `updated_user_uid`,
+               `updated_utc_at`
+        FROM rc_common_env_code
+        WHERE `id` = #{id, jdbcType=VARCHAR}
     </select>
 </mapper>

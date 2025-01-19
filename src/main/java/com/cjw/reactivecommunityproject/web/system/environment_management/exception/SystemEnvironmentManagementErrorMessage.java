@@ -4,6 +4,7 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import org.springframework.http.HttpStatus;
 
 public enum SystemEnvironmentManagementErrorMessage implements RcBaseErrorMessage {
+    NOT_FOUNT_ENV_CODE_DETAIL(null, "상세 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     DUMMY(null, null, null);
 
     private final Integer errorCode;

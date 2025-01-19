@@ -3,15 +3,13 @@ package com.cjw.reactivecommunityproject.web.system.environment_management.contr
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementListVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.service.SystemEnvironmentManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -46,4 +44,12 @@ public class SystemEnvironmentManagementController {
                         .pageSize(pageSize)
                         .build()));
     }
+
+    @GetMapping("/{env_id}")
+    public ResponseEntity<RestResponseVO<SystemEnvironmentManagementDetailEntity>> readEnvironmentManagementDetail(
+            @PathVariable("env_id") String id
+    ){
+        return ResponseEntity.ok(systemEnvironmentManagementService.readDetail(id));
+    }
+
 }

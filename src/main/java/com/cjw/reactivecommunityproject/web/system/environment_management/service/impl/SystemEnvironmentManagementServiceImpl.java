@@ -4,6 +4,9 @@ import com.cjw.reactivecommunityproject.common.spring.model.response.RestRespons
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.service.PaginationService;
 import com.cjw.reactivecommunityproject.web.system.environment_management.dao.SystemEnvironmentManagementDao;
+import com.cjw.reactivecommunityproject.web.system.environment_management.exception.SystemEnvironmentManagementErrorMessage;
+import com.cjw.reactivecommunityproject.web.system.environment_management.exception.SystemEnvironmentManagementException;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementListVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.service.SystemEnvironmentManagementService;
@@ -30,6 +33,18 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
         return RestResponseVO.<List<SystemEnvironmentManagementListEntity>>builder()
                 .result(true)
                 .data(list)
+                .build();
+    }
+
+    @Override
+    public RestResponseVO<SystemEnvironmentManagementDetailEntity> readDetail(String id) {
+        var detail = systemEnvironmentManagementDao.selectDetail(id);
+        if(detail == null){
+            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.NOT_FOUNT_ENV_CODE_DETAIL);
+        }
+        return RestResponseVO.<SystemEnvironmentManagementDetailEntity>builder()
+                .result(true)
+                .data(detail)
                 .build();
     }
 }
