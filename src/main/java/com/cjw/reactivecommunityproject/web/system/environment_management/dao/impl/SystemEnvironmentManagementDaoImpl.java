@@ -6,6 +6,7 @@ import com.cjw.reactivecommunityproject.web.system.environment_management.mapper
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementModifyEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -55,5 +56,11 @@ public class SystemEnvironmentManagementDaoImpl implements SystemEnvironmentMana
     public void deleteTransactional(String id) {
         var rtn = systemEnvironmentManagementMapper.delete(id);
         log.info("SystemEnvironmentManagementDaoImpl.deleteTransactional() : {}", rtn);
+    }
+
+    @Override
+    public void updateTransactional(SystemEnvironmentManagementModifyEntity systemEnvironmentManagementModifyEntity) {
+        var rtn = systemEnvironmentManagementMapper.update(systemEnvironmentManagementModifyEntity);
+        log.info("SystemEnvironmentManagementDaoImpl.updateTransactional() : {}", rtn);
     }
 }

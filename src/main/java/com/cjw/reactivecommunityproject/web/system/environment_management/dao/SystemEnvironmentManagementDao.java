@@ -4,6 +4,7 @@ import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.Pa
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementModifyEntity;
 
 import java.util.List;
 
@@ -25,4 +26,6 @@ public interface SystemEnvironmentManagementDao {
     Boolean isOwner(String envId, String userUid);
 
     void deleteTransactional(String id);
+
+    void updateTransactional(SystemEnvironmentManagementModifyEntity systemEnvironmentManagementModifyEntity);
 }

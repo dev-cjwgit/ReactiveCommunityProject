@@ -6,6 +6,7 @@ import com.cjw.reactivecommunityproject.web.system.environment_management.model.
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementModifyVO;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface SystemEnvironmentManagementService {
     RestResponseVO<Void> create(SystemEnvironmentManagementCreateVO systemEnvironmentManagementCreateVO);
 
     RestResponseVO<Void> remove(String id);
+
+    RestResponseVO<Void> modify(SystemEnvironmentManagementModifyVO systemEnvironmentManagementModifyVO);
 }

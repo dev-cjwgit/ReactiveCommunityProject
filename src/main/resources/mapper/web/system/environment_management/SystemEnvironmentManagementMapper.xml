@@ -107,4 +107,17 @@
         FROM rc_common_env_code
         WHERE `id` = #{id, jdbcType=VARCHAR}
     </delete>
+
+    <update id="update" parameterType="SystemEnvironmentManagementModifyEntity">
+        /* SystemEnvironmentManagementMapper.update() */
+        UPDATE rc_common_env_code
+        SET `type`             = #{type, jdbcType=VARCHAR},
+            `value`            = #{value, jdbcType=VARCHAR},
+            `category`         = #{category, jdbcType=VARCHAR},
+            `order`            = #{order, jdbcType=INTEGER},
+            `enabled`          = #{enabled, jdbcType=VARCHAR},
+            `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
+            `updated_utc_at`   = CURRENT_TIMESTAMP()
+        WHERE `id` = #{id, jdbcType=VARCHAR}
+    </update>
 </mapper>

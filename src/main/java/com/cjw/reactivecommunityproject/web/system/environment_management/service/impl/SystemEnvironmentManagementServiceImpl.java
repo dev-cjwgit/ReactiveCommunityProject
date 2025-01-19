@@ -11,8 +11,10 @@ import com.cjw.reactivecommunityproject.web.system.environment_management.except
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementModifyEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.service.SystemEnvironmentManagementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -71,13 +73,15 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_CATEGORY_AND_ORDER_VALUE);
         }
 
-        var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
-                systemEnvironmentManagementCreateVO.category(),
-                systemEnvironmentManagementCreateVO.order()
-        );
+        if (category != null && order != null) {
+            var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
+                    systemEnvironmentManagementCreateVO.category(),
+                    systemEnvironmentManagementCreateVO.order()
+            );
 
-        if (isCategoryAndOrderDuplicate) {
-            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.DUPLICATE_CATEGORY_AND_ORDER_INFO);
+            if (isCategoryAndOrderDuplicate) {
+                throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.DUPLICATE_CATEGORY_AND_ORDER_INFO);
+            }
         }
 
         systemEnvironmentManagementDao.insertTransactional(
@@ -110,6 +114,54 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
         }
 
         systemEnvironmentManagementDao.deleteTransactional(id);
+
+        return RestResponseVO.<Void>builder()
+                .result(true)
+                .build();
+    }
+
+    @Override
+    public RestResponseVO<Void> modify(SystemEnvironmentManagementModifyVO systemEnvironmentManagementModifyVO) {
+        var isExist = systemEnvironmentManagementDao.isExistEnvCodeById(systemEnvironmentManagementModifyVO.id());
+
+        if (Boolean.FALSE.equals(isExist)) {
+            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.NOT_FOUND_ENV_CODE);
+        }
+
+        var isOwner = systemEnvironmentManagementDao.isOwner(systemEnvironmentManagementModifyVO.id(), rcUserComponent.getUserUid());
+
+        if (Boolean.FALSE.equals(isOwner)) {
+            throw new SystemEnvironmentManagementException(RcCommonErrorMessage.UNAUTHORIZED_ACCESS);
+        }
+
+        var category = systemEnvironmentManagementModifyVO.category();
+        var order = systemEnvironmentManagementModifyVO.order();
+
+        // 조건: 둘 다 null 이거나, 둘 다 값이 있어야 함
+        if ((category == null) != (order == null)) {
+            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_CATEGORY_AND_ORDER_VALUE);
+        }
+
+        if (category != null && order != null) {
+            var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
+                    category,
+                    order
+            );
+
+            if (isCategoryAndOrderDuplicate) {
+                throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.DUPLICATE_CATEGORY_AND_ORDER_INFO);
+            }
+        }
+
+        systemEnvironmentManagementDao.updateTransactional(SystemEnvironmentManagementModifyEntity.builder()
+                .id(systemEnvironmentManagementModifyVO.id())
+                .type(systemEnvironmentManagementModifyVO.type())
+                .value(systemEnvironmentManagementModifyVO.value())
+                .category(systemEnvironmentManagementModifyVO.category())
+                .order(systemEnvironmentManagementModifyVO.order())
+                .enabled(systemEnvironmentManagementModifyVO.enabled())
+                .userUid(rcUserComponent.getUserUid())
+                .build());
 
         return RestResponseVO.<Void>builder()
                 .result(true)

@@ -4,6 +4,7 @@ import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.Pa
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementModifyEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +28,6 @@ public interface SystemEnvironmentManagementMapper {
     );
 
     Integer delete(@Param("id") String id);
+
+    Integer update(SystemEnvironmentManagementModifyEntity systemEnvironmentManagementModifyEntity);
 }

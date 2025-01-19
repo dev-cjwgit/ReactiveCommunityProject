@@ -7,6 +7,7 @@ import com.cjw.reactivecommunityproject.web.system.environment_management.model.
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.service.SystemEnvironmentManagementService;
 import com.cjw.reactivecommunityproject.web.system.environment_management.validation.SystemEnvironmentManagementValidationGroup;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +66,14 @@ public class SystemEnvironmentManagementController {
     @DeleteMapping("/{env_id}")
     public ResponseEntity<RestResponseVO<Void>> remove(
             @PathVariable("env_id") String id
-    ){
+    ) {
         return ResponseEntity.ok(systemEnvironmentManagementService.remove(id));
+    }
+
+    @PatchMapping
+    public ResponseEntity<RestResponseVO<Void>> modify(
+            @RequestBody @Validated(SystemEnvironmentManagementValidationGroup.Modify.class) SystemEnvironmentManagementModifyVO systemEnvironmentManagementModifyVO
+    ) {
+        return ResponseEntity.ok(systemEnvironmentManagementService.modify(systemEnvironmentManagementModifyVO));
     }
 }
