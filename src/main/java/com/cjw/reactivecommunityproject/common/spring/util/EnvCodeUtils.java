@@ -17,7 +17,7 @@ public class EnvCodeUtils {
                 return null;
             }
             if (cacheCustomEnvCodeVO.getEnabled() == CommonEnabledEnum.N) {
-                log.warn("env code is not used (enabled n) : {}", cacheCustomEnvCodeVO);
+                log.warn("env code is enabled n : {}", cacheCustomEnvCodeVO);
                 return null;
             }
             String value = cacheCustomEnvCodeVO.getValue();
