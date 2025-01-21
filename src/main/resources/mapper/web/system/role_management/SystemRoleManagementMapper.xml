@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjw.reactivecommunityproject.web.system.role_management.mapper.SystemRoleManagementMapper">
+    <select id="selectList" parameterType="PaginationVO" resultType="SystemRoleManagementListEntity">
+        /* SystemRoleManagementMapper.selectList() */
+        SELECT  `uid`,
+                `name`,
+                `enabled`,
+                `created_user_uid`,
+                `created_utc_at`,
+                `updated_user_uid`,
+                `updated_utc_at`
+        FROM rc_manage_role
+        <where>
+            <if test="pagination.uid != null">
+                AND `uid` LIKE CONCAT('%', #{pagination.uid, jdbcType=VARCHAR}, '%')
+            </if>
+            <if test="pagination.name != null">
+                AND `name` LIKE CONCAT('%', #{pagination.name}, '%')
+            </if>
+            <if test="pagination.startDate != null and endDate != null">
+                AND `created_utc_at` <![CDATA[>=]]> #{pagination.startDate}
+            </if>
+            <if test="pagination.endDate != null">
+                AND `created_utc_at` <![CDATA[<=]]> #{pagination.endDate}
+            </if>
+        </where>
+        ORDER BY `updated_utc_at` DESC
+        LIMIT #{pagination.limit, jdbcType=INTEGER} OFFSET #{pagination.offset, jdbcType=INTEGER}
+    </select>
+</mapper>
