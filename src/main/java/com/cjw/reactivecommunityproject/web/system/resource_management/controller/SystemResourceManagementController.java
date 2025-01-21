@@ -25,12 +25,19 @@ public class SystemResourceManagementController {
 
     @GetMapping("/list")
     public ResponseEntity<RestResponseVO<List<SystemResourceManagementListEntity>>> readResourceMgmtList(
+            @RequestParam(value = "uid", required = false) Long uid,
+            @RequestParam(value = "method", required = false) String method,
+            @RequestParam(value = "url-pattern", required = false) String urlPattern,
+
             @RequestParam(value = "start-date", required = false) String startDate,
             @RequestParam(value = "end-date", required = false) String endDate,
             @RequestParam("page-number") Integer pageNumber,
             @RequestParam("page-size") Integer pageSize
     ) {
         return ResponseEntity.ok(systemResourceManagementService.readResourceMgmtList(SystemResourceManagementListVO.builder()
+                        .uid(uid)
+                        .method(method)
+                        .urlPattern(urlPattern)
                         .startDate(DateUtils.convert(startDate, DateUtils.yyyy_MM_dd))
                         .endDate(DateUtils.convert(endDate, DateUtils.yyyy_MM_dd))
                         .build()

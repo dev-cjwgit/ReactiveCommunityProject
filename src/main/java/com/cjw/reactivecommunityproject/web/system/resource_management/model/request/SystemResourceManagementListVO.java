@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 
 @Builder
 public record SystemResourceManagementListVO(
+        Long uid,
         String method,
         String urlPattern,
         ZonedDateTime startDate,
