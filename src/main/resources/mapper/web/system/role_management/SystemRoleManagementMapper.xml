@@ -44,8 +44,8 @@
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </select>
 
-    <select id="isDuplicateByName" resultType="boolean">
-        /* SystemRoleManagementMapper.isDuplicateByName() */
+    <select id="isExistByName" resultType="boolean">
+        /* SystemRoleManagementMapper.isExistByName() */
         SELECT COUNT(*) > 0
         FROM rc_manage_role
         WHERE `name` = #{name, jdbcType=VARCHAR}
@@ -69,8 +69,8 @@
                 CURRENT_TIMESTAMP())
     </insert>
 
-    <select id="isDuplicateByUid" resultType="boolean">
-        /* SystemRoleManagementMapper.isDuplicateByUid() */
+    <select id="isExistByUid" resultType="boolean">
+        /* SystemRoleManagementMapper.isExistByUid() */
         SELECT COUNT(*) > 0
         FROM rc_manage_role
         WHERE `uid` = #{uid, jdbcType=TINYINT}
@@ -82,4 +82,19 @@
         FROM INFORMATION_SCHEMA.TABLES
         WHERE `TABLE_NAME` = 'rc_manage_role'
     </select>
+
+    <select id="isOwner" resultType="boolean">
+        /* SystemRoleManagementMapper.isOwner() */
+        SELECT COUNT(*) > 0
+        FROM rc_manage_role
+        WHERE `uid` = #{uid, jdbcType=TINYINT}
+          AND `created_user_uid` = #{userUid, jdbcType=VARCHAR}
+    </select>
+
+    <delete id="delete">
+        /* SystemRoleManagementMapper.delete() */
+        DELETE
+        FROM rc_manage_role
+        WHERE `uid` = #{uid, jdbcType=TINYINT}
+    </delete>
 </mapper>

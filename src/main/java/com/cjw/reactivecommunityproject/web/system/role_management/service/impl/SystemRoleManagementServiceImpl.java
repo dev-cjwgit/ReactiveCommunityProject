@@ -1,10 +1,12 @@
 package com.cjw.reactivecommunityproject.web.system.role_management.service.impl;
 
+import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.service.PaginationService;
 import com.cjw.reactivecommunityproject.web.system.resource_management.exception.SystemResourceManagementErrorMessage;
+import com.cjw.reactivecommunityproject.web.system.resource_management.exception.SystemResourceManagementException;
 import com.cjw.reactivecommunityproject.web.system.role_management.dao.SystemRoleManagementDao;
 import com.cjw.reactivecommunityproject.web.system.role_management.exception.SystemRoleManagementErrorMessage;
 import com.cjw.reactivecommunityproject.web.system.role_management.exception.SystemRoleManagementException;
@@ -57,18 +59,18 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
 
     @Override
     public RestResponseVO<Void> create(SystemRoleManagementCreateVO systemRoleManagementCreateVO) {
-        var isDuplicateName = systemRoleManagementDao.isDuplicateByName(systemRoleManagementCreateVO.name());
+        var isDuplicateName = systemRoleManagementDao.isExistByName(systemRoleManagementCreateVO.name());
         if (isDuplicateName) {
-            throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_RESOURCE_NAME);
+            throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_ROLE_NAME);
         }
 
-        var isDuplicateUid = systemRoleManagementDao.isDuplicateByUid(systemRoleManagementCreateVO.uid());
+        var isDuplicateUid = systemRoleManagementDao.isExistByUid(systemRoleManagementCreateVO.uid());
         if (isDuplicateUid) {
-            throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_RESOURCE_UID);
+            throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_ROLE_UID);
         }
 
         var isMaxUid = systemRoleManagementDao.isMaxUidByRole();
-        if (isMaxUid){
+        if (isMaxUid) {
             throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.MAXIMUM_UID);
         }
 
@@ -79,6 +81,26 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
                         .userUid(rcUserComponent.getUserUid())
                         .build()
         );
+        return RestResponseVO.<Void>builder()
+                .result(true)
+                .build();
+    }
+
+    @Override
+    public RestResponseVO<Void> remove(Integer uid) {
+        var isExistUid = systemRoleManagementDao.isExistByUid(uid);
+        if (Boolean.FALSE.equals(isExistUid)) {
+            throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.NOT_FOUNT_ROLE);
+        }
+
+        var isOwner = systemRoleManagementDao.isOwner(uid, rcUserComponent.getUserUid());
+
+        if (Boolean.FALSE.equals(isOwner)) {
+            throw new SystemResourceManagementException(RcCommonErrorMessage.UNAUTHORIZED_ACCESS);
+        }
+
+        systemRoleManagementDao.deleteTransactional(uid);
+
         return RestResponseVO.<Void>builder()
                 .result(true)
                 .build();

@@ -13,11 +13,15 @@ public interface SystemRoleManagementDao {
 
     SystemRoleManagementDetailEntity selectDetail(Long uid);
 
-    Boolean isDuplicateByName(String name);
+    Boolean isExistByName(String name);
 
     void insertTransactional(SystemRoleManagementInsertEntity build);
 
-    Boolean isDuplicateByUid(Long uid);
+    Boolean isExistByUid(Integer uid);
 
     Boolean isMaxUidByRole();
+
+    Boolean isOwner(Integer uid, String userUid);
+
+    void deleteTransactional(Integer uid);
 }

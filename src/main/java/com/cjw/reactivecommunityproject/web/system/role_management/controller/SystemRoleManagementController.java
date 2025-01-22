@@ -57,4 +57,11 @@ public class SystemRoleManagementController {
     ) {
         return ResponseEntity.ok(systemRoleManagementService.create(systemRoleManagementCreateVO));
     }
+
+    @DeleteMapping("/{uid}")
+    public ResponseEntity<RestResponseVO<Void>> remove(
+            @PathVariable("uid") Integer uid
+    ) {
+        return ResponseEntity.ok(systemRoleManagementService.remove(uid));
+    }
 }

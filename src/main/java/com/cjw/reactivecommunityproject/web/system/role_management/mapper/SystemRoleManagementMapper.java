@@ -15,11 +15,15 @@ public interface SystemRoleManagementMapper {
 
     SystemRoleManagementDetailEntity selectDetail(@Param("uid") Long uid);
 
-    Boolean isDuplicateByName(@Param("name") String name);
+    Boolean isExistByName(@Param("name") String name);
 
     Integer insert(SystemRoleManagementInsertEntity systemRoleManagementInsertEntity);
 
-    Boolean isDuplicateByUid(@Param("uid") Long uid);
+    Boolean isExistByUid(@Param("uid") Integer uid);
 
     Boolean isMaxUidByRole();
+
+    Boolean isOwner(@Param("uid") Integer uid, @Param("userUid") String userUid);
+
+    Integer delete(Integer uid);
 }

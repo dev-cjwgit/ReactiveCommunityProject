@@ -15,4 +15,6 @@ public interface SystemRoleManagementService {
     RestResponseVO<SystemRoleManagementDetailEntity> readDetail(Long uid);
 
     RestResponseVO<Void> create(SystemRoleManagementCreateVO systemRoleManagementCreateVO);
+
+    RestResponseVO<Void> remove(Integer uid);
 }

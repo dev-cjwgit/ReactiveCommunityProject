@@ -30,8 +30,8 @@ public class SystemRoleManagementDaoImpl implements SystemRoleManagementDao {
     }
 
     @Override
-    public Boolean isDuplicateByName(String name) {
-        return systemRoleManagementMapper.isDuplicateByName(name);
+    public Boolean isExistByName(String name) {
+        return systemRoleManagementMapper.isExistByName(name);
     }
 
     @Override
@@ -42,12 +42,23 @@ public class SystemRoleManagementDaoImpl implements SystemRoleManagementDao {
     }
 
     @Override
-    public Boolean isDuplicateByUid(Long uid) {
-        return systemRoleManagementMapper.isDuplicateByUid(uid);
+    public Boolean isExistByUid(Integer uid) {
+        return systemRoleManagementMapper.isExistByUid(uid);
     }
 
     @Override
     public Boolean isMaxUidByRole() {
         return systemRoleManagementMapper.isMaxUidByRole();
+    }
+
+    @Override
+    public Boolean isOwner(Integer uid, String userUid) {
+        return systemRoleManagementMapper.isOwner(uid, userUid);
+    }
+
+    @Override
+    public void deleteTransactional(Integer uid) {
+        int rtn = systemRoleManagementMapper.delete(uid);
+        log.info("systemRoleManagementMapper.delete() : {}", rtn);
     }
 }
