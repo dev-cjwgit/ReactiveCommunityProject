@@ -4,6 +4,7 @@ import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.Pa
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementModifyEntity;
 
 import java.util.List;
 
@@ -24,4 +25,6 @@ public interface SystemRoleManagementDao {
     Boolean isOwner(Integer uid, String userUid);
 
     void deleteTransactional(Integer uid);
+
+    void updateTransactional(SystemRoleManagementModifyEntity systemRoleManagementModifyEntity);
 }

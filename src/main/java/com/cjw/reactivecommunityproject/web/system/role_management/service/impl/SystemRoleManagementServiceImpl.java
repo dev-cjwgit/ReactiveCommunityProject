@@ -13,8 +13,10 @@ import com.cjw.reactivecommunityproject.web.system.role_management.exception.Sys
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementModifyEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.service.SystemRoleManagementService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,10 +65,11 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
         if (isDuplicateName) {
             throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_ROLE_NAME);
         }
-
-        var isDuplicateUid = systemRoleManagementDao.isExistByUid(systemRoleManagementCreateVO.uid());
-        if (isDuplicateUid) {
-            throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_ROLE_UID);
+        if (systemRoleManagementCreateVO.uid() != null) {
+            var isDuplicateUid = systemRoleManagementDao.isExistByUid(systemRoleManagementCreateVO.uid());
+            if (isDuplicateUid) {
+                throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_ROLE_UID);
+            }
         }
 
         var isMaxUid = systemRoleManagementDao.isMaxUidByRole();
@@ -100,6 +103,33 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
         }
 
         systemRoleManagementDao.deleteTransactional(uid);
+
+        return RestResponseVO.<Void>builder()
+                .result(true)
+                .build();
+    }
+
+    @Override
+    public RestResponseVO<Void> modify(SystemRoleManagementModifyVO systemRoleManagementModifyVO) {
+        var isExistUid = systemRoleManagementDao.isExistByUid(systemRoleManagementModifyVO.uid());
+        if (Boolean.FALSE.equals(isExistUid)) {
+            throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.NOT_FOUNT_ROLE);
+        }
+
+        var isOwner = systemRoleManagementDao.isOwner(systemRoleManagementModifyVO.uid(), rcUserComponent.getUserUid());
+
+        if (Boolean.FALSE.equals(isOwner)) {
+            throw new SystemResourceManagementException(RcCommonErrorMessage.UNAUTHORIZED_ACCESS);
+        }
+
+        systemRoleManagementDao.updateTransactional(
+                SystemRoleManagementModifyEntity.builder()
+                        .uid(systemRoleManagementModifyVO.uid())
+                        .name(systemRoleManagementModifyVO.name())
+                        .userUid(rcUserComponent.getUserUid())
+                        .enabled(systemRoleManagementModifyVO.enabled())
+                        .build()
+        );
 
         return RestResponseVO.<Void>builder()
                 .result(true)

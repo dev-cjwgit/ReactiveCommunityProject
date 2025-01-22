@@ -97,4 +97,19 @@
         FROM rc_manage_role
         WHERE `uid` = #{uid, jdbcType=TINYINT}
     </delete>
+
+    <update id="update" parameterType="SystemResourceManagementModifyEntity">
+        /* SystemRoleManagementMapper.update() */
+        UPDATE rc_manage_role
+        <set>
+            <if test="name != null">
+                `name` = #{name, jdbcType=VARCHAR},
+            </if>
+
+            `enabled` = #{enabled, jdbcType=VARCHAR},
+            `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
+            `updated_utc_at` = CURRENT_TIMESTAMP()
+        </set>
+        WHERE `uid` = #{uid, jdbcType=TINYINT}
+    </update>
 </mapper>

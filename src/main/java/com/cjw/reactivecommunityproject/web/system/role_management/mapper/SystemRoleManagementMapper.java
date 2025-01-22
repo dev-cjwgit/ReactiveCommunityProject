@@ -4,6 +4,7 @@ import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.Pa
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementModifyEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -26,4 +27,6 @@ public interface SystemRoleManagementMapper {
     Boolean isOwner(@Param("uid") Integer uid, @Param("userUid") String userUid);
 
     Integer delete(Integer uid);
+
+    Integer update(SystemRoleManagementModifyEntity systemRoleManagementModifyEntity);
 }

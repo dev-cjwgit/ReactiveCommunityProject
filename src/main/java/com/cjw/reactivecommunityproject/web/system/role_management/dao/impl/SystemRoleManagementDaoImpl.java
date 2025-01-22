@@ -6,6 +6,7 @@ import com.cjw.reactivecommunityproject.web.system.role_management.mapper.System
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementModifyEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -60,5 +61,11 @@ public class SystemRoleManagementDaoImpl implements SystemRoleManagementDao {
     public void deleteTransactional(Integer uid) {
         int rtn = systemRoleManagementMapper.delete(uid);
         log.info("systemRoleManagementMapper.delete() : {}", rtn);
+    }
+
+    @Override
+    public void updateTransactional(SystemRoleManagementModifyEntity systemRoleManagementModifyEntity) {
+        int rtn = systemRoleManagementMapper.update(systemRoleManagementModifyEntity);
+        log.info("systemRoleManagementMapper.update() : {}", rtn);
     }
 }

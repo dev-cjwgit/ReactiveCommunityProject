@@ -7,6 +7,7 @@ import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.service.SystemRoleManagementService;
 import com.cjw.reactivecommunityproject.web.system.role_management.validation.SystemRoleManagementValidationGroup;
 import lombok.RequiredArgsConstructor;
@@ -63,5 +64,12 @@ public class SystemRoleManagementController {
             @PathVariable("uid") Integer uid
     ) {
         return ResponseEntity.ok(systemRoleManagementService.remove(uid));
+    }
+
+    @PatchMapping
+    public ResponseEntity<RestResponseVO<Void>> modify(
+            @RequestBody @Validated(SystemRoleManagementValidationGroup.Modify.class) SystemRoleManagementModifyVO systemRoleManagementModifyVO
+    ) {
+        return ResponseEntity.ok(systemRoleManagementService.modify(systemRoleManagementModifyVO));
     }
 }

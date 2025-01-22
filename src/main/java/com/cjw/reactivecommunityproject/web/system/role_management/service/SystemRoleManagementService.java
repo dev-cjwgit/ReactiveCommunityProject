@@ -6,6 +6,7 @@ import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementModifyVO;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface SystemRoleManagementService {
     RestResponseVO<Void> create(SystemRoleManagementCreateVO systemRoleManagementCreateVO);
 
     RestResponseVO<Void> remove(Integer uid);
+
+    RestResponseVO<Void> modify(SystemRoleManagementModifyVO systemRoleManagementModifyVO);
 }
