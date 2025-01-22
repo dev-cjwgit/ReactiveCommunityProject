@@ -50,8 +50,8 @@
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </select>
 
-    <select id="isDuplicate" resultType="boolean">
-        /* SystemResourceManagementMapper.isDuplicate() */
+    <select id="isDuplicateByMethodAndUrlPattern" resultType="boolean">
+        /* SystemResourceManagementMapper.isDuplicateByMethodAndUrlPattern() */
         SELECT COUNT(*) > 0
         FROM rc_manage_resource
         WHERE `method` = #{method, jdbcType=VARCHAR}

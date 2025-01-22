@@ -17,7 +17,7 @@ public interface SystemResourceManagementMapper {
 
     SystemResourceManagementDetailEntity selectDetail(@Param("uid") Long uid);
 
-    Boolean isDuplicate(
+    Boolean isDuplicateByMethodAndUrlPattern(
             @Param("method") RcManageResourceMethodEnum method,
             @Param("urlPattern") String urlPattern
     );

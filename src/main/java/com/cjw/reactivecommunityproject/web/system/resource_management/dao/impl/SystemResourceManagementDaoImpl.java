@@ -32,8 +32,8 @@ public class SystemResourceManagementDaoImpl implements SystemResourceManagement
     }
 
     @Override
-    public Boolean isDuplicate(RcManageResourceMethodEnum method, String urlPattern) {
-        return systemResourceManagementMapper.isDuplicate(method, urlPattern);
+    public Boolean isDuplicateByMethodAndUrlPattern(RcManageResourceMethodEnum method, String urlPattern) {
+        return systemResourceManagementMapper.isDuplicateByMethodAndUrlPattern(method, urlPattern);
     }
 
     @Override

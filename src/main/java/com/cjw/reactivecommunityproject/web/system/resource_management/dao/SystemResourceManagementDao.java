@@ -21,7 +21,7 @@ public interface SystemResourceManagementDao {
 
     SystemResourceManagementDetailEntity selectDetail(@Param("uid") Long uid);
 
-    Boolean isDuplicate(
+    Boolean isDuplicateByMethodAndUrlPattern(
             RcManageResourceMethodEnum method,
             String urlPattern
     );
