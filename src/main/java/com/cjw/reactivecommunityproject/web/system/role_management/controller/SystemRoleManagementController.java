@@ -3,22 +3,22 @@ package com.cjw.reactivecommunityproject.web.system.role_management.controller;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
+import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementListVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.service.SystemRoleManagementService;
+import com.cjw.reactivecommunityproject.web.system.role_management.validation.SystemRoleManagementValidationGroup;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/rest/template")
+@RequestMapping("/rest/system/role-management")
 public class SystemRoleManagementController {
     private final SystemRoleManagementService systemRoleManagementService;
 
@@ -42,5 +42,19 @@ public class SystemRoleManagementController {
                         .pageNumber(pageNumber)
                         .pageSize(pageSize)
                         .build()));
+    }
+
+    @GetMapping("/{uid}")
+    public ResponseEntity<RestResponseVO<SystemRoleManagementDetailEntity>> readDetail(
+            @PathVariable("uid") Long uid
+    ) {
+        return ResponseEntity.ok(systemRoleManagementService.readDetail(uid));
+    }
+
+    @PostMapping
+    public ResponseEntity<RestResponseVO<Void>> create(
+            @RequestBody @Validated(SystemRoleManagementValidationGroup.Create.class) SystemRoleManagementCreateVO systemRoleManagementCreateVO
+    ) {
+        return ResponseEntity.ok(systemRoleManagementService.create(systemRoleManagementCreateVO));
     }
 }

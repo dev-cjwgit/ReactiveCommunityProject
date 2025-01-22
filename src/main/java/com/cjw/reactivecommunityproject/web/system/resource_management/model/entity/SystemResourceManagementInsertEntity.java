@@ -5,7 +5,6 @@ import lombok.Builder;
 
 @Builder
 public record SystemResourceManagementInsertEntity(
-        Long uid,
         RcManageResourceMethodEnum method,
         String urlPattern,
         String description,

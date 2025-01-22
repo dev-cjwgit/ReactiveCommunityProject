@@ -4,6 +4,10 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import org.springframework.http.HttpStatus;
 
 public enum SystemRoleManagementErrorMessage implements RcBaseErrorMessage {
+    DUPLICATE_RESOURCE_NAME(null, "중복된 name이 존재합니다.", HttpStatus.BAD_REQUEST),
+    DUPLICATE_RESOURCE_UID(null, "중복된 uid가 존재합니다.", HttpStatus.BAD_REQUEST),
+    MAXIMUM_UID(null, "이미 자동으로 생성할 수 있는 최대 uid 를 초과했습니다. 직접 uid를 입력해주세요.", HttpStatus.BAD_REQUEST),
+
     DUMMY(null, null, null);
 
     private final Integer errorCode;

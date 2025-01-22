@@ -30,4 +30,56 @@
         ORDER BY `updated_utc_at` DESC
         LIMIT #{pagination.limit, jdbcType=INTEGER} OFFSET #{pagination.offset, jdbcType=INTEGER}
     </select>
+
+    <select id="selectDetail" resultType="SystemRoleManagementDetailEntity">
+        /* SystemRoleManagementMapper.selectDetail() */
+        SELECT `uid`,
+               `name`,
+               `enabled`,
+               `created_user_uid`,
+               `created_utc_at`,
+               `updated_user_uid`,
+               `updated_utc_at`
+        FROM rc_manage_role
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </select>
+
+    <select id="isDuplicateByName" resultType="boolean">
+        /* SystemRoleManagementMapper.isDuplicateByName() */
+        SELECT COUNT(*) > 0
+        FROM rc_manage_role
+        WHERE `name` = #{name, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="SystemRoleManagementInsertEntity">
+        /* SystemRoleManagementMapper.insert() */
+        INSERT INTO rc_manage_role(`uid`,
+                                   `name`,
+                                   `enabled`,
+                                   `created_user_uid`,
+                                   `created_utc_at`,
+                                   `updated_user_uid`,
+                                   `updated_utc_at`)
+        VALUES (#{uid, jdbcType=TINYINT},
+                #{name, jdbcType=VARCHAR},
+                'Y',
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP(),
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP())
+    </insert>
+
+    <select id="isDuplicateByUid" resultType="boolean">
+        /* SystemRoleManagementMapper.isDuplicateByUid() */
+        SELECT COUNT(*) > 0
+        FROM rc_manage_role
+        WHERE `uid` = #{uid, jdbcType=TINYINT}
+    </select>
+
+    <select id="isMaxUidByRole" resultType="boolean">
+        /* SystemRoleManagementMapper.isDuplicateByUid() */
+        SELECT `AUTO_INCREMENT` >= 127
+        FROM INFORMATION_SCHEMA.TABLES
+        WHERE `TABLE_NAME` = 'rc_manage_role'
+    </select>
 </mapper>
