@@ -1,5 +1,7 @@
 package com.cjw.reactivecommunityproject.common.security.filter.jwt;
 
+import com.cjw.reactivecommunityproject.common.security.exception.SecurityErrorMessage;
+import com.cjw.reactivecommunityproject.common.security.exception.SecurityException;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,14 +30,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         try {
             var token = extractJwtToken(request);
-
+            if (StringUtils.isBlank(token)) {
+                throw new SecurityException(SecurityErrorMessage.NOT_FOUND_TOKEN);
+            }
             // 해당 메소드에서 모든 예외 처리를 수행하고 null 만 반환
             var claims = jwtService.getClaims(token);
 
             SecurityContextHolder.getContext().setAuthentication(claims);
+        } catch (SecurityException se) {
+            SecurityContextHolder.clearContext();
+            log.warn("JwtAuthenticationFilter.doFilterInternal() : {}", se.getErrorMessage());
         } catch (Exception e) {
             SecurityContextHolder.clearContext();
-            log.error("JwtAuthenticationFilter.doFilterInternal", e);
+            log.error("JwtAuthenticationFilter.doFilterInternal()", e);
         } finally {
             filterChain.doFilter(request, response);
         }

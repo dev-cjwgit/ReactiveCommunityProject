@@ -8,6 +8,7 @@ public enum SecurityErrorMessage implements RcBaseErrorMessage {
     INVALID_TOKEN_PAYLOAD(null, "토큰 Payload 가 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN_STRUCT(null, "토큰 구조가 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
     INVALID_TOKEN(null, "토큰이 올바르지 않습니다.", HttpStatus.BAD_REQUEST),
+    NOT_FOUND_TOKEN(null, "토큰을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
 
     NOT_FOUND_USER_SALT(null, "유저 개인 키를 찾을 수 없습니다.", HttpStatus.INTERNAL_SERVER_ERROR, false),
 
