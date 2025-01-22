@@ -101,15 +101,10 @@
     <update id="update" parameterType="SystemResourceManagementModifyEntity">
         /* SystemRoleManagementMapper.update() */
         UPDATE rc_manage_role
-        <set>
-            <if test="name != null">
-                `name` = #{name, jdbcType=VARCHAR},
-            </if>
-
-            `enabled` = #{enabled, jdbcType=VARCHAR},
+        SET `name`             = #{name, jdbcType=VARCHAR},
+            `enabled`          = #{enabled, jdbcType=VARCHAR},
             `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
-            `updated_utc_at` = CURRENT_TIMESTAMP()
-        </set>
+            `updated_utc_at`   = CURRENT_TIMESTAMP()
         WHERE `uid` = #{uid, jdbcType=TINYINT}
     </update>
 </mapper>

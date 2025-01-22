@@ -12,6 +12,7 @@ public record SystemRoleManagementModifyVO(
         @Min(value = 1, groups = {SystemRoleManagementValidationGroup.Modify.class}, message = "uid 은 1 이상이어야 합니다.")
         @Max(value = 127, groups = {SystemRoleManagementValidationGroup.Modify.class}, message = "uid 은 128 미만이어야 합니다.")
         Integer uid,
+
         @NotBlank(groups = {SystemRoleManagementValidationGroup.Modify.class}, message = "name 은 공백일 수 없습니다.")
         @Size(groups = {SystemRoleManagementValidationGroup.Modify.class},
                 min = 3, max = 100,

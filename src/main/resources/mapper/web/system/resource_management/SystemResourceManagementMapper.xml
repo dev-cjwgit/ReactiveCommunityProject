@@ -87,23 +87,12 @@
     <update id="update" parameterType="SystemResourceManagementModifyEntity">
         /* SystemResourceManagementMapper.update() */
         UPDATE rc_manage_resource
-        <set>
-            <if test="method != null">
-                `method` = #{method, jdbcType=VARCHAR},
-            </if>
-
-            <if test="urlPattern != null">
-                `url_pattern` = #{urlPattern, jdbcType=VARCHAR},
-            </if>
-
-            <if test="description != null">
-                `description` = #{description, jdbcType=VARCHAR},
-            </if>
-
-            `enabled` = #{enabled, jdbcType=VARCHAR},
+        SET `method`           = #{method, jdbcType=VARCHAR},
+            `url_pattern`      = #{urlPattern, jdbcType=VARCHAR},
+            `description`      = #{description, jdbcType=VARCHAR},
+            `enabled`          = #{enabled, jdbcType=VARCHAR},
             `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
-            `updated_utc_at` = CURRENT_TIMESTAMP()
-        </set>
+            `updated_utc_at`   = CURRENT_TIMESTAMP()
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </update>
 

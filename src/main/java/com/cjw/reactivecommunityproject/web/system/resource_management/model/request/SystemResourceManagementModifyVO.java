@@ -3,16 +3,19 @@ package com.cjw.reactivecommunityproject.web.system.resource_management.model.re
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageResourceMethodEnum;
 import com.cjw.reactivecommunityproject.web.system.resource_management.validation.SystemResourceManagementValidationGroup;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record SystemResourceManagementModifyVO(
-        @NotNull(groups = {SystemResourceManagementValidationGroup.Modify.class}, message = "필수 값은 null 일 수 없습니다.")
+        @NotNull(groups = {SystemResourceManagementValidationGroup.Modify.class}, message = "uid 는 null 일 수 없습니다.")
         Long uid,
 
         RcManageResourceMethodEnum method,
 
+
+        @NotBlank(groups = {SystemResourceManagementValidationGroup.Modify.class}, message = "urlPattern 은 값은 null 일 수 없습니다.")
         @Size(groups = {SystemResourceManagementValidationGroup.Modify.class},
                 max = 255,
                 message = "최대 사이즈는 500자 이하여야 합니다."
@@ -23,6 +26,7 @@ public record SystemResourceManagementModifyVO(
         )
         String urlPattern,
 
+        @NotBlank(groups = {SystemResourceManagementValidationGroup.Modify.class}, message = "description 은 값은 null 일 수 없습니다.")
         @Size(groups = {SystemResourceManagementValidationGroup.Modify.class},
                 max = 200,
                 message = "설명은 200자 이하여야 합니다."
