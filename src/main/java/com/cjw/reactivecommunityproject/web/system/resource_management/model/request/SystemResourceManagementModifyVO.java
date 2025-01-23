@@ -12,6 +12,7 @@ public record SystemResourceManagementModifyVO(
         @NotNull(groups = {SystemResourceManagementValidationGroup.Modify.class}, message = "uid 는 null 일 수 없습니다.")
         Long uid,
 
+        @NotNull(groups = {SystemResourceManagementValidationGroup.Modify.class}, message = "HTTP 메서드는 null 일 수 없습니다.")
         RcManageResourceMethodEnum method,
 
 
