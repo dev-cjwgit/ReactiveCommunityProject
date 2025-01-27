@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public enum LogExceptionErrorMessage implements RcBaseErrorMessage {
     INVALID_INQUIRY_NUMBER_FORMAT(null, "잘못된 inquiry number 입니다.", HttpStatus.BAD_REQUEST),
+    INVALID_DATE_FORMAT(null, "잘못된 date 입니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_LOG_BY_INQUIRY_NUMBER(null, "해당하는 inquiry number 데이터를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     DUMMY(null, null, null);
 

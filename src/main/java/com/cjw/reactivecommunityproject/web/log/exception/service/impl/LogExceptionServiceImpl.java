@@ -5,12 +5,15 @@ import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.model
 import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.service.ElasticsearchLogExceptionService;
 import com.cjw.reactivecommunityproject.web.log.exception.exception.LogExceptionErrorMessage;
 import com.cjw.reactivecommunityproject.web.log.exception.exception.LogExceptionException;
+import com.cjw.reactivecommunityproject.web.log.exception.model.request.LogExceptionListVO;
 import com.cjw.reactivecommunityproject.web.log.exception.service.LogExceptionService;
 import io.micrometer.common.util.StringUtils;
 import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -27,7 +30,7 @@ public class LogExceptionServiceImpl implements LogExceptionService {
 
         var logDetail = elasticsearchLogExceptionService.selectExceptionLogByInquiryNumber(inquiryNumber);
 
-        if(logDetail == null){
+        if (logDetail == null) {
             throw new LogExceptionException(LogExceptionErrorMessage.NOT_FOUND_LOG_BY_INQUIRY_NUMBER);
         }
 
@@ -35,5 +38,20 @@ public class LogExceptionServiceImpl implements LogExceptionService {
                 .result(true)
                 .data(logDetail)
                 .build();
+    }
+
+    @Override
+    public RestResponseVO<List<ElasticsearchLogExceptionDocument>> selectLogExceptionList(LogExceptionListVO logExceptionListVO) {
+        if (logExceptionListVO.startDate() == null || logExceptionListVO.endDate() == null) {
+            throw new LogExceptionException(LogExceptionErrorMessage.INVALID_DATE_FORMAT);
+        }
+
+        var logDetail = elasticsearchLogExceptionService.selectList(logExceptionListVO.startDate(), logExceptionListVO.endDate());
+
+        return RestResponseVO.<List<ElasticsearchLogExceptionDocument>>builder()
+                .result(true)
+                .data(logDetail)
+                .build();
+
     }
 }

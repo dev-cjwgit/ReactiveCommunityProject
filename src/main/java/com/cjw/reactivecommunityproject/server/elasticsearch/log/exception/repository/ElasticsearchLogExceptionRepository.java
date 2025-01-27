@@ -11,7 +11,6 @@ import java.util.List;
 public interface ElasticsearchLogExceptionRepository extends ElasticsearchRepository<ElasticsearchLogExceptionDocument, String> {
     ElasticsearchLogExceptionDocument findByInquiryNumber(String inquiryNumber);
 
-    // 특정 시간 범위 내의 데이터 조회
     List<ElasticsearchLogExceptionDocument> findByTimestampBetween(ZonedDateTime startDate, ZonedDateTime endDate);
 
 }
