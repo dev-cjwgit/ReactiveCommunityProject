@@ -3,6 +3,7 @@ package com.cjw.reactivecommunityproject.web.system.function_management.dao.impl
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.PaginationVO;
 import com.cjw.reactivecommunityproject.web.system.function_management.dao.SystemFunctionManagementDao;
 import com.cjw.reactivecommunityproject.web.system.function_management.mapper.SystemFunctionManagementMapper;
+import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementListEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,5 +20,10 @@ public class SystemFunctionManagementDaoImpl implements SystemFunctionManagement
     @Override
     public List<SystemFunctionManagementListEntity> selectList(PaginationVO pagination) {
         return systemFunctionManagementMapper.selectList(pagination);
+    }
+
+    @Override
+    public SystemFunctionManagementDetailEntity selectDetail(Long uid) {
+        return systemFunctionManagementMapper.selectDetail(uid);
     }
 }

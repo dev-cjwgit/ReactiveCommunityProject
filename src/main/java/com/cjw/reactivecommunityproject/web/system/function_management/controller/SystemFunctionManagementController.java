@@ -3,15 +3,13 @@ package com.cjw.reactivecommunityproject.web.system.function_management.controll
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
+import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.request.SystemFunctionManagementListVO;
 import com.cjw.reactivecommunityproject.web.system.function_management.service.SystemFunctionManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,5 +43,12 @@ public class SystemFunctionManagementController {
                         .pageNumber(pageNumber)
                         .pageSize(pageSize)
                         .build()));
+    }
+
+    @GetMapping("/{uid}")
+    public ResponseEntity<RestResponseVO<SystemFunctionManagementDetailEntity>> readDetail(
+            @PathVariable("uid") Long uid
+    ) {
+        return ResponseEntity.ok(systemFunctionManagementService.readDetail(uid));
     }
 }

@@ -4,6 +4,7 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import org.springframework.http.HttpStatus;
 
 public enum SystemFunctionManagementErrorMessage implements RcBaseErrorMessage {
+    NOT_FOUND_FUNCTION_DETAIL(null, "기능 상세를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
     DUMMY(null, null, null);
 
     private final Integer errorCode;

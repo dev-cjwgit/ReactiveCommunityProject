@@ -5,6 +5,9 @@ import com.cjw.reactivecommunityproject.common.spring.model.response.RestRespons
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.service.PaginationService;
 import com.cjw.reactivecommunityproject.web.system.function_management.dao.SystemFunctionManagementDao;
+import com.cjw.reactivecommunityproject.web.system.function_management.exception.SystemFunctionManagementErrorMessage;
+import com.cjw.reactivecommunityproject.web.system.function_management.exception.SystemFunctionManagementException;
+import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.request.SystemFunctionManagementListVO;
 import com.cjw.reactivecommunityproject.web.system.function_management.service.SystemFunctionManagementService;
@@ -32,6 +35,19 @@ public class SystemFunctionManagementServiceImpl implements SystemFunctionManage
         return RestResponseVO.<List<SystemFunctionManagementListEntity>>builder()
                 .result(true)
                 .data(list)
+                .build();
+    }
+
+    @Override
+    public RestResponseVO<SystemFunctionManagementDetailEntity> readDetail(Long uid) {
+        var detail = systemFunctionManagementDao.selectDetail(uid);
+        if (detail == null) {
+            throw new SystemFunctionManagementException(SystemFunctionManagementErrorMessage.NOT_FOUND_FUNCTION_DETAIL);
+        }
+
+        return RestResponseVO.<SystemFunctionManagementDetailEntity>builder()
+                .result(true)
+                .data(detail)
                 .build();
     }
 }

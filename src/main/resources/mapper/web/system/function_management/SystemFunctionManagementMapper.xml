@@ -39,4 +39,18 @@
         LIMIT #{pagination.limit, jdbcType=INTEGER} OFFSET #{pagination.offset, jdbcType=INTEGER}
     </select>
 
+    <select id="selectDetail" resultType="SystemFunctionManagementDetailEntity">
+        /* SystemFunctionManagementMapper.selectDetail() */
+        SELECT `uid`,
+               `name`,
+               `type`,
+               `description`,
+               `enabled`,
+               `created_user_uid`,
+               `created_utc_at`,
+               `updated_user_uid`,
+               `updated_utc_at`
+        FROM rc_manage_function
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </select>
 </mapper>
