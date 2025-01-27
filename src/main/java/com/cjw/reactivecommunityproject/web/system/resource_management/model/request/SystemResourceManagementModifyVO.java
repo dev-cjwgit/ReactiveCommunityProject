@@ -18,8 +18,9 @@ public record SystemResourceManagementModifyVO(
 
         @NotBlank(groups = {SystemResourceManagementValidationGroup.Modify.class}, message = "urlPattern 은 값은 null 일 수 없습니다.")
         @Size(groups = {SystemResourceManagementValidationGroup.Modify.class},
-                max = 255,
-                message = "최대 사이즈는 255자 이하여야 합니다."
+                min = 1,
+                max = 500,
+                message = "1자 이상 500자 이하여야 합니다."
         )
         @Pattern(groups = {SystemResourceManagementValidationGroup.Modify.class},
                 regexp = "^/([a-z-*]+(/)?)*$",
@@ -29,8 +30,9 @@ public record SystemResourceManagementModifyVO(
 
         @NotBlank(groups = {SystemResourceManagementValidationGroup.Modify.class}, message = "description 은 값은 null 일 수 없습니다.")
         @Size(groups = {SystemResourceManagementValidationGroup.Modify.class},
+                min = 2,
                 max = 200,
-                message = "설명은 200자 이하여야 합니다."
+                message = "설명은 2자 이상 200자 이하여야 합니다."
         )
         String description,
 

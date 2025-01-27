@@ -24,8 +24,8 @@ public record SystemFunctionManagementCreateVO(
 
         @NotBlank(groups = {SystemFunctionManagementValidationGroup.Create.class}, message = "description 은 공백일 수 없습니다.")
         @Size(groups = {SystemFunctionManagementValidationGroup.Create.class},
-                min = 2, max = 100,
-                message = "2자 이상 100자 이하여야 합니다."
+                min = 2, max = 200,
+                message = "2자 이상 200자 이하여야 합니다."
         )
         @Pattern(groups = {SystemFunctionManagementValidationGroup.Create.class},
                 regexp = "^[가-힣a-zA-Z0-9-_ ]+$",
