@@ -14,7 +14,7 @@ public record SystemResourceManagementCreateVO(
         @NotBlank(groups = {SystemResourceManagementValidationGroup.Create.class}, message = "URL 패턴은 공백일 수 없습니다.")
         @Size(groups = {SystemResourceManagementValidationGroup.Create.class},
                 min = 1, max = 255,
-                message = "1자 이상 500자 이하여야 합니다."
+                message = "1자 이상 255자 이하여야 합니다."
         )
         @Pattern(groups = {SystemResourceManagementValidationGroup.Create.class},
                 regexp = "^/([a-z-*]+(/)?)*$",

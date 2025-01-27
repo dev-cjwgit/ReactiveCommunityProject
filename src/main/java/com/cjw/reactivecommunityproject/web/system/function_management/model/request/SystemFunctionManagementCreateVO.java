@@ -15,7 +15,7 @@ public record SystemFunctionManagementCreateVO(
         )
         @Pattern(groups = {SystemFunctionManagementValidationGroup.Create.class},
                 regexp = "^[가-힣a-zA-Z0-9-_ ]+$",
-                message = "한글 및 영문(대/소) 숫자 그리고 하이픈(-) 언더바(_) 공백( )만 가능합니다."
+                message = "name 은 한글 및 영문(대/소) 숫자 그리고 하이픈(-) 언더바(_) 공백( )만 가능합니다."
         )
         String name,
 
@@ -29,7 +29,7 @@ public record SystemFunctionManagementCreateVO(
         )
         @Pattern(groups = {SystemFunctionManagementValidationGroup.Create.class},
                 regexp = "^[가-힣a-zA-Z0-9-_ ]+$",
-                message = "한글 및 영문(대/소) 숫자 그리고 하이픈(-) 언더바(_) 공백( )만 가능합니다."
+                message = "description 은 한글 및 영문(대/소) 숫자 그리고 하이픈(-) 언더바(_) 공백( )만 가능합니다."
         )
         String description
 ) {

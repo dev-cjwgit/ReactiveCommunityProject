@@ -34,6 +34,11 @@ public record SystemEnvironmentManagementCreateVO(
                 max = 20,
                 message = "카테고리는 20자 이하여야 합니다."
         )
+        @Pattern(
+                regexp = "^[a-z.]+$",
+                groups = {SystemEnvironmentManagementValidationGroup.Create.class},
+                message = "카테고리는 영소문자 및 '.'만 포함할 수 있습니다."
+        )
         String category,
 
         Integer order
