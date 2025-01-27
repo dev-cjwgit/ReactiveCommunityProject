@@ -1,5 +1,8 @@
 package com.cjw.reactivecommunityproject.common.spring.config.swagger;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import io.swagger.v3.core.jackson.ModelResolver;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
@@ -32,5 +35,12 @@ public class OpenApiConfig {
                 .components(new Components().addSecuritySchemes("bearerAuth", securityScheme))
                 .info(info)
                 .addSecurityItem(securityRequirement);  // 모든 API에 대해 JWT Bearer 인증 요구
+    }
+
+    @Bean
+    public ModelResolver modelResolver(ObjectMapper objectMapper) {
+        // ObjectMapper 에 스네이크 케이스 설정을 적용하고 ModelResolver 생성
+        objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+        return new ModelResolver(objectMapper);
     }
 }
