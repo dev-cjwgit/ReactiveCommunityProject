@@ -2,9 +2,7 @@ package com.cjw.reactivecommunityproject.web.system.role_management.model.reques
 
 import com.cjw.reactivecommunityproject.web.system.role_management.validation.SystemRoleManagementValidationGroup;
 import jakarta.validation.constraints.*;
-import lombok.Builder;
 
-@Builder
 public record SystemRoleManagementCreateVO(
         @Min(value = 1, groups = {SystemRoleManagementValidationGroup.Create.class}, message = "uid 은 1 이상이어야 합니다.")
         @Max(value = 127, groups = {SystemRoleManagementValidationGroup.Create.class}, message = "uid 은 128 미만이어야 합니다.")
@@ -12,7 +10,7 @@ public record SystemRoleManagementCreateVO(
         @NotBlank(groups = {SystemRoleManagementValidationGroup.Create.class}, message = "name 은 공백일 수 없습니다.")
         @Size(groups = {SystemRoleManagementValidationGroup.Create.class},
                 min = 3, max = 100,
-                message = "3자 이상 500자 이하여야 합니다."
+                message = "3자 이상 100자 이하여야 합니다."
         )
         @Pattern(groups = {SystemRoleManagementValidationGroup.Create.class},
                 regexp = "^[가-힣a-zA-Z0-9-_ ]+$",

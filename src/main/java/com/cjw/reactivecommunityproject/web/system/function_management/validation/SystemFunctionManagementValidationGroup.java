@@ -7,6 +7,9 @@ public class SystemFunctionManagementValidationGroup {
 
     }
 
-    public interface Template extends Default {
+    public interface Create extends Default {
+    }
+
+    public interface Modify extends Default {
     }
 }

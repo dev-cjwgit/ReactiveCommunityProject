@@ -53,4 +53,67 @@
         FROM rc_manage_function
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </select>
+
+    <insert id="insert" parameterType="SystemFunctionManagementInsertEntity">
+        /* SystemFunctionManagementMapper.insert() */
+        INSERT INTO rc_manage_function(`name`,
+                                       `type`,
+                                       `description`,
+                                       `enabled`,
+                                       `created_user_uid`,
+                                       `created_utc_at`,
+                                       `updated_user_uid`,
+                                       `updated_utc_at`)
+        VALUES (#{name, jdbcType=VARCHAR},
+                #{type, jdbcType=VARCHAR},
+                #{description, jdbcType=VARCHAR},
+                'Y',
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP(),
+                #{userUid, jdbcType=VARCHAR},
+                CURRENT_TIMESTAMP())
+    </insert>
+
+
+    <update id="update" parameterType="SystemFunctionManagementModifyEntity">
+        /* SystemFunctionManagementMapper.update() */
+        UPDATE rc_manage_function
+        SET `name`             = #{name, jdbcType=VARCHAR},
+            `type`             = #{type, jdbcType=VARCHAR},
+            `description`      = #{description, jdbcType=VARCHAR},
+            `enabled`          = #{enabled, jdbcType=VARCHAR},
+            `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
+            `updated_utc_at`   = CURRENT_TIMESTAMP()
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </update>
+
+    <delete id="delete">
+        /* SystemFunctionManagementMapper.delete() */
+        DELETE
+        FROM rc_manage_function
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </delete>
+
+
+    <select id="isExistByName" resultType="boolean">
+        /* SystemFunctionManagementMapper.isExistByName() */
+        SELECT COUNT(*) > 0
+        FROM rc_manage_function
+        WHERE `name` = #{name, jdbcType=VARCHAR}
+    </select>
+
+    <select id="isExistByUid" resultType="boolean">
+        /* SystemRoleManagementMapper.isExistByUid() */
+        SELECT COUNT(*) > 0
+        FROM rc_manage_function
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </select>
+
+    <select id="isOwner" resultType="boolean">
+        /* SystemFunctionManagementMapper.isOwner() */
+        SELECT COUNT(*) > 0
+        FROM rc_manage_function
+        WHERE `uid` = #{uid, jdbcType=TINYINT}
+          AND `created_user_uid` = #{userUid, jdbcType=VARCHAR}
+    </select>
 </mapper>

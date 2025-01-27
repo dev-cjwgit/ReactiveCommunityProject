@@ -2,7 +2,9 @@ package com.cjw.reactivecommunityproject.web.system.function_management.mapper;
 
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.PaginationVO;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementDetailEntity;
+import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementModifyEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,4 +16,17 @@ public interface SystemFunctionManagementMapper {
     List<SystemFunctionManagementListEntity> selectList(PaginationVO pagination);
 
     SystemFunctionManagementDetailEntity selectDetail(@Param("uid") Long uid);
+
+    Integer insert(SystemFunctionManagementInsertEntity systemFunctionManagementInsertEntity);
+
+    Integer update(SystemFunctionManagementModifyEntity systemFunctionManagementModifyEntity);
+
+    Integer delete(Long uid);
+
+    Boolean isExistByName(String name);
+
+    Boolean isExistByUid(Long uid);
+
+    Boolean isOwner(Long uid, String userUid);
+
 }

@@ -5,10 +5,14 @@ import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.P
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementListEntity;
+import com.cjw.reactivecommunityproject.web.system.function_management.model.request.SystemFunctionManagementCreateVO;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.request.SystemFunctionManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.function_management.model.request.SystemFunctionManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.function_management.service.SystemFunctionManagementService;
+import com.cjw.reactivecommunityproject.web.system.function_management.validation.SystemFunctionManagementValidationGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -50,5 +54,26 @@ public class SystemFunctionManagementController {
             @PathVariable("uid") Long uid
     ) {
         return ResponseEntity.ok(systemFunctionManagementService.readDetail(uid));
+    }
+
+    @PostMapping
+    public ResponseEntity<RestResponseVO<Void>> create(
+            @RequestBody @Validated(SystemFunctionManagementValidationGroup.Create.class) SystemFunctionManagementCreateVO systemFunctionManagementCreateVO
+    ) {
+        return ResponseEntity.ok(systemFunctionManagementService.create(systemFunctionManagementCreateVO));
+    }
+
+    @DeleteMapping("/{uid}")
+    public ResponseEntity<RestResponseVO<Void>> remove(
+            @PathVariable("uid") Long uid
+    ) {
+        return ResponseEntity.ok(systemFunctionManagementService.remove(uid));
+    }
+
+    @PatchMapping
+    public ResponseEntity<RestResponseVO<Void>> modify(
+            @RequestBody @Validated(SystemFunctionManagementValidationGroup.Modify.class) SystemFunctionManagementModifyVO systemFunctionManagementModifyVO
+    ) {
+        return ResponseEntity.ok(systemFunctionManagementService.modify(systemFunctionManagementModifyVO));
     }
 }
