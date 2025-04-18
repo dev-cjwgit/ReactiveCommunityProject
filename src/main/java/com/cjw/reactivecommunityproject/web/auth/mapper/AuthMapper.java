@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.auth.mapper;
 
-import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterEntity;
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRcUserEntity;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterEntity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,8 +1,7 @@
 package com.cjw.reactivecommunityproject.web.system.function_management.model.request;
 
-import lombok.Builder;
-
 import java.time.ZonedDateTime;
+import lombok.Builder;
 
 @Builder
 public record SystemFunctionManagementListVO(

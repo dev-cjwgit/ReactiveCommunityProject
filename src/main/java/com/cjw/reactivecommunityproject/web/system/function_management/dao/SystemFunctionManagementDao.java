@@ -5,7 +5,6 @@ import com.cjw.reactivecommunityproject.web.system.function_management.model.ent
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementModifyEntity;
-
 import java.util.List;
 
 public interface SystemFunctionManagementDao {

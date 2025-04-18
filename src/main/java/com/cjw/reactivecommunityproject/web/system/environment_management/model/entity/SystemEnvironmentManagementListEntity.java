@@ -2,7 +2,6 @@ package com.cjw.reactivecommunityproject.web.system.environment_management.model
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
-
 import java.time.ZonedDateTime;
 
 public record SystemEnvironmentManagementListEntity(

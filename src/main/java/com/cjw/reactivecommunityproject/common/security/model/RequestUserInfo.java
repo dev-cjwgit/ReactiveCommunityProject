@@ -1,11 +1,10 @@
 package com.cjw.reactivecommunityproject.common.security.model;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Setter
 @Getter

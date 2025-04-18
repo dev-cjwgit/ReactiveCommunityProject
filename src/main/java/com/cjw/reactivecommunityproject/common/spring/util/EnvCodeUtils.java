@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class EnvCodeUtils {
+    private EnvCodeUtils(){}
+    
     public static <T> T convertEnvCodeByValue(CacheCustomEnvCodeVO cacheCustomEnvCodeVO, Class<T> clazz) {
         try {
             if (cacheCustomEnvCodeVO == null
@@ -24,10 +26,10 @@ public class EnvCodeUtils {
             RcCommonEnvCodeTypeEnum type = cacheCustomEnvCodeVO.getType();
 
             Object result = switch (type) {
-                case Integer -> Integer.valueOf(value);
-                case Long -> Long.valueOf(value);
-                case Boolean -> Boolean.valueOf(value);
-                case String -> value;
+                case INTEGER -> Integer.valueOf(value);
+                case LONG -> Long.valueOf(value);
+                case BOOLEAN -> Boolean.valueOf(value);
+                case STRING -> value;
             };
 
             // 형변환 검증 및 반환

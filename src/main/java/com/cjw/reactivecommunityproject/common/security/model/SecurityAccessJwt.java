@@ -1,13 +1,12 @@
 package com.cjw.reactivecommunityproject.common.security.model;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import lombok.Builder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.io.Serializable;
-import java.util.Collection;
-import java.util.List;
 
 @Builder
 public record SecurityAccessJwt(
@@ -41,6 +40,7 @@ public record SecurityAccessJwt(
 
     @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+        throw new UnsupportedOperationException("SecurityAccessJwt is immutable and authentication status cannot be changed.");
     }
 
     @Override

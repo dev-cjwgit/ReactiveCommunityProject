@@ -1,8 +1,8 @@
 package com.cjw.reactivecommunityproject.web.auth.dao;
 
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthLoginEntity;
-import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterEntity;
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRcUserEntity;
+import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterEntity;
 
 public interface AuthDao {
     void registerTransactional(AuthRegisterEntity authRegisterEntity, String salt);

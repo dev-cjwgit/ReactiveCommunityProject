@@ -6,9 +6,8 @@ import com.cjw.reactivecommunityproject.web.system.resource_management.model.ent
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementModifyEntity;
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface SystemResourceManagementDao {
     void insertTransactional(SystemResourceManagementInsertEntity systemResourceManagementInsertEntity);

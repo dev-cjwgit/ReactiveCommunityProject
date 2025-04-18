@@ -2,7 +2,6 @@ package com.cjw.reactivecommunityproject.web.auth.model.entity;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageUserStateEnum;
-
 import java.time.ZonedDateTime;
 
 public record AuthRcUserEntity(

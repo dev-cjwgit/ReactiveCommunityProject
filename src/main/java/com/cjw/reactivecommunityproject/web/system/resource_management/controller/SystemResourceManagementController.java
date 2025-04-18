@@ -6,16 +6,23 @@ import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementCreateVO;
-import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementListVO;
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.resource_management.service.SystemResourceManagementService;
 import com.cjw.reactivecommunityproject.web.system.resource_management.validation.SystemResourceManagementValidationGroup;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,8 +45,8 @@ public class SystemResourceManagementController {
                         .uid(uid)
                         .method(method)
                         .urlPattern(urlPattern)
-                        .startDate(DateUtils.convert(startDate, DateUtils.yyyy_MM_dd))
-                        .endDate(DateUtils.convert(endDate, DateUtils.yyyy_MM_dd))
+                        .startDate(DateUtils.convert(startDate, DateUtils.YYYY_MM_DD))
+                        .endDate(DateUtils.convert(endDate, DateUtils.YYYY_MM_DD))
                         .build()
                 , PaginationRequestVO.builder()
                         .pageNumber(pageNumber)

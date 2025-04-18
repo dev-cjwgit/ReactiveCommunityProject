@@ -1,7 +1,11 @@
 package com.cjw.reactivecommunityproject.web.system.role_management.model.request;
 
 import com.cjw.reactivecommunityproject.web.system.role_management.validation.SystemRoleManagementValidationGroup;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public record SystemRoleManagementCreateVO(
         @Min(value = 1, groups = {SystemRoleManagementValidationGroup.Create.class}, message = "uid 은 1 이상이어야 합니다.")

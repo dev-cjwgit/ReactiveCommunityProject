@@ -8,11 +8,10 @@ public class SystemRoleManagementException extends RcBaseException {
 
 
     public SystemRoleManagementException(RcBaseErrorMessage rcBaseErrorMessage) {
-        super(rcBaseErrorMessage.getErrorMessage());
-        this.errorCode = rcBaseErrorMessage.getErrorCode();
-        this.errorMessage = rcBaseErrorMessage.getErrorMessage();
-        this.httpStatus = rcBaseErrorMessage.getHttpStatus();
-        this.isDisplay = rcBaseErrorMessage.isDisplay();
+        super(rcBaseErrorMessage.getErrorCode(),
+                rcBaseErrorMessage.getErrorMessage()
+                , rcBaseErrorMessage.getHttpStatus()
+                , rcBaseErrorMessage.isDisplay());
     }
 
     @Override

@@ -1,11 +1,9 @@
 package com.cjw.reactivecommunityproject.server.cache.custom.model;
 
+import java.time.ZonedDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
-
-import java.io.Serializable;
-import java.time.ZonedDateTime;
 
 @Getter
 @Builder

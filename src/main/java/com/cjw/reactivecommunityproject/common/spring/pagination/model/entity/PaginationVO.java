@@ -1,8 +1,7 @@
 package com.cjw.reactivecommunityproject.common.spring.pagination.model.entity;
 
-import lombok.Builder;
-
 import java.util.Map;
+import lombok.Builder;
 
 @Builder
 public record PaginationVO(

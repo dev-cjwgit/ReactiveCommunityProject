@@ -18,6 +18,9 @@ import com.cjw.reactivecommunityproject.web.auth.model.request.AuthReissueJwtTok
 import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtAccessTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.service.AuthService;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -25,10 +28,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.UUID;
 
 @Slf4j
 @Service

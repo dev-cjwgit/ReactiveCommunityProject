@@ -5,7 +5,6 @@ import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementModifyEntity;
-
 import java.util.List;
 
 public interface SystemRoleManagementDao {

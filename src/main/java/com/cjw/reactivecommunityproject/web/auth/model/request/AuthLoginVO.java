@@ -1,7 +1,11 @@
 package com.cjw.reactivecommunityproject.web.auth.model.request;
 
 import com.cjw.reactivecommunityproject.web.auth.validation.AuthValidationGroup;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public record AuthLoginVO(
         @NotBlank(groups = {AuthValidationGroup.Login.class}, message = "이메일은 공백일 수 없습니다.")

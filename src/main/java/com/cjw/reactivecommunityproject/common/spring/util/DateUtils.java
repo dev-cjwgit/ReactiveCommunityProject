@@ -1,17 +1,19 @@
 package com.cjw.reactivecommunityproject.common.spring.util;
 
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class DateUtils {
-    public static final String yyyy_MM_dd = "yyyy-MM-dd";
-    public static final String yyyy_MM_dd_HH_mm_ss = "yyyy-MM-dd HH:mm:ss";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+
+    private DateUtils(){
+    }
 
     public static ZonedDateTime convert(String inputDate, String format) {
         if (StringUtils.isBlank(inputDate) || StringUtils.isBlank(format)) {

@@ -9,11 +9,10 @@ import com.cjw.reactivecommunityproject.web.log.exception.model.request.LogExcep
 import com.cjw.reactivecommunityproject.web.log.exception.service.LogExceptionService;
 import io.micrometer.common.util.StringUtils;
 import io.netty.util.internal.StringUtil;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service

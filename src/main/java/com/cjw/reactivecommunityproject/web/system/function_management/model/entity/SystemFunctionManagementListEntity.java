@@ -2,7 +2,6 @@ package com.cjw.reactivecommunityproject.web.system.function_management.model.en
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageFunctionTypeEnum;
-
 import java.time.ZonedDateTime;
 
 public record SystemFunctionManagementListEntity(

@@ -8,6 +8,8 @@ import com.cjw.reactivecommunityproject.server.mail.exception.MailException;
 import com.cjw.reactivecommunityproject.server.mail.model.MailConnectConfigVO;
 import com.cjw.reactivecommunityproject.server.mail.model.MailSendVO;
 import com.cjw.reactivecommunityproject.server.mail.service.MailService;
+import java.util.List;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -15,9 +17,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service

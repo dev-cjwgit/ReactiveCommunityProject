@@ -5,9 +5,8 @@ import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.P
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementCreateVO;
-import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementListVO;
-
+import com.cjw.reactivecommunityproject.web.system.resource_management.model.request.SystemResourceManagementModifyVO;
 import java.util.List;
 
 public interface SystemResourceManagementService {

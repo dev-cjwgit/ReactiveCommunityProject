@@ -10,12 +10,19 @@ import com.cjw.reactivecommunityproject.web.system.function_management.model.req
 import com.cjw.reactivecommunityproject.web.system.function_management.model.request.SystemFunctionManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.function_management.service.SystemFunctionManagementService;
 import com.cjw.reactivecommunityproject.web.system.function_management.validation.SystemFunctionManagementValidationGroup;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,8 +47,8 @@ public class SystemFunctionManagementController {
                         .name(name)
                         .type(type)
                         .description(description)
-                        .startDate(DateUtils.convert(startDate, DateUtils.yyyy_MM_dd))
-                        .endDate(DateUtils.convert(endDate, DateUtils.yyyy_MM_dd))
+                        .startDate(DateUtils.convert(startDate, DateUtils.YYYY_MM_DD))
+                        .endDate(DateUtils.convert(endDate, DateUtils.YYYY_MM_DD))
                         .build()
                 , PaginationRequestVO.builder()
                         .pageNumber(pageNumber)
