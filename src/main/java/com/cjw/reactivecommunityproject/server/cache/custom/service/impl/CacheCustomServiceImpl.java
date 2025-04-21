@@ -31,7 +31,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
     @Cacheable(value = "rc_common_env_code", key = "'envId=' + #envId", cacheManager = "redisCacheManager")
     public CacheCustomEnvCodeVO getCustomCommonEnvCode(String envId) {
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
-                .stream()
+                .parallelStream()
                 .filter(o -> StringUtils.equals(o.getId(), envId))
                 .map(o -> CacheCustomEnvCodeVO.builder()
                         .id(o.getId())
@@ -56,7 +56,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
     @Cacheable(value = "rc_common_env_code", key = "'category=' + #category", cacheManager = "redisCacheManager")
     public List<CacheCustomEnvCodeVO> getCustomCommonEnvCodeByCategoryList(String category) {
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
-                .stream()
+                .parallelStream()
                 .filter(o -> StringUtils.equals(o.getCategory(), category))
                 .map(o -> CacheCustomEnvCodeVO.builder()
                         .id(o.getId())
@@ -83,7 +83,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
         var gbCodeList = cacheDataService.getCacheCommonLanguageGbCodeList(lang);
 
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonLanguageCodeList())
-                .stream()
+                .parallelStream()
                 .map(o -> {
                     var gbCode = CollectionUtils.emptyIfNull(gbCodeList)
                             .parallelStream()
