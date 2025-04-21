@@ -1,0 +1,57 @@
+version: '3.1'
+services:
+  # MySQL 서비스 설정
+  mysql:
+    image: mysql
+    container_name: mysql
+    environment:
+      MYSQL_DATABASE: rcdb
+      MYSQL_ROOT_PASSWORD: ss1235789
+    volumes:
+      - /mysql:/var/lib/mysql   # MySQL 데이터 볼륨 설정
+    ports:
+      - 3306:3306               # MySQL 포트 매핑
+    networks:
+      - rcdb
+    restart: always
+
+  # Redis 서비스 설정
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 6379:6379  # Redis 포트 매핑
+    networks:
+      - rcdb
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+
+  # Elasticsearch 서비스 설정
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.10.0  # 명확한 버전 지정
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node    # 단일 노드 클러스터 설정
+      - ES_JAVA_OPTS="-Xmx2g -Xms2g"  # 메모리 설정
+    ports:
+      - 9200:9200                     # Elasticsearch 포트 매핑
+      - 9300:9300                     # Elasticsearch 클러스터 포트
+    volumes:
+      - esdata:/usr/share/elasticsearch/data  # Elasticsearch 데이터 볼륨 설정
+    networks:
+      - rcdb
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+# 데이터 저장을 위한 볼륨 설정
+volumes:
+  esdata: { }
+  mysql: { }
+
+# 네트워크 설정
+networks:
+  rcdb:
+    driver: bridge
