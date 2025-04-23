@@ -46,6 +46,8 @@ ext {
     elasticsearhClientVersion = '8.16.1'
     // Log4j2
     log4j2Version = '1.16'
+    // mysql connector
+    mysqlConnectorVersion = '8.0.33'
 }
 
 dependencies {
@@ -98,8 +100,7 @@ dependencies {
     implementation "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearhClientVersion}"
 
     implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4j2Version}"
-}
 
-tasks.named("test") {
-    useJUnitPlatform()
+    // mysql connector
+    implementation "mysql:mysql-connector-java:${mysqlConnectorVersion}"
 }
