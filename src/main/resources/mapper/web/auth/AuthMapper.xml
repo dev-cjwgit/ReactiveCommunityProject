@@ -4,7 +4,7 @@
 
 <mapper namespace="com.cjw.reactivecommunityproject.web.auth.mapper.AuthMapper">
     <select id="selectRcUserByEmail" resultType="AuthRcUserEntity">
-        /*AuthMapper.selectRcUserByEmail*/
+        /* AuthMapper.selectRcUserByEmail */
         SELECT `uid`,
                `role_uid`,
                `email`,
@@ -23,7 +23,7 @@
 
 
     <select id="selectRcUserByUserUid" resultType="AuthRcUserEntity">
-        /*AuthMapper.selectRcUserByUserUid*/
+        /* AuthMapper.selectRcUserByUserUid */
         SELECT `uid`,
                `role_uid`,
                `email`,
@@ -41,14 +41,14 @@
     </select>
 
     <select id="isExistUserByEmail" resultType="Boolean">
-        /*AuthMapper.isExistUserByEmail*/
+        /* AuthMapper.isExistUserByEmail */
         SELECT COUNT(*) > 0
         FROM `rc_manage_user`
         WHERE `email` = #{email, jdbcType=VARCHAR}
     </select>
 
     <select id="isExistUserByNickname" resultType="Boolean">
-        /*AuthMapper.isExistUserByNickname*/
+        /* AuthMapper.isExistUserByNickname */
         SELECT COUNT(*) > 0
         FROM `rc_manage_user`
         WHERE `nickname` = #{nickname, jdbcType=VARCHAR}

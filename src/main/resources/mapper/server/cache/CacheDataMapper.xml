@@ -4,7 +4,7 @@
 
 <mapper namespace="com.cjw.reactivecommunityproject.server.cache.data.mapper.CacheDataMapper">
     <select id="selectCommonRegionList" parameterType="CacheDataCommonRegionVO">
-        /* CacheDao.selectCommonRegionList */
+        /* CacheDataMapper.selectCommonRegionList */
         SELECT `region`,
                `enabled`,
                `updated_utc_at`
@@ -12,7 +12,7 @@
     </select>
 
     <select id="selectCommonEnvCodeList" parameterType="CacheDataCommonEnvCodeVO">
-        /* CacheDao.selectCommonEnvCodeList */
+        /* CacheDataMapper.selectCommonEnvCodeList */
         SELECT `id`,
                `type`,
                `value`,
@@ -24,7 +24,7 @@
     </select>
 
     <select id="selectCommonLanguageCodeList" parameterType="CacheDataCommonLanguageCodeVO">
-        /* CacheDao.selectCommonLanguageCodeList */
+        /* CacheDataMapper.selectCommonLanguageCodeList */
         SELECT `path`,
                `code`,
                `value`,
@@ -33,7 +33,7 @@
     </select>
 
     <select id="selectCommonLanguageGbCodeList" parameterType="CacheDataCommonLanguageGbCodeVO">
-        /* CacheDao.selectCommonLanguageGbCodeList */
+        /* CacheDataMapper.selectCommonLanguageGbCodeList */
         SELECT `path`,
                `code`,
                `lang`,
@@ -44,7 +44,7 @@
     </select>
 
     <select id="selectManageResourceList" parameterType="CacheDataManageResourceVO">
-        /* CacheDao.selectManageResourceList */
+        /* CacheDataMapper.selectManageResourceList */
         SELECT `uid`,
                `method`,
                `url_pattern`,
@@ -54,7 +54,7 @@
     </select>
 
     <select id="selectManageFunctionList" parameterType="CacheDataManageFunctionVO">
-        /* CacheDao.selectManageFunctionList */
+        /* CacheDataMapper.selectManageFunctionList */
         SELECT `uid`,
                `name`,
                `type`,
@@ -64,7 +64,7 @@
     </select>
 
     <select id="selectManageRoleFunctionList" parameterType="CacheDataManageRoleFunctionVO">
-        /* CacheDao.selectManageRoleFunctionList */
+        /* CacheDataMapper.selectManageRoleFunctionList */
         SELECT `role_uid`,
                `function_uid`,
                `enabled`,
@@ -73,7 +73,7 @@
     </select>
 
     <select id="selectManageRoleResourceList" parameterType="CacheDataManageRoleResourceVO">
-        /* CacheDao.selectManageRoleResourceList */
+        /* CacheDataMapper.selectManageRoleResourceList */
         SELECT `role_uid`,
                `resource_uid`,
                `enabled`,
