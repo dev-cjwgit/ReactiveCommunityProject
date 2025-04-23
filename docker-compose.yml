@@ -1,16 +1,18 @@
 version: '3.1'
 services:
   # MySQL 서비스 설정
-  mysql:
-    image: mysql
-    container_name: mysql
+  mariadb:
+    image: mariadb  # 명확한 버전 지정 (원하는 버전으로 변경 가능)
+    container_name: mariadb
     environment:
       MYSQL_DATABASE: rcdb
       MYSQL_ROOT_PASSWORD: ss1235789
+      MYSQL_USER: root             # 선택 사항: 사용자 지정
+      MYSQL_PASSWORD: ss1235789     # 선택 사항: 사용자 지정 비밀번호
     volumes:
-      - mysql:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     ports:
-      - "3306:3306"               # MySQL 포트 매핑
+      - "3306:3306"
     networks:
       - rcdb
     restart: always
@@ -24,7 +26,7 @@ services:
     networks:
       - rcdb
     depends_on:
-      - mysql
+      - mariadb
     restart: unless-stopped
 
   # Elasticsearch 서비스 설정
@@ -42,11 +44,12 @@ services:
     networks:
       - rcdb
     depends_on:
-      - mysql
+      - mariadb
     restart: unless-stopped
 
 # 데이터 저장을 위한 볼륨 설정
 volumes:
+  mariadb: { }
   elasticsearch: { }
   mysql: { }
 
