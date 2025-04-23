@@ -31,14 +31,14 @@ services:
 
   # Elasticsearch 서비스 설정
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.13.0  # 명확한 버전 지정
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.1
     container_name: elasticsearch
     environment:
-      - discovery.type=single-node    # 단일 노드 클러스터 설정
-      - ES_JAVA_OPTS=-Xmx2g -Xms2g  # 메모리 설정
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false
     ports:
-      - "9200:9200"                     # Elasticsearch 포트 매핑
-      - "9300:9300"                     # Elasticsearch 클러스터 포트
+      - "9200:9200"                  # Elasticsearch 클러스터 포트
     volumes:
       - elasticsearch:/usr/share/elasticsearch/data  # Elasticsearch 데이터 볼륨 설정
     networks:
