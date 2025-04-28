@@ -5,9 +5,9 @@ import lombok.Builder;
 
 @Builder
 public record SystemRoleManagementListVO(
-        Long uid,
-        String name,
-        ZonedDateTime startDate,
-        ZonedDateTime endDate
+        Long uid
+        , String name
+        , ZonedDateTime startDate
+        , ZonedDateTime endDate
 ) {
 }

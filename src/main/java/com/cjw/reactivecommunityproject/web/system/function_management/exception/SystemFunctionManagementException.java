@@ -8,10 +8,11 @@ public class SystemFunctionManagementException extends RcBaseException {
 
 
     public SystemFunctionManagementException(RcBaseErrorMessage rcBaseErrorMessage) {
-        super(rcBaseErrorMessage.getErrorCode(),
-                rcBaseErrorMessage.getErrorMessage()
+        super(rcBaseErrorMessage.getErrorCode()
+                , rcBaseErrorMessage.getErrorMessage()
                 , rcBaseErrorMessage.getHttpStatus()
-                , rcBaseErrorMessage.isDisplay());
+                , rcBaseErrorMessage.isDisplay()
+        );
     }
 
     @Override
@@ -31,6 +32,6 @@ public class SystemFunctionManagementException extends RcBaseException {
 
     @Override
     public Boolean isDisplay() {
-        return super.isDisplay ;
+        return super.isDisplay;
     }
 }

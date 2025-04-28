@@ -4,8 +4,8 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import org.springframework.http.HttpStatus;
 
 public enum PaginationErrorMessage implements RcBaseErrorMessage {
-    NOT_NULL_PAGINATION(null, "페이지네이션은 null 일 수 없습니다.", HttpStatus.BAD_REQUEST),
-    DUMMY(null, null, null);
+    NOT_NULL_PAGINATION(null, "페이지네이션은 null 일 수 없습니다.", HttpStatus.BAD_REQUEST)
+    , DUMMY(null, null, null);
 
     private final Integer errorCode;
     private final String errorMessage;

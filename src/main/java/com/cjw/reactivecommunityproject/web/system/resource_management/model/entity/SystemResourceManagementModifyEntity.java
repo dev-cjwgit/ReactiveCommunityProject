@@ -6,11 +6,11 @@ import lombok.Builder;
 
 @Builder
 public record SystemResourceManagementModifyEntity(
-        Long uid,
-        RcManageResourceMethodEnum method,
-        String urlPattern,
-        String description,
-        String userUid,
-        CommonEnabledEnum enabled
+        Long uid
+        , RcManageResourceMethodEnum method
+        , String urlPattern
+        , String description
+        , String userUid
+        , CommonEnabledEnum enabled
 ) {
 }

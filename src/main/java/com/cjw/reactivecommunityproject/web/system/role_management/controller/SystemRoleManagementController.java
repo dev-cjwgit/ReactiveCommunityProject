@@ -32,12 +32,12 @@ public class SystemRoleManagementController {
 
     @GetMapping("/list")
     public ResponseEntity<RestResponseVO<List<SystemRoleManagementListEntity>>> readRoleManagementList(
-            @RequestParam(value = "uid", required = false) Long uid,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "start-date", required = false) String startDate,
-            @RequestParam(value = "end-date", required = false) String endDate,
-            @RequestParam("page-number") Integer pageNumber,
-            @RequestParam("page-size") Integer pageSize
+            @RequestParam(value = "uid", required = false) Long uid
+            , @RequestParam(value = "name", required = false) String name
+            , @RequestParam(value = "start-date", required = false) String startDate
+            , @RequestParam(value = "end-date", required = false) String endDate
+            , @RequestParam("page-number") Integer pageNumber
+            , @RequestParam("page-size") Integer pageSize
     ) {
         return ResponseEntity.ok(systemRoleManagementService.readRoleManagementList(
                 SystemRoleManagementListVO.builder()
@@ -45,8 +45,8 @@ public class SystemRoleManagementController {
                         .name(name)
                         .startDate(DateUtils.convert(startDate, DateUtils.YYYY_MM_DD))
                         .endDate(DateUtils.convert(endDate, DateUtils.YYYY_MM_DD))
-                        .build(),
-                PaginationRequestVO.builder()
+                        .build()
+                , PaginationRequestVO.builder()
                         .pageNumber(pageNumber)
                         .pageSize(pageSize)
                         .build()));

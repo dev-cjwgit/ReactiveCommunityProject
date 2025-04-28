@@ -5,12 +5,12 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "rc")
 public record RcProperties(
-        ConfigProperties config,
-        CacheManagerProperties cacheManager
+        ConfigProperties config
+        , CacheManagerProperties cacheManager
 ) {
     public record ConfigProperties(
-            String defaultRegion,
-            String defaultLanguage
+            String defaultRegion
+            , String defaultLanguage
     ) {
     }
 

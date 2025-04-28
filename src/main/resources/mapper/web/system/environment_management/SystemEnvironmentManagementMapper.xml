@@ -75,16 +75,16 @@
 
     <insert id="insert" parameterType="SystemEnvironmentManagementInsertEntity">
         /* SystemEnvironmentManagementMapper.insert() */
-        INSERT INTO rc_common_env_code(`id`,
-                                       `type`,
-                                       `value`,
-                                       `description`,
-                                       `category`,
-                                       `order`,
-                                       `created_user_uid`,
-                                       `created_utc_at`,
-                                       `updated_user_uid`,
-                                       `updated_utc_at`)
+        INSERT INTO rc_common_env_code( `id`
+                                      , `type`
+                                      , `value`
+                                      , `description`
+                                      , `category`
+                                      , `order`
+                                      , `created_user_uid`
+                                      , `created_utc_at`
+                                      , `updated_user_uid`
+                                      , `updated_utc_at`)
         VALUES ( #{id, jdbcType=VARCHAR}
                , #{type, jdbcType=VARCHAR}
                , #{value, jdbcType=VARCHAR}
@@ -117,7 +117,7 @@
         UPDATE rc_common_env_code
         SET `type`             = #{type, jdbcType=VARCHAR}
           , `value`            = #{value, jdbcType=VARCHAR}
-          , `description`      =#{description, jdbcType=VARCHAR}
+          , `description`      = #{description, jdbcType=VARCHAR}
           , `category`         = #{category, jdbcType=VARCHAR}
           , `order`            = #{order, jdbcType=INTEGER}
           , `enabled`          = #{enabled, jdbcType=VARCHAR}

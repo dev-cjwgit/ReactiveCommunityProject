@@ -21,13 +21,13 @@ public interface SystemResourceManagementDao {
     SystemResourceManagementDetailEntity selectDetail(@Param("uid") Long uid);
 
     Boolean isDuplicateByMethodAndUrlPattern(
-            RcManageResourceMethodEnum method,
-            String urlPattern
+            RcManageResourceMethodEnum method
+            , String urlPattern
     );
 
     Boolean isOwner(
-            Long uid,
-            String userUid
+            Long uid
+            , String userUid
     );
 
     Boolean isExistResourceByUid(Long uid);

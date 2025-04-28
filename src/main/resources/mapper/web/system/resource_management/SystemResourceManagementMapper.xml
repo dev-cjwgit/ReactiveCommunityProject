@@ -5,15 +5,15 @@
 <mapper namespace="com.cjw.reactivecommunityproject.web.system.resource_management.mapper.SystemResourceManagementMapper">
     <select id="selectList" parameterType="PaginationVO" resultType="SystemResourceManagementListEntity">
         /* SystemResourceManagementMapper.selectList() */
-        SELECT `uid`,
-               `method`,
-               `url_pattern`,
-               `description`,
-               `enabled`,
-               `created_user_uid`,
-               `created_utc_at`,
-               `updated_user_uid`,
-               `updated_utc_at`
+        SELECT `uid`
+             , `method`
+             , `url_pattern`
+             , `description`
+             , `enabled`
+             , `created_user_uid`
+             , `created_utc_at`
+             , `updated_user_uid`
+             , `updated_utc_at`
         FROM rc_manage_resource
         <where>
             <if test="pagination.uid != null">
@@ -38,15 +38,15 @@
 
     <select id="selectDetail" resultType="SystemResourceManagementDetailEntity">
         /* SystemResourceManagementMapper.selectDetail() */
-        SELECT `uid`,
-               `method`,
-               `url_pattern`,
-               `description`,
-               `enabled`,
-               `created_user_uid`,
-               `created_utc_at`,
-               `updated_user_uid`,
-               `updated_utc_at`
+        SELECT `uid`
+             , `method`
+             , `url_pattern`
+             , `description`
+             , `enabled`
+             , `created_user_uid`
+             , `created_utc_at`
+             , `updated_user_uid`
+             , `updated_utc_at`
         FROM rc_manage_resource
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </select>
@@ -69,31 +69,31 @@
 
     <insert id="insert" parameterType="SystemResourceManagementInsertEntity">
         /* SystemResourceManagementMapper.insert() */
-        INSERT INTO rc_manage_resource(`method`,
-                                       `url_pattern`,
-                                       `description`,
-                                       `created_user_uid`,
-                                       `created_utc_at`,
-                                       `updated_user_uid`,
-                                       `updated_utc_at`)
-        VALUES (#{method, jdbcType=VARCHAR},
-                #{urlPattern, jdbcType=INTEGER},
-                #{description, jdbcType=VARCHAR},
-                #{userUid, jdbcType=VARCHAR},
-                CURRENT_TIMESTAMP(),
-                #{userUid, jdbcType=VARCHAR},
-                CURRENT_TIMESTAMP())
+        INSERT INTO rc_manage_resource( `method`
+                                      , `url_pattern`
+                                      , `description`
+                                      , `created_user_uid`
+                                      , `created_utc_at`
+                                      , `updated_user_uid`
+                                      , `updated_utc_at`)
+        VALUES ( #{method, jdbcType=VARCHAR}
+               , #{urlPattern, jdbcType=INTEGER}
+               , #{description, jdbcType=VARCHAR}
+               , #{userUid, jdbcType=VARCHAR}
+               , CURRENT_TIMESTAMP()
+               , #{userUid, jdbcType=VARCHAR}
+               , CURRENT_TIMESTAMP())
     </insert>
 
     <update id="update" parameterType="SystemResourceManagementModifyEntity">
         /* SystemResourceManagementMapper.update() */
         UPDATE rc_manage_resource
-        SET `method`           = #{method, jdbcType=VARCHAR},
-            `url_pattern`      = #{urlPattern, jdbcType=VARCHAR},
-            `description`      = #{description, jdbcType=VARCHAR},
-            `enabled`          = #{enabled, jdbcType=VARCHAR},
-            `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
-            `updated_utc_at`   = CURRENT_TIMESTAMP()
+        SET `method`           = #{method, jdbcType=VARCHAR}
+          , `url_pattern`      = #{urlPattern, jdbcType=VARCHAR}
+          , `description`      = #{description, jdbcType=VARCHAR}
+          , `enabled`          = #{enabled, jdbcType=VARCHAR}
+          , `updated_user_uid` = #{userUid, jdbcType=VARCHAR}
+          , `updated_utc_at`   = CURRENT_TIMESTAMP()
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </update>
 

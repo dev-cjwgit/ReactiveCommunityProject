@@ -22,8 +22,8 @@ public interface SystemEnvironmentManagementMapper {
     Integer insert(SystemEnvironmentManagementInsertEntity systemEnvironmentManagementInsertEntity);
 
     Boolean isOwner(
-            @Param("id") String envId,
-            @Param("userUid") String userUid
+            @Param("id") String envId
+            , @Param("userUid") String userUid
     );
 
     Integer delete(@Param("id") String id);

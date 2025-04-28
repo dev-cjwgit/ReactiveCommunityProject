@@ -6,11 +6,11 @@ import lombok.Builder;
 
 @Builder
 public record SystemFunctionManagementModifyEntity(
-        Long uid,
-        String name,
-        RcManageFunctionTypeEnum type,
-        String description,
-        String userUid,
-        CommonEnabledEnum enabled
+        Long uid
+        , String name
+        , RcManageFunctionTypeEnum type
+        , String description
+        , String userUid
+        , CommonEnabledEnum enabled
 ) {
 }

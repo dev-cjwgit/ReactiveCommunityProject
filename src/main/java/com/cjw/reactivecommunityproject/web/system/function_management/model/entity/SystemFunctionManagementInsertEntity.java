@@ -5,9 +5,9 @@ import lombok.Builder;
 
 @Builder
 public record SystemFunctionManagementInsertEntity(
-        String name,
-        RcManageFunctionTypeEnum type,
-        String description,
-        String userUid
+        String name
+        , RcManageFunctionTypeEnum type
+        , String description
+        , String userUid
 ) {
 }

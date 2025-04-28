@@ -12,10 +12,10 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "log-exception")
 public record ElasticsearchLogExceptionDocument(
         @Id
-        String inquiryNumber,
-        String message,
-        String stackTrace,
-        @Field(type = FieldType.Date, format = DateFormat.date_time)
+        String inquiryNumber
+        , String message
+        , String stackTrace
+        , @Field(type = FieldType.Date, format = DateFormat.date_time)
         ZonedDateTime timestamp
 ) {
 }

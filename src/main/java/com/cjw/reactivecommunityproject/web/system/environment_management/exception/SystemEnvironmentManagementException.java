@@ -8,10 +8,11 @@ public class SystemEnvironmentManagementException extends RcBaseException {
 
 
     public SystemEnvironmentManagementException(RcBaseErrorMessage rcBaseErrorMessage) {
-        super(rcBaseErrorMessage.getErrorCode(),
-                rcBaseErrorMessage.getErrorMessage()
+        super(rcBaseErrorMessage.getErrorCode()
+                , rcBaseErrorMessage.getErrorMessage()
                 , rcBaseErrorMessage.getHttpStatus()
-                , rcBaseErrorMessage.isDisplay());
+                , rcBaseErrorMessage.isDisplay()
+        );
     }
 
     @Override
@@ -31,6 +32,6 @@ public class SystemEnvironmentManagementException extends RcBaseException {
 
     @Override
     public Boolean isDisplay() {
-        return super.isDisplay ;
+        return super.isDisplay;
     }
 }

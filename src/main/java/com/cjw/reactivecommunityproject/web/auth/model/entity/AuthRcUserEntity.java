@@ -5,17 +5,17 @@ import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageUserS
 import java.time.ZonedDateTime;
 
 public record AuthRcUserEntity(
-        String uid,
-        Integer roleUid,
-        String email,
-        String pw,
-        RcManageUserStateEnum state,
-        String acceptUserUid,
-        String name,
-        String nickname,
-        String joinedRegion,
-        CommonEnabledEnum enabled,
-        ZonedDateTime createdUtcAt,
-        ZonedDateTime updatedUtcAt
+        String uid
+        , Integer roleUid
+        , String email
+        , String pw
+        , RcManageUserStateEnum state
+        , String acceptUserUid
+        , String name
+        , String nickname
+        , String joinedRegion
+        , CommonEnabledEnum enabled
+        , ZonedDateTime createdUtcAt
+        , ZonedDateTime updatedUtcAt
 ) {
 }

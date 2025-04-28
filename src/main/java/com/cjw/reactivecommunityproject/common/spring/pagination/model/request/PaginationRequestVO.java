@@ -4,8 +4,8 @@ import lombok.Builder;
 
 @Builder
 public record PaginationRequestVO(
-        Integer pageNumber,
-        Integer pageSize
+        Integer pageNumber
+        , Integer pageSize
 ) {
 
 }

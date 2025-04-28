@@ -4,9 +4,9 @@ import lombok.Builder;
 
 @Builder
 public record SecurityJwtPayload(
-        String sub,
-        String role,
-        Long lat,
-        Long exp
+        String sub
+        , String role
+        , Long lat
+        , Long exp
 ) {
 }

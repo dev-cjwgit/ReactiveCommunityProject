@@ -6,12 +6,12 @@ import lombok.Builder;
 
 @Builder
 public record SystemResourceManagementListVO(
-        Long uid,
-        String method,
-        String urlPattern,
-        String description,
-        CommonEnabledEnum enabled,
-        ZonedDateTime startDate,
-        ZonedDateTime endDate
+        Long uid
+        , String method
+        , String urlPattern
+        , String description
+        , CommonEnabledEnum enabled
+        , ZonedDateTime startDate
+        , ZonedDateTime endDate
 ) {
 }

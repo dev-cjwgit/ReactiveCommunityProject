@@ -16,8 +16,8 @@ public interface SystemEnvironmentManagementDao {
     Boolean isExistEnvCodeById(String id);
 
     Boolean isCategoryAndOrderDuplicate(
-            String category,
-            Integer order
+            String category
+            , Integer order
     );
 
     void insertTransactional(SystemEnvironmentManagementInsertEntity systemEnvironmentManagementInsertEntity);

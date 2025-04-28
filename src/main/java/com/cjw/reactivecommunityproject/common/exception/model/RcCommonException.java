@@ -4,13 +4,12 @@ package com.cjw.reactivecommunityproject.common.exception.model;
 import org.springframework.http.HttpStatus;
 
 public class RcCommonException extends RcBaseException {
-
-
     public RcCommonException(RcBaseErrorMessage rcBaseErrorMessage) {
-        super(rcBaseErrorMessage.getErrorCode(),
-                rcBaseErrorMessage.getErrorMessage()
+        super(rcBaseErrorMessage.getErrorCode()
+                , rcBaseErrorMessage.getErrorMessage()
                 , rcBaseErrorMessage.getHttpStatus()
-                , rcBaseErrorMessage.isDisplay());
+                , rcBaseErrorMessage.isDisplay()
+        );
     }
 
     @Override

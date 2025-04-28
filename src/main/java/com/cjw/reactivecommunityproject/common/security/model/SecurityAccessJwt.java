@@ -10,8 +10,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Builder
 public record SecurityAccessJwt(
-        String userUid,
-        Integer roleUid
+        String userUid
+        , Integer roleUid
 ) implements Authentication, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -7,10 +7,11 @@ import org.springframework.http.HttpStatus;
 public class MailException extends RcBaseException {
 
     public MailException(RcBaseErrorMessage rcBaseErrorMessage) {
-        super(rcBaseErrorMessage.getErrorCode(),
-                rcBaseErrorMessage.getErrorMessage()
+        super(rcBaseErrorMessage.getErrorCode()
+                , rcBaseErrorMessage.getErrorMessage()
                 , rcBaseErrorMessage.getHttpStatus()
-                , rcBaseErrorMessage.isDisplay());
+                , rcBaseErrorMessage.isDisplay()
+        );
     }
 
     @Override
@@ -30,6 +31,6 @@ public class MailException extends RcBaseException {
 
     @Override
     public Boolean isDisplay() {
-        return super.isDisplay ;
+        return super.isDisplay;
     }
 }

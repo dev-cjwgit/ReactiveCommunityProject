@@ -58,8 +58,8 @@ public class SystemResourceManagementServiceImpl implements SystemResourceManage
     @Override
     public RestResponseVO<Void> create(SystemResourceManagementCreateVO sysResourcemgmtCreateVO) {
         var isDuplicate = systemResourceManagementDao.isDuplicateByMethodAndUrlPattern(
-                sysResourcemgmtCreateVO.method(),
-                sysResourcemgmtCreateVO.urlPattern()
+                sysResourcemgmtCreateVO.method()
+                , sysResourcemgmtCreateVO.urlPattern()
         );
 
         if (Boolean.TRUE.equals(isDuplicate)) {

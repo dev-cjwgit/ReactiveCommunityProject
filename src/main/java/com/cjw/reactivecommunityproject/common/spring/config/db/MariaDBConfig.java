@@ -33,8 +33,9 @@ public class MariaDBConfig {
     }
 
     @Bean
-    public SqlSessionFactory sqlSessionFactory(@Autowired DataSource dataSource,
-                                               ApplicationContext applicationContext
+    public SqlSessionFactory sqlSessionFactory(
+            @Autowired DataSource dataSource
+            , ApplicationContext applicationContext
     ) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource);

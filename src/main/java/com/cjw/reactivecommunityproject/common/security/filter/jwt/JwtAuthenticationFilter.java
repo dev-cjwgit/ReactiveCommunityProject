@@ -23,9 +23,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
+            @NonNull HttpServletRequest request
+            , @NonNull HttpServletResponse response
+            , @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         try {
             var token = extractJwtToken(request);

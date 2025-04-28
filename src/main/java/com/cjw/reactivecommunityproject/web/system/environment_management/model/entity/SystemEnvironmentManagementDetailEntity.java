@@ -5,16 +5,16 @@ import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCo
 import java.time.ZonedDateTime;
 
 public record SystemEnvironmentManagementDetailEntity(
-        String id,
-        RcCommonEnvCodeTypeEnum type,
-        String value,
-        String description,
-        String category,
-        Integer order,
-        CommonEnabledEnum enabled,
-        String createdUserUid,
-        ZonedDateTime createdUtcAt,
-        String updatedUserUid,
-        ZonedDateTime updatedUtcAt
+        String id
+        , RcCommonEnvCodeTypeEnum type
+        , String value
+        , String description
+        , String category
+        , Integer order
+        , CommonEnabledEnum enabled
+        , String createdUserUid
+        , ZonedDateTime createdUtcAt
+        , String updatedUserUid
+        , ZonedDateTime updatedUtcAt
 ) {
 }

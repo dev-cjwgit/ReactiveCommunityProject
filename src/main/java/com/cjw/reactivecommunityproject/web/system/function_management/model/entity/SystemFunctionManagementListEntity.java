@@ -5,14 +5,14 @@ import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageFunct
 import java.time.ZonedDateTime;
 
 public record SystemFunctionManagementListEntity(
-        Long uid,
-        String name,
-        RcManageFunctionTypeEnum type,
-        String description,
-        CommonEnabledEnum enabled,
-        String createdUserUid,
-        ZonedDateTime createdUtcAt,
-        String updatedUserUid,
-        ZonedDateTime updatedUtcAt
+        Long uid
+        , String name
+        , RcManageFunctionTypeEnum type
+        , String description
+        , CommonEnabledEnum enabled
+        , String createdUserUid
+        , ZonedDateTime createdUtcAt
+        , String updatedUserUid
+        , ZonedDateTime updatedUtcAt
 ) {
 }

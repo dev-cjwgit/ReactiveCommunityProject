@@ -4,11 +4,11 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import org.springframework.http.HttpStatus;
 
 public enum SystemResourceManagementErrorMessage implements RcBaseErrorMessage {
-    NOT_FOUND_RESOURCE_DETAIL(null, "상세 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
-    NOT_FOUND_RESOURCE(null, "Resource 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
-    DUPLICATE_RESOURCE_INFO(null, "이미 중복된 데이터입니다.", HttpStatus.BAD_REQUEST),
-    NOT_FOUND_ROLE_DETAIL(null, "존재하지 않는 롤 입니다.", HttpStatus.BAD_REQUEST),
-    DUMMY(null, null, null);
+    NOT_FOUND_RESOURCE_DETAIL(null, "상세 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST)
+    , NOT_FOUND_RESOURCE(null, "Resource 정보를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST)
+    , DUPLICATE_RESOURCE_INFO(null, "이미 중복된 데이터입니다.", HttpStatus.BAD_REQUEST)
+    , NOT_FOUND_ROLE_DETAIL(null, "존재하지 않는 롤 입니다.", HttpStatus.BAD_REQUEST)
+    , DUMMY(null, null, null);
 
     private final Integer errorCode;
     private final String errorMessage;

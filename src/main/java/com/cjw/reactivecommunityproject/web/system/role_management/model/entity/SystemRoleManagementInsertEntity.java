@@ -4,9 +4,9 @@ import lombok.Builder;
 
 @Builder
 public record SystemRoleManagementInsertEntity(
-        Integer uid,
-        String name,
-        String description,
-        String userUid
+        Integer uid
+        , String name
+        , String description
+        , String userUid
 ) {
 }

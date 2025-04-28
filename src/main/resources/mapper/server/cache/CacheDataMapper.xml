@@ -5,79 +5,79 @@
 <mapper namespace="com.cjw.reactivecommunityproject.server.cache.data.mapper.CacheDataMapper">
     <select id="selectCommonRegionList" parameterType="CacheDataCommonRegionVO">
         /* CacheDataMapper.selectCommonRegionList */
-        SELECT `region`,
-               `enabled`,
-               `updated_utc_at`
+        SELECT `region`
+             , `enabled`
+             , `updated_utc_at`
         FROM rc_common_region
     </select>
 
     <select id="selectCommonEnvCodeList" parameterType="CacheDataCommonEnvCodeVO">
         /* CacheDataMapper.selectCommonEnvCodeList */
-        SELECT `id`,
-               `type`,
-               `value`,
-               `order`,
-               `category`,
-               `enabled`,
-               `updated_utc_at`
+        SELECT `id`
+             , `type`
+             , `value`
+             , `order`
+             , `category`
+             , `enabled`
+             , `updated_utc_at`
         FROM rc_common_env_code
     </select>
 
     <select id="selectCommonLanguageCodeList" parameterType="CacheDataCommonLanguageCodeVO">
         /* CacheDataMapper.selectCommonLanguageCodeList */
-        SELECT `path`,
-               `code`,
-               `value`,
-               `updated_utc_at`
+        SELECT `path`
+             , `code`
+             , `value`
+             , `updated_utc_at`
         FROM rc_common_language_code
     </select>
 
     <select id="selectCommonLanguageGbCodeList" parameterType="CacheDataCommonLanguageGbCodeVO">
         /* CacheDataMapper.selectCommonLanguageGbCodeList */
-        SELECT `path`,
-               `code`,
-               `lang`,
-               `value`,
-               `updated_utc_at`
+        SELECT `path`
+             , `code`
+             , `lang`
+             , `value`
+             , `updated_utc_at`
         FROM rc_common_language_gb_code
         WHERE `lang` = #{lang, jdbcType=VARCHAR}
     </select>
 
     <select id="selectManageResourceList" parameterType="CacheDataManageResourceVO">
         /* CacheDataMapper.selectManageResourceList */
-        SELECT `uid`,
-               `method`,
-               `url_pattern`,
-               `enabled`,
-               `updated_utc_at`
+        SELECT `uid`
+             , `method`
+             , `url_pattern`
+             , `enabled`
+             , `updated_utc_at`
         FROM rc_manage_resource
     </select>
 
     <select id="selectManageFunctionList" parameterType="CacheDataManageFunctionVO">
         /* CacheDataMapper.selectManageFunctionList */
-        SELECT `uid`,
-               `name`,
-               `type`,
-               `enabled`,
-               `updated_utc_at`
+        SELECT `uid`
+             , `name`
+             , `type`
+             , `enabled`
+             , `updated_utc_at`
         FROM rc_manage_function
     </select>
 
     <select id="selectManageRoleFunctionList" parameterType="CacheDataManageRoleFunctionVO">
         /* CacheDataMapper.selectManageRoleFunctionList */
-        SELECT `role_uid`,
-               `function_uid`,
-               `enabled`,
-               `updated_utc_at`
+        SELECT `role_uid`
+             , `function_uid`
+             , `enabled`
+             , `updated_utc_at`
         FROM rc_manage_role_function
     </select>
 
     <select id="selectManageRoleResourceList" parameterType="CacheDataManageRoleResourceVO">
         /* CacheDataMapper.selectManageRoleResourceList */
-        SELECT `role_uid`,
-               `resource_uid`,
-               `enabled`,
-               `updated_utc_at`
+        SELECT `role_uid`
+             , `resource_uid`
+             , `enabled`
+             , `updated_utc_at`
         FROM rc_manage_role_resource
     </select>
 </mapper>

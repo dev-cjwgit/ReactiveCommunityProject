@@ -32,15 +32,14 @@ public class SystemEnvironmentManagementController {
 
     @GetMapping("/list")
     public ResponseEntity<RestResponseVO<List<SystemEnvironmentManagementListEntity>>> readEnvironmentList(
-            @RequestParam(value = "id", required = false) String id,
-            @RequestParam(value = "type", required = false) String type,
-            @RequestParam(value = "value", required = false) String value,
-            @RequestParam(value = "category", required = false) String category,
-
-            @RequestParam(value = "start-date", required = false) String startDate,
-            @RequestParam(value = "end-date", required = false) String endDate,
-            @RequestParam("page-number") Integer pageNumber,
-            @RequestParam("page-size") Integer pageSize
+            @RequestParam(value = "id", required = false) String id
+            , @RequestParam(value = "type", required = false) String type
+            , @RequestParam(value = "value", required = false) String value
+            , @RequestParam(value = "category", required = false) String category
+            , @RequestParam(value = "start-date", required = false) String startDate
+            , @RequestParam(value = "end-date", required = false) String endDate
+            , @RequestParam("page-number") Integer pageNumber
+            , @RequestParam("page-size") Integer pageSize
     ) {
         return ResponseEntity.ok(systemEnvironmentManagementService.readEnvironmentManagementList(SystemEnvironmentManagementListVO.builder()
                         .id(id)

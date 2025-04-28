@@ -4,10 +4,10 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import org.springframework.http.HttpStatus;
 
 public enum SystemFunctionManagementErrorMessage implements RcBaseErrorMessage {
-    DUPLICATE_FUNCTION_NAME(null, "중복된 name이 존재합니다.", HttpStatus.BAD_REQUEST),
-    NOT_FOUND_FUNCTION(null, "기능을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
-    NOT_FOUND_FUNCTION_DETAIL(null, "기능 상세를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST),
-    DUMMY(null, null, null);
+    DUPLICATE_FUNCTION_NAME(null, "중복된 name이 존재합니다.", HttpStatus.BAD_REQUEST)
+    , NOT_FOUND_FUNCTION(null, "기능을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST)
+    , NOT_FOUND_FUNCTION_DETAIL(null, "기능 상세를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST)
+    , DUMMY(null, null, null);
 
     private final Integer errorCode;
     private final String errorMessage;

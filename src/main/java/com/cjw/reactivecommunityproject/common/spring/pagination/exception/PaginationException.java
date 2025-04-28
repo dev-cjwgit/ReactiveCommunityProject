@@ -8,10 +8,11 @@ public class PaginationException extends RcBaseException {
 
 
     public PaginationException(RcBaseErrorMessage rcBaseErrorMessage) {
-        super(rcBaseErrorMessage.getErrorCode(),
-                rcBaseErrorMessage.getErrorMessage()
+        super(rcBaseErrorMessage.getErrorCode()
+                , rcBaseErrorMessage.getErrorMessage()
                 , rcBaseErrorMessage.getHttpStatus()
-                , rcBaseErrorMessage.isDisplay());
+                , rcBaseErrorMessage.isDisplay()
+        );
     }
 
     @Override
@@ -31,6 +32,6 @@ public class PaginationException extends RcBaseException {
 
     @Override
     public Boolean isDisplay() {
-        return super.isDisplay ;
+        return super.isDisplay;
     }
 }

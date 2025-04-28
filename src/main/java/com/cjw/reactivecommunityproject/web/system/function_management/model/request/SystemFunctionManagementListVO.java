@@ -5,11 +5,11 @@ import lombok.Builder;
 
 @Builder
 public record SystemFunctionManagementListVO(
-        Long uid,
-        String name,
-        String type,
-        String description,
-        ZonedDateTime startDate,
-        ZonedDateTime endDate
+        Long uid
+        , String name
+        , String type
+        , String description
+        , ZonedDateTime startDate
+        , ZonedDateTime endDate
 ) {
 }

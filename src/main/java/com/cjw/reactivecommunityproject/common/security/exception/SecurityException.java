@@ -7,8 +7,8 @@ import org.springframework.http.HttpStatus;
 public class SecurityException extends RcBaseException {
 
     public SecurityException(RcBaseErrorMessage rcBaseErrorMessage) {
-        super(rcBaseErrorMessage.getErrorCode(),
-                rcBaseErrorMessage.getErrorMessage()
+        super(rcBaseErrorMessage.getErrorCode()
+                , rcBaseErrorMessage.getErrorMessage()
                 , rcBaseErrorMessage.getHttpStatus()
                 , rcBaseErrorMessage.isDisplay());
     }
@@ -30,6 +30,6 @@ public class SecurityException extends RcBaseException {
 
     @Override
     public Boolean isDisplay() {
-        return super.isDisplay ;
+        return super.isDisplay;
     }
 }

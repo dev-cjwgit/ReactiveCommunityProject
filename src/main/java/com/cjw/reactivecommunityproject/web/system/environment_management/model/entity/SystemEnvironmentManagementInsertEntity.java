@@ -5,12 +5,12 @@ import lombok.Builder;
 
 @Builder
 public record SystemEnvironmentManagementInsertEntity(
-        String id,
-        RcCommonEnvCodeTypeEnum type,
-        String value,
-        String description,
-        String category,
-        Integer order,
-        String userUid
+        String id
+        , RcCommonEnvCodeTypeEnum type
+        , String value
+        , String description
+        , String category
+        , Integer order
+        , String userUid
 ) {
 }

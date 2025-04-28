@@ -5,12 +5,12 @@ import lombok.Builder;
 
 @Builder
 public record SystemEnvironmentManagementListVO(
-        String id,
-        String type,
-        String value,
-        String description,
-        String category,
-        ZonedDateTime startDate,
-        ZonedDateTime endDate
+        String id
+        , String type
+        , String value
+        , String description
+        , String category
+        , ZonedDateTime startDate
+        , ZonedDateTime endDate
 ) {
 }

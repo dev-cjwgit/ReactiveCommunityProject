@@ -5,13 +5,13 @@
 <mapper namespace="com.cjw.reactivecommunityproject.web.system.role_management.mapper.SystemRoleManagementMapper">
     <select id="selectList" parameterType="PaginationVO" resultType="SystemRoleManagementListEntity">
         /* SystemRoleManagementMapper.selectList() */
-        SELECT  `uid`,
-                `name`,
-                `enabled`,
-                `created_user_uid`,
-                `created_utc_at`,
-                `updated_user_uid`,
-                `updated_utc_at`
+        SELECT  `uid`
+              , `name`
+              , `enabled`
+              , `created_user_uid`
+              , `created_utc_at`
+              , `updated_user_uid`
+              , `updated_utc_at`
         FROM rc_manage_role
         <where>
             <if test="pagination.uid != null">
@@ -33,13 +33,13 @@
 
     <select id="selectDetail" resultType="SystemRoleManagementDetailEntity">
         /* SystemRoleManagementMapper.selectDetail() */
-        SELECT `uid`,
-               `name`,
-               `enabled`,
-               `created_user_uid`,
-               `created_utc_at`,
-               `updated_user_uid`,
-               `updated_utc_at`
+        SELECT `uid`
+             , `name`
+             , `enabled`
+             , `created_user_uid`
+             , `created_utc_at`
+             , `updated_user_uid`
+             , `updated_utc_at`
         FROM rc_manage_role
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </select>
@@ -53,20 +53,20 @@
 
     <insert id="insert" parameterType="SystemRoleManagementInsertEntity">
         /* SystemRoleManagementMapper.insert() */
-        INSERT INTO rc_manage_role(`uid`,
-                                   `name`,
-                                   `enabled`,
-                                   `created_user_uid`,
-                                   `created_utc_at`,
-                                   `updated_user_uid`,
-                                   `updated_utc_at`)
-        VALUES (#{uid, jdbcType=TINYINT},
-                #{name, jdbcType=VARCHAR},
-                'Y',
-                #{userUid, jdbcType=VARCHAR},
-                CURRENT_TIMESTAMP(),
-                #{userUid, jdbcType=VARCHAR},
-                CURRENT_TIMESTAMP())
+        INSERT INTO rc_manage_role( `uid`
+                                  , `name`
+                                  , `enabled`
+                                  , `created_user_uid`
+                                  , `created_utc_at`
+                                  , `updated_user_uid`
+                                  , `updated_utc_at`)
+        VALUES ( #{uid, jdbcType=TINYINT}
+               , #{name, jdbcType=VARCHAR}
+               , 'Y'
+               , #{userUid, jdbcType=VARCHAR}
+               , CURRENT_TIMESTAMP()
+               , #{userUid, jdbcType=VARCHAR}
+               , CURRENT_TIMESTAMP())
     </insert>
 
     <select id="isExistByUid" resultType="boolean">
@@ -101,10 +101,10 @@
     <update id="update" parameterType="SystemResourceManagementModifyEntity">
         /* SystemRoleManagementMapper.update() */
         UPDATE rc_manage_role
-        SET `name`             = #{name, jdbcType=VARCHAR},
-            `enabled`          = #{enabled, jdbcType=VARCHAR},
-            `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
-            `updated_utc_at`   = CURRENT_TIMESTAMP()
+        SET `name`             = #{name, jdbcType=VARCHAR}
+          , `enabled`          = #{enabled, jdbcType=VARCHAR}
+          , `updated_user_uid` = #{userUid, jdbcType=VARCHAR}
+          , `updated_utc_at`   = CURRENT_TIMESTAMP()
         WHERE `uid` = #{uid, jdbcType=TINYINT}
     </update>
 </mapper>

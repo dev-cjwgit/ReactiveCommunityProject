@@ -5,9 +5,9 @@ import lombok.Builder;
 
 @Builder
 public record SystemResourceManagementInsertEntity(
-        RcManageResourceMethodEnum method,
-        String urlPattern,
-        String description,
-        String userUid
+        RcManageResourceMethodEnum method
+        , String urlPattern
+        , String description
+        , String userUid
 ) {
 }

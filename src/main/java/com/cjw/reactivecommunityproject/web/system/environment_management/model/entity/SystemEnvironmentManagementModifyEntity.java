@@ -6,13 +6,13 @@ import lombok.Builder;
 
 @Builder
 public record SystemEnvironmentManagementModifyEntity(
-        String id,
-        RcCommonEnvCodeTypeEnum type,
-        String value,
-        String description,
-        String category,
-        Integer order,
-        CommonEnabledEnum enabled,
-        String userUid
+        String id
+        , RcCommonEnvCodeTypeEnum type
+        , String value
+        , String description
+        , String category
+        , Integer order
+        , CommonEnabledEnum enabled
+        , String userUid
 ) {
 }

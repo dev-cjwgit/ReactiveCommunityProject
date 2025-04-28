@@ -74,8 +74,8 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
         if (category != null) {
             var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
-                    systemEnvironmentManagementCreateVO.category(),
-                    systemEnvironmentManagementCreateVO.order()
+                    systemEnvironmentManagementCreateVO.category()
+                    , systemEnvironmentManagementCreateVO.order()
             );
 
             if (Boolean.TRUE.equals(isCategoryAndOrderDuplicate)) {
@@ -144,8 +144,8 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
         if (category != null) {
             var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
-                    category,
-                    order
+                    category
+                    , order
             );
 
             if (Boolean.TRUE.equals(isCategoryAndOrderDuplicate)) {

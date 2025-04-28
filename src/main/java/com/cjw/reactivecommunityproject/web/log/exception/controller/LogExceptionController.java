@@ -29,8 +29,8 @@ public class LogExceptionController {
 
     @GetMapping("/list")
     public ResponseEntity<RestResponseVO<List<ElasticsearchLogExceptionDocument>>> selectLogExceptionList(
-            @RequestParam(value = "start-date", required = false) String startDate,
-            @RequestParam(value = "end-date", required = false) String endDate
+            @RequestParam(value = "start-date", required = false) String startDate
+            , @RequestParam(value = "end-date", required = false) String endDate
     ) {
         return ResponseEntity.ok(logExceptionService.selectLogExceptionList(LogExceptionListVO.builder()
                 .startDate(DateUtils.convert(startDate, DateUtils.YYYY_MM_DD_HH_MM_SS))

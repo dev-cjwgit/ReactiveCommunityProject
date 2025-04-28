@@ -5,18 +5,18 @@
 <mapper namespace="com.cjw.reactivecommunityproject.web.auth.mapper.AuthMapper">
     <select id="selectRcUserByEmail" resultType="AuthRcUserEntity">
         /* AuthMapper.selectRcUserByEmail */
-        SELECT `uid`,
-               `role_uid`,
-               `email`,
-               `pw`,
-               `state`,
-               `accept_user_uid`,
-               `name`,
-               `nickname`,
-               `joined_region`,
-               `enabled`,
-               `created_utc_at`,
-               `updated_utc_at`
+        SELECT `uid`
+             , `role_uid`
+             , `email`
+             , `pw`
+             , `state`
+             , `accept_user_uid`
+             , `name`
+             , `nickname`
+             , `joined_region`
+             , `enabled`
+             , `created_utc_at`
+             , `updated_utc_at`
         FROM `rc_manage_user`
         WHERE `email` = #{email, jdbcType=VARCHAR}
     </select>
@@ -24,18 +24,18 @@
 
     <select id="selectRcUserByUserUid" resultType="AuthRcUserEntity">
         /* AuthMapper.selectRcUserByUserUid */
-        SELECT `uid`,
-               `role_uid`,
-               `email`,
-               `pw`,
-               `state`,
-               `accept_user_uid`,
-               `name`,
-               `nickname`,
-               `joined_region`,
-               `enabled`,
-               `created_utc_at`,
-               `updated_utc_at`
+        SELECT `uid`
+             , `role_uid`
+             , `email`
+             , `pw`
+             , `state`
+             , `accept_user_uid`
+             , `name`
+             , `nickname`
+             , `joined_region`
+             , `enabled`
+             , `created_utc_at`
+             , `updated_utc_at`
         FROM `rc_manage_user`
         WHERE `uid` = #{uid, jdbcType=VARCHAR}
     </select>
@@ -56,19 +56,19 @@
 
     <insert id="register" parameterType="AuthRegisterEntity">
         /* AuthMapper.register */
-        INSERT INTO rc_manage_user(`uid`,
-                                   `role_uid`,
-                                   `email`,
-                                   `pw`,
-                                   `name`,
-                                   `nickname`,
-                                   `joined_region`)
-        VALUES (#{uid, jdbcType=VARCHAR},
-                #{roleUid, jdbcType=INTEGER},
-                #{email, jdbcType=VARCHAR},
-                #{pw, jdbcType=VARCHAR},
-                #{name, jdbcType=VARCHAR},
-                #{nickname, jdbcType=VARCHAR},
-                #{joinedRegion, jdbcType=VARCHAR})
+        INSERT INTO rc_manage_user( `uid`
+                                  , `role_uid`
+                                  , `email`
+                                  , `pw`
+                                  , `name`
+                                  , `nickname`
+                                  , `joined_region`)
+        VALUES ( #{uid, jdbcType=VARCHAR}
+               , #{roleUid, jdbcType=INTEGER}
+               , #{email, jdbcType=VARCHAR}
+               , #{pw, jdbcType=VARCHAR}
+               , #{name, jdbcType=VARCHAR}
+               , #{nickname, jdbcType=VARCHAR}
+               , #{joinedRegion, jdbcType=VARCHAR})
     </insert>
 </mapper>

@@ -5,7 +5,7 @@ import lombok.Builder;
 
 @Builder
 public record LogExceptionListVO(
-        ZonedDateTime startDate,
-        ZonedDateTime endDate
+        ZonedDateTime startDate
+        , ZonedDateTime endDate
 ) {
 }

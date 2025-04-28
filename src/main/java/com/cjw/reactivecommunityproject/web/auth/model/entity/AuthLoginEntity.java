@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record AuthLoginEntity(
-        String userUid,
-        String refreshToken
+        String userUid
+        , String refreshToken
 ) {
 }

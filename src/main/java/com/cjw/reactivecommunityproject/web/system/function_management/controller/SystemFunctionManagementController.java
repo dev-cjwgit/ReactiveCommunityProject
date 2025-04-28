@@ -32,14 +32,14 @@ public class SystemFunctionManagementController {
 
     @GetMapping("/list")
     public ResponseEntity<RestResponseVO<List<SystemFunctionManagementListEntity>>> readFunctionManagementList(
-            @RequestParam(value = "uid", required = false) Long uid,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "type", required = false) String type,
-            @RequestParam(value = "description", required = false) String description,
-            @RequestParam(value = "start-date", required = false) String startDate,
-            @RequestParam(value = "end-date", required = false) String endDate,
-            @RequestParam("page-number") Integer pageNumber,
-            @RequestParam("page-size") Integer pageSize
+            @RequestParam(value = "uid", required = false) Long uid
+            , @RequestParam(value = "name", required = false) String name
+            , @RequestParam(value = "type", required = false) String type
+            , @RequestParam(value = "description", required = false) String description
+            , @RequestParam(value = "start-date", required = false) String startDate
+            , @RequestParam(value = "end-date", required = false) String endDate
+            , @RequestParam("page-number") Integer pageNumber
+            , @RequestParam("page-size") Integer pageSize
     ) {
         return ResponseEntity.ok(systemFunctionManagementService.readFunctionManagementList(
                 SystemFunctionManagementListVO.builder()

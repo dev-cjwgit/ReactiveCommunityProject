@@ -17,13 +17,13 @@ public interface SystemResourceManagementMapper {
     SystemResourceManagementDetailEntity selectDetail(@Param("uid") Long uid);
 
     Boolean isDuplicateByMethodAndUrlPattern(
-            @Param("method") RcManageResourceMethodEnum method,
-            @Param("urlPattern") String urlPattern
+            @Param("method") RcManageResourceMethodEnum method
+            , @Param("urlPattern") String urlPattern
     );
 
     Boolean isOwner(
-            @Param("uid") Long uid,
-            @Param("userUid") String userUid
+            @Param("uid") Long uid
+            , @Param("userUid") String userUid
     );
 
     Integer insert(SystemResourceManagementInsertEntity authRegisterVO);
