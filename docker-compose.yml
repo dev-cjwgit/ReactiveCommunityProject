@@ -47,11 +47,27 @@ services:
       - mariadb
     restart: unless-stopped
 
+  rc:
+    shm_size: "30gb"
+    build: ./
+    image: rc_deploy
+    volumes:
+      - rc:/usr/share/rc/data  # Elasticsearch 데이터 볼륨 설정
+    restart: unless-stopped
+    networks:
+      - rcdb
+    ports:
+      - "9999:9999"
+    depends_on:
+      - mariadb
+      - redis
+      - elasticsearch
 # 데이터 저장을 위한 볼륨 설정
 volumes:
   mariadb: { }
   elasticsearch: { }
   mysql: { }
+  rc: { }
 
 # 네트워크 설정
 networks:
