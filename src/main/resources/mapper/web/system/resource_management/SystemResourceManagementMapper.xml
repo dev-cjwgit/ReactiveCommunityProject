@@ -8,6 +8,7 @@
         SELECT `uid`,
                `method`,
                `url_pattern`,
+               `description`,
                `enabled`,
                `created_user_uid`,
                `created_utc_at`,

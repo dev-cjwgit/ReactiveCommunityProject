@@ -8,6 +8,7 @@ public record SystemEnvironmentManagementInsertEntity(
         String id,
         RcCommonEnvCodeTypeEnum type,
         String value,
+        String description,
         String category,
         Integer order,
         String userUid

@@ -7,6 +7,7 @@ import lombok.Builder;
 public record SystemRoleManagementModifyEntity(
         Integer uid,
         String name,
+        String description,
         String userUid,
         CommonEnabledEnum enabled
 ) {

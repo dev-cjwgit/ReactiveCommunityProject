@@ -9,6 +9,7 @@ public record SystemEnvironmentManagementModifyEntity(
         String id,
         RcCommonEnvCodeTypeEnum type,
         String value,
+        String description,
         String category,
         Integer order,
         CommonEnabledEnum enabled,

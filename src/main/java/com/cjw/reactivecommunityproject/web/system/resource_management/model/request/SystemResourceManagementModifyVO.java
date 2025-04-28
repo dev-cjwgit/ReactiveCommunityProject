@@ -3,6 +3,7 @@ package com.cjw.reactivecommunityproject.web.system.resource_management.model.re
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageResourceMethodEnum;
 import com.cjw.reactivecommunityproject.web.system.resource_management.validation.SystemResourceManagementValidationGroup;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -28,11 +29,14 @@ public record SystemResourceManagementModifyVO(
         )
         String urlPattern,
 
-        @NotBlank(groups = {SystemResourceManagementValidationGroup.Modify.class}, message = "description 은 값은 null 일 수 없습니다.")
+        @Nullable
         @Size(groups = {SystemResourceManagementValidationGroup.Modify.class},
-                min = 2,
-                max = 200,
-                message = "설명은 2자 이상 200자 이하여야 합니다."
+                min = 2, max = 200,
+                message = "2자 이상 200자 이하여야 합니다."
+        )
+        @Pattern(groups = {SystemResourceManagementValidationGroup.Modify.class},
+                regexp = "^[가-힣a-zA-Z0-9-_ ]+$",
+                message = "description 은 한글 및 영문(대/소) 숫자 그리고 하이픈(-) 언더바(_) 공백( )만 가능합니다."
         )
         String description,
 

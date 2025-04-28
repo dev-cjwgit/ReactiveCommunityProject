@@ -59,7 +59,7 @@ public class SystemFunctionManagementServiceImpl implements SystemFunctionManage
     @Override
     public RestResponseVO<Void> create(SystemFunctionManagementCreateVO systemFunctionManagementCreateVO) {
         var isDuplicateName = systemFunctionManagementDao.isExistByName(systemFunctionManagementCreateVO.name());
-        if (isDuplicateName) {
+        if (Boolean.TRUE.equals(isDuplicateName)) {
             throw new SystemFunctionManagementException(SystemFunctionManagementErrorMessage.DUPLICATE_FUNCTION_NAME);
         }
 

@@ -5,16 +5,17 @@
 <mapper namespace="com.cjw.reactivecommunityproject.web.system.environment_management.mapper.SystemEnvironmentManagementMapper">
     <select id="selectList" parameterType="PaginationVO" resultType="SystemEnvironmentManagementListEntity">
         /* SystemEnvironmentManagementMapper.selectList() */
-        SELECT  `id`,
-                `type`,
-                `value`,
-                `category`,
-                `order`,
-                `enabled`,
-                `created_user_uid`,
-                `created_utc_at`,
-                `updated_user_uid`,
-                `updated_utc_at`
+        SELECT  `id`
+              , `type`
+              , `value`
+              , `description`
+              , `category`
+              , `order`
+              , `enabled`
+              , `created_user_uid`
+              , `created_utc_at`
+              , `updated_user_uid`
+              , `updated_utc_at`
         FROM rc_common_env_code
         <where>
             <if test="pagination.id != null">
@@ -42,16 +43,17 @@
 
     <select id="selectDetail" parameterType="String" resultType="SystemEnvironmentManagementDetailEntity">
         /* SystemEnvironmentManagementMapper.selectDetail() */
-        SELECT `id`,
-               `type`,
-               `value`,
-               `category`,
-               `order`,
-               `enabled`,
-               `created_user_uid`,
-               `created_utc_at`,
-               `updated_user_uid`,
-               `updated_utc_at`
+        SELECT `id`
+             , `type`
+             , `value`
+             , `description`
+             , `category`
+             , `order`
+             , `enabled`
+             , `created_user_uid`
+             , `created_utc_at`
+             , `updated_user_uid`
+             , `updated_utc_at`
         FROM rc_common_env_code
         WHERE `id` = #{id, jdbcType=VARCHAR}
     </select>
@@ -76,21 +78,23 @@
         INSERT INTO rc_common_env_code(`id`,
                                        `type`,
                                        `value`,
+                                       `description`,
                                        `category`,
                                        `order`,
                                        `created_user_uid`,
                                        `created_utc_at`,
                                        `updated_user_uid`,
                                        `updated_utc_at`)
-        VALUES (#{id, jdbcType=VARCHAR},
-                #{type, jdbcType=VARCHAR},
-                #{value, jdbcType=VARCHAR},
-                #{category, jdbcType=VARCHAR},
-                #{order, jdbcType=INTEGER},
-                #{userUid, jdbcType=VARCHAR},
-                CURRENT_TIMESTAMP(),
-                #{userUid, jdbcType=VARCHAR},
-                CURRENT_TIMESTAMP())
+        VALUES ( #{id, jdbcType=VARCHAR}
+               , #{type, jdbcType=VARCHAR}
+               , #{value, jdbcType=VARCHAR}
+               , #{description, jdbcType=VARCHAR}
+               , #{category, jdbcType=VARCHAR}
+               , #{order, jdbcType=INTEGER}
+               , #{userUid, jdbcType=VARCHAR}
+               , CURRENT_TIMESTAMP()
+               , #{userUid, jdbcType=VARCHAR}
+               , CURRENT_TIMESTAMP())
     </insert>
 
     <select id="isOwner" resultType="boolean">
@@ -111,13 +115,14 @@
     <update id="update" parameterType="SystemEnvironmentManagementModifyEntity">
         /* SystemEnvironmentManagementMapper.update() */
         UPDATE rc_common_env_code
-        SET `type`             = #{type, jdbcType=VARCHAR},
-            `value`            = #{value, jdbcType=VARCHAR},
-            `category`         = #{category, jdbcType=VARCHAR},
-            `order`            = #{order, jdbcType=INTEGER},
-            `enabled`          = #{enabled, jdbcType=VARCHAR},
-            `updated_user_uid` = #{userUid, jdbcType=VARCHAR},
-            `updated_utc_at`   = CURRENT_TIMESTAMP()
+        SET `type`             = #{type, jdbcType=VARCHAR}
+          , `value`            = #{value, jdbcType=VARCHAR}
+          , `description`      =#{description, jdbcType=VARCHAR}
+          , `category`         = #{category, jdbcType=VARCHAR}
+          , `order`            = #{order, jdbcType=INTEGER}
+          , `enabled`          = #{enabled, jdbcType=VARCHAR}
+          , `updated_user_uid` = #{userUid, jdbcType=VARCHAR}
+          , `updated_utc_at`   = CURRENT_TIMESTAMP()
         WHERE `id` = #{id, jdbcType=VARCHAR}
     </update>
 </mapper>

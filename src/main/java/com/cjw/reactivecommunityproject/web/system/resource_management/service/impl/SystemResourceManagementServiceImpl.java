@@ -62,7 +62,7 @@ public class SystemResourceManagementServiceImpl implements SystemResourceManage
                 sysResourcemgmtCreateVO.urlPattern()
         );
 
-        if (isDuplicate) {
+        if (Boolean.TRUE.equals(isDuplicate)) {
             throw new SystemResourceManagementException(SystemResourceManagementErrorMessage.DUPLICATE_RESOURCE_INFO);
         }
         systemResourceManagementDao.insertTransactional(

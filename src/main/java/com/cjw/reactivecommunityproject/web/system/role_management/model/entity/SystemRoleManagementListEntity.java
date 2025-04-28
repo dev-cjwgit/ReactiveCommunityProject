@@ -6,6 +6,7 @@ import java.time.ZonedDateTime;
 public record SystemRoleManagementListEntity(
         Integer uid,
         String name,
+        String description,
         CommonEnabledEnum enabled,
         String createdUserUid,
         ZonedDateTime createdUtcAt,

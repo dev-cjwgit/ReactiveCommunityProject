@@ -2,6 +2,7 @@ package com.cjw.reactivecommunityproject.web.system.function_management.model.re
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageFunctionTypeEnum;
 import com.cjw.reactivecommunityproject.web.system.function_management.validation.SystemFunctionManagementValidationGroup;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -22,7 +23,7 @@ public record SystemFunctionManagementCreateVO(
         @NotNull(groups = {SystemFunctionManagementValidationGroup.Create.class}, message = "type 는 null 일 수 없습니다.")
         RcManageFunctionTypeEnum type,
 
-        @NotBlank(groups = {SystemFunctionManagementValidationGroup.Create.class}, message = "description 은 공백일 수 없습니다.")
+        @Nullable
         @Size(groups = {SystemFunctionManagementValidationGroup.Create.class},
                 min = 2, max = 200,
                 message = "2자 이상 200자 이하여야 합니다."

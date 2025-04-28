@@ -8,6 +8,7 @@ public record SystemResourceManagementListEntity(
         Long uid,
         RcManageResourceMethodEnum method,
         String urlPattern,
+        String description,
         CommonEnabledEnum enabled,
         String createdUserUid,
         ZonedDateTime createdUtcAt,

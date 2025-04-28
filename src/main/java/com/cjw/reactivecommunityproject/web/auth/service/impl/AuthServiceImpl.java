@@ -102,15 +102,18 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorMessage.INVALID_USER_PASSWORD);
         }
 
-        switch (rcUserEntity.state().name().toUpperCase()) {
-            case "LISTEN":
+        switch (rcUserEntity.state()) {
+            case LISTEN:
                 throw new AuthException(AuthErrorMessage.LISTEN_JOINED_USER);
-            case "REFUSE":
+            case REFUSE:
                 throw new AuthException(AuthErrorMessage.REFUSE_JOINED_STATE);
-            case "BEN":
+            case BEN:
                 throw new AuthException(AuthErrorMessage.BEN_JOINED_STATE);
-            case "WITHDRAW":
+            case WITHDRAW:
                 throw new AuthException(AuthErrorMessage.WITHDRAW_JOINED_STATE);
+
+            case ACCEPT:
+                break;
         }
 
         // 중복 로그인 허용이면 하위 로직 무시

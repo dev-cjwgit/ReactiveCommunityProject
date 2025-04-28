@@ -60,7 +60,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
     public RestResponseVO<Void> create(SystemEnvironmentManagementCreateVO systemEnvironmentManagementCreateVO) {
         var isIdDuplicate = systemEnvironmentManagementDao.isExistEnvCodeById(systemEnvironmentManagementCreateVO.id());
 
-        if (isIdDuplicate) {
+        if (Boolean.TRUE.equals(isIdDuplicate)) {
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.DUPLICATE_ENVCODE_INFO);
         }
 
@@ -72,13 +72,13 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_CATEGORY_AND_ORDER_VALUE);
         }
 
-        if (category != null && order != null) {
+        if (category != null) {
             var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
                     systemEnvironmentManagementCreateVO.category(),
                     systemEnvironmentManagementCreateVO.order()
             );
 
-            if (isCategoryAndOrderDuplicate) {
+            if (Boolean.TRUE.equals(isCategoryAndOrderDuplicate)) {
                 throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.DUPLICATE_CATEGORY_AND_ORDER_INFO);
             }
         }
@@ -88,6 +88,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
                         .id(systemEnvironmentManagementCreateVO.id())
                         .type(systemEnvironmentManagementCreateVO.type())
                         .value(systemEnvironmentManagementCreateVO.value())
+                        .description(systemEnvironmentManagementCreateVO.description())
                         .category(systemEnvironmentManagementCreateVO.category())
                         .order(systemEnvironmentManagementCreateVO.order())
                         .userUid(rcUserComponent.getUserUid())
@@ -141,13 +142,13 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_CATEGORY_AND_ORDER_VALUE);
         }
 
-        if (category != null && order != null) {
+        if (category != null) {
             var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
                     category,
                     order
             );
 
-            if (isCategoryAndOrderDuplicate) {
+            if (Boolean.TRUE.equals(isCategoryAndOrderDuplicate)) {
                 throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.DUPLICATE_CATEGORY_AND_ORDER_INFO);
             }
         }
@@ -156,6 +157,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
                 .id(systemEnvironmentManagementModifyVO.id())
                 .type(systemEnvironmentManagementModifyVO.type())
                 .value(systemEnvironmentManagementModifyVO.value())
+                .description(systemEnvironmentManagementModifyVO.description())
                 .category(systemEnvironmentManagementModifyVO.category())
                 .order(systemEnvironmentManagementModifyVO.order())
                 .enabled(systemEnvironmentManagementModifyVO.enabled())

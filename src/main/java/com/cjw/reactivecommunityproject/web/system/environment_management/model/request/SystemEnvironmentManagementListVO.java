@@ -8,6 +8,7 @@ public record SystemEnvironmentManagementListVO(
         String id,
         String type,
         String value,
+        String description,
         String category,
         ZonedDateTime startDate,
         ZonedDateTime endDate

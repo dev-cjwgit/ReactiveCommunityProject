@@ -61,18 +61,18 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
     @Override
     public RestResponseVO<Void> create(SystemRoleManagementCreateVO systemRoleManagementCreateVO) {
         var isDuplicateName = systemRoleManagementDao.isExistByName(systemRoleManagementCreateVO.name());
-        if (isDuplicateName) {
+        if (Boolean.TRUE.equals(isDuplicateName)) {
             throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_ROLE_NAME);
         }
         if (systemRoleManagementCreateVO.uid() != null) {
             var isDuplicateUid = systemRoleManagementDao.isExistByUid(systemRoleManagementCreateVO.uid());
-            if (isDuplicateUid) {
+            if (Boolean.TRUE.equals(isDuplicateUid)) {
                 throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_ROLE_UID);
             }
         }
 
         var isMaxUid = systemRoleManagementDao.isMaxUidByRole();
-        if (isMaxUid) {
+        if (Boolean.TRUE.equals(isMaxUid)) {
             throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.MAXIMUM_UID);
         }
 
@@ -80,6 +80,7 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
                 SystemRoleManagementInsertEntity.builder()
                         .uid(systemRoleManagementCreateVO.uid())
                         .name(systemRoleManagementCreateVO.name())
+                        .description(systemRoleManagementCreateVO.description())
                         .userUid(rcUserComponent.getUserUid())
                         .build()
         );
@@ -125,6 +126,7 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
                 SystemRoleManagementModifyEntity.builder()
                         .uid(systemRoleManagementModifyVO.uid())
                         .name(systemRoleManagementModifyVO.name())
+                        .description(systemRoleManagementModifyVO.description())
                         .userUid(rcUserComponent.getUserUid())
                         .enabled(systemRoleManagementModifyVO.enabled())
                         .build()

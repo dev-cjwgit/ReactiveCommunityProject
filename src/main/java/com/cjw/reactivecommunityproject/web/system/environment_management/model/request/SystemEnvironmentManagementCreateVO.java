@@ -2,6 +2,7 @@ package com.cjw.reactivecommunityproject.web.system.environment_management.model
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
 import com.cjw.reactivecommunityproject.web.system.environment_management.validation.SystemEnvironmentManagementValidationGroup;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -29,6 +30,17 @@ public record SystemEnvironmentManagementCreateVO(
                 message = "값은 100자 이하여야 합니다."
         )
         String value,
+
+        @Nullable
+        @Size(groups = {SystemEnvironmentManagementValidationGroup.Create.class},
+                min = 2, max = 200,
+                message = "2자 이상 200자 이하여야 합니다."
+        )
+        @Pattern(groups = {SystemEnvironmentManagementValidationGroup.Create.class},
+                regexp = "^[가-힣a-zA-Z0-9-_ ]+$",
+                message = "description 은 한글 및 영문(대/소) 숫자 그리고 하이픈(-) 언더바(_) 공백( )만 가능합니다."
+        )
+        String description,
 
         @Size(groups = {SystemEnvironmentManagementValidationGroup.Create.class},
                 max = 20,

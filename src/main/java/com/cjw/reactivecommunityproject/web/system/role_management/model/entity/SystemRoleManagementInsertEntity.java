@@ -6,6 +6,7 @@ import lombok.Builder;
 public record SystemRoleManagementInsertEntity(
         Integer uid,
         String name,
+        String description,
         String userUid
 ) {
 }

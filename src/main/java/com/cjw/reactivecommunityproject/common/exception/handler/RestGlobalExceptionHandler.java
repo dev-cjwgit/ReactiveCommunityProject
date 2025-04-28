@@ -83,7 +83,7 @@ public class RestGlobalExceptionHandler {
 
         String inquiryNumber;
 
-        if (baseException.isDisplay()) {
+        if (Boolean.TRUE.equals(baseException.isDisplay())) {
             errorCode = baseException.getErrorCode();
             message = baseException.getErrorMessage();
 

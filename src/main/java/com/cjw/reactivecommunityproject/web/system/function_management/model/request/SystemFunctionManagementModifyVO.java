@@ -27,7 +27,6 @@ public record SystemFunctionManagementModifyVO(
         @NotNull(groups = {SystemFunctionManagementValidationGroup.Modify.class}, message = "type 는 null 일 수 없습니다.")
         RcManageFunctionTypeEnum type,
 
-        @NotBlank(groups = {SystemFunctionManagementValidationGroup.Modify.class}, message = "description 은 공백일 수 없습니다.")
         @Size(groups = {SystemFunctionManagementValidationGroup.Modify.class},
                 min = 2, max = 200,
                 message = "2자 이상 200자 이하여야 합니다."
