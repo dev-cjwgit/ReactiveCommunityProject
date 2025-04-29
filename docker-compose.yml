@@ -62,8 +62,23 @@ services:
       - mariadb
       - redis
       - elasticsearch
+
+  nginx:
+    image: nginx:stable
+    container_name: nginx
+    ports:
+      - "80:80"  # 외부 포트
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # ← 핵심: 직접 경로로 명시
+    depends_on:
+      - rc
+    networks:
+      - rcdb
+    restart: unless-stopped
+
 # 데이터 저장을 위한 볼륨 설정
 volumes:
+  nginx: {}
   mariadb: { }
   elasticsearch: { }
   mysql: { }
