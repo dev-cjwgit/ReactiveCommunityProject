@@ -8,6 +8,7 @@ public record AuthRcUserEntity(
         String uid
         , Integer roleUid
         , String email
+        , String phoneNumber
         , String pw
         , RcManageUserStateEnum state
         , String acceptUserUid

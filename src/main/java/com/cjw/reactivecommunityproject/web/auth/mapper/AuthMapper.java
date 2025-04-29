@@ -16,6 +16,8 @@ public interface AuthMapper {
 
     Boolean isExistUserByNickname(@Param("nickname") String nickname);
 
+    Boolean isExistUserByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+
     Integer register(AuthRegisterEntity authRegisterEntity);
 
 }

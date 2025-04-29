@@ -7,6 +7,7 @@ public record AuthRegisterEntity(
         String uid
         , Integer roleUid
         , String email
+        , String phoneNumber
         , String pw
         , String name
         , String nickname

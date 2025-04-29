@@ -12,7 +12,7 @@ import com.cjw.reactivecommunityproject.web.auth.exception.AuthErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthException;
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthLoginEntity;
 import com.cjw.reactivecommunityproject.web.auth.model.entity.AuthRegisterEntity;
-import com.cjw.reactivecommunityproject.web.auth.model.request.AuthLoginVO;
+import com.cjw.reactivecommunityproject.web.auth.model.request.AuthEmailLoginVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthReissueJwtTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtAccessTokenVO;
@@ -54,12 +54,16 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public RestResponseVO<Void> register(AuthRegisterVO authRegisterVO) {
-        if (authDao.isExistUserByEmail(authRegisterVO.email())) {
+        if (Boolean.TRUE.equals(authDao.isExistUserByEmail(authRegisterVO.email()))) {
             throw new AuthException(AuthErrorMessage.EXIST_ADDED_EMAIL);
         }
 
-        if (authDao.isExistUserByNickname(authRegisterVO.nickname())) {
+        if (Boolean.TRUE.equals(authDao.isExistUserByNickname(authRegisterVO.nickname()))) {
             throw new AuthException(AuthErrorMessage.EXIST_ADDED_NICKNAME);
+        }
+
+        if(Boolean.TRUE.equals(authDao.isExistUserByPhoneNumber(authRegisterVO.phoneNumber()))){
+            throw new AuthException(AuthErrorMessage.EXIST_ADDED_PHONE_NUMBER);
         }
 
         var uid = String.valueOf(UUID.randomUUID());
@@ -73,6 +77,7 @@ public class AuthServiceImpl implements AuthService {
         authDao.registerTransactional(AuthRegisterEntity.builder()
                         .uid(uid)
                         .roleUid(getRoleUidByCommonEnvCode())
+                        .phoneNumber(authRegisterVO.phoneNumber())
                         .email(authRegisterVO.email())
                         .pw(password)
                         .name(authRegisterVO.name())
@@ -87,8 +92,8 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public RestResponseVO<AuthRestJwtTokenVO> login(AuthLoginVO authLoginVO) {
-        var rcUserEntity = authDao.selectRcUserByEmail(authLoginVO.email());
+    public RestResponseVO<AuthRestJwtTokenVO> emailLogin(AuthEmailLoginVO authEmailLoginVO) {
+        var rcUserEntity = authDao.selectRcUserByEmail(authEmailLoginVO.email());
 
         if (rcUserEntity == null) {
             throw new AuthException(AuthErrorMessage.NOT_FOUND_EMAIL);
@@ -98,7 +103,7 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorMessage.NOT_FOUND_EMAIL);
         }
 
-        if (!passwordEncoder.matches(authLoginVO.pw(), rcUserEntity.pw())) {
+        if (!passwordEncoder.matches(authEmailLoginVO.pw(), rcUserEntity.pw())) {
             throw new AuthException(AuthErrorMessage.INVALID_USER_PASSWORD);
         }
 
@@ -117,7 +122,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         // 중복 로그인 허용이면 하위 로직 무시
-        if (!authLoginVO.duplicationLogin()) {
+        if (!authEmailLoginVO.duplicationLogin()) {
             var userRefreshToken = String.valueOf(redisTemplate.opsForValue().get(rcUserEntity.uid() + ".refresh"));
 
             if (StringUtils.isNotBlank(userRefreshToken)) {

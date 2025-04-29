@@ -17,4 +17,6 @@ public interface AuthDao {
     Boolean isExistUserByEmail(String email);
 
     Boolean isExistUserByNickname(String nickname);
+
+    Boolean isExistUserByPhoneNumber(String phoneNumber);
 }

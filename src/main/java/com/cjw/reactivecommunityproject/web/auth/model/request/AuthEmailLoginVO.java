@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record AuthLoginVO(
+public record AuthEmailLoginVO(
         @NotBlank(groups = {AuthValidationGroup.Login.class}, message = "이메일은 공백일 수 없습니다.")
         @Email(groups = {AuthValidationGroup.Login.class}, message = "이메일 형태가 아닙니다.")
         @Size(groups = {AuthValidationGroup.Login.class}

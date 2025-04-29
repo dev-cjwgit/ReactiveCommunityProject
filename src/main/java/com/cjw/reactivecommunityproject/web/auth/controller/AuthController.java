@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.auth.controller;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.web.auth.model.request.AuthLoginVO;
+import com.cjw.reactivecommunityproject.web.auth.model.request.AuthEmailLoginVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthRegisterVO;
 import com.cjw.reactivecommunityproject.web.auth.model.request.AuthReissueJwtTokenVO;
 import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtAccessTokenVO;
@@ -28,8 +28,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<RestResponseVO<AuthRestJwtTokenVO>> login(@RequestBody @Validated(AuthValidationGroup.Login.class) AuthLoginVO authLoginVO) {
-        return ResponseEntity.ok(authService.login(authLoginVO));
+    public ResponseEntity<RestResponseVO<AuthRestJwtTokenVO>> login(@RequestBody @Validated(AuthValidationGroup.Login.class) AuthEmailLoginVO authEmailLoginVO) {
+        return ResponseEntity.ok(authService.emailLogin(authEmailLoginVO));
     }
 
     @PostMapping("/reissue")

@@ -15,6 +15,13 @@ public record AuthRegisterVO(
         )
         String email,
 
+        @NotBlank(groups = {AuthValidationGroup.Register.class}, message = "전화번호는 공백일 수 없습니다.")
+        @Pattern(groups = {AuthValidationGroup.Register.class}
+                , regexp = "^\\d{10,15}$"
+                , message = "전화번호는 숫자만 입력하며 10자리 이상 15자리 이하로 입력해주세요."
+        )
+        String phoneNumber,
+
         @NotBlank(groups = {AuthValidationGroup.Register.class}, message = "비밀번호는 공백일 수 없습니다.")
         @Size(groups = {AuthValidationGroup.Register.class}
                 , min = 9, max = 20

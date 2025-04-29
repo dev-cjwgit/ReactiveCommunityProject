@@ -57,4 +57,9 @@ public class AuthDaoImpl implements AuthDao {
     public Boolean isExistUserByNickname(String nickname) {
         return authMapper.isExistUserByNickname(nickname);
     }
+
+    @Override
+    public Boolean isExistUserByPhoneNumber(String phoneNumber) {
+        return authMapper.isExistUserByPhoneNumber(phoneNumber);
+    }
 }
