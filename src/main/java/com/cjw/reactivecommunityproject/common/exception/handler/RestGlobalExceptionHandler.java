@@ -2,6 +2,7 @@ package com.cjw.reactivecommunityproject.common.exception.handler;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
+import com.cjw.reactivecommunityproject.common.spring.component.RcRedisIdGeneratorComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.model.ElasticsearchLogExceptionDocument;
 import java.time.ZonedDateTime;
@@ -26,9 +27,10 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RequiredArgsConstructor
 public class RestGlobalExceptionHandler {
     private final ApplicationEventPublisher publisher;
+    private final RcRedisIdGeneratorComponent rcRedisIdGeneratorComponent;
 
     @ExceptionHandler(NoResourceFoundException.class)
-    public ResponseEntity<RestResponseVO<Void>> noResourceFoundExceptionHandle(NoResourceFoundException noResourceFoundException){
+    public ResponseEntity<RestResponseVO<Void>> noResourceFoundExceptionHandle(NoResourceFoundException noResourceFoundException) {
         log.warn("RestGlobalExceptionHandler.noResourceFoundExceptionHandle() : {}", noResourceFoundException.getMessage());
 
         return new ResponseEntity<>(
@@ -92,10 +94,13 @@ public class RestGlobalExceptionHandler {
             errorCode = RcCommonErrorMessage.INQUIRE_TO_ADMIN.getErrorCode();
             message = RcCommonErrorMessage.INQUIRE_TO_ADMIN.getErrorMessage();
 
+            Long incrementId = rcRedisIdGeneratorComponent.getNextLogExceptionId();
+
             inquiryNumber = String.valueOf(UUID.randomUUID());
 
             var exceptionDocument = ElasticsearchLogExceptionDocument.builder()
                     .inquiryNumber(inquiryNumber)
+                    .index(incrementId)
                     .message(baseException.getMessage())
                     .stackTrace(Arrays.toString(baseException.getStackTrace()))
                     .timestamp(ZonedDateTime.now())
@@ -122,8 +127,13 @@ public class RestGlobalExceptionHandler {
         String inquiryNumber = String.valueOf(UUID.randomUUID());
 
         try {
+            Long incrementId = rcRedisIdGeneratorComponent.getNextLogExceptionId();
+
+            inquiryNumber = String.valueOf(UUID.randomUUID());
+
             var exceptionDocument = ElasticsearchLogExceptionDocument.builder()
                     .inquiryNumber(inquiryNumber)
+                    .index(incrementId)
                     .message(t.getMessage())
                     .stackTrace(Arrays.toString(t.getStackTrace()))
                     .timestamp(ZonedDateTime.now())

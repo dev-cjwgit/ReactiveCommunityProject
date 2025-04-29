@@ -17,5 +17,6 @@ public record ElasticsearchLogExceptionDocument(
         , String stackTrace
         , @Field(type = FieldType.Date, format = DateFormat.date_time)
         ZonedDateTime timestamp
+        , Long index
 ) {
 }
