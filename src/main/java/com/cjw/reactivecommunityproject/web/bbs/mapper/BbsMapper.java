@@ -14,4 +14,8 @@ public interface BbsMapper {
     int insert(BbsInsertEntity bbsInsertEntity);
 
     int update(BbsModifyEntity bbsModifyEntity);
+
+    Boolean isExistUid(Long uid);
+
+    int delete(Long uid);
 }

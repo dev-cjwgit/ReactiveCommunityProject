@@ -17,6 +17,11 @@ public class BbsDaoImpl implements BbsDao {
 
 
     @Override
+    public Boolean isExistUid(Long uid) {
+        return bbsMapper.isExistUid(uid);
+    }
+
+    @Override
     public Boolean isExistPath(String path) {
         return bbsMapper.isExistPath(path, null);
     }
@@ -48,5 +53,11 @@ public class BbsDaoImpl implements BbsDao {
     public void updateTransactional(BbsModifyEntity bbsModifyEntity) {
         int rtn = bbsMapper.update(bbsModifyEntity);
         log.info("bbsMapper.update() : {}", rtn);
+    }
+
+    @Override
+    public void deleteTransactional(Long uid) {
+        int rtn = bbsMapper.delete(uid);
+        log.info("bbsMapper.delete() : {}", rtn);
     }
 }

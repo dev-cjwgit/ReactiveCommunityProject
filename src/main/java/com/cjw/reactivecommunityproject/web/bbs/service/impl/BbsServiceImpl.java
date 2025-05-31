@@ -62,6 +62,21 @@ public class BbsServiceImpl implements BbsService {
                 .userUid(rcUserComponent.getUserUid())
                 .enabled(bbsModifyVO.enabled())
                 .build());
-        return null;
+        return RestResponseVO.<Void>builder()
+                .result(true)
+                .build();
+    }
+
+    @Override
+    public RestResponseVO<Void> remove(Long uid) {
+        var isDuplicateUid = bbsDao.isExistUid(uid);
+        if (Boolean.FALSE.equals(isDuplicateUid))
+            throw new BbsException(BbsErrorMessage.NOT_FOUND_BBS_UID);
+
+        bbsDao.deleteTransactional(uid);
+
+        return RestResponseVO.<Void>builder()
+                .result(true)
+                .build();
     }
 }

@@ -8,4 +8,6 @@ public interface BbsService {
     RestResponseVO<Void> create(BbsCreateVO bbsContent);
 
     RestResponseVO<Void> modify(BbsModifyVO bbsModifyVO);
+
+    RestResponseVO<Void> remove(Long uid);
 }

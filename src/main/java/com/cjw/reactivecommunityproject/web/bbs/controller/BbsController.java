@@ -8,7 +8,9 @@ import com.cjw.reactivecommunityproject.web.bbs.validation.BbsValidationGroup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +29,15 @@ public class BbsController {
 
 
     @PatchMapping
-    public ResponseEntity<RestResponseVO<Void>> modify(@RequestBody @Validated(BbsValidationGroup.Modify.class) BbsModifyVO bbsModifyVO){
+    public ResponseEntity<RestResponseVO<Void>> modify(@RequestBody @Validated(BbsValidationGroup.Modify.class) BbsModifyVO bbsModifyVO) {
         return ResponseEntity.ok(bbsService.modify(bbsModifyVO));
+    }
+
+
+    @DeleteMapping("/{uid}")
+    public ResponseEntity<RestResponseVO<Void>> remove(
+            @PathVariable("uid") Long uid
+    ) {
+        return ResponseEntity.ok(bbsService.remove(uid));
     }
 }

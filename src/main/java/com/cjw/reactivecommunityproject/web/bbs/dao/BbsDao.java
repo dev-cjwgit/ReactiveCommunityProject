@@ -4,6 +4,7 @@ import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsInsertEntity;
 import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsModifyEntity;
 
 public interface BbsDao {
+    Boolean isExistUid(Long uid);
 
     Boolean isExistPath(String path);
 
@@ -16,4 +17,6 @@ public interface BbsDao {
     void insertTransactional(BbsInsertEntity bbsInsertEntity);
 
     void updateTransactional(BbsModifyEntity bbsModifyEntity);
+
+    void deleteTransactional(Long uid);
 }

@@ -55,4 +55,18 @@
           , `updated_utc_at`   = CURRENT_TIME()
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </update>
+
+    <select id="isExistUid" resultType="boolean">
+        /* BbsMapper.isExistUid() */
+        SELECT COUNT(*) > 0
+        FROM rc_board_bbs
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </select>
+
+    <delete id="delete">
+        /* BbsMapper.delete() */
+        DELETE
+        FROM rc_board_bbs
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </delete>
 </mapper>

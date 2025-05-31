@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 public enum BbsErrorMessage implements RcBaseErrorMessage {
     DUPLICATE_PATH(null, "이미 존재하는 Path 입니다.", HttpStatus.BAD_REQUEST)
     , DUPLICATE_NAME(null, "이미 존재하는 Name 입니다.", HttpStatus.BAD_REQUEST)
+    , NOT_FOUND_BBS_UID(null, "존재하지 않는 게시판입니다.", HttpStatus.BAD_REQUEST)
     , DUMMY(null, null, null);
 
 
