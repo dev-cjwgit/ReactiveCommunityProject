@@ -19,6 +19,7 @@ public interface SystemResourceManagementMapper {
     Boolean isDuplicateByMethodAndUrlPattern(
             @Param("method") RcManageResourceMethodEnum method
             , @Param("urlPattern") String urlPattern
+            , @Param("uid") Long uid
     );
 
     Boolean isOwner(

@@ -93,6 +93,15 @@ public class SystemResourceManagementServiceImpl implements SystemResourceManage
         if (Boolean.FALSE.equals(isOwner)) {
             throw new SystemResourceManagementException(RcCommonErrorMessage.UNAUTHORIZED_ACCESS);
         }
+        var isDuplicate = systemResourceManagementDao.isDuplicateByMethodAndUrlPattern(
+                systemResourceManagementModifyVO.method()
+                , systemResourceManagementModifyVO.urlPattern()
+                , systemResourceManagementModifyVO.uid()
+        );
+
+        if (Boolean.TRUE.equals(isDuplicate)) {
+            throw new SystemResourceManagementException(SystemResourceManagementErrorMessage.DUPLICATE_RESOURCE_INFO);
+        }
 
         systemResourceManagementDao.updateTransactional(
                 SystemResourceManagementModifyEntity.builder()

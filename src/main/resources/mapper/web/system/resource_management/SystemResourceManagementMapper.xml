@@ -55,8 +55,14 @@
         /* SystemResourceManagementMapper.isDuplicateByMethodAndUrlPattern() */
         SELECT COUNT(*) > 0
         FROM rc_manage_resource
-        WHERE `method` = #{method, jdbcType=VARCHAR}
-          AND `url_pattern` = #{urlPattern, jdbcType=VARCHAR}
+        WHERE
+        <where>
+            `method` = #{method, jdbcType=VARCHAR}
+            AND `url_pattern` = #{urlPattern, jdbcType=VARCHAR}
+            <if test='uid != null'>
+                AND `uid` != #{uid, jdbcType=BIGINT}
+            </if>
+        </where>
     </select>
 
     <select id="isOwner" resultType="boolean">

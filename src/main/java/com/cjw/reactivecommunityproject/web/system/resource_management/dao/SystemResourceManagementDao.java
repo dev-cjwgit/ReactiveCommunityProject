@@ -23,6 +23,12 @@ public interface SystemResourceManagementDao {
     Boolean isDuplicateByMethodAndUrlPattern(
             RcManageResourceMethodEnum method
             , String urlPattern
+            , Long uid
+    );
+
+    Boolean isDuplicateByMethodAndUrlPattern(
+            RcManageResourceMethodEnum method
+            , String urlPattern
     );
 
     Boolean isOwner(
