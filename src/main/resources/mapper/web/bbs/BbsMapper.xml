@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjw.reactivecommunityproject.web.bbs.mapper.BbsMapper">
+    <select id="isExistPath" resultType="boolean">
+        /* BbsMapper.isExistPath() */
+        SELECT COUNT(*) > 0
+        FROM rc_board_bbs
+        WHERE `path` = #{path, jdbcType=VARCHAR}
+    </select>
+
+    <select id="isExistName" resultType="boolean">
+        /* BbsMapper.isExistName() */
+        SELECT COUNT(*) > 0
+        FROM rc_board_bbs
+        WHERE `name` = #{name, jdbcType=VARCHAR}
+    </select>
+
+    <insert id="insert" parameterType="BbsInsertEntity">
+        /* BbsMapper.isExistName() */
+        INSERT INTO rc_board_bbs( `path`
+                                , `name`
+                                , `description`
+                                , `enabled`
+                                , `create_user_uid`
+                                , `updated_user_uid`)
+        VALUES ( #{path, jdbcType=VARCHAR}
+               , #{name, jdbcType=VARCHAR}
+               , #{description, jdbcType=VARCHAR}
+               , 'Y'
+               , #{userUid, jdbcType=VARCHAR}
+               , #{userUid, jdbcType=VARCHAR})
+
+    </insert>
+</mapper>
