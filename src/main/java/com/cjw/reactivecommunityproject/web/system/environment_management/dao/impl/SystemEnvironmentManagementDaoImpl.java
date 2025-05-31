@@ -35,8 +35,8 @@ public class SystemEnvironmentManagementDaoImpl implements SystemEnvironmentMana
     }
 
     @Override
-    public Boolean isCategoryAndOrderDuplicate(String category, Integer order) {
-        return systemEnvironmentManagementMapper.isCategoryAndOrderDuplicate(category, order);
+    public Boolean isCategoryAndOrderDuplicate(String category, Integer order, String envId) {
+        return systemEnvironmentManagementMapper.isCategoryAndOrderDuplicate(category, order, envId);
     }
 
     @Override

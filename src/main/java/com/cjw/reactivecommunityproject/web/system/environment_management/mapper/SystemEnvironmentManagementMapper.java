@@ -17,7 +17,7 @@ public interface SystemEnvironmentManagementMapper {
 
     Boolean isExistEnvCodeById(@Param("id") String id);
 
-    Boolean isCategoryAndOrderDuplicate(@Param("category") String category, @Param("order") Integer order);
+    Boolean isCategoryAndOrderDuplicate(@Param("category") String category, @Param("order") Integer order, @Param("id") String id);
 
     Integer insert(SystemEnvironmentManagementInsertEntity systemEnvironmentManagementInsertEntity);
 

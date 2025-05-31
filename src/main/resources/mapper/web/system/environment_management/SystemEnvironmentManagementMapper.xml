@@ -69,8 +69,13 @@
         /* SystemEnvironmentManagementMapper.isCategoryAndOrderDuplicate() */
         SELECT COUNT(*) > 0
         FROM rc_common_env_code
-        WHERE `category` = #{category, jdbcType=VARCHAR}
-          AND `order` = #{order, jdbcType=INTEGER}
+        <where>
+            `category` = #{category, jdbcType=VARCHAR}
+            AND `order` = #{order, jdbcType=INTEGER}
+            <if test='id != null'>
+                AND `id` != #{id, jdbcType=VARCHAR}
+            </if>
+        </where>
     </select>
 
     <insert id="insert" parameterType="SystemEnvironmentManagementInsertEntity">
