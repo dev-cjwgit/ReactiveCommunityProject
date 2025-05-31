@@ -22,9 +22,9 @@
         <where>
             `name` = #{name, jdbcType=VARCHAR}
             <if test='uid != null'>
-                 AND `UID` != #{uid, jdbcType=BIGINT}
-             </if>
-         </where>
+                AND `UID` != #{uid, jdbcType=BIGINT}
+            </if>
+        </where>
     </select>
 
     <insert id="insert" parameterType="BbsInsertEntity">
@@ -45,11 +45,14 @@
     </insert>
 
     <update id="update" parameterType="BbsModifyEntity">
+        /* BbsMapper.update() */
         UPDATE rc_board_bbs
-        SET `path` = #{path, jdbcType=VARCHAR}
-          , `name` = #{name, jdbcType=VARCHAR}
-          , `description` = #{description, jdbcType=VARCHAR}
-          , `enabled` = #{enabled, jdbcType=VARCHAR}
+        SET `path`             = #{path, jdbcType=VARCHAR}
+          , `name`             = #{name, jdbcType=VARCHAR}
+          , `description`      = #{description, jdbcType=VARCHAR}
+          , `enabled`          = #{enabled, jdbcType=VARCHAR}
+          , `updated_user_uid` = #{userUid, jdbcType=VARCHAR}
+          , `updated_utc_at`   = CURRENT_TIME()
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </update>
 </mapper>
