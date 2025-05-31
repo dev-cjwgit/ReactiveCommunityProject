@@ -11,11 +11,11 @@ import com.cjw.reactivecommunityproject.web.system.resource_management.model.ent
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Service
+@Repository
 @RequiredArgsConstructor
 public class SystemResourceManagementDaoImpl implements SystemResourceManagementDao {
     private final SystemResourceManagementMapper systemResourceManagementMapper;

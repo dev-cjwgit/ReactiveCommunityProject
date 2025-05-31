@@ -10,11 +10,11 @@ import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
-@Service
+@Repository
 @RequiredArgsConstructor
 public class SystemRoleManagementDaoImpl implements SystemRoleManagementDao {
     private final SystemRoleManagementMapper systemRoleManagementMapper;
