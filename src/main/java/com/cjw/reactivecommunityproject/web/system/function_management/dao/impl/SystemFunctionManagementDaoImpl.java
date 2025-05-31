@@ -45,7 +45,12 @@ public class SystemFunctionManagementDaoImpl implements SystemFunctionManagement
 
     @Override
     public Boolean isExistByName(String name) {
-        return systemFunctionManagementMapper.isExistByName(name);
+        return systemFunctionManagementMapper.isExistByName(name, null);
+    }
+
+    @Override
+    public Boolean isExistByName(String name, Long uid) {
+        return systemFunctionManagementMapper.isExistByName(name, uid);
     }
 
     @Override

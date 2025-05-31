@@ -76,7 +76,6 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
             var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
                     systemEnvironmentManagementCreateVO.category()
                     , systemEnvironmentManagementCreateVO.order()
-                    , null
             );
 
             if (Boolean.TRUE.equals(isCategoryAndOrderDuplicate)) {

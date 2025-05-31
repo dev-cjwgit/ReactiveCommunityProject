@@ -103,6 +103,11 @@ public class SystemFunctionManagementServiceImpl implements SystemFunctionManage
             throw new SystemFunctionManagementException(SystemFunctionManagementErrorMessage.NOT_FOUND_FUNCTION);
         }
 
+        var isExistName = systemFunctionManagementDao.isExistByName(systemFunctionManagementModifyVO.name(), systemFunctionManagementModifyVO.uid());
+        if (Boolean.TRUE.equals(isExistName))
+            throw new SystemFunctionManagementException(SystemFunctionManagementErrorMessage.DUPLICATE_FUNCTION_NAME);
+
+
         var isOwner = systemFunctionManagementDao.isOwner(systemFunctionManagementModifyVO.uid(), rcUserComponent.getUserUid());
 
         if (Boolean.FALSE.equals(isOwner)) {

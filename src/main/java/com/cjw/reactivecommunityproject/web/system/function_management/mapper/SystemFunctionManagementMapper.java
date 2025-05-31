@@ -22,10 +22,10 @@ public interface SystemFunctionManagementMapper {
 
     Integer delete(Long uid);
 
-    Boolean isExistByName(String name);
+    Boolean isExistByName(@Param("name") String name, @Param("uid") Long uid);
 
-    Boolean isExistByUid(Long uid);
+    Boolean isExistByUid(@Param("uid") Long uid);
 
-    Boolean isOwner(Long uid, String userUid);
+    Boolean isOwner(@Param("uid") Long uid, @Param("userUid") String userUid);
 
 }

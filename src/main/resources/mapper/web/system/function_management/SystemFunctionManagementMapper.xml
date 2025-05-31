@@ -99,7 +99,12 @@
         /* SystemFunctionManagementMapper.isExistByName() */
         SELECT COUNT(*) > 0
         FROM rc_manage_function
-        WHERE `name` = #{name, jdbcType=VARCHAR}
+        <where>
+            `name` = #{name, jdbcType=VARCHAR}
+            <if test='uid != null'>
+                AND `uid` != #{uid, jdbcType=BIGINT}
+            </if>
+        </where>
     </select>
 
     <select id="isExistByUid" resultType="boolean">

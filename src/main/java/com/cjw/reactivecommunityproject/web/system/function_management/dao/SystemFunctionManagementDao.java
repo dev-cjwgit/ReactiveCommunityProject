@@ -19,6 +19,8 @@ public interface SystemFunctionManagementDao {
 
     Boolean isExistByName(String name);
 
+    Boolean isExistByName(String name, Long uid);
+
     Boolean isExistByUid(Long uid);
 
     Boolean isOwner(Long uid, String userUid);
