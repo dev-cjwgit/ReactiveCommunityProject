@@ -29,8 +29,8 @@ public record SystemResourceManagementCreateVO(
                 , message = "2자 이상 200자 이하여야 합니다."
         )
         @Pattern(groups = {SystemResourceManagementValidationGroup.Create.class}
-                , regexp = "^[가-힣a-zA-Z0-9-_ ]+$"
-                , message = "description 은 한글 및 영문(대/소) 숫자 그리고 하이픈(-) 언더바(_) 공백( )만 가능합니다."
+                , regexp = "^[가-힣a-zA-Z0-9\\-_,. ]+$"
+                , message = "description 은 한글 및 영문(대/소) 숫자 그리고 하이픈(-) 언더바(_) 공백( ) 콤마(,) 마침표(.) 만 가능합니다."
         )
         String description
 ) {
