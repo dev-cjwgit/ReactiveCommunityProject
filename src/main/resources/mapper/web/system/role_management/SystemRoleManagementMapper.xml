@@ -48,7 +48,12 @@
         /* SystemRoleManagementMapper.isExistByName() */
         SELECT COUNT(*) > 0
         FROM rc_manage_role
-        WHERE `name` = #{name, jdbcType=VARCHAR}
+        <where>
+            `name` = #{name, jdbcType=VARCHAR}
+            <if test='uid != null'>
+                `uid` != #{uid, jdbcType=TINYINT}
+            </if>
+        </where>
     </select>
 
     <insert id="insert" parameterType="SystemRoleManagementInsertEntity">

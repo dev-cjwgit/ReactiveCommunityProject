@@ -122,6 +122,11 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
             throw new SystemResourceManagementException(RcCommonErrorMessage.UNAUTHORIZED_ACCESS);
         }
 
+        var isDuplicateName = systemRoleManagementDao.isExistByName(systemRoleManagementModifyVO.name(), systemRoleManagementModifyVO.uid());
+        if (Boolean.TRUE.equals(isDuplicateName)) {
+            throw new SystemRoleManagementException(SystemRoleManagementErrorMessage.DUPLICATE_ROLE_NAME);
+        }
+
         systemRoleManagementDao.updateTransactional(
                 SystemRoleManagementModifyEntity.builder()
                         .uid(systemRoleManagementModifyVO.uid())

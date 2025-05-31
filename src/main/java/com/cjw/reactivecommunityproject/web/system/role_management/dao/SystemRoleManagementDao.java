@@ -14,6 +14,7 @@ public interface SystemRoleManagementDao {
     SystemRoleManagementDetailEntity selectDetail(Long uid);
 
     Boolean isExistByName(String name);
+    Boolean isExistByName(String name, Integer uid);
 
     void insertTransactional(SystemRoleManagementInsertEntity build);
 

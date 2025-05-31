@@ -31,7 +31,12 @@ public class SystemRoleManagementDaoImpl implements SystemRoleManagementDao {
 
     @Override
     public Boolean isExistByName(String name) {
-        return systemRoleManagementMapper.isExistByName(name);
+        return systemRoleManagementMapper.isExistByName(name, null);
+    }
+
+    @Override
+    public Boolean isExistByName(String name, Integer uid) {
+        return systemRoleManagementMapper.isExistByName(name, uid);
     }
 
     @Override

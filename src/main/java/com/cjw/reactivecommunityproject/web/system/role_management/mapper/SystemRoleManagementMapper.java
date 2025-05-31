@@ -15,7 +15,7 @@ public interface SystemRoleManagementMapper {
 
     SystemRoleManagementDetailEntity selectDetail(@Param("uid") Long uid);
 
-    Boolean isExistByName(@Param("name") String name);
+    Boolean isExistByName(@Param("name") String name, @Param("uid") Integer uid);
 
     Integer insert(SystemRoleManagementInsertEntity systemRoleManagementInsertEntity);
 
