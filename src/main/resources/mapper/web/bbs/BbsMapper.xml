@@ -7,18 +7,28 @@
         /* BbsMapper.isExistPath() */
         SELECT COUNT(*) > 0
         FROM rc_board_bbs
-        WHERE `path` = #{path, jdbcType=VARCHAR}
+        <where>
+            `path` = #{path, jdbcType=VARCHAR}
+            <if test='uid != null'>
+                AND `UID` != #{uid, jdbcType=BIGINT}
+            </if>
+        </where>
     </select>
 
     <select id="isExistName" resultType="boolean">
         /* BbsMapper.isExistName() */
         SELECT COUNT(*) > 0
         FROM rc_board_bbs
-        WHERE `name` = #{name, jdbcType=VARCHAR}
+        <where>
+            `name` = #{name, jdbcType=VARCHAR}
+            <if test='uid != null'>
+                 AND `UID` != #{uid, jdbcType=BIGINT}
+             </if>
+         </where>
     </select>
 
     <insert id="insert" parameterType="BbsInsertEntity">
-        /* BbsMapper.isExistName() */
+        /* BbsMapper.insert() */
         INSERT INTO rc_board_bbs( `path`
                                 , `name`
                                 , `description`
@@ -33,4 +43,13 @@
                , #{userUid, jdbcType=VARCHAR})
 
     </insert>
+
+    <update id="update" parameterType="BbsModifyEntity">
+        UPDATE rc_board_bbs
+        SET `path` = #{path, jdbcType=VARCHAR}
+          , `name` = #{name, jdbcType=VARCHAR}
+          , `description` = #{description, jdbcType=VARCHAR}
+          , `enabled` = #{enabled, jdbcType=VARCHAR}
+        WHERE `uid` = #{uid, jdbcType=BIGINT}
+    </update>
 </mapper>

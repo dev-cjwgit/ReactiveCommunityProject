@@ -10,7 +10,7 @@ import jakarta.validation.constraints.Size;
 
 public record SystemRoleManagementCreateVO(
         @Min(value = 1, groups = {SystemRoleManagementValidationGroup.Create.class}, message = "uid 은 1 이상이어야 합니다.")
-        @Max(value = 127, groups = {SystemRoleManagementValidationGroup.Create.class}, message = "uid 은 128 미만이어야 합니다.")
+        @Max(value = Byte.MAX_VALUE, groups = {SystemRoleManagementValidationGroup.Create.class}, message = "uid 은 128 미만이어야 합니다.")
         Integer uid,
         @NotBlank(groups = {SystemRoleManagementValidationGroup.Create.class}, message = "name 은 공백일 수 없습니다.")
         @Size(groups = {SystemRoleManagementValidationGroup.Create.class}

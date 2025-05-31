@@ -9,4 +9,7 @@ public class BbsValidationGroup {
 
     public interface Create extends Default {
     }
+
+    public interface Modify extends Default {
+    }
 }
