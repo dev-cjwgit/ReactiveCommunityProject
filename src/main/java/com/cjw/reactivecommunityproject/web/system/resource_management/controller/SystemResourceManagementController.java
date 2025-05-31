@@ -54,10 +54,10 @@ public class SystemResourceManagementController {
     }
 
     @GetMapping("/{uid}")
-    public ResponseEntity<RestResponseVO<SystemResourceManagementDetailEntity>> readDetail(
+    public ResponseEntity<RestResponseVO<SystemResourceManagementDetailEntity>> detail(
             @PathVariable("uid") Long uid
     ) {
-        return ResponseEntity.ok(systemResourceManagementService.readDetail(uid));
+        return ResponseEntity.ok(systemResourceManagementService.detail(uid));
     }
 
     @PostMapping

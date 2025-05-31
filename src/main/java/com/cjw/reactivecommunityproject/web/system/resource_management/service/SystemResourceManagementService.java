@@ -12,7 +12,7 @@ import java.util.List;
 public interface SystemResourceManagementService {
     RestResponseVO<List<SystemResourceManagementListEntity>> readResourceMgmtList(SystemResourceManagementListVO systemResourceManagementListVO, PaginationRequestVO paginationRequestVO);
 
-    RestResponseVO<SystemResourceManagementDetailEntity> readDetail(Long uid);
+    RestResponseVO<SystemResourceManagementDetailEntity> detail(Long uid);
 
     RestResponseVO<Void> create(SystemResourceManagementCreateVO sysResourcemgmtCreateVO);
 

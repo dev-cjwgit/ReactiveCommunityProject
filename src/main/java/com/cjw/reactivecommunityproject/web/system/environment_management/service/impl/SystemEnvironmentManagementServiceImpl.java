@@ -43,7 +43,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
     }
 
     @Override
-    public RestResponseVO<SystemEnvironmentManagementDetailEntity> readDetail(String id) {
+    public RestResponseVO<SystemEnvironmentManagementDetailEntity> detail(String id) {
         var detail = systemEnvironmentManagementDao.selectDetail(id);
 
         if (detail == null) {

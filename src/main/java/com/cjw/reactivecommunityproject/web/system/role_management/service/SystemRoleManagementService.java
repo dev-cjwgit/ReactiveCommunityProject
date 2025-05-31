@@ -12,7 +12,7 @@ import java.util.List;
 public interface SystemRoleManagementService {
     RestResponseVO<List<SystemRoleManagementListEntity>> readRoleManagementList(SystemRoleManagementListVO build, PaginationRequestVO build1);
 
-    RestResponseVO<SystemRoleManagementDetailEntity> readDetail(Long uid);
+    RestResponseVO<SystemRoleManagementDetailEntity> detail(Long uid);
 
     RestResponseVO<Void> create(SystemRoleManagementCreateVO systemRoleManagementCreateVO);
 

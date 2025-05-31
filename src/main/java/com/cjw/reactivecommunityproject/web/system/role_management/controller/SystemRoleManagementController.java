@@ -53,10 +53,10 @@ public class SystemRoleManagementController {
     }
 
     @GetMapping("/{uid}")
-    public ResponseEntity<RestResponseVO<SystemRoleManagementDetailEntity>> readDetail(
+    public ResponseEntity<RestResponseVO<SystemRoleManagementDetailEntity>> detail(
             @PathVariable("uid") Long uid
     ) {
-        return ResponseEntity.ok(systemRoleManagementService.readDetail(uid));
+        return ResponseEntity.ok(systemRoleManagementService.detail(uid));
     }
 
     @PostMapping

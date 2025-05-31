@@ -44,7 +44,7 @@ public class SystemFunctionManagementServiceImpl implements SystemFunctionManage
     }
 
     @Override
-    public RestResponseVO<SystemFunctionManagementDetailEntity> readDetail(Long uid) {
+    public RestResponseVO<SystemFunctionManagementDetailEntity> detail(Long uid) {
         var detail = systemFunctionManagementDao.selectDetail(uid);
         if (detail == null) {
             throw new SystemFunctionManagementException(SystemFunctionManagementErrorMessage.NOT_FOUND_FUNCTION_DETAIL);

@@ -12,7 +12,7 @@ import java.util.List;
 public interface SystemFunctionManagementService {
     RestResponseVO<List<SystemFunctionManagementListEntity>> readFunctionManagementList(SystemFunctionManagementListVO systemFunctionManagementListVO, PaginationRequestVO paginationRequestVO);
 
-    RestResponseVO<SystemFunctionManagementDetailEntity> readDetail(Long uid);
+    RestResponseVO<SystemFunctionManagementDetailEntity> detail(Long uid);
 
     RestResponseVO<Void> create(SystemFunctionManagementCreateVO systemFunctionManagementCreateVO);
 

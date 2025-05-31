@@ -59,7 +59,7 @@ public class SystemEnvironmentManagementController {
     public ResponseEntity<RestResponseVO<SystemEnvironmentManagementDetailEntity>> readEnvironmentManagementDetail(
             @PathVariable("env_id") String id
     ) {
-        return ResponseEntity.ok(systemEnvironmentManagementService.readDetail(id));
+        return ResponseEntity.ok(systemEnvironmentManagementService.detail(id));
     }
 
     @PostMapping

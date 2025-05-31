@@ -57,10 +57,10 @@ public class SystemFunctionManagementController {
     }
 
     @GetMapping("/{uid}")
-    public ResponseEntity<RestResponseVO<SystemFunctionManagementDetailEntity>> readDetail(
+    public ResponseEntity<RestResponseVO<SystemFunctionManagementDetailEntity>> detail(
             @PathVariable("uid") Long uid
     ) {
-        return ResponseEntity.ok(systemFunctionManagementService.readDetail(uid));
+        return ResponseEntity.ok(systemFunctionManagementService.detail(uid));
     }
 
     @PostMapping

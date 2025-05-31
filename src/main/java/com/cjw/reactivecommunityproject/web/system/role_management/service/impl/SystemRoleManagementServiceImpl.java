@@ -46,7 +46,7 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
     }
 
     @Override
-    public RestResponseVO<SystemRoleManagementDetailEntity> readDetail(Long uid) {
+    public RestResponseVO<SystemRoleManagementDetailEntity> detail(Long uid) {
         var detail = systemRoleManagementDao.selectDetail(uid);
         if (detail == null) {
             throw new SystemRoleManagementException(SystemResourceManagementErrorMessage.NOT_FOUND_ROLE_DETAIL);

@@ -12,7 +12,7 @@ import java.util.List;
 public interface SystemEnvironmentManagementService {
     RestResponseVO<List<SystemEnvironmentManagementListEntity>> readEnvironmentManagementList(SystemEnvironmentManagementListVO systemResourceManagementListVO, PaginationRequestVO paginationRequestVO);
 
-    RestResponseVO<SystemEnvironmentManagementDetailEntity> readDetail(String id);
+    RestResponseVO<SystemEnvironmentManagementDetailEntity> detail(String id);
 
     RestResponseVO<Void> create(SystemEnvironmentManagementCreateVO systemEnvironmentManagementCreateVO);
 

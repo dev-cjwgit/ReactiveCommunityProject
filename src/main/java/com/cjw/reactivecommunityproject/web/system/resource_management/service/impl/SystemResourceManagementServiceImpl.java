@@ -44,7 +44,7 @@ public class SystemResourceManagementServiceImpl implements SystemResourceManage
     }
 
     @Override
-    public RestResponseVO<SystemResourceManagementDetailEntity> readDetail(Long uid) {
+    public RestResponseVO<SystemResourceManagementDetailEntity> detail(Long uid) {
         var detail = systemResourceManagementDao.selectDetail(uid);
         if (detail == null) {
             throw new SystemResourceManagementException(SystemResourceManagementErrorMessage.NOT_FOUND_RESOURCE_DETAIL);
