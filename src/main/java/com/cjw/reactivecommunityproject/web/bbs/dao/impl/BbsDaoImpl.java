@@ -3,7 +3,9 @@ package com.cjw.reactivecommunityproject.web.bbs.dao.impl;
 import com.cjw.reactivecommunityproject.web.bbs.dao.BbsDao;
 import com.cjw.reactivecommunityproject.web.bbs.mapper.BbsMapper;
 import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsInsertEntity;
+import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsListEntity;
 import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsModifyEntity;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
@@ -59,5 +61,10 @@ public class BbsDaoImpl implements BbsDao {
     public void deleteTransactional(Long uid) {
         int rtn = bbsMapper.delete(uid);
         log.info("bbsMapper.delete() : {}", rtn);
+    }
+
+    @Override
+    public List<BbsListEntity> selectListAll() {
+        return bbsMapper.selectListAll();
     }
 }

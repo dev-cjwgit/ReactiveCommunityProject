@@ -1,7 +1,9 @@
 package com.cjw.reactivecommunityproject.web.bbs.mapper;
 
 import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsInsertEntity;
+import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsListEntity;
 import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsModifyEntity;
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,4 +20,6 @@ public interface BbsMapper {
     Boolean isExistUid(Long uid);
 
     int delete(Long uid);
+
+    List<BbsListEntity> selectListAll();
 }

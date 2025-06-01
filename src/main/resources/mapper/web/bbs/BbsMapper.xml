@@ -69,4 +69,13 @@
         FROM rc_board_bbs
         WHERE `uid` = #{uid, jdbcType=BIGINT}
     </delete>
+
+    <select id="selectListAll" resultType="BbsListEntity">
+        /* BbsMapper.selectListAll() */
+        SELECT `uid`
+             , `path`
+             , `name`
+             , `enabled`
+        FROM rc_board_bbs
+    </select>
 </mapper>

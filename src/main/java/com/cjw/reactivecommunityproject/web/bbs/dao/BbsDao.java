@@ -1,7 +1,9 @@
 package com.cjw.reactivecommunityproject.web.bbs.dao;
 
 import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsInsertEntity;
+import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsListEntity;
 import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsModifyEntity;
+import java.util.List;
 
 public interface BbsDao {
     Boolean isExistUid(Long uid);
@@ -19,4 +21,6 @@ public interface BbsDao {
     void updateTransactional(BbsModifyEntity bbsModifyEntity);
 
     void deleteTransactional(Long uid);
+
+    List<BbsListEntity> selectListAll();
 }

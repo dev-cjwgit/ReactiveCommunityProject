@@ -1,17 +1,21 @@
 package com.cjw.reactivecommunityproject.web.bbs.service.impl;
 
 import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
+import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.web.bbs.dao.BbsDao;
 import com.cjw.reactivecommunityproject.web.bbs.exception.BbsErrorMessage;
 import com.cjw.reactivecommunityproject.web.bbs.exception.BbsException;
 import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsInsertEntity;
+import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsListEntity;
 import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsModifyEntity;
 import com.cjw.reactivecommunityproject.web.bbs.model.request.BbsCreateVO;
 import com.cjw.reactivecommunityproject.web.bbs.model.request.BbsModifyVO;
 import com.cjw.reactivecommunityproject.web.bbs.service.BbsService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -77,6 +81,18 @@ public class BbsServiceImpl implements BbsService {
 
         return RestResponseVO.<Void>builder()
                 .result(true)
+                .build();
+    }
+
+    @Override
+    public RestResponseVO<List<BbsListEntity>> list() {
+        var list = CollectionUtils.emptyIfNull(bbsDao.selectListAll())
+                .parallelStream()
+                .filter(o -> CommonEnabledEnum.Y.equals(o.enabled()))
+                .toList();
+        return RestResponseVO.<List<BbsListEntity>>builder()
+                .result(true)
+                .data(list)
                 .build();
     }
 }

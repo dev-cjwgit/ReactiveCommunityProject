@@ -1,14 +1,17 @@
 package com.cjw.reactivecommunityproject.web.bbs.controller;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
+import com.cjw.reactivecommunityproject.web.bbs.model.entity.BbsListEntity;
 import com.cjw.reactivecommunityproject.web.bbs.model.request.BbsCreateVO;
 import com.cjw.reactivecommunityproject.web.bbs.model.request.BbsModifyVO;
 import com.cjw.reactivecommunityproject.web.bbs.service.BbsService;
 import com.cjw.reactivecommunityproject.web.bbs.validation.BbsValidationGroup;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,11 +36,15 @@ public class BbsController {
         return ResponseEntity.ok(bbsService.modify(bbsModifyVO));
     }
 
-
     @DeleteMapping("/{uid}")
     public ResponseEntity<RestResponseVO<Void>> remove(
             @PathVariable("uid") Long uid
     ) {
         return ResponseEntity.ok(bbsService.remove(uid));
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<RestResponseVO<List<BbsListEntity>>> list(){
+        return ResponseEntity.ok(bbsService.list());
     }
 }
