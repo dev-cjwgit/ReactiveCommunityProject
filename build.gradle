@@ -29,7 +29,7 @@ ext {
     // 컬렉션
     apacheCollectionUtilsVersion = '4.4'
     // 문자열
-    apacheLangUtilsVersion = '3.17.0'
+    apacheLangUtilsVersion = '3.18.0'
     // 텍스트
     apacheTextUtilsVersion = '1.12.0'
     // 압축
