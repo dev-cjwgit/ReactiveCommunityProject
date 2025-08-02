@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -32,7 +31,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
     public CacheCustomEnvCodeVO getCustomCommonEnvCode(String envId) {
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
                 .parallelStream()
-                .filter(o -> StringUtils.equals(o.getId(), envId))
+                .filter(o -> Objects.equals(o.getId(), envId))
                 .map(o -> CacheCustomEnvCodeVO.builder()
                         .id(o.getId())
                         .type(o.getType())
@@ -57,7 +56,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
     public List<CacheCustomEnvCodeVO> getCustomCommonEnvCodeByCategoryList(String category) {
         return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
                 .parallelStream()
-                .filter(o -> StringUtils.equals(o.getCategory(), category))
+                .filter(o -> Objects.equals(o.getCategory(), category))
                 .map(o -> CacheCustomEnvCodeVO.builder()
                         .id(o.getId())
                         .type(o.getType())
@@ -87,7 +86,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
                 .map(o -> {
                     var gbCode = CollectionUtils.emptyIfNull(gbCodeList)
                             .parallelStream()
-                            .filter(o1 -> StringUtils.equals(o.getPath(), o1.getPath()) && StringUtils.equals(o.getCode(), o1.getCode()))
+                            .filter(o1 -> Objects.equals(o.getPath(), o1.getPath()) && Objects.equals(o.getCode(), o1.getCode()))
                             .findFirst()
                             .orElse(null);
 

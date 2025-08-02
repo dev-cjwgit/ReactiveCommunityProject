@@ -20,6 +20,7 @@ import com.cjw.reactivecommunityproject.web.auth.model.response.AuthRestJwtToken
 import com.cjw.reactivecommunityproject.web.auth.service.AuthService;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -168,7 +169,7 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorMessage.NOT_LOGGED_IN_USER);
         }
 
-        if (!StringUtils.equals(refreshToken, authReissueJwtTokenVO.refreshToken())) {
+        if (!Objects.equals(refreshToken, authReissueJwtTokenVO.refreshToken())) {
             throw new AuthException(AuthErrorMessage.NOT_MATCH_REFRESH_TOKEN);
         }
 
