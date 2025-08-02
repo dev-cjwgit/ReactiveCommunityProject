@@ -1,6 +1,5 @@
 package com.cjw.reactivecommunityproject.common.security.config;
 
-import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +13,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 @RequiredArgsConstructor
 public class SecurityBean {
-    private final RcProperties rcProperties;
-
     private static final String[] ALLOW_ORIGINS_LIST = {"/rest/*"};
     private static final String[] ALLOW_METHODS_LIST = {"GET", "POST", "PUT", "DELETE", "OPTIONS"};
     private static final String[] ALLOW_HEADERS_LIST = {"Content-Type", "Authorization"};

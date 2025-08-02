@@ -45,9 +45,9 @@ public class RedisConfig {
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(getObjectMapper()));
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer(this.getObjectMapper()));
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer(getObjectMapper()));
+        redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer(this.getObjectMapper()));
         redisTemplate.setConnectionFactory(redisConnectionFactory());
         redisTemplate.setEnableTransactionSupport(true);
         return redisTemplate;
