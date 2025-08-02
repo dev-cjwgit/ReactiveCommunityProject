@@ -15,9 +15,7 @@ public class OrderFunctions {
     @Bean
     public Function<Flux<KafkaOrdersVO>, Mono<Void>> orderFunction() {
         return flux -> flux
-                .doOnNext(o -> {
-                    log.info(o.toString());
-                })
+                .doOnNext(o -> log.info(o.toString()))
                 .then();
     }
 }

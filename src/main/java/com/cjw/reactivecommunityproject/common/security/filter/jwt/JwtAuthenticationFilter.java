@@ -12,6 +12,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -49,7 +50,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private String extractJwtToken(HttpServletRequest request) {
         String header = request.getHeader("Authorization");
-        if (StringUtils.startsWith(header, "Bearer ")) {
+        if (Strings.CI.startsWith(header, "Bearer ")) {
             return header.substring(7); // "Bearer " 부분을 잘라낸 JWT 토큰 반환
         }
         return null;
