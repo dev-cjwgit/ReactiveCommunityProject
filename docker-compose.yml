@@ -48,6 +48,7 @@ services:
     restart: unless-stopped
 
   rc-was:
+    container_name: rc-was
     shm_size: "30gb"
     build: ./
     image: rc_deploy
@@ -94,6 +95,8 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
       CLUSTER_ID: "EmptNWtoR4GGWx-BH6nGLQ"
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+    networks:
+      - rc-network
 
 # 데이터 저장을 위한 볼륨 설정
 volumes:

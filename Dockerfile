@@ -16,6 +16,9 @@ WORKDIR /app
 # 빌드된 jar 복사
 COPY --from=build /app/build/libs/*.jar app.jar
 
+# 기본값 (필요없으면 지우기)
+ENV SPRING_PROFILES_ACTIVE=dev
+
 # 필요한 포트 열기 (Spring Boot 기본 8080)
 EXPOSE 9999
 
