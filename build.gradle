@@ -46,6 +46,8 @@ ext {
     elasticsearhClientVersion = '8.16.1'
     // Log4j2
     log4j2Version = '1.16'
+    // Spring Cloud Stream
+    springCloudStreamVersion = '4.3.0'
 }
 
 dependencies {
@@ -97,5 +99,10 @@ dependencies {
     // Elasticsearch Rest Client
     implementation "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearhClientVersion}"
 
+    // Log4j2
     implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4j2Version}"
+
+    // Kafka
+    implementation "org.springframework.cloud:spring-cloud-starter-stream-kafka:${springCloudStreamVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 }
