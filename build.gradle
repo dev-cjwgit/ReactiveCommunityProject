@@ -48,6 +48,8 @@ ext {
     log4j2Version = '1.16'
     // Spring Cloud Stream
     springCloudStreamVersion = '4.3.0'
+    //
+    caffeineVersion = '3.1.8'
 }
 
 dependencies {
@@ -104,4 +106,7 @@ dependencies {
     // Kafka
     implementation "org.springframework.cloud:spring-cloud-starter-stream-kafka:${springCloudStreamVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // Request Cache
+    implementation "com.github.ben-manes.caffeine:caffeine:${caffeineVersion}"
 }
