@@ -98,6 +98,20 @@ services:
     networks:
       - rc-network
 
+  rc-kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: rc-kafka-ui
+    ports:
+      - "8989:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=rc-kafka:29092
+    networks:
+      - rc-network
+    depends_on:
+      - rc-kafka
+    restart: unless-stopped
+
 # 데이터 저장을 위한 볼륨 설정
 volumes:
   rc-mariadb: { }
