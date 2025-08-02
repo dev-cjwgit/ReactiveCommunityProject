@@ -28,8 +28,8 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
         String clientIP = request.getRemoteAddr();
         long currentTime = System.currentTimeMillis();
 
-        var limitEnvCode = EnvCodeUtils.<Integer>convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.request.filter.limit"), Integer.class);
-        var timeWindowEnvCode = EnvCodeUtils.<Integer>convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.request.filter.time.window.sec"), Integer.class);
+        var limitEnvCode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.request.filter.limit"), Integer.class);
+        var timeWindowEnvCode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.request.filter.time.window.sec"), Integer.class);
 
         if (limitEnvCode == null || timeWindowEnvCode == null) {
             log.error("RequestLimitingFilter.doFilterInternal env code is null");
@@ -37,7 +37,7 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
             return;
         }
 
-        log.debug("RequestLimitingFilter.doFilterInternal: {}, {}", clientIP, currentTime);
+        log.warn("RequestLimitingFilter.doFilterInternal: {}, {}", clientIP, currentTime);
         requestCounts.compute(clientIP, (ip, requestUserInfo) -> {
             if (requestUserInfo == null || (currentTime - requestUserInfo.getStartTime() > timeWindowEnvCode * 1000L)) {
                 // 새로운 윈도우 시작
@@ -53,7 +53,7 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
         });
 
         var userRequestInfo = requestCounts.get(clientIP);
-        log.debug("RequestLimitingFilter.doFilterInternal: request info : {}", userRequestInfo);
+        log.warn("RequestLimitingFilter.doFilterInternal: request info : {}", userRequestInfo);
         if (userRequestInfo != null && userRequestInfo.getRequestCount().get() > limitEnvCode) {
             // 요청 제한 초과
             response.setStatus(429); // 429 Too Many Requests
