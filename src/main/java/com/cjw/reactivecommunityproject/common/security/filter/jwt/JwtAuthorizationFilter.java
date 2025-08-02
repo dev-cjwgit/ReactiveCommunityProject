@@ -4,7 +4,7 @@ import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomS
 import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.authorization.AuthorizationManager;
@@ -45,7 +45,7 @@ public class JwtAuthorizationFilter implements AuthorizationManager<RequestAutho
 
         return cacheCustomService.getCustomManageRoleResourceList(NumberUtils.toInt(roleUid))
                 .parallelStream()
-                .filter(o -> StringUtils.equalsAnyIgnoreCase(o.getMethod().name(), "ALL") || StringUtils.equalsAnyIgnoreCase(o.getMethod().name(), method))
+                .filter(o -> Strings.CI.equalsAny(o.getMethod().name(), "ALL") || Strings.CI.equalsAny(o.getMethod().name(), method))
                 .anyMatch(o -> antPathMatcher.match(o.getUrlPattern(), path))
                 ? TRUE : FALSE;
     }
