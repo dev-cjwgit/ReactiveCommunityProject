@@ -24,6 +24,7 @@ import javax.crypto.SecretKey;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -88,7 +89,7 @@ public class JwtServiceImpl implements JwtService {
         } else {
             salt = String.valueOf(redisTemplate.opsForValue().get(userUid + ".salt"));
         }
-        if (StringUtils.equalsIgnoreCase(salt, "null")) {
+        if (Strings.CI.equals(salt, "null")) {
             throw new SecurityException(SecurityErrorMessage.NOT_FOUND_USER_SALT);
         }
 

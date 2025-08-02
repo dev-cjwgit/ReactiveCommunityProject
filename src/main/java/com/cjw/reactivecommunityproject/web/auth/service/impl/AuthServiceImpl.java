@@ -24,6 +24,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -99,7 +100,7 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorMessage.NOT_FOUND_EMAIL);
         }
 
-        if (StringUtils.equalsIgnoreCase(rcUserEntity.enabled().name(), "N")) {
+        if (Strings.CI.equals(rcUserEntity.enabled().name(), "N")) {
             throw new AuthException(AuthErrorMessage.NOT_FOUND_EMAIL);
         }
 
@@ -163,7 +164,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         String refreshToken = String.valueOf(redisTemplate.opsForValue().get(claims.getName() + ".refresh"));
-        if (StringUtils.equalsIgnoreCase(refreshToken, "null")) {
+        if (Strings.CI.equals(refreshToken, "null")) {
             throw new AuthException(AuthErrorMessage.NOT_LOGGED_IN_USER);
         }
 

@@ -13,7 +13,7 @@ import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class MailServiceImpl implements MailService {
 
     private <T> T getConfigValueByCode(List<CacheCustomEnvCodeVO> configEnvCodeList, String envId, Class<T> clazz) {
         return CollectionUtils.emptyIfNull(configEnvCodeList).stream()
-                .filter(o -> StringUtils.equalsIgnoreCase(o.getId(), envId))
+                .filter(o -> Strings.CI.equals(o.getId(), envId))
                 .map(o -> EnvCodeUtils.convertEnvCodeByValue(o, clazz))
                 .filter(Objects::nonNull)
                 .findFirst()
