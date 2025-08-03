@@ -11,27 +11,29 @@ public interface SystemEnvironmentManagementDao {
 
     List<SystemEnvironmentManagementListEntity> selectList(PaginationVO pagination);
 
-    SystemEnvironmentManagementDetailEntity selectDetail(String id);
+    SystemEnvironmentManagementDetailEntity selectDetail(String region, String id);
 
-    Boolean isExistEnvCodeById(String id);
+    Boolean isExistEnvCodeById(String region, String id);
 
 
     Boolean isCategoryAndOrderDuplicate(
-            String category
+            String region
+            , String category
             , Integer order
     );
 
     Boolean isCategoryAndOrderDuplicate(
-            String category
+            String region
+            , String category
             , Integer order
             , String envId
     );
 
     void insertTransactional(SystemEnvironmentManagementInsertEntity systemEnvironmentManagementInsertEntity);
 
-    Boolean isOwner(String envId, String userUid);
+    Boolean isOwner(String region, String envId, String userUid);
 
-    void deleteTransactional(String id);
+    void deleteTransactional(String region, String id);
 
     void updateTransactional(SystemEnvironmentManagementModifyEntity systemEnvironmentManagementModifyEntity);
 }

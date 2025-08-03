@@ -5,7 +5,8 @@
 <mapper namespace="com.cjw.reactivecommunityproject.web.system.environment_management.mapper.SystemEnvironmentManagementMapper">
     <select id="selectList" parameterType="PaginationVO" resultType="SystemEnvironmentManagementListEntity">
         /* SystemEnvironmentManagementMapper.selectList() */
-        SELECT  `id`
+        SELECT `region`
+              , `id`
               , `type`
               , `value`
               , `description`
@@ -18,6 +19,9 @@
               , `updated_utc_at`
         FROM rc_common_env_code
         <where>
+            <if test="pagination.region != null">
+                AND `region` = #{pagination.region, jdbcType=VARCHAR}
+            </if>
             <if test="pagination.id != null">
                 AND `id` LIKE CONCAT('%', #{pagination.id, jdbcType=VARCHAR}, '%')
             </if>
@@ -43,7 +47,8 @@
 
     <select id="selectDetail" parameterType="String" resultType="SystemEnvironmentManagementDetailEntity">
         /* SystemEnvironmentManagementMapper.selectDetail() */
-        SELECT `id`
+        SELECT `region`
+             , `id`
              , `type`
              , `value`
              , `description`
@@ -55,14 +60,16 @@
              , `updated_user_uid`
              , `updated_utc_at`
         FROM rc_common_env_code
-        WHERE `id` = #{id, jdbcType=VARCHAR}
+        WHERE `region` = #{region, jdbcType=VARCHAR}
+          AND `id` = #{id, jdbcType=VARCHAR}
     </select>
 
     <select id="isExistEnvCodeById" resultType="Boolean">
         /* SystemEnvironmentManagementMapper.isExistEnvCodeById() */
         SELECT COUNT(*) > 0
         FROM rc_common_env_code
-        WHERE `id` = #{id, jdbcType=VARCHAR}
+        WHERE `region` = #{region, jdbcType=VARCHAR}
+          AND `id` = #{id, jdbcType=VARCHAR}
     </select>
 
     <select id="isCategoryAndOrderDuplicate" resultType="Boolean">
@@ -70,7 +77,8 @@
         SELECT COUNT(*) > 0
         FROM rc_common_env_code
         <where>
-            `category` = #{category, jdbcType=VARCHAR}
+            `region` = #{region, jdbcType=VARCHAR}
+            AND `category` = #{category, jdbcType=VARCHAR}
             AND `order` = #{order, jdbcType=INTEGER}
             <if test='id != null'>
                 AND `id` != #{id, jdbcType=VARCHAR}
@@ -80,7 +88,8 @@
 
     <insert id="insert" parameterType="SystemEnvironmentManagementInsertEntity">
         /* SystemEnvironmentManagementMapper.insert() */
-        INSERT INTO rc_common_env_code( `id`
+        INSERT INTO rc_common_env_code(`region`
+                                       , `id`
                                       , `type`
                                       , `value`
                                       , `description`
@@ -90,7 +99,8 @@
                                       , `created_utc_at`
                                       , `updated_user_uid`
                                       , `updated_utc_at`)
-        VALUES ( #{id, jdbcType=VARCHAR}
+        VALUES ( #{region, jdbcType=VARCHAR}
+               , #{id, jdbcType=VARCHAR}
                , #{type, jdbcType=VARCHAR}
                , #{value, jdbcType=VARCHAR}
                , #{description, jdbcType=VARCHAR}
@@ -106,7 +116,8 @@
         /* SystemEnvironmentManagementMapper.isOwner() */
         SELECT COUNT(*) > 0
         FROM rc_common_env_code
-        WHERE `id` = #{id, jdbcType=VARCHAR}
+        WHERE `region` = #{region, jdbcType=VARCHAR}
+          AND `id` = #{id, jdbcType=VARCHAR}
           AND `created_user_uid` = #{userUid, jdbcType=VARCHAR}
     </select>
 
@@ -114,7 +125,8 @@
         /* SystemEnvironmentManagementMapper.delete() */
         DELETE
         FROM rc_common_env_code
-        WHERE `id` = #{id, jdbcType=VARCHAR}
+        WHERE `region` = #{region, jdbcType=VARCHAR}
+          AND `id` = #{id, jdbcType=VARCHAR}
     </delete>
 
     <update id="update" parameterType="SystemEnvironmentManagementModifyEntity">
@@ -128,6 +140,7 @@
           , `enabled`          = #{enabled, jdbcType=VARCHAR}
           , `updated_user_uid` = #{userUid, jdbcType=VARCHAR}
           , `updated_utc_at`   = CURRENT_TIMESTAMP()
-        WHERE `id` = #{id, jdbcType=VARCHAR}
+        WHERE `region` = #{region, jdbcType=VARCHAR}
+          AND `id` = #{id, jdbcType=VARCHAR}
     </update>
 </mapper>

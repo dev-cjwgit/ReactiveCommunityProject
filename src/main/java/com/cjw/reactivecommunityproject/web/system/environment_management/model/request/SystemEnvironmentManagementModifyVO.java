@@ -10,6 +10,18 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record SystemEnvironmentManagementModifyVO(
+        @NotBlank(groups = {SystemEnvironmentManagementValidationGroup.Modify.class}, message = "지역은 공백일 수 없습니다.")
+        @Size(groups = {SystemEnvironmentManagementValidationGroup.Modify.class}
+                , min = 3
+                , max = 3
+                , message = "지역은 3자 여야 합니다."
+        )
+        @Pattern(regexp = "^[A-Z]+$"
+                , groups = {SystemEnvironmentManagementValidationGroup.Modify.class}
+                , message = "지역은 영대문자만 사용할 수 있습니다."
+        )
+        String region,
+
         @NotBlank(groups = {SystemEnvironmentManagementValidationGroup.Modify.class}, message = "환경코드 id는 공백일 수 없습니다.")
         @Size(groups = {SystemEnvironmentManagementValidationGroup.Modify.class}
                 , max = 200

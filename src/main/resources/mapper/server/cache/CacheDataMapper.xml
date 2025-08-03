@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cjw.reactivecommunityproject.server.cache.data.mapper.CacheDataMapper">
-    <select id="selectCommonRegionList" parameterType="CacheDataCommonRegionVO">
+    <select id="selectCommonRegionList" resultType="CacheDataCommonRegionVO">
         /* CacheDataMapper.selectCommonRegionList */
         SELECT `region`
              , `enabled`
@@ -11,9 +11,10 @@
         FROM rc_common_region
     </select>
 
-    <select id="selectCommonEnvCodeList" parameterType="CacheDataCommonEnvCodeVO">
+    <select id="selectCommonEnvCodeList" parameterType="String" resultType="CacheDataCommonEnvCodeVO">
         /* CacheDataMapper.selectCommonEnvCodeList */
-        SELECT `id`
+        SELECT `region`
+             , `id`
              , `type`
              , `value`
              , `order`
@@ -21,9 +22,10 @@
              , `enabled`
              , `updated_utc_at`
         FROM rc_common_env_code
+        WHERE `region` = #{region, jdbcType=VARCHAR}
     </select>
 
-    <select id="selectCommonLanguageCodeList" parameterType="CacheDataCommonLanguageCodeVO">
+    <select id="selectCommonLanguageCodeList" resultType="CacheDataCommonLanguageCodeVO">
         /* CacheDataMapper.selectCommonLanguageCodeList */
         SELECT `path`
              , `code`
@@ -32,7 +34,7 @@
         FROM rc_common_language_code
     </select>
 
-    <select id="selectCommonLanguageGbCodeList" parameterType="CacheDataCommonLanguageGbCodeVO">
+    <select id="selectCommonLanguageGbCodeList" resultType="CacheDataCommonLanguageGbCodeVO">
         /* CacheDataMapper.selectCommonLanguageGbCodeList */
         SELECT `path`
              , `code`
@@ -43,7 +45,7 @@
         WHERE `language_uid` = #{lang, jdbcType=VARCHAR}
     </select>
 
-    <select id="selectManageResourceList" parameterType="CacheDataManageResourceVO">
+    <select id="selectManageResourceList" resultType="CacheDataManageResourceVO">
         /* CacheDataMapper.selectManageResourceList */
         SELECT `uid`
              , `method`
@@ -53,7 +55,7 @@
         FROM rc_manage_resource
     </select>
 
-    <select id="selectManageFunctionList" parameterType="CacheDataManageFunctionVO">
+    <select id="selectManageFunctionList" resultType="CacheDataManageFunctionVO">
         /* CacheDataMapper.selectManageFunctionList */
         SELECT `uid`
              , `name`
@@ -63,7 +65,7 @@
         FROM rc_manage_function
     </select>
 
-    <select id="selectManageRoleFunctionList" parameterType="CacheDataManageRoleFunctionVO">
+    <select id="selectManageRoleFunctionList" resultType="CacheDataManageRoleFunctionVO">
         /* CacheDataMapper.selectManageRoleFunctionList */
         SELECT `role_uid`
              , `function_uid`
@@ -72,7 +74,7 @@
         FROM rc_manage_role_function
     </select>
 
-    <select id="selectManageRoleResourceList" parameterType="CacheDataManageRoleResourceVO">
+    <select id="selectManageRoleResourceList" resultType="CacheDataManageRoleResourceVO">
         /* CacheDataMapper.selectManageRoleResourceList */
         SELECT `role_uid`
              , `resource_uid`

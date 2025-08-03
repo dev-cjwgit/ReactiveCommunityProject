@@ -32,7 +32,8 @@ public class SystemEnvironmentManagementController {
 
     @GetMapping("/list")
     public ResponseEntity<RestResponseVO<List<SystemEnvironmentManagementListEntity>>> readEnvironmentList(
-            @RequestParam(value = "id", required = false) String id
+            @RequestParam(value = "region", required = false) String region
+            , @RequestParam(value = "id", required = false) String id
             , @RequestParam(value = "type", required = false) String type
             , @RequestParam(value = "value", required = false) String value
             , @RequestParam(value = "category", required = false) String category
@@ -42,6 +43,7 @@ public class SystemEnvironmentManagementController {
             , @RequestParam("page-size") Integer pageSize
     ) {
         return ResponseEntity.ok(systemEnvironmentManagementService.readEnvironmentManagementList(SystemEnvironmentManagementListVO.builder()
+                        .region(region)
                         .id(id)
                         .type(type)
                         .value(value)
@@ -55,11 +57,12 @@ public class SystemEnvironmentManagementController {
                         .build()));
     }
 
-    @GetMapping("/{env_id}")
+    @GetMapping("/{env_region}/{env_id}")
     public ResponseEntity<RestResponseVO<SystemEnvironmentManagementDetailEntity>> readEnvironmentManagementDetail(
-            @PathVariable("env_id") String id
+            @PathVariable("env_region") String region
+            , @PathVariable("env_id") String id
     ) {
-        return ResponseEntity.ok(systemEnvironmentManagementService.detail(id));
+        return ResponseEntity.ok(systemEnvironmentManagementService.detail(region, id));
     }
 
     @PostMapping
@@ -69,11 +72,12 @@ public class SystemEnvironmentManagementController {
         return ResponseEntity.ok(systemEnvironmentManagementService.create(systemEnvironmentManagementCreateVO));
     }
 
-    @DeleteMapping("/{env_id}")
+    @DeleteMapping("/{env_region}/{env_id}")
     public ResponseEntity<RestResponseVO<Void>> remove(
-            @PathVariable("env_id") String id
+            @PathVariable("env_region") String region
+            , @PathVariable("env_id") String id
     ) {
-        return ResponseEntity.ok(systemEnvironmentManagementService.remove(id));
+        return ResponseEntity.ok(systemEnvironmentManagementService.remove(region,id));
     }
 
     @PatchMapping

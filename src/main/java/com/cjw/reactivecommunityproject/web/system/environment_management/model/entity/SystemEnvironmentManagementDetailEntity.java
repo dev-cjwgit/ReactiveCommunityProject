@@ -5,7 +5,8 @@ import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCo
 import java.time.ZonedDateTime;
 
 public record SystemEnvironmentManagementDetailEntity(
-        String id
+        String region
+        , String id
         , RcCommonEnvCodeTypeEnum type
         , String value
         , String description

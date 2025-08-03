@@ -5,7 +5,8 @@ import lombok.Builder;
 
 @Builder
 public record SystemEnvironmentManagementListVO(
-        String id
+        String region
+        , String id
         , String type
         , String value
         , String description

@@ -25,23 +25,23 @@ public class SystemEnvironmentManagementDaoImpl implements SystemEnvironmentMana
     }
 
     @Override
-    public SystemEnvironmentManagementDetailEntity selectDetail(String id) {
-        return systemEnvironmentManagementMapper.selectDetail(id);
+    public SystemEnvironmentManagementDetailEntity selectDetail(String region, String id) {
+        return systemEnvironmentManagementMapper.selectDetail(region ,id);
     }
 
     @Override
-    public Boolean isExistEnvCodeById(String id) {
-        return systemEnvironmentManagementMapper.isExistEnvCodeById(id);
+    public Boolean isExistEnvCodeById(String region, String id) {
+        return systemEnvironmentManagementMapper.isExistEnvCodeById(region, id);
     }
 
     @Override
-    public Boolean isCategoryAndOrderDuplicate(String category, Integer order) {
-        return systemEnvironmentManagementMapper.isCategoryAndOrderDuplicate(category, order, null);
+    public Boolean isCategoryAndOrderDuplicate(String region, String category, Integer order) {
+        return systemEnvironmentManagementMapper.isCategoryAndOrderDuplicate(region, category, order, null);
     }
 
     @Override
-    public Boolean isCategoryAndOrderDuplicate(String category, Integer order, String envId) {
-        return systemEnvironmentManagementMapper.isCategoryAndOrderDuplicate(category, order, envId);
+    public Boolean isCategoryAndOrderDuplicate(String region, String category, Integer order, String envId) {
+        return systemEnvironmentManagementMapper.isCategoryAndOrderDuplicate(region, category, order, envId);
     }
 
     @Override
@@ -52,13 +52,13 @@ public class SystemEnvironmentManagementDaoImpl implements SystemEnvironmentMana
     }
 
     @Override
-    public Boolean isOwner(String envId, String userUid) {
-        return systemEnvironmentManagementMapper.isOwner(envId, userUid);
+    public Boolean isOwner(String region, String envId, String userUid) {
+        return systemEnvironmentManagementMapper.isOwner(region, envId, userUid);
     }
 
     @Override
-    public void deleteTransactional(String id) {
-        var rtn = systemEnvironmentManagementMapper.delete(id);
+    public void deleteTransactional(String region, String id) {
+        var rtn = systemEnvironmentManagementMapper.delete(region, id);
         log.info("SystemEnvironmentManagementDaoImpl.deleteTransactional() : {}", rtn);
     }
 

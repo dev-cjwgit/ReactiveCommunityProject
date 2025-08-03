@@ -5,7 +5,8 @@ import lombok.Builder;
 
 @Builder
 public record SystemEnvironmentManagementInsertEntity(
-        String id
+        String region
+        , String id
         , RcCommonEnvCodeTypeEnum type
         , String value
         , String description

@@ -11,6 +11,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class CacheCustomEnvCodeVO {
+    private String region;
     private String id;
     private RcCommonEnvCodeTypeEnum type;
     private String value;

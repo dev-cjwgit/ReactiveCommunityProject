@@ -9,6 +9,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CacheDataCommonEnvCodeVO {
+    private String region;
     private String id;
     private RcCommonEnvCodeTypeEnum type;
     private String value;

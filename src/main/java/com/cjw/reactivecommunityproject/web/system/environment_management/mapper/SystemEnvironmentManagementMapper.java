@@ -13,20 +13,21 @@ import org.apache.ibatis.annotations.Param;
 public interface SystemEnvironmentManagementMapper {
     List<SystemEnvironmentManagementListEntity> selectList(PaginationVO pagination);
 
-    SystemEnvironmentManagementDetailEntity selectDetail(@Param("id") String id);
+    SystemEnvironmentManagementDetailEntity selectDetail(@Param("region") String region, @Param("id") String id);
 
-    Boolean isExistEnvCodeById(@Param("id") String id);
+    Boolean isExistEnvCodeById(@Param("region") String region, @Param("id") String id);
 
-    Boolean isCategoryAndOrderDuplicate(@Param("category") String category, @Param("order") Integer order, @Param("id") String id);
+    Boolean isCategoryAndOrderDuplicate(@Param("region") String region, @Param("category") String category, @Param("order") Integer order, @Param("id") String id);
 
     Integer insert(SystemEnvironmentManagementInsertEntity systemEnvironmentManagementInsertEntity);
 
     Boolean isOwner(
-            @Param("id") String envId
+            @Param("region") String region
+            , @Param("id") String envId
             , @Param("userUid") String userUid
     );
 
-    Integer delete(@Param("id") String id);
+    Integer delete(@Param("region") String region, @Param("id") String id);
 
     Integer update(SystemEnvironmentManagementModifyEntity systemEnvironmentManagementModifyEntity);
 }

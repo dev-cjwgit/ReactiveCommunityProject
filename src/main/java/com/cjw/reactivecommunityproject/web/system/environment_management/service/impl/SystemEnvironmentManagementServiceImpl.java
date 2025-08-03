@@ -43,8 +43,8 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
     }
 
     @Override
-    public RestResponseVO<SystemEnvironmentManagementDetailEntity> detail(String id) {
-        var detail = systemEnvironmentManagementDao.selectDetail(id);
+    public RestResponseVO<SystemEnvironmentManagementDetailEntity> detail(String region, String id) {
+        var detail = systemEnvironmentManagementDao.selectDetail(region, id);
 
         if (detail == null) {
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.NOT_FOUNT_ENV_CODE_DETAIL);
@@ -58,7 +58,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
     @Override
     public RestResponseVO<Void> create(SystemEnvironmentManagementCreateVO systemEnvironmentManagementCreateVO) {
-        var isIdDuplicate = systemEnvironmentManagementDao.isExistEnvCodeById(systemEnvironmentManagementCreateVO.id());
+        var isIdDuplicate = systemEnvironmentManagementDao.isExistEnvCodeById(systemEnvironmentManagementCreateVO.region(), systemEnvironmentManagementCreateVO.id());
 
         if (Boolean.TRUE.equals(isIdDuplicate)) {
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.DUPLICATE_ENVCODE_INFO);
@@ -74,7 +74,8 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
         if (category != null) {
             var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
-                    systemEnvironmentManagementCreateVO.category()
+                    systemEnvironmentManagementCreateVO.region()
+                    , systemEnvironmentManagementCreateVO.category()
                     , systemEnvironmentManagementCreateVO.order()
             );
 
@@ -85,6 +86,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
         systemEnvironmentManagementDao.insertTransactional(
                 SystemEnvironmentManagementInsertEntity.builder()
+                        .region(systemEnvironmentManagementCreateVO.region())
                         .id(systemEnvironmentManagementCreateVO.id())
                         .type(systemEnvironmentManagementCreateVO.type())
                         .value(systemEnvironmentManagementCreateVO.value())
@@ -100,20 +102,20 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
     }
 
     @Override
-    public RestResponseVO<Void> remove(String id) {
-        var isExist = systemEnvironmentManagementDao.isExistEnvCodeById(id);
+    public RestResponseVO<Void> remove(String region, String id) {
+        var isExist = systemEnvironmentManagementDao.isExistEnvCodeById(region, id);
 
         if (Boolean.FALSE.equals(isExist)) {
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.NOT_FOUND_ENV_CODE);
         }
 
-        var isOwner = systemEnvironmentManagementDao.isOwner(id, rcUserComponent.getUserUid());
+        var isOwner = systemEnvironmentManagementDao.isOwner(region, id, rcUserComponent.getUserUid());
 
         if (Boolean.FALSE.equals(isOwner)) {
             throw new SystemEnvironmentManagementException(RcCommonErrorMessage.UNAUTHORIZED_ACCESS);
         }
 
-        systemEnvironmentManagementDao.deleteTransactional(id);
+        systemEnvironmentManagementDao.deleteTransactional(region, id);
 
         return RestResponseVO.<Void>builder()
                 .result(true)
@@ -122,13 +124,13 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
     @Override
     public RestResponseVO<Void> modify(SystemEnvironmentManagementModifyVO systemEnvironmentManagementModifyVO) {
-        var isExist = systemEnvironmentManagementDao.isExistEnvCodeById(systemEnvironmentManagementModifyVO.id());
+        var isExist = systemEnvironmentManagementDao.isExistEnvCodeById(systemEnvironmentManagementModifyVO.region(), systemEnvironmentManagementModifyVO.id());
 
         if (Boolean.FALSE.equals(isExist)) {
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.NOT_FOUND_ENV_CODE);
         }
 
-        var isOwner = systemEnvironmentManagementDao.isOwner(systemEnvironmentManagementModifyVO.id(), rcUserComponent.getUserUid());
+        var isOwner = systemEnvironmentManagementDao.isOwner(systemEnvironmentManagementModifyVO.region(), systemEnvironmentManagementModifyVO.id(), rcUserComponent.getUserUid());
 
         if (Boolean.FALSE.equals(isOwner)) {
             throw new SystemEnvironmentManagementException(RcCommonErrorMessage.UNAUTHORIZED_ACCESS);
@@ -144,7 +146,8 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
         if (category != null) {
             var isCategoryAndOrderDuplicate = systemEnvironmentManagementDao.isCategoryAndOrderDuplicate(
-                    category
+                    systemEnvironmentManagementModifyVO.region()
+                    , category
                     , order
                     , systemEnvironmentManagementModifyVO.id()
             );
@@ -155,6 +158,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
         }
 
         systemEnvironmentManagementDao.updateTransactional(SystemEnvironmentManagementModifyEntity.builder()
+                .region(systemEnvironmentManagementModifyVO.region())
                 .id(systemEnvironmentManagementModifyVO.id())
                 .type(systemEnvironmentManagementModifyVO.type())
                 .value(systemEnvironmentManagementModifyVO.value())

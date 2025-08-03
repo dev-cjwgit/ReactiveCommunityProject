@@ -1,5 +1,6 @@
 package com.cjw.reactivecommunityproject.server.cache.data.service.impl;
 
+import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.server.cache.data.mapper.CacheDataMapper;
 import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataCommonEnvCodeVO;
 import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataCommonLanguageCodeVO;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CacheDataServiceImpl implements CacheDataService {
+    private final RcProperties rcProperties;
     private final CacheDataMapper cacheDataMapper;
 
     @Override
@@ -38,7 +40,7 @@ public class CacheDataServiceImpl implements CacheDataService {
     @Override
     @Cacheable(value = "rc_common_env_code", cacheManager = "redisCacheManager")
     public List<CacheDataCommonEnvCodeVO> getCacheCommonEnvCodeList() {
-        return cacheDataMapper.selectCommonEnvCodeList();
+        return cacheDataMapper.selectCommonEnvCodeList(rcProperties.config().defaultRegion());
     }
 
     @Override
