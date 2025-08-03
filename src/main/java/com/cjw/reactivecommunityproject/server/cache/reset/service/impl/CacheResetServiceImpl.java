@@ -2,8 +2,6 @@ package com.cjw.reactivecommunityproject.server.cache.reset.service.impl;
 
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
 import com.cjw.reactivecommunityproject.server.cache.data.service.CacheDataService;
-import com.cjw.reactivecommunityproject.server.cache.reset.exception.CacheResetErrorMessage;
-import com.cjw.reactivecommunityproject.server.cache.reset.exception.CacheResetException;
 import com.cjw.reactivecommunityproject.server.cache.reset.interfaces.CacheResetTableNaming;
 import com.cjw.reactivecommunityproject.server.cache.reset.model.CacheResetCustomTableEnum;
 import com.cjw.reactivecommunityproject.server.cache.reset.model.CacheResetDataTableEnum;
@@ -37,7 +35,8 @@ public class CacheResetServiceImpl implements CacheResetService {
         var type = cacheResetVO.type();
 
         if (type == null) {
-            return Flux.error(new CacheResetException(CacheResetErrorMessage.INVALID_TYPE));
+            log.warn("type is null");
+            return Flux.empty();
         }
 
         return Flux.fromIterable(CollectionUtils.emptyIfNull(cacheResetVO.table()))
