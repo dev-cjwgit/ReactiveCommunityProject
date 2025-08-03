@@ -1,35 +1,32 @@
 version: '3.1'
 services:
-  # MySQL 서비스 설정
   rc-mariadb:
-    image: mariadb  # 명확한 버전 지정 (원하는 버전으로 변경 가능)
+    image: mariadb
     container_name: rc-mariadb
     environment:
       MYSQL_DATABASE: rcdb
       MYSQL_ROOT_PASSWORD: ss1235789
-      MYSQL_USER: root             # 선택 사항: 사용자 지정
-      MYSQL_PASSWORD: ss1235789     # 선택 사항: 사용자 지정 비밀번호
-    volumes:
-      - rc-mariadb:/var/lib/mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ss1235789
     ports:
       - "3306:3306"
+    volumes:
+      - rc-mariadb:/var/lib/mysql
     networks:
       - rc-network
     restart: unless-stopped
 
-  # Redis 서비스 설정
   rc-redis:
     image: redis
     container_name: rc-redis
     ports:
-      - "6379:6379"  # Redis 포트 매핑
+      - "6379:6379"
+    volumes:
+      - rc-redis:/data
     networks:
       - rc-network
-    depends_on:
-      - rc-mariadb
     restart: unless-stopped
 
-  # Elasticsearch 서비스 설정
   rc-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.16.1
     container_name: rc-elasticsearch
@@ -38,42 +35,9 @@ services:
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
       - xpack.security.enabled=false
     ports:
-      - "9200:9200"                  # Elasticsearch 클러스터 포트
+      - "9200:9200"
     volumes:
-      - rc-elasticsearch:/usr/share/elasticsearch/data  # Elasticsearch 데이터 볼륨 설정
-    networks:
-      - rc-network
-    depends_on:
-      - rc-mariadb
-    restart: unless-stopped
-
-  rc-was:
-    container_name: rc-was
-    shm_size: "30gb"
-    build: ./
-    image: rc_deploy
-    volumes:
-      - rc-was:/usr/share/rc/data  # Elasticsearch 데이터 볼륨 설정
-    restart: unless-stopped
-    networks:
-      - rc-network
-    ports:
-      - "9999:9999"
-    depends_on:
-      - rc-mariadb
-      - rc-redis
-      - rc-elasticsearch
-      - rc-kafka
-
-  rc-nginx:
-    image: nginx:stable
-    container_name: rc-nginx
-    ports:
-      - "80:80"  # 외부 포트
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - rc-was
+      - rc-elasticsearch:/usr/share/elasticsearch/data
     networks:
       - rc-network
     restart: unless-stopped
@@ -84,19 +48,17 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
-    networks:
-      - rc-network
-    restart: unless-stopped
     ports:
       - "2181:2181"
     volumes:
-      - rc-zookeeper-data:/var/lib/zookeeper
+      - rc-zookeeper:/var/lib/zookeeper
+    networks:
+      - rc-network
+    restart: unless-stopped
 
   rc-kafka:
     image: confluentinc/cp-kafka:7.8.0
     container_name: rc-kafka
-    depends_on:
-      - rc-zookeeper
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: rc-zookeeper:2181
@@ -106,34 +68,69 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    networks:
-      - rc-network
+    depends_on:
+      - rc-zookeeper
     ports:
       - "9092:9092"
       - "29092:29092"
     volumes:
-      - rc-kafka-data:/kafka-logs
+      - rc-kafka:/kafka-logs
+    networks:
+      - rc-network
+    restart: unless-stopped
 
   rc-kafka-ui:
     image: provectuslabs/kafka-ui
     container_name: rc-kafka-ui
-    ports:
-      - "8989:8080"
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=rc-kafka:29092
+    ports:
+      - "8989:8080"
     networks:
       - rc-network
     depends_on:
       - rc-kafka
     restart: unless-stopped
 
+  rc-was:
+    image: rc_deploy
+    container_name: rc-was
+    build: ./
+    shm_size: "30gb"
+    depends_on:
+      - rc-mariadb
+      - rc-redis
+      - rc-elasticsearch
+      - rc-kafka
+    ports:
+      - "9999:9999"
+    volumes:
+      - rc-was:/usr/share/rc/data
+    networks:
+      - rc-network
+    restart: unless-stopped
+
+  rc-nginx:
+    image: nginx:stable
+    container_name: rc-nginx
+    depends_on:
+      - rc-was
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - rc-network
+    restart: unless-stopped
+
 # 데이터 저장을 위한 볼륨 설정
 volumes:
+  rc-mariadb: { }
+  rc-redis: { }
+  rc-elasticsearch: { }
   rc-zookeeper: { }
   rc-kafka: { }
-  rc-mariadb: { }
-  rc-elasticsearch: { }
   rc-was: { }
 
 # 네트워크 설정
