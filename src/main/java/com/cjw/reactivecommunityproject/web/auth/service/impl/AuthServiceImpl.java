@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
 
 
     private Integer getRoleUidByCommonEnvCode() {
-        var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("web.auth.service.default.register.role.uid"), Integer.class);
+        var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode("web.auth.service.default.register.role.uid"), Integer.class);
         if (envCode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }

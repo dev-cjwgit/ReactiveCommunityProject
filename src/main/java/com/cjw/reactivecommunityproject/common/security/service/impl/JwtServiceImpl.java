@@ -38,7 +38,7 @@ public class JwtServiceImpl implements JwtService {
 
 
     private Integer getTokenExpiresByCommonEnvCode(String tokenType) {
-        var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode(StringUtils.join("rc.jwt.", tokenType)), Integer.class);
+        var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode(StringUtils.join("rc.jwt.", tokenType)), Integer.class);
         if (envCode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }
@@ -55,7 +55,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String getSecretKeyByCommonEnvCode() {
-        var envcode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.jwt.secret.key"), String.class);
+        var envcode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode("rc.jwt.secret.key"), String.class);
         if (envcode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }

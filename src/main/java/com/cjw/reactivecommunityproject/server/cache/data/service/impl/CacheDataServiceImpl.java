@@ -27,97 +27,97 @@ public class CacheDataServiceImpl implements CacheDataService {
 
     @Override
     @Cacheable(value = "rc_common_region", cacheManager = "redisCacheManager")
-    public List<CacheDataCommonRegionVO> getCacheCommonRegionList() {
+    public List<CacheDataCommonRegionVO> getCommonRegionList() {
         return cacheDataMapper.selectCommonRegionList();
     }
 
     @Override
     @CacheEvict(value = "rc_common_region", cacheManager = "redisCacheManager")
-    public void clearCacheCommonRegionList() {
+    public void clearCommonRegionList() {
         log.info("CacheDataServiceImpl.clearCacheCommonRegionList()");
     }
 
     @Override
     @Cacheable(value = "rc_common_env_code", cacheManager = "redisCacheManager")
-    public List<CacheDataCommonEnvCodeVO> getCacheCommonEnvCodeList() {
+    public List<CacheDataCommonEnvCodeVO> getCommonEnvCodeList() {
         return cacheDataMapper.selectCommonEnvCodeList(rcProperties.config().defaultRegion());
     }
 
     @Override
     @CacheEvict(value = "rc_common_env_code", cacheManager = "redisCacheManager")
-    public void clearCacheCommonEnvCodeList() {
+    public void clearCommonEnvCodeList() {
         log.info("CacheDataServiceImpl.clearCacheCommonEnvCodeList()");
     }
 
     @Override
     @Cacheable(value = "rc_common_language_code", cacheManager = "redisCacheManager")
-    public List<CacheDataCommonLanguageCodeVO> getCacheCommonLanguageCodeList() {
+    public List<CacheDataCommonLanguageCodeVO> getCommonLanguageCodeList() {
         return cacheDataMapper.selectCommonLanguageCodeList();
     }
 
     @Override
     @CacheEvict(value = "rc_common_language_code", cacheManager = "redisCacheManager")
-    public void clearCacheCommonLanguageCodeList() {
+    public void clearCommonLanguageCodeList() {
         log.info("CacheDataServiceImpl.clearCacheCommonLanguageCodeList()");
     }
 
     @Override
     @Cacheable(value = "rc_common_language_gb_code", key = "'lang=' + #lang", cacheManager = "redisCacheManager")
-    public List<CacheDataCommonLanguageGbCodeVO> getCacheCommonLanguageGbCodeList(String lang) {
+    public List<CacheDataCommonLanguageGbCodeVO> getCommonLanguageGbCodeList(String lang) {
         return cacheDataMapper.selectCommonLanguageGbCodeList(lang);
     }
 
     @Override
     @CacheEvict(value = "rc_common_language_gb_code", allEntries = true, cacheManager = "redisCacheManager")
-    public void clearCacheCommonLanguageGbCodeList() {
+    public void clearCommonLanguageGbCodeList() {
         log.info("CacheDataServiceImpl.clearCacheCommonLanguageGbCodeList()");
     }
 
     @Override
     @Cacheable(value = "rc_manage_resource", cacheManager = "redisCacheManager")
-    public List<CacheDataManageResourceVO> getCacheManageResourceList() {
+    public List<CacheDataManageResourceVO> getManageResourceList() {
         return cacheDataMapper.selectManageResourceList();
     }
 
     @Override
     @CacheEvict(value = "rc_manage_resource", cacheManager = "redisCacheManager")
-    public void clearCacheManageResourceList() {
+    public void clearManageResourceList() {
         log.info("CacheDataServiceImpl.clearCacheManageResourceList()");
     }
 
     @Override
     @Cacheable(value = "rc_manage_function", cacheManager = "redisCacheManager")
-    public List<CacheDataManageFunctionVO> getCacheManageFunctionList() {
+    public List<CacheDataManageFunctionVO> getManageFunctionList() {
         return cacheDataMapper.selectManageFunctionList();
     }
 
     @Override
     @CacheEvict(value = "rc_manage_function", cacheManager = "redisCacheManager")
-    public void clearCacheManageFunctionList() {
+    public void clearManageFunctionList() {
         log.info("CacheDataServiceImpl.clearCacheManageFunctionList()");
     }
 
     @Override
     @Cacheable(value = "rc_manage_role_function", cacheManager = "redisCacheManager")
-    public List<CacheDataManageRoleFunctionVO> getCacheManageRoleFunctionList() {
+    public List<CacheDataManageRoleFunctionVO> getManageRoleFunctionList() {
         return cacheDataMapper.selectManageRoleFunctionList();
     }
 
     @Override
     @CacheEvict(value = "rc_manage_role_function", cacheManager = "redisCacheManager")
-    public void clearCacheManageRoleFunctionList() {
+    public void clearManageRoleFunctionList() {
         log.info("CacheDataServiceImpl.clearCacheManageRoleFunctionList()");
     }
 
     @Override
     @Cacheable(value = "rc_manage_role_resource", cacheManager = "redisCacheManager")
-    public List<CacheDataManageRoleResourceVO> getCacheManageRoleResourceList() {
+    public List<CacheDataManageRoleResourceVO> getManageRoleResourceList() {
         return cacheDataMapper.selectManageRoleResourceList();
     }
 
     @Override
     @CacheEvict(value = "rc_manage_role_resource", cacheManager = "redisCacheManager")
-    public void clearCacheManageRoleResourceList() {
+    public void clearManageRoleResourceList() {
         log.info("CacheDataServiceImpl.clearCacheManageRoleFunctionList()");
     }
 }

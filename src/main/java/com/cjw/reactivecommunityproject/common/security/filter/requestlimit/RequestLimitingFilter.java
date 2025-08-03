@@ -36,8 +36,8 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain chain) throws ServletException, IOException {
-        var limit = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.request.filter.limit"), Integer.class);
-        var windowSec = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCustomCommonEnvCode("rc.request.filter.time.window.sec"), Integer.class);
+        var limit = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode("rc.request.filter.limit"), Integer.class);
+        var windowSec = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode("rc.request.filter.time.window.sec"), Integer.class);
 
         if (limit == null || windowSec == null || limit <= 0 || windowSec <= 0) {
             log.error("requestLimitingFilter.doFilterInternal env code is null");

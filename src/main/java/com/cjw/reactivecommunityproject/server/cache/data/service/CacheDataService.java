@@ -11,27 +11,27 @@ import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataManageR
 import java.util.List;
 
 public interface CacheDataService {
-    List<CacheDataCommonRegionVO> getCacheCommonRegionList();
-    void clearCacheCommonRegionList();
+    List<CacheDataCommonRegionVO> getCommonRegionList();
+    void clearCommonRegionList();
 
-    List<CacheDataCommonEnvCodeVO> getCacheCommonEnvCodeList();
-    void clearCacheCommonEnvCodeList();
+    List<CacheDataCommonEnvCodeVO> getCommonEnvCodeList();
+    void clearCommonEnvCodeList();
 
-    List<CacheDataCommonLanguageCodeVO> getCacheCommonLanguageCodeList();
-    void clearCacheCommonLanguageCodeList();
+    List<CacheDataCommonLanguageCodeVO> getCommonLanguageCodeList();
+    void clearCommonLanguageCodeList();
 
-    List<CacheDataCommonLanguageGbCodeVO> getCacheCommonLanguageGbCodeList(String lang);
-    void clearCacheCommonLanguageGbCodeList();
+    List<CacheDataCommonLanguageGbCodeVO> getCommonLanguageGbCodeList(String lang);
+    void clearCommonLanguageGbCodeList();
 
-    List<CacheDataManageResourceVO> getCacheManageResourceList();
-    void clearCacheManageResourceList();
+    List<CacheDataManageResourceVO> getManageResourceList();
+    void clearManageResourceList();
 
-    List<CacheDataManageFunctionVO> getCacheManageFunctionList();
-    void clearCacheManageFunctionList();
+    List<CacheDataManageFunctionVO> getManageFunctionList();
+    void clearManageFunctionList();
 
-    List<CacheDataManageRoleFunctionVO> getCacheManageRoleFunctionList();
-    void clearCacheManageRoleFunctionList();
+    List<CacheDataManageRoleFunctionVO> getManageRoleFunctionList();
+    void clearManageRoleFunctionList();
 
-    List<CacheDataManageRoleResourceVO> getCacheManageRoleResourceList();
-    void clearCacheManageRoleResourceList();
+    List<CacheDataManageRoleResourceVO> getManageRoleResourceList();
+    void clearManageRoleResourceList();
 }

@@ -28,8 +28,8 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @Cacheable(value = "rc_common_env_code", key = "'envId=' + #envId", cacheManager = "redisCacheManager")
-    public CacheCustomEnvCodeVO getCustomCommonEnvCode(String envId) {
-        return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
+    public CacheCustomEnvCodeVO getCommonEnvCode(String envId) {
+        return CollectionUtils.emptyIfNull(cacheDataService.getCommonEnvCodeList())
                 .parallelStream()
                 .filter(o -> Objects.equals(o.getId(), envId))
                 .map(o -> CacheCustomEnvCodeVO.builder()
@@ -48,14 +48,14 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @CacheEvict(value = "rc_common_env_code", allEntries = true, cacheManager = "redisCacheManager")
-    public void clearCustomCommonEnvCode() {
+    public void clearCommonEnvCode() {
         log.info("CacheCustomServiceImpl.clearCommonCustomEnvCode()");
     }
 
     @Override
     @Cacheable(value = "rc_common_env_code", key = "'category=' + #category", cacheManager = "redisCacheManager")
-    public List<CacheCustomEnvCodeVO> getCustomCommonEnvCodeByCategoryList(String category) {
-        return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonEnvCodeList())
+    public List<CacheCustomEnvCodeVO> getCommonEnvCodeByCategoryList(String category) {
+        return CollectionUtils.emptyIfNull(cacheDataService.getCommonEnvCodeList())
                 .parallelStream()
                 .filter(o -> Objects.equals(o.getCategory(), category))
                 .map(o -> CacheCustomEnvCodeVO.builder()
@@ -74,16 +74,16 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @CacheEvict(value = "rc_common_env_code", allEntries = true, cacheManager = "redisCacheManager")
-    public void clearCustomCommonEnvCodeByCategoryList() {
+    public void clearCommonEnvCodeByCategoryList() {
         log.info("CacheCustomServiceImpl.clearCommonCustomEnvCodeByCategoryList()");
     }
 
     @Override
     @Cacheable(value = "custom_common_language", key = "'path=' + #path + '_' + 'lang=' + #lang", cacheManager = "redisCacheManager")
-    public List<CacheCustomLanguageVO> getCustomCommonLangaugeList(String path, String lang) {
-        var gbCodeList = cacheDataService.getCacheCommonLanguageGbCodeList(lang);
+    public List<CacheCustomLanguageVO> getCommonLangaugeList(String path, String lang) {
+        var gbCodeList = cacheDataService.getCommonLanguageGbCodeList(lang);
 
-        return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonLanguageCodeList())
+        return CollectionUtils.emptyIfNull(cacheDataService.getCommonLanguageCodeList())
                 .parallelStream()
                 .map(o -> {
                     var gbCode = CollectionUtils.emptyIfNull(gbCodeList)
@@ -106,15 +106,15 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @CacheEvict(value = "custom_common_language", allEntries = true, cacheManager = "redisCacheManager")
-    public void clearCustomCommonLanguageList() {
+    public void clearCommonLanguageList() {
         log.info("CacheCustomServiceImpl.clearCommonCustomLanguageList()");
     }
 
     @Override
     @Cacheable(value = "custom_manage_role_function", key = "'path=' + #roleUid", cacheManager = "redisCacheManager")
-    public List<CacheCustomRoleFunctionVO> getCustomManageRoleFunctionList(Integer roleUid) {
-        var functionList = cacheDataService.getCacheManageFunctionList();
-        return cacheDataService.getCacheManageRoleFunctionList()
+    public List<CacheCustomRoleFunctionVO> getManageRoleFunctionList(Integer roleUid) {
+        var functionList = cacheDataService.getManageFunctionList();
+        return cacheDataService.getManageRoleFunctionList()
                 .parallelStream()
                 .filter(roleFunction -> Objects.equals(roleFunction.getRoleUid(), roleUid))
                 .filter(roleFunction -> roleFunction.getEnabled() == CommonEnabledEnum.Y)
@@ -137,15 +137,15 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @CacheEvict(value = "custom_manage_role_function", allEntries = true, cacheManager = "redisCacheManager")
-    public void clearCustomManageRoleFunctionList() {
+    public void clearManageRoleFunctionList() {
         log.info("CacheCustomServiceImpl.clearCustomManageRoleFunctionList()");
     }
 
     @Override
     @Cacheable(value = "custom_manage_role_resource", key = "'path=' + #roleUid", cacheManager = "redisCacheManager")
-    public List<CacheCustomRoleResourceVO> getCustomManageRoleResourceList(Integer roleUid) {
-        var functionList = cacheDataService.getCacheManageResourceList();
-        return cacheDataService.getCacheManageRoleResourceList()
+    public List<CacheCustomRoleResourceVO> getManageRoleResourceList(Integer roleUid) {
+        var functionList = cacheDataService.getManageResourceList();
+        return cacheDataService.getManageRoleResourceList()
                 .parallelStream()
                 .filter(roleFunction -> Objects.equals(roleFunction.getRoleUid(), roleUid))
                 .filter(roleFunction -> roleFunction.getEnabled() == CommonEnabledEnum.Y)
@@ -168,7 +168,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @CacheEvict(value = "custom_manage_role_resource", allEntries = true, cacheManager = "redisCacheManager")
-    public void clearCustomManageRoleResourceList() {
+    public void clearManageRoleResourceList() {
         log.info("CacheCustomServiceImpl.clearCustomManageRoleResourceList()");
     }
 }

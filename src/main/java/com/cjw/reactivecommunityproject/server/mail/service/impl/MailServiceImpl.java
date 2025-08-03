@@ -34,7 +34,7 @@ public class MailServiceImpl implements MailService {
     }
 
     private MailConnectConfigVO getMailConfig() {
-        var configEnvCodeList = cacheCustomService.getCustomCommonEnvCodeByCategoryList("mail.config");
+        var configEnvCodeList = cacheCustomService.getCommonEnvCodeByCategoryList("mail.config");
         var hostUri = getConfigValueByCode(configEnvCodeList, "host.uri", String.class);
         var port = getConfigValueByCode(configEnvCodeList, "port", Integer.class);
         var name = getConfigValueByCode(configEnvCodeList, "name", String.class);

@@ -40,7 +40,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
         if (StringUtils.isBlank(region)) {
             return false;
         } else {
-            return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonRegionList())
+            return CollectionUtils.emptyIfNull(cacheDataService.getCommonRegionList())
                     .parallelStream()
                     .map(CacheDataCommonRegionVO::getRegion)
                     .noneMatch(region::equals);
