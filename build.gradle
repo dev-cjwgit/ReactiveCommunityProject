@@ -45,7 +45,7 @@ ext {
     // Elasticsearch Client
     elasticsearhClientVersion = '8.16.1'
     // Log4j2
-    log4j2Version = '1.16'
+    log4jdbcVersion = '1.16'
     // Spring Cloud Stream
     springCloudStreamVersion = '4.3.0'
     //
@@ -78,6 +78,7 @@ dependencies {
     // MariaDB Driver
     implementation "org.mariadb.jdbc:mariadb-java-client"
 
+    // MyBatis
     implementation "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatisVersion}"
 
     // JWT 의존성
@@ -100,8 +101,8 @@ dependencies {
     // Elasticsearch Rest Client
     implementation "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearhClientVersion}"
 
-    // Log4j2
-    implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4j2Version}"
+    // log4jdbc + log4j2
+    implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4jdbcVersion}"
 
     // Kafka
     implementation "org.springframework.cloud:spring-cloud-starter-stream-kafka:${springCloudStreamVersion}"
