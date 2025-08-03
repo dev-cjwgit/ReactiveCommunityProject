@@ -7,6 +7,7 @@
         /* SystemRoleManagementMapper.selectList() */
         SELECT  `uid`
               , `name`
+              , `description`
               , `enabled`
               , `created_user_uid`
               , `created_utc_at`
@@ -35,6 +36,7 @@
         /* SystemRoleManagementMapper.selectDetail() */
         SELECT `uid`
              , `name`
+             , `description`
              , `enabled`
              , `created_user_uid`
              , `created_utc_at`
@@ -51,7 +53,7 @@
         <where>
             `name` = #{name, jdbcType=VARCHAR}
             <if test='uid != null'>
-                `uid` != #{uid, jdbcType=TINYINT}
+                AND `uid` != #{uid, jdbcType=TINYINT}
             </if>
         </where>
     </select>
@@ -60,6 +62,7 @@
         /* SystemRoleManagementMapper.insert() */
         INSERT INTO rc_manage_role( `uid`
                                   , `name`
+                                  , `description`
                                   , `enabled`
                                   , `created_user_uid`
                                   , `created_utc_at`
@@ -67,6 +70,7 @@
                                   , `updated_utc_at`)
         VALUES ( #{uid, jdbcType=TINYINT}
                , #{name, jdbcType=VARCHAR}
+               , #{description, jdbcType=VARCHAR}
                , 'Y'
                , #{userUid, jdbcType=VARCHAR}
                , CURRENT_TIMESTAMP()
@@ -103,10 +107,11 @@
         WHERE `uid` = #{uid, jdbcType=TINYINT}
     </delete>
 
-    <update id="update" parameterType="SystemResourceManagementModifyEntity">
+    <update id="update" parameterType="SystemRoleManagementModifyEntity">
         /* SystemRoleManagementMapper.update() */
         UPDATE rc_manage_role
         SET `name`             = #{name, jdbcType=VARCHAR}
+          , `description`      = #{description, jdbcType=VARCHAR}
           , `enabled`          = #{enabled, jdbcType=VARCHAR}
           , `updated_user_uid` = #{userUid, jdbcType=VARCHAR}
           , `updated_utc_at`   = CURRENT_TIMESTAMP()

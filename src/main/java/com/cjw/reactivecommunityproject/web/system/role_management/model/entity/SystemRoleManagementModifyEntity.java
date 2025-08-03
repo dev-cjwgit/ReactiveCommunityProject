@@ -8,7 +8,7 @@ public record SystemRoleManagementModifyEntity(
         Integer uid
         , String name
         , String description
-        , String userUid
         , CommonEnabledEnum enabled
+        , String userUid
 ) {
 }
