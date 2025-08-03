@@ -23,6 +23,15 @@ repositories {
     mavenCentral()
 }
 
+configurations.all {
+    // 1️⃣ Logback & default logging 완전 제거
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    exclude group: 'ch.qos.logback',            module: 'logback-classic'
+
+    // 2️⃣ *반대 방향* 브리지도 제거
+    exclude group: 'org.apache.logging.log4j',  module: 'log4j-to-slf4j'
+}
+
 ext {
     // Jwt Token
     jjwtVersion = '0.12.6'
@@ -101,8 +110,9 @@ dependencies {
     // Elasticsearch Rest Client
     implementation "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearhClientVersion}"
 
-    // log4jdbc + log4j2
+    // log4jdbc
     implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4jdbcVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 
     // Kafka
     implementation "org.springframework.cloud:spring-cloud-starter-stream-kafka:${springCloudStreamVersion}"

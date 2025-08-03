@@ -1,30 +1,35 @@
-<configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
-        <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-        </encoder>
-    </appender>
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="CONSOLE_LOG_PATTERN">%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{bright,cyan} %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan, TRACE=bright_black} %style{%pid}{magenta} --- [%style{%thread}{bright,blue}] %style{%logger{39}}{cyan} : %msg%n%throwable</Property>
+    </Properties>
 
-    <!-- log4jdbc-log4j2 -->
-    <logger name="jdbc" level="OFF"/>
-    <!-- 커넥션 open close 이벤트를 로그로 남긴다. -->
-    <logger name="jdbc.connection" level="OFF"/>
-    <!-- SQL문만을 로그로 남기며, PreparedStatement일 경우 관련된 argument 값으로 대체된 SQL문이 보여진다. -->
-    <logger name="jdbc.sqlonly" level="OFF"/>
-    <!-- SQL문과 해당 SQL을 실행시키는데 수행된 시간 정보(milliseconds)를 포함한다. -->
-    <logger name="jdbc.sqltiming" level="INFO">
-        <RegexFilter regex="(?s).*NOT_SQL_LOG.*" onMatch="DENY" onMismatch="NEUTRAL" useRawMsg="true" />
-    </logger>
-    <!-- ResultSet을 제외한 모든 JDBC 호출 정보를 로그로 남긴다. 많은 양의 로그가 생성되므로 특별히 JDBC 문제를 추적해야 할 필요가 있는 경우를 제외하고는 사용을 권장하지 않는다. -->
-    <logger name="jdbc.audit" level="OFF"/>
-    <!-- ResultSet을 포함한 모든 JDBC 호출 정보를 로그로 남기므로 매우 방대한 양의 로그가 생성된다. -->
-    <logger name="jdbc.resultset" level="OFF"/>
-    <!-- SQL 결과 조회된 데이터의 table을 로그로 남긴다. -->
-    <logger name="jdbc.resultsettable" level="OFF" />
 
-    <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-    </root>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${CONSOLE_LOG_PATTERN}" charset="UTF-8" disableAnsi="false"/>
+        </Console>
 
-</configuration>
+        <Async name="AsyncConsole" bufferSize="8192" blocking="false">
+            <AppenderRef ref="Console"/>
+        </Async>
+    </Appenders>
+
+    <Loggers>
+
+        <Logger name="jdbc" level="off"/>
+        <Logger name="jdbc.connection" level="off"/>
+        <Logger name="jdbc.sqlonly" level="off"/>
+        <Logger name="jdbc.sqltiming" level="info" additivity="false">
+            <RegexFilter regex="(?s).*NOT_SQL_LOG.*" onMatch="deny" onMismatch="neutral" useRawMsg="true"/>
+            <AppenderRef ref="AsyncConsole"/>
+        </Logger>
+        <Logger name="jdbc.audit" level="off"/>
+        <Logger name="jdbc.resultset" level="off"/>
+        <Logger name="jdbc.resultsettable" level="off"/>
+
+        <Root level="info">
+            <AppenderRef ref="AsyncConsole"/>
+        </Root>
+    </Loggers>
+</Configuration>
