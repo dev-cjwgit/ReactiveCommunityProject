@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN">
     <Properties>
+        <Property name="LOG_DIR">${sys:LOG_DIR:-/var/log/rc-was}</Property>
         <Property name="CONSOLE_LOG_PATTERN">%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{bright,cyan} %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan, TRACE=bright_black} %style{%pid}{magenta} --- [%style{%thread}{bright,blue}] %style{%logger{39}}{cyan} : %msg%n%throwable</Property>
         <Property name="FILE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | %pid | %thread | %c{2}.%M:%L |%marker %X{traceId:-}| %msg%n%throwable</Property>
     </Properties>
@@ -11,7 +12,7 @@
             <PatternLayout pattern="${CONSOLE_LOG_PATTERN}" charset="UTF-8" disableAnsi="false"/>
         </Console>
 
-        <RollingFile name="File" fileName="d:/logs/systemLog.log" filePattern="logs/app-%d{yyyy-MM-dd}.log">
+        <RollingFile name="File" fileName="${LOG_DIR}/systemLog.log" filePattern="${LOG_DIR}/systemLog-%d{yyyy-MM-dd}.log">
             <PatternLayout pattern="${FILE_LOG_PATTERN}" charset="UTF-8"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>

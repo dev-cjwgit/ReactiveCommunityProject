@@ -11,7 +11,7 @@
             <PatternLayout pattern="${CONSOLE_LOG_PATTERN}" charset="UTF-8" disableAnsi="false"/>
         </Console>
 
-        <RollingFile name="File" fileName="d:/logs/systemLog.log" filePattern="logs/app-%d{yyyy-MM-dd}.log">
+        <RollingFile name="File" fileName="D:/logs/systemLog.log" filePattern="logs/app-%d{yyyy-MM-dd}.log">
             <PatternLayout pattern="${FILE_LOG_PATTERN}" charset="UTF-8"/>
             <Policies>
                 <TimeBasedTriggeringPolicy interval="1" modulate="true"/>

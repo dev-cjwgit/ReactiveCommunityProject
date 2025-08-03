@@ -16,11 +16,14 @@ WORKDIR /app
 # 빌드된 jar 복사
 COPY --from=build /app/build/libs/*.jar app.jar
 
-# 기본값 (필요없으면 지우기)
 ENV SPRING_PROFILES_ACTIVE=dev
+ENV LOG_DIR=/app/log/rc-was
+RUN mkdir -p ${LOG_DIR} && chmod -R 777 ${LOG_DIR}
+
+VOLUME ["${LOG_DIR}"]
 
 # 필요한 포트 열기 (Spring Boot 기본 8080)
 EXPOSE 9999
 
 # 실행
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-DLOG_DIR=/app/log/rc-was", "-jar", "app.jar"]
