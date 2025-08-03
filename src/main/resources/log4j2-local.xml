@@ -2,6 +2,7 @@
 <Configuration status="WARN">
     <Properties>
         <Property name="CONSOLE_LOG_PATTERN">%style{%d{yyyy-MM-dd HH:mm:ss.SSS}}{bright,cyan} %highlight{%-5level}{FATAL=bg_red, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan, TRACE=bright_black} %style{%pid}{magenta} --- [%style{%thread}{bright,blue}] %style{%logger{39}}{cyan} : %msg%n%throwable</Property>
+        <Property name="FILE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} | %-5level | %pid | %thread | %c{2}.%M:%L |%marker %X{traceId:-}| %msg%n%throwable</Property>
     </Properties>
 
 
@@ -10,26 +11,34 @@
             <PatternLayout pattern="${CONSOLE_LOG_PATTERN}" charset="UTF-8" disableAnsi="false"/>
         </Console>
 
-        <Async name="AsyncConsole" bufferSize="8192" blocking="false">
+        <RollingFile name="File" fileName="d:/logs/systemLog.log" filePattern="logs/app-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}" charset="UTF-8"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="14"/>
+        </RollingFile>
+
+        <Async name="Async" bufferSize="8192" blocking="false">
             <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
         </Async>
     </Appenders>
 
     <Loggers>
-
         <Logger name="jdbc" level="off"/>
         <Logger name="jdbc.connection" level="off"/>
         <Logger name="jdbc.sqlonly" level="off"/>
         <Logger name="jdbc.sqltiming" level="info" additivity="false">
             <RegexFilter regex="(?s).*NOT_SQL_LOG.*" onMatch="deny" onMismatch="neutral" useRawMsg="true"/>
-            <AppenderRef ref="AsyncConsole"/>
+            <AppenderRef ref="Async"/>
         </Logger>
         <Logger name="jdbc.audit" level="off"/>
         <Logger name="jdbc.resultset" level="off"/>
         <Logger name="jdbc.resultsettable" level="off"/>
 
         <Root level="info">
-            <AppenderRef ref="AsyncConsole"/>
+            <AppenderRef ref="Async"/>
         </Root>
     </Loggers>
 </Configuration>
