@@ -9,6 +9,7 @@ public enum SystemEnvironmentManagementErrorMessage implements RcBaseErrorMessag
     , DUPLICATE_ENVCODE_INFO(null, "이미 중복된 환경코드 id 입니다.", HttpStatus.BAD_REQUEST)
     , NOT_FOUND_ENV_CODE(null, "환경코드를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST)
     , DUPLICATE_CATEGORY_AND_ORDER_INFO(null, "이미 중복된 category + order 입니다.", HttpStatus.BAD_REQUEST)
+    , INVALID_ENV_CODE_REGION(null, "유효하지 않은 지역입니다.", HttpStatus.BAD_REQUEST)
 
     , DUMMY(null, null, null);
 

@@ -5,6 +5,8 @@ import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.service.PaginationService;
+import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataCommonRegionVO;
+import com.cjw.reactivecommunityproject.server.cache.data.service.CacheDataService;
 import com.cjw.reactivecommunityproject.web.system.environment_management.dao.SystemEnvironmentManagementDao;
 import com.cjw.reactivecommunityproject.web.system.environment_management.exception.SystemEnvironmentManagementErrorMessage;
 import com.cjw.reactivecommunityproject.web.system.environment_management.exception.SystemEnvironmentManagementException;
@@ -16,9 +18,11 @@ import com.cjw.reactivecommunityproject.web.system.environment_management.model.
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementListVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.request.SystemEnvironmentManagementModifyVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.service.SystemEnvironmentManagementService;
+import io.micrometer.common.util.StringUtils;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -30,8 +34,25 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
     private final PaginationService paginationService;
     private final RcUserComponent rcUserComponent;
 
+    private final CacheDataService cacheDataService;
+
+    private boolean isNotValidRegion(String region) {
+        if (StringUtils.isBlank(region)) {
+            return false;
+        } else {
+            return CollectionUtils.emptyIfNull(cacheDataService.getCacheCommonRegionList())
+                    .parallelStream()
+                    .map(CacheDataCommonRegionVO::getRegion)
+                    .noneMatch(region::equals);
+        }
+    }
+
     @Override
     public RestResponseVO<List<SystemEnvironmentManagementListEntity>> readEnvironmentManagementList(SystemEnvironmentManagementListVO systemResourceManagementListVO, PaginationRequestVO paginationRequestVO) {
+        if (this.isNotValidRegion(systemResourceManagementListVO.region())) {
+            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_ENV_CODE_REGION);
+        }
+
         var list = systemEnvironmentManagementDao.selectList(
                 paginationService.createPagination(systemResourceManagementListVO, paginationRequestVO)
         );
@@ -44,6 +65,10 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
     @Override
     public RestResponseVO<SystemEnvironmentManagementDetailEntity> detail(String region, String id) {
+        if (this.isNotValidRegion(region)) {
+            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_ENV_CODE_REGION);
+        }
+
         var detail = systemEnvironmentManagementDao.selectDetail(region, id);
 
         if (detail == null) {
@@ -58,6 +83,10 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
     @Override
     public RestResponseVO<Void> create(SystemEnvironmentManagementCreateVO systemEnvironmentManagementCreateVO) {
+        if (this.isNotValidRegion(systemEnvironmentManagementCreateVO.region())) {
+            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_ENV_CODE_REGION);
+        }
+
         var isIdDuplicate = systemEnvironmentManagementDao.isExistEnvCodeById(systemEnvironmentManagementCreateVO.region(), systemEnvironmentManagementCreateVO.id());
 
         if (Boolean.TRUE.equals(isIdDuplicate)) {
@@ -103,6 +132,10 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
     @Override
     public RestResponseVO<Void> remove(String region, String id) {
+        if (this.isNotValidRegion(region)) {
+            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_ENV_CODE_REGION);
+        }
+
         var isExist = systemEnvironmentManagementDao.isExistEnvCodeById(region, id);
 
         if (Boolean.FALSE.equals(isExist)) {
@@ -124,6 +157,9 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
 
     @Override
     public RestResponseVO<Void> modify(SystemEnvironmentManagementModifyVO systemEnvironmentManagementModifyVO) {
+        if (this.isNotValidRegion(systemEnvironmentManagementModifyVO.region())) {
+            throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_ENV_CODE_REGION);
+        }
         var isExist = systemEnvironmentManagementDao.isExistEnvCodeById(systemEnvironmentManagementModifyVO.region(), systemEnvironmentManagementModifyVO.id());
 
         if (Boolean.FALSE.equals(isExist)) {
