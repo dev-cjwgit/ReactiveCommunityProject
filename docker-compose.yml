@@ -78,25 +78,41 @@ services:
       - rc-network
     restart: unless-stopped
 
+  rc-zookeeper:
+    image: confluentinc/cp-zookeeper:7.8.0
+    container_name: rc-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - rc-network
+    restart: unless-stopped
+    ports:
+      - "2181:2181"
+    volumes:
+      - rc-zookeeper-data:/var/lib/zookeeper
+
   rc-kafka:
     image: confluentinc/cp-kafka:7.8.0
     container_name: rc-kafka
-    ports:
-      - "9092:9092"          # EXTERNAL
-      - "9093:9093"          # CONTROLLER
+    depends_on:
+      - rc-zookeeper
     environment:
-      KAFKA_NODE_ID: 1
-      KAFKA_PROCESS_ROLES: "broker,controller"
-      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@rc-kafka:9093"
-      KAFKA_LISTENERS: "INTERNAL://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093"
-      KAFKA_ADVERTISED_LISTENERS: "INTERNAL://rc-kafka:29092,EXTERNAL://localhost:9092"
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT"
-      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
-      KAFKA_INTER_BROKER_LISTENER_NAME: "INTERNAL"
-      CLUSTER_ID: "EmptNWtoR4GGWx-BH6nGLQ"
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: rc-zookeeper:2181
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://rc-kafka:29092,EXTERNAL://localhost:9092
+      KAFKA_LISTENERS: INTERNAL://0.0.0.0:29092,EXTERNAL://0.0.0.0:9092
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - rc-network
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    volumes:
+      - rc-kafka-data:/kafka-logs
 
   rc-kafka-ui:
     image: provectuslabs/kafka-ui
@@ -114,6 +130,8 @@ services:
 
 # 데이터 저장을 위한 볼륨 설정
 volumes:
+  rc-zookeeper: { }
+  rc-kafka: { }
   rc-mariadb: { }
   rc-elasticsearch: { }
   rc-was: { }
