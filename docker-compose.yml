@@ -10,11 +10,11 @@ services:
       MYSQL_PASSWORD: ss1235789
     healthcheck:
       test: [ "CMD", "healthcheck.sh", "--connect", "--innodb_initialized" ]
-      start_period: 1m
-      start_interval: 10s
+      start_period: 2m
+      start_interval: 30s
       interval: 1m
       timeout: 5s
-      retries: 3
+      retries: 10
     ports:
       - "3306:3306"
     volumes:
