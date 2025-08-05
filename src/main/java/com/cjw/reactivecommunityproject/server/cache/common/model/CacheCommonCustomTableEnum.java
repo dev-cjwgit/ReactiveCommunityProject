@@ -1,8 +1,8 @@
-package com.cjw.reactivecommunityproject.server.cache.reset.model;
+package com.cjw.reactivecommunityproject.server.cache.common.model;
 
-import com.cjw.reactivecommunityproject.server.cache.reset.interfaces.CacheResetTableNaming;
+import com.cjw.reactivecommunityproject.server.cache.common.interfaces.CacheCommonTableNaming;
 
-public enum CacheResetCustomTableEnum implements CacheResetTableNaming {
+public enum CacheCommonCustomTableEnum implements CacheCommonTableNaming {
     COMMON_ENV_CODE
     , COMMON_ENV_CODE_BY_CATEGORY_LIST
     , COMMON_LANGUAGE_LIST

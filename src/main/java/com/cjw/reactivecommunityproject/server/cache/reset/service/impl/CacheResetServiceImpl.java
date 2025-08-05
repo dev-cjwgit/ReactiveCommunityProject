@@ -2,11 +2,11 @@ package com.cjw.reactivecommunityproject.server.cache.reset.service.impl;
 
 import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
 import com.cjw.reactivecommunityproject.server.cache.data.service.CacheDataService;
-import com.cjw.reactivecommunityproject.server.cache.reset.interfaces.CacheResetTableNaming;
-import com.cjw.reactivecommunityproject.server.cache.reset.model.CacheResetCustomTableEnum;
-import com.cjw.reactivecommunityproject.server.cache.reset.model.CacheResetDataTableEnum;
+import com.cjw.reactivecommunityproject.server.cache.common.interfaces.CacheCommonTableNaming;
+import com.cjw.reactivecommunityproject.server.cache.common.model.CacheCommonCustomTableEnum;
+import com.cjw.reactivecommunityproject.server.cache.common.model.CacheCommonDataTableEnum;
 import com.cjw.reactivecommunityproject.server.cache.reset.model.CacheResetTableVO;
-import com.cjw.reactivecommunityproject.server.cache.reset.model.CacheResetTypeEnum;
+import com.cjw.reactivecommunityproject.server.cache.common.model.CacheCommonTypeEnum;
 import com.cjw.reactivecommunityproject.server.cache.reset.model.CacheResetVO;
 import com.cjw.reactivecommunityproject.server.cache.reset.service.CacheResetService;
 import java.lang.reflect.Method;
@@ -42,9 +42,9 @@ public class CacheResetServiceImpl implements CacheResetService {
         return Flux.fromIterable(CollectionUtils.emptyIfNull(cacheResetVO.table()))
                 .flatMap(table -> {
                     try {
-                        CacheResetTableNaming enumValue = switch (type) {
-                            case DATA -> CacheResetDataTableEnum.valueOf(table);
-                            case CUSTOM -> CacheResetCustomTableEnum.valueOf(table);
+                        CacheCommonTableNaming enumValue = switch (type) {
+                            case DATA -> CacheCommonDataTableEnum.valueOf(table);
+                            case CUSTOM -> CacheCommonCustomTableEnum.valueOf(table);
                         };
 
                         return Mono.just(CacheResetTableVO.builder()
@@ -58,7 +58,7 @@ public class CacheResetServiceImpl implements CacheResetService {
                 });
     }
 
-    private Object resolveService(CacheResetTypeEnum type) {
+    private Object resolveService(CacheCommonTypeEnum type) {
         return switch (type) {
             case DATA -> cacheDataService;
             case CUSTOM -> cacheCustomService;
