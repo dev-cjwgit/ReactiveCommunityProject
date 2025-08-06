@@ -80,7 +80,7 @@ public class CacheCustomServiceImpl implements CacheCustomService {
 
     @Override
     @Cacheable(value = "custom_common_language", key = "'path=' + #path + '_' + 'lang=' + #lang", cacheManager = "redisCacheManager")
-    public List<CacheCustomLanguageVO> getCommonLangaugeList(String path, String lang) {
+    public List<CacheCustomLanguageVO> getCommonLanguageList(String path, String lang) {
         var gbCodeList = cacheDataService.getCommonLanguageGbCodeList(lang);
 
         return CollectionUtils.emptyIfNull(cacheDataService.getCommonLanguageCodeList())

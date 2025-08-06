@@ -13,7 +13,7 @@ public interface CacheCustomService {
     List<CacheCustomEnvCodeVO> getCommonEnvCodeByCategoryList(String category);
     void clearCommonEnvCodeByCategoryList();
 
-    List<CacheCustomLanguageVO> getCommonLangaugeList(String path, String lang);
+    List<CacheCustomLanguageVO> getCommonLanguageList(String path, String lang);
     void clearCommonLanguageList();
 
     List<CacheCustomRoleFunctionVO> getManageRoleFunctionList(Integer roleUid);
