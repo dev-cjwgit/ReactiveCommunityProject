@@ -67,7 +67,7 @@ public class CacheLoadServiceImpl implements CacheLoadService {
         };
     }
 
-    private String createClearMethodName(String tableName) {
+    private String createGetMethodName(String tableName) {
         return StringUtils.join(LOAD_METHOD_PREFIX, this.toCamelCase(tableName));
     }
 
@@ -137,7 +137,7 @@ public class CacheLoadServiceImpl implements CacheLoadService {
 
     @Override
     public void loadCache(CacheLoadTableVO cacheLoadTableVO) {
-        String methodName = this.createClearMethodName(cacheLoadTableVO.table().getTableName());
+        String methodName = this.createGetMethodName(cacheLoadTableVO.table().getTableName());
         Object service = this.resolveService(cacheLoadTableVO.type());
 
         this.invokeMethod(service, methodName, cacheLoadTableVO.parameters());
