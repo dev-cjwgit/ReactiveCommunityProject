@@ -11,6 +11,7 @@ import com.cjw.reactivecommunityproject.server.cache.load.model.CacheLoadVO;
 import com.cjw.reactivecommunityproject.server.cache.load.service.CacheLoadService;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -76,35 +77,36 @@ public class CacheLoadServiceImpl implements CacheLoadService {
                 .collect(Collectors.joining());
     }
 
-    private Method findMethod(Class<?> clazz, String methodName, Object[] args) {
+    // 인자의 개수를 확인하는 함수
+    private boolean hasSameArity(Method method, List<Object> args) {
+        return method.getParameterCount() == args.size();
+    }
+
+    // 각 파라미터가 호환되는지 확인하는 함수
+    private boolean parametersMatch(Class<?>[] paramTypes, List<Object> args) {
+        for (int i = 0; i < paramTypes.length; i++) {
+            if (!this.isCompatible(paramTypes[i], args.get(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 리플렉션 전 메소드 + 파라미터 개수 및 타입을 모두 검사하는 함수
+    private boolean isSameSignature(Method method, String name, List<Object> args) {
+        return method.getName().equals(name)
+                && this.hasSameArity(method, args)
+                && this.parametersMatch(method.getParameterTypes(), args);
+    }
+
+
+    private Method findMethod(Class<?> clazz, String methodName, List<Object> args) {
         for (Method method : clazz.getDeclaredMethods()) {
             if (this.isSameSignature(method, methodName, args)) {
                 return method;
             }
         }
         return null;
-    }
-
-    // 리플렉션 전 메소드 + 파라미터 개수 및 타입을 모두 검사하는 함수
-    private boolean isSameSignature(Method method, String name, Object[] args) {
-        return method.getName().equals(name)
-                && this.hasSameArity(method, args)
-                && this.parametersMatch(method.getParameterTypes(), args);
-    }
-
-    // 인자의 개수를 확인하는 함수
-    private boolean hasSameArity(Method method, Object[] args) {
-        return method.getParameterCount() == args.length;
-    }
-
-    // 각 파라미터가 호환되는지 확인하는 함수
-    private boolean parametersMatch(Class<?>[] paramTypes, Object[] args) {
-        for (int i = 0; i < paramTypes.length; i++) {
-            if (!this.isCompatible(paramTypes[i], args[i])) {
-                return false;           // 하나라도 불일치하면 즉시 false
-            }
-        }
-        return true;
     }
 
     // null 및 원시타입 타입 호환 검사하는 함수
@@ -115,18 +117,18 @@ public class CacheLoadServiceImpl implements CacheLoadService {
         return paramType.isAssignableFrom(arg.getClass());
     }
 
-    private void invokeMethod(Object service, String methodName, Object... args) {
+    private void invokeMethod(Object service, String methodName, List<Object> args) {
         try {
             Method target = this.findMethod(service.getClass(), methodName, args);
             if (target == null) {
-                log.error("No matching method [{}] on {} with args {}",
-                        methodName, service.getClass().getSimpleName(), Arrays.toString(args));
+                log.error("No matching method [{}] on {} with args {}", methodName, service.getClass().getSimpleName(), args);
                 return;
             }
             if (!target.canAccess(service)) {
                 target.setAccessible(true);
             }
-            target.invoke(service, args);   // 인자 그대로 전달
+            target.invoke(service, args.toArray());   // 인자 그대로 전달
+            log.info("Call Method [{}] on {} with args {}", methodName, service.getClass().getSimpleName(), args);
         } catch (Exception e) {
             log.error("Failed to invoke method: {}", methodName, e);
         }
