@@ -8,7 +8,7 @@ import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwt;
 import com.cjw.reactivecommunityproject.common.security.model.SecurityJwtPayload;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
-import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
+import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,11 +34,11 @@ import org.springframework.stereotype.Service;
 public class JwtServiceImpl implements JwtService {
     private final ObjectMapper objectMapper;
     private final RedisTemplate<String, Object> redisTemplate;
-    private final CacheCustomService cacheCustomService;
+    private final CacheInfoCustomService cacheInfoCustomService;
 
 
     private Integer getTokenExpiresByCommonEnvCode(String tokenType) {
-        var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode(StringUtils.join("rc.jwt.", tokenType)), Integer.class);
+        var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheInfoCustomService.getCommonEnvCode(StringUtils.join("rc.jwt.", tokenType)), Integer.class);
         if (envCode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }
@@ -55,7 +55,7 @@ public class JwtServiceImpl implements JwtService {
     }
 
     private String getSecretKeyByCommonEnvCode() {
-        var envcode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode("rc.jwt.secret.key"), String.class);
+        var envcode = EnvCodeUtils.convertEnvCodeByValue(cacheInfoCustomService.getCommonEnvCode("rc.jwt.secret.key"), String.class);
         if (envcode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }

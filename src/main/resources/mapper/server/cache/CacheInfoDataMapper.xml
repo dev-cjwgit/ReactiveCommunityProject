@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cjw.reactivecommunityproject.server.cache.info.data.mapper.CacheInfoDataMapper">
+    <select id="selectCommonRegionList" resultType="CacheInfoDataCommonRegionVO">
+        /* CacheInfoDataMapper.selectCommonRegionList */
+        SELECT `region`
+             , `enabled`
+             , `updated_utc_at`
+        FROM rc_common_region
+    </select>
+
+    <select id="selectCommonEnvCodeList" parameterType="String" resultType="CacheInfoDataCommonEnvCodeVO">
+        /* CacheInfoDataMapper.selectCommonEnvCodeList */
+        SELECT `region`
+             , `id`
+             , `type`
+             , `value`
+             , `order`
+             , `category`
+             , `enabled`
+             , `updated_utc_at`
+        FROM rc_common_env_code
+        WHERE `region` = #{region, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectCommonLanguageCodeList" resultType="CacheInfoDataCommonLanguageCodeVO">
+        /* CacheInfoDataMapper.selectCommonLanguageCodeList */
+        SELECT `path`
+             , `code`
+             , `value`
+             , `updated_utc_at`
+        FROM rc_common_language_code
+    </select>
+
+    <select id="selectCommonLanguageGbCodeList" resultType="CacheInfoDataCommonLanguageGbCodeVO">
+        /* CacheInfoDataMapper.selectCommonLanguageGbCodeList */
+        SELECT `path`
+             , `code`
+             , `language_uid`
+             , `value`
+             , `updated_utc_at`
+        FROM rc_common_language_gb_code
+        WHERE `language_uid` = #{lang, jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectManageResourceList" resultType="CacheInfoDataManageResourceVO">
+        /* CacheInfoDataMapper.selectManageResourceList */
+        SELECT `uid`
+             , `method`
+             , `url_pattern`
+             , `enabled`
+             , `updated_utc_at`
+        FROM rc_manage_resource
+    </select>
+
+    <select id="selectManageFunctionList" resultType="CacheInfoDataManageFunctionVO">
+        /* CacheInfoDataMapper.selectManageFunctionList */
+        SELECT `uid`
+             , `name`
+             , `type`
+             , `enabled`
+             , `updated_utc_at`
+        FROM rc_manage_function
+    </select>
+
+    <select id="selectManageRoleFunctionList" resultType="CacheInfoDataManageRoleFunctionVO">
+        /* CacheInfoDataMapper.selectManageRoleFunctionList */
+        SELECT `role_uid`
+             , `function_uid`
+             , `enabled`
+             , `updated_utc_at`
+        FROM rc_manage_role_function
+    </select>
+
+    <select id="selectManageRoleResourceList" resultType="CacheInfoDataManageRoleResourceVO">
+        /* CacheInfoDataMapper.selectManageRoleResourceList */
+        SELECT `role_uid`
+             , `resource_uid`
+             , `enabled`
+             , `updated_utc_at`
+        FROM rc_manage_role_resource
+    </select>
+</mapper>

@@ -5,7 +5,7 @@ import com.cjw.reactivecommunityproject.common.security.filter.jwt.JwtAuthorizat
 import com.cjw.reactivecommunityproject.common.security.handler.JwtAuthenticationFailedHandler;
 import com.cjw.reactivecommunityproject.common.security.handler.JwtAuthorizationDeniedHandler;
 import com.cjw.reactivecommunityproject.common.security.service.JwtService;
-import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
+import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +23,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 public class SecurityConfig {
     private final JwtService jwtService;
     private final CorsConfigurationSource corsConfigurationSource;
-    private final CacheCustomService cacheCustomService;
+    private final CacheInfoCustomService cacheInfoCustomService;
 
     private static final String[] ALLOW_PATH_URL_LIST = {"/rest/auth/**"};
 
@@ -55,7 +55,7 @@ public class SecurityConfig {
                                 .requestMatchers(ALLOW_PATH_URL_LIST)
                                 .permitAll()
                                 .anyRequest()
-                                .access(new JwtAuthorizationFilter(cacheCustomService))
+                                .access(new JwtAuthorizationFilter(cacheInfoCustomService))
                 )
 
                 .exceptionHandling(exceptionHandle ->

@@ -2,8 +2,8 @@ package com.cjw.reactivecommunityproject.server.mail.service.impl;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
-import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomEnvCodeVO;
-import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
+import com.cjw.reactivecommunityproject.server.cache.info.custom.model.CacheInfoCustomEnvCodeVO;
+import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import com.cjw.reactivecommunityproject.server.mail.exception.MailException;
 import com.cjw.reactivecommunityproject.server.mail.model.MailConnectConfigVO;
 import com.cjw.reactivecommunityproject.server.mail.model.MailSendVO;
@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
-    private final CacheCustomService cacheCustomService;
+    private final CacheInfoCustomService cacheInfoCustomService;
 
-    private <T> T getConfigValueByCode(List<CacheCustomEnvCodeVO> configEnvCodeList, String envId, Class<T> clazz) {
+    private <T> T getConfigValueByCode(List<CacheInfoCustomEnvCodeVO> configEnvCodeList, String envId, Class<T> clazz) {
         return CollectionUtils.emptyIfNull(configEnvCodeList).stream()
                 .filter(o -> Strings.CI.equals(o.getId(), envId))
                 .map(o -> EnvCodeUtils.convertEnvCodeByValue(o, clazz))
@@ -34,7 +34,7 @@ public class MailServiceImpl implements MailService {
     }
 
     private MailConnectConfigVO getMailConfig() {
-        var configEnvCodeList = cacheCustomService.getCommonEnvCodeByCategoryList("mail.config");
+        var configEnvCodeList = cacheInfoCustomService.getCommonEnvCodeByCategoryList("mail.config");
         var hostUri = getConfigValueByCode(configEnvCodeList, "host.uri", String.class);
         var port = getConfigValueByCode(configEnvCodeList, "port", Integer.class);
         var name = getConfigValueByCode(configEnvCodeList, "name", String.class);

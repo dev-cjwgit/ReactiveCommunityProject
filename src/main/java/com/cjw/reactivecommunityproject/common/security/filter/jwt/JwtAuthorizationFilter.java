@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.common.security.filter.jwt;
 
-import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
+import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import java.util.function.Supplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import org.springframework.util.AntPathMatcher;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter implements AuthorizationManager<RequestAuthorizationContext> {
-    private final CacheCustomService cacheCustomService;
+    private final CacheInfoCustomService cacheInfoCustomService;
 
 
     private static final AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -43,7 +43,7 @@ public class JwtAuthorizationFilter implements AuthorizationManager<RequestAutho
             return FALSE;
         }
 
-        return cacheCustomService.getManageRoleResourceList(NumberUtils.toInt(roleUid))
+        return cacheInfoCustomService.getManageRoleResourceList(NumberUtils.toInt(roleUid))
                 .parallelStream()
                 .filter(o -> Strings.CI.equalsAny(o.getMethod().name(), "ALL") || Strings.CI.equalsAny(o.getMethod().name(), method))
                 .anyMatch(o -> antPathMatcher.match(o.getUrlPattern(), path))

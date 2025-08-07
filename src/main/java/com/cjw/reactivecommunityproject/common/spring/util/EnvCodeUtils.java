@@ -2,7 +2,7 @@ package com.cjw.reactivecommunityproject.common.spring.util;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
-import com.cjw.reactivecommunityproject.server.cache.custom.model.CacheCustomEnvCodeVO;
+import com.cjw.reactivecommunityproject.server.cache.info.custom.model.CacheInfoCustomEnvCodeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -10,20 +10,20 @@ import org.apache.commons.lang3.StringUtils;
 public class EnvCodeUtils {
     private EnvCodeUtils(){}
     
-    public static <T> T convertEnvCodeByValue(CacheCustomEnvCodeVO cacheCustomEnvCodeVO, Class<T> clazz) {
+    public static <T> T convertEnvCodeByValue(CacheInfoCustomEnvCodeVO cacheInfoCustomEnvCodeVO, Class<T> clazz) {
         try {
-            if (cacheCustomEnvCodeVO == null
-                    || cacheCustomEnvCodeVO.getType() == null
-                    || cacheCustomEnvCodeVO.getValue() == null
-                    || StringUtils.isBlank(cacheCustomEnvCodeVO.getValue())) {
+            if (cacheInfoCustomEnvCodeVO == null
+                    || cacheInfoCustomEnvCodeVO.getType() == null
+                    || cacheInfoCustomEnvCodeVO.getValue() == null
+                    || StringUtils.isBlank(cacheInfoCustomEnvCodeVO.getValue())) {
                 return null;
             }
-            if (cacheCustomEnvCodeVO.getEnabled() == CommonEnabledEnum.N) {
-                log.warn("env code is enabled n : {}", cacheCustomEnvCodeVO);
+            if (cacheInfoCustomEnvCodeVO.getEnabled() == CommonEnabledEnum.N) {
+                log.warn("env code is enabled n : {}", cacheInfoCustomEnvCodeVO);
                 return null;
             }
-            String value = cacheCustomEnvCodeVO.getValue();
-            RcCommonEnvCodeTypeEnum type = cacheCustomEnvCodeVO.getType();
+            String value = cacheInfoCustomEnvCodeVO.getValue();
+            RcCommonEnvCodeTypeEnum type = cacheInfoCustomEnvCodeVO.getType();
 
             Object result = switch (type) {
                 case INTEGER -> Integer.valueOf(value);

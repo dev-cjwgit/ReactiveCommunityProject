@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.common.security.filter.requestlimit;
 
 import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
-import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
+import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import jakarta.servlet.FilterChain;
@@ -23,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 @RequiredArgsConstructor
 public class RequestLimitingFilter extends OncePerRequestFilter {
-    private final CacheCustomService cacheCustomService;
+    private final CacheInfoCustomService cacheInfoCustomService;
     private Cache<String, TokenBucket> buckets;
 
     private synchronized void initCacheIfNecessary(int timeWindowSec) {
@@ -36,8 +36,8 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain chain) throws ServletException, IOException {
-        var limit = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode("rc.request.filter.limit"), Integer.class);
-        var windowSec = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode("rc.request.filter.time.window.sec"), Integer.class);
+        var limit = EnvCodeUtils.convertEnvCodeByValue(cacheInfoCustomService.getCommonEnvCode("rc.request.filter.limit"), Integer.class);
+        var windowSec = EnvCodeUtils.convertEnvCodeByValue(cacheInfoCustomService.getCommonEnvCode("rc.request.filter.time.window.sec"), Integer.class);
 
         if (limit == null || windowSec == null || limit <= 0 || windowSec <= 0) {
             log.error("requestLimitingFilter.doFilterInternal env code is null");

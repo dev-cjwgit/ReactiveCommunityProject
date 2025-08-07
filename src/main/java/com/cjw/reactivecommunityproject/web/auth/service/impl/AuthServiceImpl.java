@@ -6,7 +6,7 @@ import com.cjw.reactivecommunityproject.common.security.service.JwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
-import com.cjw.reactivecommunityproject.server.cache.custom.service.CacheCustomService;
+import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import com.cjw.reactivecommunityproject.web.auth.dao.AuthDao;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthErrorMessage;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthException;
@@ -39,14 +39,14 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtService jwtService;
     private final AuthDao authDao;
-    private final CacheCustomService cacheCustomService;
+    private final CacheInfoCustomService cacheInfoCustomService;
 
     private final RcProperties rcProperties;
     private final PasswordEncoder passwordEncoder;
 
 
     private Integer getRoleUidByCommonEnvCode() {
-        var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheCustomService.getCommonEnvCode("web.auth.service.default.register.role.uid"), Integer.class);
+        var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheInfoCustomService.getCommonEnvCode("web.auth.service.default.register.role.uid"), Integer.class);
         if (envCode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }

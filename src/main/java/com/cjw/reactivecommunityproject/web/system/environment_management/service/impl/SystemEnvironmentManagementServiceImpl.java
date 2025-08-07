@@ -5,8 +5,8 @@ import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.service.PaginationService;
-import com.cjw.reactivecommunityproject.server.cache.data.model.CacheDataCommonRegionVO;
-import com.cjw.reactivecommunityproject.server.cache.data.service.CacheDataService;
+import com.cjw.reactivecommunityproject.server.cache.info.data.model.CacheInfoDataCommonRegionVO;
+import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfoDataService;
 import com.cjw.reactivecommunityproject.web.system.environment_management.dao.SystemEnvironmentManagementDao;
 import com.cjw.reactivecommunityproject.web.system.environment_management.exception.SystemEnvironmentManagementErrorMessage;
 import com.cjw.reactivecommunityproject.web.system.environment_management.exception.SystemEnvironmentManagementException;
@@ -34,15 +34,15 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
     private final PaginationService paginationService;
     private final RcUserComponent rcUserComponent;
 
-    private final CacheDataService cacheDataService;
+    private final CacheInfoDataService cacheInfoDataService;
 
     private boolean isNotValidRegion(String region) {
         if (StringUtils.isBlank(region)) {
             return false;
         } else {
-            return CollectionUtils.emptyIfNull(cacheDataService.getCommonRegionList())
+            return CollectionUtils.emptyIfNull(cacheInfoDataService.getCommonRegionList())
                     .parallelStream()
-                    .map(CacheDataCommonRegionVO::getRegion)
+                    .map(CacheInfoDataCommonRegionVO::getRegion)
                     .noneMatch(region::equals);
         }
     }
