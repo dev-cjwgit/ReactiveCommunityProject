@@ -3,10 +3,10 @@ package com.cjw.reactivecommunityproject.server.cache.manage.reset.service.impl;
 import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfoDataService;
 import com.cjw.reactivecommunityproject.server.cache.manage.common.interfaces.CacheManageCommonTableNaming;
-import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonCustomTableEnum;
-import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonDataTableEnum;
+import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonInfoCustomTableEnum;
+import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonInfoDataTableEnum;
 import com.cjw.reactivecommunityproject.server.cache.manage.reset.model.CacheManageResetTableVO;
-import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonTypeEnum;
+import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonInfoTypeEnum;
 import com.cjw.reactivecommunityproject.server.cache.manage.reset.model.CacheManageResetVO;
 import com.cjw.reactivecommunityproject.server.cache.manage.reset.service.CacheManageResetService;
 import java.lang.reflect.Method;
@@ -43,8 +43,8 @@ public class CacheManageResetServiceImpl implements CacheManageResetService {
                 .flatMap(table -> {
                     try {
                         CacheManageCommonTableNaming enumValue = switch (type) {
-                            case DATA -> CacheManageCommonDataTableEnum.valueOf(table);
-                            case CUSTOM -> CacheManageCommonCustomTableEnum.valueOf(table);
+                            case DATA -> CacheManageCommonInfoDataTableEnum.valueOf(table);
+                            case CUSTOM -> CacheManageCommonInfoCustomTableEnum.valueOf(table);
                         };
 
                         return Mono.just(CacheManageResetTableVO.builder()
@@ -58,7 +58,7 @@ public class CacheManageResetServiceImpl implements CacheManageResetService {
                 });
     }
 
-    private Object resolveService(CacheManageCommonTypeEnum type) {
+    private Object resolveService(CacheManageCommonInfoTypeEnum type) {
         return switch (type) {
             case DATA -> cacheInfoDataService;
             case CUSTOM -> cacheInfoCustomService;

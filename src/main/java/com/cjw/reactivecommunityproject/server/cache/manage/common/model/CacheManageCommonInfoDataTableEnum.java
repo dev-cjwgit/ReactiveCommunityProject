@@ -2,7 +2,7 @@ package com.cjw.reactivecommunityproject.server.cache.manage.common.model;
 
 import com.cjw.reactivecommunityproject.server.cache.manage.common.interfaces.CacheManageCommonTableNaming;
 
-public enum CacheManageCommonDataTableEnum implements CacheManageCommonTableNaming {
+public enum CacheManageCommonInfoDataTableEnum implements CacheManageCommonTableNaming {
     COMMON_REGION_LIST
     , COMMON_ENV_CODE_LIST
     , COMMON_LANGUAGE_CODE_LIST

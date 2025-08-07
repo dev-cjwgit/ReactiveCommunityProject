@@ -1,9 +1,9 @@
 package com.cjw.reactivecommunityproject.server.cache.manage.load.service.impl;
 
 import com.cjw.reactivecommunityproject.server.cache.manage.common.interfaces.CacheManageCommonTableNaming;
-import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonCustomTableEnum;
-import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonDataTableEnum;
-import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonTypeEnum;
+import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonInfoCustomTableEnum;
+import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonInfoDataTableEnum;
+import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonInfoTypeEnum;
 import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfoDataService;
 import com.cjw.reactivecommunityproject.server.cache.manage.load.model.CacheManageLoadTableVO;
@@ -44,8 +44,8 @@ public class CacheManageLoadServiceImpl implements CacheManageLoadService {
                 .flatMap(table -> {
                     try {
                         CacheManageCommonTableNaming enumValue = switch (type) {
-                            case DATA -> CacheManageCommonDataTableEnum.valueOf(table.tableName());
-                            case CUSTOM -> CacheManageCommonCustomTableEnum.valueOf(table.tableName());
+                            case DATA -> CacheManageCommonInfoDataTableEnum.valueOf(table.tableName());
+                            case CUSTOM -> CacheManageCommonInfoCustomTableEnum.valueOf(table.tableName());
                         };
 
                         return Mono.just(CacheManageLoadTableVO.builder()
@@ -60,7 +60,7 @@ public class CacheManageLoadServiceImpl implements CacheManageLoadService {
                 });
     }
 
-    private Object resolveService(CacheManageCommonTypeEnum type) {
+    private Object resolveService(CacheManageCommonInfoTypeEnum type) {
         return switch (type) {
             case DATA -> cacheInfoDataService;
             case CUSTOM -> cacheInfoCustomService;
