@@ -9,5 +9,8 @@ public interface ElasticsearchLogApiService {
 
     ElasticsearchLogApiDocument selectByUid(Long uid);
 
-    List<ElasticsearchLogApiDocument> selectList(ZonedDateTime startDate, ZonedDateTime endDate);
+    List<ElasticsearchLogApiDocument> selectByIp(String ip);
+
+    List<ElasticsearchLogApiDocument> selectListByRequestTimestamp(ZonedDateTime startDate, ZonedDateTime endDate);
+    List<ElasticsearchLogApiDocument> selectListByResponseTimestamp(ZonedDateTime startDate, ZonedDateTime endDate);
 }

@@ -8,5 +8,9 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 public interface ElasticsearchLogApiRepository extends ElasticsearchRepository<ElasticsearchLogApiDocument, Long> {
     ElasticsearchLogApiDocument findByUid(Long uid);
 
-    List<ElasticsearchLogApiDocument> findByTimestampBetween(ZonedDateTime startDate, ZonedDateTime endDate);
+    List<ElasticsearchLogApiDocument> findByIp(String ip);
+
+    List<ElasticsearchLogApiDocument> findByRequestTimestampBetween(ZonedDateTime startDate, ZonedDateTime endDate);
+
+    List<ElasticsearchLogApiDocument> findByResponseTimestampBetween(ZonedDateTime startDate, ZonedDateTime endDate);
 }

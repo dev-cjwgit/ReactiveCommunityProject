@@ -14,7 +14,10 @@ public record ElasticsearchLogApiDocument(
         @Id
         Long uid
         , String url
+        , String ip
         , @Field(type = FieldType.Date, format = DateFormat.date_time)
-        ZonedDateTime timestamp
+        ZonedDateTime requestTimestamp
+        , @Field(type = FieldType.Date, format = DateFormat.date_time)
+        ZonedDateTime responseTimestamp
 ) {
 }

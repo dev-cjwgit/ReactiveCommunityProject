@@ -26,7 +26,18 @@ public class ElasticsearchLogApiServiceImpl implements ElasticsearchLogApiServic
     }
 
     @Override
-    public List<ElasticsearchLogApiDocument> selectList(ZonedDateTime startDate, ZonedDateTime endDate) {
-        return elasticsearchLogApiRepository.findByTimestampBetween(startDate, endDate);
+    public List<ElasticsearchLogApiDocument> selectByIp(String ip) {
+        return elasticsearchLogApiRepository.findByIp(ip);
+    }
+
+    @Override
+    public List<ElasticsearchLogApiDocument> selectListByRequestTimestamp(ZonedDateTime startDate, ZonedDateTime endDate) {
+        return elasticsearchLogApiRepository.findByRequestTimestampBetween(startDate, endDate);
+
+    }
+
+    @Override
+    public List<ElasticsearchLogApiDocument> selectListByResponseTimestamp(ZonedDateTime startDate, ZonedDateTime endDate) {
+        return elasticsearchLogApiRepository.findByResponseTimestampBetween(startDate, endDate);
     }
 }
