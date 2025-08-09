@@ -15,6 +15,8 @@ public record ElasticsearchLogApiDocument(
         Long uid
         , String url
         , String ip
+        , Integer httpStatus
+        , String exceptionMessage
         , @Field(type = FieldType.Date, format = DateFormat.date_time)
         ZonedDateTime requestTimestamp
         , @Field(type = FieldType.Date, format = DateFormat.date_time)

@@ -1,5 +1,6 @@
-package com.cjw.reactivecommunityproject.common.spring.rc.filter.request_limit;
+package com.cjw.reactivecommunityproject.common.spring.rc.filter.request.limit;
 
+import com.cjw.reactivecommunityproject.common.spring.util.CommonUtils;
 import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
 import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -22,7 +23,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class RequestLimitingFilter extends OncePerRequestFilter {
+public class RcRequestLimitingFilter extends OncePerRequestFilter {
     private final CacheInfoCustomService cacheInfoCustomService;
     private Cache<String, TokenBucket> buckets;
 
@@ -47,7 +48,7 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
         this.initCacheIfNecessary(windowSec);
 
         // 버킷 생성
-        var ip = extractClientIp(request);
+        var ip = CommonUtils.extractClientIp(request);
         var bucket = buckets.get(ip, k -> new TokenBucket(limit, windowSec));
 
         // 토큰 차감 및 회수 계산
@@ -60,15 +61,6 @@ public class RequestLimitingFilter extends OncePerRequestFilter {
         }
 
         chain.doFilter(request, response);
-    }
-
-    private String extractClientIp(HttpServletRequest req) {
-        var forwarded = req.getHeader("X-Forwarded-For");
-        if (forwarded != null && !forwarded.isBlank()) {
-            // 첫 번째 값이 원본 IP
-            return forwarded.split(",")[0].trim();
-        }
-        return req.getRemoteAddr();
     }
 
     private static class TokenBucket {

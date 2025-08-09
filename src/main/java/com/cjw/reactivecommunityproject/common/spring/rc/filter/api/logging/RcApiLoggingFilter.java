@@ -1,12 +1,11 @@
-package com.cjw.reactivecommunityproject.common.spring.rc.filter.api_logging;
+package com.cjw.reactivecommunityproject.common.spring.rc.filter.api.logging;
 
 import com.cjw.reactivecommunityproject.common.spring.component.RcRedisIdGeneratorComponent;
+import com.cjw.reactivecommunityproject.common.spring.util.CommonUtils;
 import com.cjw.reactivecommunityproject.server.elasticsearch.log.api.model.ElasticsearchLogApiDocument;
 import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.ZonedDateTime;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -18,30 +17,37 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class ApiLoggingFilter extends OncePerRequestFilter {
+public class RcApiLoggingFilter extends OncePerRequestFilter {
     private final ApplicationEventPublisher publisher;
     private final RcRedisIdGeneratorComponent rcRedisIdGeneratorComponent;
 
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain) {
         var incrementId = rcRedisIdGeneratorComponent.getNextLogApiId();
         var path = request.getRequestURI();
-        var ip = request.getRemoteAddr();
+        var ip = CommonUtils.extractClientIp(request);
+        String exceptionMessage = "";
+        int httpStatus = 500;
 
         ZonedDateTime start = ZonedDateTime.now();
-
-        filterChain.doFilter(request, response);
-
+        try {
+            filterChain.doFilter(request, response);
+            httpStatus = response.getStatus();
+        } catch (Exception e) {
+            exceptionMessage = e.getMessage();
+            log.error("RcApiLoggingFilter.Exception", e);
+        }
         ZonedDateTime end = ZonedDateTime.now();
 
-        var document = ElasticsearchLogApiDocument.builder()
+        publisher.publishEvent(ElasticsearchLogApiDocument.builder()
                 .uid(incrementId)
                 .url(path)
                 .ip(ip)
+                .httpStatus(httpStatus)
+                .exceptionMessage(exceptionMessage)
                 .requestTimestamp(start)
                 .responseTimestamp(end)
-                .build();
-
-        publisher.publishEvent(document);
+                .build()
+        );
     }
 }
