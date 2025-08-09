@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.security.filter.api_logging;
+package com.cjw.reactivecommunityproject.common.spring.rc.filter.api_logging;
 
 import com.cjw.reactivecommunityproject.common.spring.component.RcRedisIdGeneratorComponent;
 import com.cjw.reactivecommunityproject.server.elasticsearch.log.api.model.ElasticsearchLogApiDocument;

@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.common.spring.config.filter;
 
-import com.cjw.reactivecommunityproject.common.security.filter.api_logging.ApiLoggingFilter;
-import com.cjw.reactivecommunityproject.common.security.filter.request_limit.RequestLimitingFilter;
+import com.cjw.reactivecommunityproject.common.spring.rc.filter.api_logging.ApiLoggingFilter;
+import com.cjw.reactivecommunityproject.common.spring.rc.filter.request_limit.RequestLimitingFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;

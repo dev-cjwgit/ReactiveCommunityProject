@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.security.filter.request_limit;
+package com.cjw.reactivecommunityproject.common.spring.rc.filter.request_limit;
 
 import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
 import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;

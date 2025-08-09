@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.security.filter.jwt;
+package com.cjw.reactivecommunityproject.common.security.jwt.filter;
 
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityErrorMessage;
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityException;
