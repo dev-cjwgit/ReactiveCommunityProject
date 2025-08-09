@@ -1,10 +1,10 @@
 package com.cjw.reactivecommunityproject.common.security.config;
 
-import com.cjw.reactivecommunityproject.common.security.jwt.filter.JwtAuthenticationFilter;
-import com.cjw.reactivecommunityproject.common.security.jwt.filter.JwtAuthorizationFilter;
-import com.cjw.reactivecommunityproject.common.security.handler.JwtAuthenticationFailedHandler;
-import com.cjw.reactivecommunityproject.common.security.handler.JwtAuthorizationDeniedHandler;
-import com.cjw.reactivecommunityproject.common.security.service.JwtService;
+import com.cjw.reactivecommunityproject.common.security.jwt.component.SecurityJwtAuthenticationFilter;
+import com.cjw.reactivecommunityproject.common.security.jwt.component.SecurityJwtAuthorizationFilter;
+import com.cjw.reactivecommunityproject.common.security.handler.SecurityAuthenticationFailedHandler;
+import com.cjw.reactivecommunityproject.common.security.handler.SecurityAuthorizationDeniedHandler;
+import com.cjw.reactivecommunityproject.common.security.jwt.service.SecurityJwtService;
 import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,7 +21,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtService jwtService;
+    private final SecurityJwtService securityJwtService;
     private final CorsConfigurationSource corsConfigurationSource;
     private final CacheInfoCustomService cacheInfoCustomService;
 
@@ -48,20 +48,20 @@ public class SecurityConfig {
 
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
 
-                .addFilterBefore(new JwtAuthenticationFilter(jwtService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new SecurityJwtAuthenticationFilter(securityJwtService), UsernamePasswordAuthenticationFilter.class)
                 .securityMatcher("/rest/**")
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers(ALLOW_PATH_URL_LIST)
                                 .permitAll()
                                 .anyRequest()
-                                .access(new JwtAuthorizationFilter(cacheInfoCustomService))
+                                .access(new SecurityJwtAuthorizationFilter(cacheInfoCustomService))
                 )
 
                 .exceptionHandling(exceptionHandle ->
                         exceptionHandle
-                                .authenticationEntryPoint(new JwtAuthenticationFailedHandler())
-                                .accessDeniedHandler(new JwtAuthorizationDeniedHandler())
+                                .authenticationEntryPoint(new SecurityAuthenticationFailedHandler())
+                                .accessDeniedHandler(new SecurityAuthorizationDeniedHandler())
                 )
                 .build();
     }

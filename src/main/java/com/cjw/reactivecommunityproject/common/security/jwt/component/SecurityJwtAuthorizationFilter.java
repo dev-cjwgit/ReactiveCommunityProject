@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.security.jwt.filter;
+package com.cjw.reactivecommunityproject.common.security.jwt.component;
 
 import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import java.util.function.Supplier;
@@ -15,7 +15,7 @@ import org.springframework.util.AntPathMatcher;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthorizationFilter implements AuthorizationManager<RequestAuthorizationContext> {
+public class SecurityJwtAuthorizationFilter implements AuthorizationManager<RequestAuthorizationContext> {
     private final CacheInfoCustomService cacheInfoCustomService;
 
 

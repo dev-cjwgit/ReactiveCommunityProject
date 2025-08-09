@@ -1,12 +1,12 @@
-package com.cjw.reactivecommunityproject.common.security.service.impl;
+package com.cjw.reactivecommunityproject.common.security.jwt.service.impl;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityErrorMessage;
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityException;
-import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwt;
-import com.cjw.reactivecommunityproject.common.security.model.SecurityJwtPayload;
-import com.cjw.reactivecommunityproject.common.security.service.JwtService;
+import com.cjw.reactivecommunityproject.common.security.jwt.model.SecurityJwtAccessVO;
+import com.cjw.reactivecommunityproject.common.security.jwt.model.SecurityJwtPayloadVO;
+import com.cjw.reactivecommunityproject.common.security.jwt.service.SecurityJwtService;
 import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
 import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import com.cjw.reactivecommunityproject.web.auth.exception.AuthException;
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class JwtServiceImpl implements JwtService {
+public class SecurityJwtServiceImpl implements SecurityJwtService {
     private final ObjectMapper objectMapper;
     private final RedisTemplate<String, Object> redisTemplate;
     private final CacheInfoCustomService cacheInfoCustomService;
@@ -75,7 +75,7 @@ public class JwtServiceImpl implements JwtService {
         String payload = parts[1];
         byte[] decodedPayload = Base64.getUrlDecoder().decode(payload);
         try {
-            var jwtPayloadVO = objectMapper.readValue(new String(decodedPayload), SecurityJwtPayload.class);
+            var jwtPayloadVO = objectMapper.readValue(new String(decodedPayload), SecurityJwtPayloadVO.class);
             return jwtPayloadVO.sub();
         } catch (JsonProcessingException ex) {
             throw new SecurityException(SecurityErrorMessage.INVALID_TOKEN_PAYLOAD);
@@ -97,27 +97,27 @@ public class JwtServiceImpl implements JwtService {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    private String createToken(SecurityAccessJwt securityAccessJwt, Long expiresMinutes) {
+    private String createToken(SecurityJwtAccessVO securityJwtAccessVO, Long expiresMinutes) {
         return Jwts.builder()
-                .subject(securityAccessJwt.userUid())
-                .claim("role", securityAccessJwt.roleUid())
+                .subject(securityJwtAccessVO.userUid())
+                .claim("role", securityJwtAccessVO.roleUid())
 
                 .issuedAt(new Date())
                 .expiration(new Date(new Date().getTime() + expiresMinutes))
 
-                .signWith(this.getSecretKey(securityAccessJwt.userUid()))
+                .signWith(this.getSecretKey(securityJwtAccessVO.userUid()))
                 .compact();
     }
 
 
     @Override
-    public String createAccessToken(SecurityAccessJwt securityAccessJwt) {
-        return createToken(securityAccessJwt, this.getAccessTokenExpiresByCommonEnvCode() * 1000 * 60L);
+    public String createAccessToken(SecurityJwtAccessVO securityJwtAccessVO) {
+        return createToken(securityJwtAccessVO, this.getAccessTokenExpiresByCommonEnvCode() * 1000 * 60L);
     }
 
     @Override
     public String createRefreshToken(String userUid) {
-        return createToken(SecurityAccessJwt.builder()
+        return createToken(SecurityJwtAccessVO.builder()
                 .userUid(userUid)
                 .roleUid(null)
                 .build(), this.getRefreshTokenExpiresByCommonEnvCode() * 1000 * 60L);
@@ -129,20 +129,16 @@ public class JwtServiceImpl implements JwtService {
     }
 
     @Override
-    public SecurityAccessJwt getClaims(String token) {
+    public SecurityJwtAccessVO getClaims(String token) {
         try {
             var userUid = this.getUserUidByJwtPayload(token);
             var claims = Jwts.parser()
                     .verifyWith(this.getSecretKey(userUid))
                     .build()
                     .parseSignedClaims(token);
-            return SecurityAccessJwt.builder()
-                    .userUid(
-                            claims.getPayload().getSubject()
-                    )
-                    .roleUid(
-                            claims.getPayload().get("role", Integer.class)
-                    )
+            return SecurityJwtAccessVO.builder()
+                    .userUid(claims.getPayload().getSubject())
+                    .roleUid(claims.getPayload().get("role", Integer.class))
                     .build(); // 토큰이 유효함
         } catch (SignatureException e) {
             log.warn("JwtServiceImpl.getClaims(): Invalid Jwt Signature");

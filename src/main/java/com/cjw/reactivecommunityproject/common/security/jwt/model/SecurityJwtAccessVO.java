@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.security.model;
+package com.cjw.reactivecommunityproject.common.security.jwt.model;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Builder
-public record SecurityAccessJwt(
+public record SecurityJwtAccessVO(
         String userUid
         , Integer roleUid
 ) implements Authentication, Serializable {

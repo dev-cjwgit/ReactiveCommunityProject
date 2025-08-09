@@ -1,9 +1,9 @@
-package com.cjw.reactivecommunityproject.common.security.model;
+package com.cjw.reactivecommunityproject.common.security.jwt.model;
 
 import lombok.Builder;
 
 @Builder
-public record SecurityJwtPayload(
+public record SecurityJwtPayloadVO(
         String sub
         , String role
         , Long lat

@@ -1,8 +1,8 @@
 package com.cjw.reactivecommunityproject.web.auth.service.impl;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
-import com.cjw.reactivecommunityproject.common.security.model.SecurityAccessJwt;
-import com.cjw.reactivecommunityproject.common.security.service.JwtService;
+import com.cjw.reactivecommunityproject.common.security.jwt.model.SecurityJwtAccessVO;
+import com.cjw.reactivecommunityproject.common.security.jwt.service.SecurityJwtService;
 import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.util.EnvCodeUtils;
@@ -37,7 +37,7 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements AuthService {
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private final JwtService jwtService;
+    private final SecurityJwtService securityJwtService;
     private final AuthDao authDao;
     private final CacheInfoCustomService cacheInfoCustomService;
 
@@ -132,11 +132,11 @@ public class AuthServiceImpl implements AuthService {
             }
         }
 
-        var accessToken = jwtService.createAccessToken(SecurityAccessJwt.builder()
+        var accessToken = securityJwtService.createAccessToken(SecurityJwtAccessVO.builder()
                 .userUid(rcUserEntity.uid())
                 .roleUid(rcUserEntity.roleUid())
                 .build());
-        var refreshToken = jwtService.createRefreshToken(rcUserEntity.uid());
+        var refreshToken = securityJwtService.createRefreshToken(rcUserEntity.uid());
 
 
         var result = AuthRestJwtTokenVO.builder()
@@ -159,7 +159,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public RestResponseVO<AuthRestJwtAccessTokenVO> reissueByRefreshToken(AuthReissueJwtTokenVO authReissueJwtTokenVO) {
-        var claims = jwtService.getClaims(authReissueJwtTokenVO.refreshToken());
+        var claims = securityJwtService.getClaims(authReissueJwtTokenVO.refreshToken());
         if (claims == null) {
             throw new AuthException(AuthErrorMessage.INVALID_REFRESH_TOKEN);
         }
@@ -179,8 +179,8 @@ public class AuthServiceImpl implements AuthService {
             throw new AuthException(AuthErrorMessage.NOT_FOUND_USER);
         }
 
-        String accessToken = jwtService.createAccessToken(
-                SecurityAccessJwt.builder()
+        String accessToken = securityJwtService.createAccessToken(
+                SecurityJwtAccessVO.builder()
                         .userUid(claims.userUid())
                         .roleUid(rcUserEntity.roleUid())
                         .build()

@@ -11,7 +11,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthenticationFailedHandler implements AuthenticationEntryPoint {
+public class SecurityAuthenticationFailedHandler implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);

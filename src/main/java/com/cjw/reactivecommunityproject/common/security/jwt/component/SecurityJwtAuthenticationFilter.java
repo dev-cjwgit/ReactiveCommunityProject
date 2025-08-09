@@ -1,8 +1,8 @@
-package com.cjw.reactivecommunityproject.common.security.jwt.filter;
+package com.cjw.reactivecommunityproject.common.security.jwt.component;
 
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityErrorMessage;
 import com.cjw.reactivecommunityproject.common.security.exception.SecurityException;
-import com.cjw.reactivecommunityproject.common.security.service.JwtService;
+import com.cjw.reactivecommunityproject.common.security.jwt.service.SecurityJwtService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,8 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 @Slf4j
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private final JwtService jwtService;
+public class SecurityJwtAuthenticationFilter extends OncePerRequestFilter {
+    private final SecurityJwtService securityJwtService;
 
 
     @Override
@@ -34,7 +34,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 throw new SecurityException(SecurityErrorMessage.NOT_FOUND_TOKEN);
             }
             // 해당 메소드에서 모든 예외 처리를 수행하고 null 만 반환
-            var claims = jwtService.getClaims(token);
+            var claims = securityJwtService.getClaims(token);
+
+            if (claims == null) {
+                throw new SecurityException(SecurityErrorMessage.INVALID_TOKEN);
+            }
 
             SecurityContextHolder.getContext().setAuthentication(claims);
         } catch (SecurityException se) {
