@@ -8,8 +8,8 @@ import reactor.core.publisher.Mono;
 
 public interface BatchCacheDataReloadService {
     Flux<String> getTargetTable();
-    Flux<BatchCacheDataVO> getCacheData(String targetTable);
-    Flux<String> getTableNameByCompareDbAndCacheUpdatedAt(BatchCacheDataVO batchCacheDataVO);
+    Flux<BatchCacheDataVO> getCacheData(String targetCacheDataMethodName);
+    Flux<String> getMethodNameByCompareDbAndCacheUpdatedAt(BatchCacheDataVO batchCacheDataVO);
     Mono<CacheManageResetVO> createCacheManageResetVO(List<String> batchCacheDataList);
     void publishCacheManageReset(CacheManageResetVO cacheManageResetVO);
 }

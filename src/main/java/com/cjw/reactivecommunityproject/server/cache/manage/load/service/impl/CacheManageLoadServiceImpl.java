@@ -137,7 +137,7 @@ public class CacheManageLoadServiceImpl implements CacheManageLoadService {
 
     @Override
     public void load(CacheManageLoadTableVO cacheManageLoadTableVO) {
-        String methodName = this.createGetMethodName(cacheManageLoadTableVO.table().getTableName());
+        String methodName = this.createGetMethodName(cacheManageLoadTableVO.table().getMethodName());
         Object service = this.resolveService(cacheManageLoadTableVO.type());
 
         this.invokeMethod(service, methodName, cacheManageLoadTableVO.parameters());

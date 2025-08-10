@@ -4,7 +4,7 @@ import lombok.Builder;
 
 @Builder
 public record BatchCacheDataVO(
-        String tableName
+        String cacheMethodName
         , Object dbData
         , Object cacheData
 ) {

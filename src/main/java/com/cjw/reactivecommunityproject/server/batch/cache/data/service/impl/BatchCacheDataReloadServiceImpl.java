@@ -39,7 +39,7 @@ public class BatchCacheDataReloadServiceImpl implements BatchCacheDataReloadServ
     @Override
     public Flux<String> getTargetTable() {
         return Flux.fromArray(CacheManageCommonInfoDataTableEnum.values())
-                .map(CacheManageCommonInfoDataTableEnum::getTableName);
+                .map(CacheManageCommonInfoDataTableEnum::getMethodName);
     }
 
     private String toCamelCase(String rawName) {
@@ -48,8 +48,8 @@ public class BatchCacheDataReloadServiceImpl implements BatchCacheDataReloadServ
                 .collect(Collectors.joining());
     }
 
-    private String createMethodName(String prefix, String tableName) {
-        return StringUtils.join(prefix, this.toCamelCase(tableName));
+    private String createMethodName(String prefix, String methodName) {
+        return StringUtils.join(prefix, this.toCamelCase(methodName));
     }
 
     private Object invokeService(Object service, String methodName) {
@@ -69,16 +69,16 @@ public class BatchCacheDataReloadServiceImpl implements BatchCacheDataReloadServ
     }
 
     @Override
-    public Flux<BatchCacheDataVO> getCacheData(String targetTable) {
-        return Flux.just(targetTable)
-                .flatMap(table -> {
-                    Object dbMono = this.invokeService(cacheInfoDataMapper, this.createMethodName(SELECT_METHOD_PREFIX, table));
-                    Object cacheMono = this.invokeService(cacheInfoDataService, this.createMethodName(GET_METHOD_PREFIX, table));
+    public Flux<BatchCacheDataVO> getCacheData(String targetCacheDataMethodName) {
+        return Flux.just(targetCacheDataMethodName)
+                .flatMap(cacheMethodName -> {
+                    Object dbMono = this.invokeService(cacheInfoDataMapper, this.createMethodName(SELECT_METHOD_PREFIX, cacheMethodName));
+                    Object cacheMono = this.invokeService(cacheInfoDataService, this.createMethodName(GET_METHOD_PREFIX, cacheMethodName));
                     if (dbMono == null || cacheMono == null) {
                         return Mono.empty();
                     }
                     return Mono.just(BatchCacheDataVO.builder()
-                            .tableName(table)
+                            .cacheMethodName(cacheMethodName)
                             .dbData(dbMono)
                             .cacheData(cacheMono)
                             .build());
@@ -91,7 +91,7 @@ public class BatchCacheDataReloadServiceImpl implements BatchCacheDataReloadServ
     }
 
     @Override
-    public Flux<String> getTableNameByCompareDbAndCacheUpdatedAt(BatchCacheDataVO batchCacheDataVO) {
+    public Flux<String> getMethodNameByCompareDbAndCacheUpdatedAt(BatchCacheDataVO batchCacheDataVO) {
         return Flux.just(batchCacheDataVO)
                 .flatMap(tuple -> {
                     if (tuple.dbData() instanceof List<?> dbObjList && tuple.cacheData() instanceof List<?> cacheObjList) {
@@ -113,7 +113,7 @@ public class BatchCacheDataReloadServiceImpl implements BatchCacheDataReloadServ
                                 .orElse(null);
 
                         if (this.isDbNewerThanCache(dbMaxUpdateAt, cacheMaxUpdateAt)) {
-                            return Flux.just(tuple.tableName());
+                            return Flux.just(tuple.cacheMethodName());
                         }
                     }
                     return Flux.empty();

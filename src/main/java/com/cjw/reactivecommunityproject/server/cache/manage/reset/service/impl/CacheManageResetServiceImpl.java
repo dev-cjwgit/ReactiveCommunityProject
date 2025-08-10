@@ -86,7 +86,7 @@ public class CacheManageResetServiceImpl implements CacheManageResetService {
 
     @Override
     public void reset(CacheManageResetTableVO cacheManageResetTableVO) {
-        String methodName = this.createClearMethodName(cacheManageResetTableVO.table().getTableName());
+        String methodName = this.createClearMethodName(cacheManageResetTableVO.table().getMethodName());
         Object service = this.resolveService(cacheManageResetTableVO.type());
 
         this.invokeMethod(service, methodName);

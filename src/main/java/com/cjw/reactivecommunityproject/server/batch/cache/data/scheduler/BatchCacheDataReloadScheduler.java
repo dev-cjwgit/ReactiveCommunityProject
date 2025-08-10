@@ -22,7 +22,7 @@ public class BatchCacheDataReloadScheduler {
     public void batchCacheDataReloadSchedulerConfig() {
         batchCacheDataReloadService.getTargetTable()
                 .flatMap(batchCacheDataReloadService::getCacheData)
-                .flatMap(batchCacheDataReloadService::getTableNameByCompareDbAndCacheUpdatedAt)
+                .flatMap(batchCacheDataReloadService::getMethodNameByCompareDbAndCacheUpdatedAt)
                 .collectList()
                 .flatMap(batchCacheDataReloadService::createCacheManageResetVO)
                 .doOnNext(batchCacheDataReloadService::publishCacheManageReset)

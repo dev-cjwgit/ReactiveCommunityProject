@@ -10,7 +10,7 @@ public enum CacheManageCommonInfoCustomTableEnum implements CacheManageCommonTab
     , MANAGE_ROLE_RESOURCE_LIST;
 
     @Override
-    public String getTableName() {
+    public String getMethodName() {
         return this.name();
     }
 }
