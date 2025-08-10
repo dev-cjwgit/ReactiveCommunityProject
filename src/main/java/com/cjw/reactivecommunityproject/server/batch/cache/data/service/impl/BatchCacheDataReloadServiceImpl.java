@@ -2,7 +2,7 @@ package com.cjw.reactivecommunityproject.server.batch.cache.data.service.impl;
 
 import com.cjw.reactivecommunityproject.server.batch.cache.data.model.BatchCacheDataVO;
 import com.cjw.reactivecommunityproject.server.batch.cache.data.service.BatchCacheDataReloadService;
-import com.cjw.reactivecommunityproject.server.cache.info.data.interfaces.CacheInfoDataUpdatable;
+import com.cjw.reactivecommunityproject.server.cache.info.common.interfaces.CacheInfoDataUpdatable;
 import com.cjw.reactivecommunityproject.server.cache.info.data.mapper.CacheInfoDataMapper;
 import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfoDataService;
 import com.cjw.reactivecommunityproject.server.cache.manage.common.model.CacheManageCommonInfoDataTableEnum;

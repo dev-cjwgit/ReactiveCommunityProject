@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.server.cache.info.data.interfaces;
+package com.cjw.reactivecommunityproject.server.cache.info.common.interfaces;
 
 import java.time.ZonedDateTime;
 
