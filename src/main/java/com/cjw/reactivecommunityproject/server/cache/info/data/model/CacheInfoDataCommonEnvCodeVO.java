@@ -2,13 +2,14 @@ package com.cjw.reactivecommunityproject.server.cache.info.data.model;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
+import com.cjw.reactivecommunityproject.server.cache.info.data.interfaces.CacheInfoDataUpdatable;
 import java.time.ZonedDateTime;
 import lombok.Getter;
 import lombok.ToString;
 
 @Getter
 @ToString
-public class CacheInfoDataCommonEnvCodeVO {
+public class CacheInfoDataCommonEnvCodeVO implements CacheInfoDataUpdatable {
     private String region;
     private String id;
     private RcCommonEnvCodeTypeEnum type;
