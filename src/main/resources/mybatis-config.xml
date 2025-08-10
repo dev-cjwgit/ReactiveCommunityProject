@@ -4,7 +4,7 @@
 <configuration>
     <settings>
         <!-- A_Column > aColumn으로 자동 매핑 -->
-        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <setting name="mapUnderscoreconvertSnakeCaseToMacelCase" value="true"/>
         <!-- 데이터베이스 응답 시간 타임아웃 -->
         <setting name="defaultStatementTimeout" value="60"/>
         <!-- 파라미터에 null이 있으면 에러 처리 -->

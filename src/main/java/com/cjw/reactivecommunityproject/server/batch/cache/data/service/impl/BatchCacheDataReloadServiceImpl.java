@@ -42,14 +42,14 @@ public class BatchCacheDataReloadServiceImpl implements BatchCacheDataReloadServ
                 .map(CacheManageCommonInfoDataTableEnum::getMethodName);
     }
 
-    private String toCamelCase(String rawName) {
+    private String convertSnakeCaseToMacelCase(String rawName) {
         return Arrays.stream(rawName.toLowerCase().split("_"))
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining());
     }
 
     private String createMethodName(String prefix, String methodName) {
-        return StringUtils.join(prefix, this.toCamelCase(methodName));
+        return StringUtils.join(prefix, this.convertSnakeCaseToMacelCase(methodName));
     }
 
     private Object invokeService(Object service, String methodName) {

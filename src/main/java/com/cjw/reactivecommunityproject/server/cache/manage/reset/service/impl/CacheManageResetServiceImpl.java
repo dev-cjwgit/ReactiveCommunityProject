@@ -66,10 +66,10 @@ public class CacheManageResetServiceImpl implements CacheManageResetService {
     }
 
     private String createClearMethodName(String tableName) {
-        return StringUtils.join(RESET_METHOD_PREFIX, this.toCamelCase(tableName));
+        return StringUtils.join(RESET_METHOD_PREFIX, this.convertSnakeCaseToMacelCase(tableName));
     }
 
-    private String toCamelCase(String rawName) {
+    private String convertSnakeCaseToMacelCase(String rawName) {
         return Arrays.stream(rawName.toLowerCase().split("_"))
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining());
