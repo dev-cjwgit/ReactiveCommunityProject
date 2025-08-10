@@ -1,5 +1,6 @@
 package com.cjw.reactivecommunityproject.server.batch.cache.data.service.impl;
 
+import com.cjw.reactivecommunityproject.server.batch.cache.data.model.BatchCacheDataVO;
 import com.cjw.reactivecommunityproject.server.batch.cache.data.service.BatchCacheDataReloadService;
 import com.cjw.reactivecommunityproject.server.cache.info.data.interfaces.CacheInfoDataUpdatable;
 import com.cjw.reactivecommunityproject.server.cache.info.data.mapper.CacheInfoDataMapper;
@@ -22,7 +23,6 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import reactor.util.function.Tuples;
 
 @Slf4j
 @Service
@@ -69,7 +69,7 @@ public class BatchCacheDataReloadServiceImpl implements BatchCacheDataReloadServ
     }
 
     @Override
-    public Flux<String> getChangedDataCacheTable(String targetTable) {
+    public Flux<BatchCacheDataVO> getCacheData(String targetTable) {
         return Flux.just(targetTable)
                 .flatMap(table -> {
                     Object dbMono = this.invokeService(cacheInfoDataMapper, this.createMethodName(SELECT_METHOD_PREFIX, table));
@@ -77,14 +77,24 @@ public class BatchCacheDataReloadServiceImpl implements BatchCacheDataReloadServ
                     if (dbMono == null || cacheMono == null) {
                         return Mono.empty();
                     }
-                    return Mono.just(Tuples.of(table, dbMono, cacheMono));
-                })
-                .flatMap(tuple -> {
-                    String table = tuple.getT1();
-                    Object dbObj = tuple.getT2();
-                    Object cacheObj = tuple.getT3();
+                    return Mono.just(BatchCacheDataVO.builder()
+                            .tableName(table)
+                            .dbData(dbMono)
+                            .cacheData(cacheMono)
+                            .build());
+                });
+    }
 
-                    if (dbObj instanceof List<?> dbObjList && cacheObj instanceof List<?> cacheObjList) {
+    // DB 보다 Cache 가 더 최신 데이터인지 체크하는 로직
+    private boolean isDbNewerThanCache(ZonedDateTime dbMaxUpdateAt, ZonedDateTime cacheMaxUpdateAt) {
+        return dbMaxUpdateAt != null && (cacheMaxUpdateAt == null || dbMaxUpdateAt.isAfter(cacheMaxUpdateAt));
+    }
+
+    @Override
+    public Flux<String> getTableNameByCompareDbAndCacheUpdatedAt(BatchCacheDataVO batchCacheDataVO) {
+        return Flux.just(batchCacheDataVO)
+                .flatMap(tuple -> {
+                    if (tuple.dbData() instanceof List<?> dbObjList && tuple.cacheData() instanceof List<?> cacheObjList) {
                         List<CacheInfoDataUpdatable> dbList = this.toUpdatableList(dbObjList);
                         List<CacheInfoDataUpdatable> cacheList = this.toUpdatableList(cacheObjList);
 
@@ -102,8 +112,8 @@ public class BatchCacheDataReloadServiceImpl implements BatchCacheDataReloadServ
                                 .max(Comparator.naturalOrder())
                                 .orElse(null);
 
-                        if (dbMaxUpdateAt != null && (cacheMaxUpdateAt == null || dbMaxUpdateAt.isAfter(cacheMaxUpdateAt))) {
-                            return Flux.just(table);
+                        if (this.isDbNewerThanCache(dbMaxUpdateAt, cacheMaxUpdateAt)) {
+                            return Flux.just(tuple.tableName());
                         }
                     }
                     return Flux.empty();

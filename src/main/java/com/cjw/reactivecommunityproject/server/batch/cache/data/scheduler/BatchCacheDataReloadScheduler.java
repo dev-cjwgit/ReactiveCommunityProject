@@ -21,7 +21,8 @@ public class BatchCacheDataReloadScheduler {
     @Scheduled(cron = "0/5 * * * * *")
     public void batchCacheDataReloadSchedulerConfig() {
         batchCacheDataReloadService.getTargetTable()
-                .flatMap(batchCacheDataReloadService::getChangedDataCacheTable)
+                .flatMap(batchCacheDataReloadService::getCacheData)
+                .flatMap(batchCacheDataReloadService::getTableNameByCompareDbAndCacheUpdatedAt)
                 .collectList()
                 .flatMap(batchCacheDataReloadService::createCacheManageResetVO)
                 .doOnNext(batchCacheDataReloadService::publishCacheManageReset)
