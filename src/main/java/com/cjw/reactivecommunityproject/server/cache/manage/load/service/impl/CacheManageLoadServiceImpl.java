@@ -68,10 +68,10 @@ public class CacheManageLoadServiceImpl implements CacheManageLoadService {
     }
 
     private String createGetMethodName(String tableName) {
-        return StringUtils.join(LOAD_METHOD_PREFIX, this.convertSnakeCaseToMacelCase(tableName));
+        return StringUtils.join(LOAD_METHOD_PREFIX, this.convertSnakeCaseToCamelCase(tableName));
     }
 
-    private String convertSnakeCaseToMacelCase(String rawName) {
+    private String convertSnakeCaseToCamelCase(String rawName) {
         return Arrays.stream(rawName.toLowerCase().split("_"))
                 .map(StringUtils::capitalize)
                 .collect(Collectors.joining());
