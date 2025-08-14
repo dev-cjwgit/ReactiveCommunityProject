@@ -16,7 +16,7 @@ import org.apache.ibatis.annotations.Param;
 public interface CacheInfoDataMapper {
     List<CacheInfoDataCommonRegionVO> selectCommonRegionList();
 
-    List<CacheInfoDataCommonEnvCodeVO> selectCommonEnvCodeList(@Param("region") String region);
+    List<CacheInfoDataCommonEnvCodeVO> selectCommonEnvCodeList();
 
     List<CacheInfoDataCommonLanguageCodeVO> selectCommonLanguageCodeList();
 

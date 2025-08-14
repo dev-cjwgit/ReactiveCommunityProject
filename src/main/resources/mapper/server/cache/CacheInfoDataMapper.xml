@@ -22,7 +22,7 @@
              , `enabled`
              , `updated_utc_at`
         FROM rc_common_env_code
-        WHERE `region` = #{region, jdbcType=VARCHAR}
+        WHERE `region` = '${region}'
     </select>
 
     <select id="selectCommonLanguageCodeList" resultType="CacheInfoDataCommonLanguageCodeVO">

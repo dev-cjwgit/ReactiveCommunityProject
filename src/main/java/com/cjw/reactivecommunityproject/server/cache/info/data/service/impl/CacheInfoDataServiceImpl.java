@@ -40,7 +40,7 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
     @Override
     @Cacheable(value = "rc_common_env_code", cacheManager = "redisCacheManager")
     public List<CacheInfoDataCommonEnvCodeVO> getCommonEnvCodeList() {
-        return cacheInfoDataMapper.selectCommonEnvCodeList(rcProperties.config().defaultRegion());
+        return cacheInfoDataMapper.selectCommonEnvCodeList();
     }
 
     @Override
