@@ -10,7 +10,7 @@ import lombok.ToString;
 public class CacheInfoDataCommonLanguageGbCodeVO implements CacheInfoDataUpdatable {
     private String path;
     private String code;
-    private String lang;
+    private String language;
     private String value;
     private ZonedDateTime updatedUtcAt;
 }

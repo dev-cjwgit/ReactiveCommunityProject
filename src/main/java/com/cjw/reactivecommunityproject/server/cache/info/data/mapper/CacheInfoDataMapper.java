@@ -10,7 +10,6 @@ import com.cjw.reactivecommunityproject.server.cache.info.data.model.CacheInfoDa
 import com.cjw.reactivecommunityproject.server.cache.info.data.model.CacheInfoDataManageRoleResourceVO;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface CacheInfoDataMapper {
@@ -20,7 +19,7 @@ public interface CacheInfoDataMapper {
 
     List<CacheInfoDataCommonLanguageCodeVO> selectCommonLanguageCodeList();
 
-    List<CacheInfoDataCommonLanguageGbCodeVO> selectCommonLanguageGbCodeList(@Param("lang") String lang);
+    List<CacheInfoDataCommonLanguageGbCodeVO> selectCommonLanguageGbCodeList();
 
     List<CacheInfoDataManageResourceVO> selectManageResourceList();
 

@@ -38,11 +38,10 @@
         /* CacheInfoDataMapper.selectCommonLanguageGbCodeList */
         SELECT `path`
              , `code`
-             , `language_uid`
+             , `language`
              , `value`
              , `updated_utc_at`
         FROM rc_common_language_gb_code
-        WHERE `language_uid` = #{lang, jdbcType=VARCHAR}
     </select>
 
     <select id="selectManageResourceList" resultType="CacheInfoDataManageResourceVO">

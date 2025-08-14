@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -79,15 +80,16 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
     }
 
     @Override
-    @Cacheable(value = "custom_common_language", key = "'path=' + #path + '_' + 'lang=' + #lang", cacheManager = "redisCacheManager")
-    public List<CacheInfoCustomLanguageVO> getCommonLanguageList(String path, String lang) {
-        var gbCodeList = cacheInfoDataService.getCommonLanguageGbCodeList(lang);
+    @Cacheable(value = "custom_common_language", key = "'path=' + #path + '_' + 'language=' + #language", cacheManager = "redisCacheManager")
+    public List<CacheInfoCustomLanguageVO> getCommonLanguageList(String path, String language) {
+        var gbCodeList = cacheInfoDataService.getCommonLanguageGbCodeList();
 
         return CollectionUtils.emptyIfNull(cacheInfoDataService.getCommonLanguageCodeList())
                 .parallelStream()
                 .map(o -> {
                     var gbCode = CollectionUtils.emptyIfNull(gbCodeList)
                             .parallelStream()
+                            .filter(o1 -> Strings.CS.equals(o1.getLanguage(), language))
                             .filter(o1 -> Objects.equals(o.getPath(), o1.getPath()) && Objects.equals(o.getCode(), o1.getCode()))
                             .findFirst()
                             .orElse(null);
@@ -95,7 +97,7 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
                     return CacheInfoCustomLanguageVO.builder()
                             .path(o.getPath())
                             .code(o.getCode())
-                            .lang(gbCode != null ? gbCode.getLang() : rcProperties.config().defaultLanguage())
+                            .lang(gbCode != null ? gbCode.getLanguage() : rcProperties.config().defaultLanguage())
                             .value(gbCode != null ? gbCode.getValue() : o.getValue())
                             .updatedUtcAt(gbCode != null ? gbCode.getUpdatedUtcAt() : o.getUpdatedUtcAt())
                             .build();

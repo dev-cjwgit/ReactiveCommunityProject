@@ -20,7 +20,7 @@ public interface CacheInfoDataService {
     List<CacheInfoDataCommonLanguageCodeVO> getCommonLanguageCodeList();
     void clearCommonLanguageCodeList();
 
-    List<CacheInfoDataCommonLanguageGbCodeVO> getCommonLanguageGbCodeList(String lang);
+    List<CacheInfoDataCommonLanguageGbCodeVO> getCommonLanguageGbCodeList();
     void clearCommonLanguageGbCodeList();
 
     List<CacheInfoDataManageResourceVO> getManageResourceList();

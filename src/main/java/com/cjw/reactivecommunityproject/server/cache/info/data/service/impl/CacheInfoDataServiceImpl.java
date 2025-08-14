@@ -1,6 +1,5 @@
 package com.cjw.reactivecommunityproject.server.cache.info.data.service.impl;
 
-import com.cjw.reactivecommunityproject.common.spring.config.properties.RcProperties;
 import com.cjw.reactivecommunityproject.server.cache.info.data.mapper.CacheInfoDataMapper;
 import com.cjw.reactivecommunityproject.server.cache.info.data.model.CacheInfoDataCommonEnvCodeVO;
 import com.cjw.reactivecommunityproject.server.cache.info.data.model.CacheInfoDataCommonLanguageCodeVO;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CacheInfoDataServiceImpl implements CacheInfoDataService {
-    private final RcProperties rcProperties;
     private final CacheInfoDataMapper cacheInfoDataMapper;
 
     @Override
@@ -62,9 +60,9 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
     }
 
     @Override
-    @Cacheable(value = "rc_common_language_gb_code", key = "'lang=' + #lang", cacheManager = "redisCacheManager")
-    public List<CacheInfoDataCommonLanguageGbCodeVO> getCommonLanguageGbCodeList(String lang) {
-        return cacheInfoDataMapper.selectCommonLanguageGbCodeList(lang);
+    @Cacheable(value = "rc_common_language_gb_code", cacheManager = "redisCacheManager")
+    public List<CacheInfoDataCommonLanguageGbCodeVO> getCommonLanguageGbCodeList() {
+        return cacheInfoDataMapper.selectCommonLanguageGbCodeList();
     }
 
     @Override
