@@ -10,12 +10,12 @@ import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheIn
 import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfoDataService;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.Strings;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
     public CacheInfoCustomEnvCodeVO getCommonEnvCode(String envId) {
         return CollectionUtils.emptyIfNull(cacheInfoDataService.getCommonEnvCodeList())
                 .parallelStream()
-                .filter(o -> Objects.equals(o.getId(), envId))
+                .filter(o -> Strings.CS.equals(o.getId(), envId))
                 .map(o -> CacheInfoCustomEnvCodeVO.builder()
                         .region(o.getRegion())
                         .id(o.getId())
@@ -58,7 +58,7 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
     public List<CacheInfoCustomEnvCodeVO> getCommonEnvCodeByCategoryList(String category) {
         return CollectionUtils.emptyIfNull(cacheInfoDataService.getCommonEnvCodeList())
                 .parallelStream()
-                .filter(o -> Objects.equals(o.getCategory(), category))
+                .filter(o -> Strings.CS.equals(o.getCategory(), category))
                 .map(o -> CacheInfoCustomEnvCodeVO.builder()
                         .region(o.getRegion())
                         .id(o.getId())
@@ -90,7 +90,7 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
                     var gbCode = CollectionUtils.emptyIfNull(gbCodeList)
                             .parallelStream()
                             .filter(o1 -> Strings.CS.equals(o1.getLanguage(), language))
-                            .filter(o1 -> Objects.equals(o.getPath(), o1.getPath()) && Objects.equals(o.getCode(), o1.getCode()))
+                            .filter(o1 -> Strings.CS.equals(o.getPath(), o1.getPath()) && Strings.CS.equals(o.getCode(), o1.getCode()))
                             .findFirst()
                             .orElse(null);
 
@@ -118,11 +118,11 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
         var functionList = cacheInfoDataService.getManageFunctionList();
         return cacheInfoDataService.getManageRoleFunctionList()
                 .parallelStream()
-                .filter(roleFunction -> Objects.equals(roleFunction.getRoleUid(), roleUid))
+                .filter(roleFunction -> NumberUtils.compare(roleFunction.getRoleUid(), roleUid) == 0)
                 .filter(roleFunction -> roleFunction.getEnabled() == CommonEnabledEnum.Y)
                 .flatMap(roleFunction -> CollectionUtils.emptyIfNull(functionList)
                         .parallelStream()
-                        .filter(function -> Objects.equals(roleFunction.getFunctionUid(), function.getUid()))
+                        .filter(function -> NumberUtils.compare(roleFunction.getFunctionUid(), function.getUid()) == 0)
                         .filter(function -> function.getEnabled() == CommonEnabledEnum.Y)
                         .map(function -> CacheInfoCustomRoleFunctionVO.builder()
                                 .roleUid(roleFunction.getRoleUid())
@@ -149,11 +149,11 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
         var functionList = cacheInfoDataService.getManageResourceList();
         return cacheInfoDataService.getManageRoleResourceList()
                 .parallelStream()
-                .filter(roleFunction -> Objects.equals(roleFunction.getRoleUid(), roleUid))
+                .filter(roleFunction -> NumberUtils.compare(roleFunction.getRoleUid() , roleUid) == 0)
                 .filter(roleFunction -> roleFunction.getEnabled() == CommonEnabledEnum.Y)
                 .flatMap(roleFunction -> CollectionUtils.emptyIfNull(functionList)
                         .parallelStream()
-                        .filter(resource -> Objects.equals(roleFunction.getResourceUid(), resource.getUid()))
+                        .filter(resource -> NumberUtils.compare(roleFunction.getResourceUid(), resource.getUid()) == 0)
                         .filter(resource -> resource.getEnabled() == CommonEnabledEnum.Y)
                         .map(resource -> CacheInfoCustomRoleResourceVO.builder()
                                 .roleUid(roleFunction.getRoleUid())
