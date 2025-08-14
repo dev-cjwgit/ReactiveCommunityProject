@@ -4,7 +4,7 @@
 
 <mapper namespace="com.cjw.reactivecommunityproject.server.cache.info.data.mapper.CacheInfoDataMapper">
     <select id="selectCommonRegionList" resultType="CacheInfoDataCommonRegionVO">
-        /* CacheInfoDataMapper.selectCommonRegionList */
+        /* NOT_SQL_LOG */
         SELECT `region`
              , `enabled`
              , `updated_utc_at`
@@ -12,7 +12,7 @@
     </select>
 
     <select id="selectCommonEnvCodeList" parameterType="String" resultType="CacheInfoDataCommonEnvCodeVO">
-        /* CacheInfoDataMapper.selectCommonEnvCodeList */
+        /* NOT_SQL_LOG */
         SELECT `region`
              , `id`
              , `type`
@@ -26,7 +26,7 @@
     </select>
 
     <select id="selectCommonLanguageCodeList" resultType="CacheInfoDataCommonLanguageCodeVO">
-        /* CacheInfoDataMapper.selectCommonLanguageCodeList */
+        /* NOT_SQL_LOG */
         SELECT `path`
              , `code`
              , `value`
@@ -35,7 +35,7 @@
     </select>
 
     <select id="selectCommonLanguageGbCodeList" resultType="CacheInfoDataCommonLanguageGbCodeVO">
-        /* CacheInfoDataMapper.selectCommonLanguageGbCodeList */
+        /* NOT_SQL_LOG */
         SELECT `path`
              , `code`
              , `language`
@@ -45,7 +45,7 @@
     </select>
 
     <select id="selectManageResourceList" resultType="CacheInfoDataManageResourceVO">
-        /* CacheInfoDataMapper.selectManageResourceList */
+        /* NOT_SQL_LOG */
         SELECT `uid`
              , `method`
              , `url_pattern`
@@ -55,7 +55,7 @@
     </select>
 
     <select id="selectManageFunctionList" resultType="CacheInfoDataManageFunctionVO">
-        /* CacheInfoDataMapper.selectManageFunctionList */
+        /* NOT_SQL_LOG */
         SELECT `uid`
              , `name`
              , `type`
@@ -65,7 +65,7 @@
     </select>
 
     <select id="selectManageRoleFunctionList" resultType="CacheInfoDataManageRoleFunctionVO">
-        /* CacheInfoDataMapper.selectManageRoleFunctionList */
+        /* NOT_SQL_LOG */
         SELECT `role_uid`
              , `function_uid`
              , `enabled`
@@ -74,7 +74,7 @@
     </select>
 
     <select id="selectManageRoleResourceList" resultType="CacheInfoDataManageRoleResourceVO">
-        /* CacheInfoDataMapper.selectManageRoleResourceList */
+        /* NOT_SQL_LOG */
         SELECT `role_uid`
              , `resource_uid`
              , `enabled`
