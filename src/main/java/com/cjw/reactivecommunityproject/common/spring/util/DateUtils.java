@@ -20,7 +20,7 @@ public class DateUtils {
     }
 
     @Nullable
-    public static String convertZonedDateTimeToString(ZonedDateTime inDateTime, String outFormat) {
+    public static String convertZonedDateTimeToString(@NotNull ZonedDateTime inDateTime, @NotNull String outFormat) {
         return convertZonedDateTimeToString(inDateTime, outFormat, null);
     }
 
