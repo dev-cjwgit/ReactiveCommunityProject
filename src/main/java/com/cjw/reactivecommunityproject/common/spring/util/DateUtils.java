@@ -1,12 +1,12 @@
 package com.cjw.reactivecommunityproject.common.spring.util;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.zone.ZoneRulesException;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -20,14 +20,14 @@ public class DateUtils {
     }
 
     @Nullable
-    public static String convertZonedDateTimeToString(@NotNull ZonedDateTime inDateTime, @NotNull String outFormat) {
+    public static String convertZonedDateTimeToString(@NonNull ZonedDateTime inDateTime, @NonNull String outFormat) {
         return convertZonedDateTimeToString(inDateTime, outFormat, null);
     }
 
     @Nullable
-    public static String convertZonedDateTimeToString(@NotNull ZonedDateTime inDateTime, @NotNull String outFormat, @Nullable String timezone) {
+    public static String convertZonedDateTimeToString(@NonNull ZonedDateTime inDateTime, @NonNull String outFormat, @Nullable String timezone) {
         try {
-            if (inDateTime == null || StringUtils.isBlank(outFormat))
+            if (StringUtils.isBlank(outFormat))
                 return null;
 
             ZoneId zone = (StringUtils.isBlank(timezone))
@@ -47,7 +47,7 @@ public class DateUtils {
     }
 
     @Nullable
-    public static ZonedDateTime convertStringDateToZonedDateTime(@NotNull String inDate, @NotNull String inFormat) {
+    public static ZonedDateTime convertStringDateToZonedDateTime(@NonNull String inDate, @NonNull String inFormat) {
         if (StringUtils.isBlank(inDate) || StringUtils.isBlank(inFormat)) {
             log.debug("DateUtils.convert is null : {} - {}", inDate, inFormat);
             return null;

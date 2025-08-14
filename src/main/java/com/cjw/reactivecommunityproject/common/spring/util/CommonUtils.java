@@ -2,14 +2,14 @@ package com.cjw.reactivecommunityproject.common.spring.util;
 
 import jakarta.annotation.Nullable;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.constraints.NotNull;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CommonUtils {
 
     @Nullable
-    public static String extractClientIp(@NotNull HttpServletRequest req) {
+    public static String extractClientIp(@NonNull HttpServletRequest req) {
         try {
             var forwarded = req.getHeader("X-Forwarded-For");
             if (forwarded != null && !forwarded.isBlank()) {

@@ -4,7 +4,7 @@ import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabled
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
 import com.cjw.reactivecommunityproject.server.cache.info.custom.model.CacheInfoCustomEnvCodeVO;
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,11 +13,9 @@ public class EnvCodeUtils {
     private EnvCodeUtils(){}
 
     @Nullable
-    public static <T> T convertEnvCodeByValue(@NotNull CacheInfoCustomEnvCodeVO cacheInfoCustomEnvCodeVO, @NotNull Class<T> clazz) {
+    public static <T> T convertEnvCodeByValue(@NonNull CacheInfoCustomEnvCodeVO cacheInfoCustomEnvCodeVO, @NonNull Class<T> clazz) {
         try {
-            if (cacheInfoCustomEnvCodeVO == null
-                    || cacheInfoCustomEnvCodeVO.getType() == null
-                    || cacheInfoCustomEnvCodeVO.getValue() == null
+            if (cacheInfoCustomEnvCodeVO.getType() == null
                     || StringUtils.isBlank(cacheInfoCustomEnvCodeVO.getValue())) {
                 return null;
             }
