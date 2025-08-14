@@ -116,6 +116,6 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
     @Override
     @CacheEvict(value = "rc_manage_role_resource", cacheManager = "redisCacheManager")
     public void clearManageRoleResourceList() {
-        log.info("CacheInfoDataServiceImpl.clearCacheManageRoleFunctionList()");
+        log.info("CacheInfoDataServiceImpl.clearManageRoleResourceList()");
     }
 }
