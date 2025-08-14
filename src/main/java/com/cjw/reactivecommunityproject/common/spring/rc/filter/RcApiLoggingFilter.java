@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.spring.rc.filter.api.logging;
+package com.cjw.reactivecommunityproject.common.spring.rc.filter;
 
 import com.cjw.reactivecommunityproject.common.spring.component.RcRedisIdGeneratorComponent;
 import com.cjw.reactivecommunityproject.common.spring.util.CommonUtils;
