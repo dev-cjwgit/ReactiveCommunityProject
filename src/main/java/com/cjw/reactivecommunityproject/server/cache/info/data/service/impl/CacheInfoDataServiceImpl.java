@@ -66,7 +66,7 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
     }
 
     @Override
-    @CacheEvict(value = "rc_common_language_gb_code", allEntries = true, cacheManager = "redisCacheManager")
+    @CacheEvict(value = "rc_common_language_gb_code", cacheManager = "redisCacheManager")
     public void clearCommonLanguageGbCodeList() {
         log.info("CacheInfoDataServiceImpl.clearCacheCommonLanguageGbCodeList()");
     }
