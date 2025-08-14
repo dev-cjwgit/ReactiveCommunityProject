@@ -33,8 +33,8 @@ public class LogExceptionController {
             , @RequestParam(value = "end-date", required = false) String endDate
     ) {
         return ResponseEntity.ok(logExceptionService.selectLogExceptionList(LogExceptionListVO.builder()
-                .startDate(DateUtils.convert(startDate, DateUtils.YYYY_MM_DD_HH_MM_SS))
-                .endDate(DateUtils.convert(endDate, DateUtils.YYYY_MM_DD_HH_MM_SS))
+                .startDate(DateUtils.convertStringDateToZonedDateTime(startDate, DateUtils.YYYY_MM_DD_HH_MM_SS))
+                .endDate(DateUtils.convertStringDateToZonedDateTime(endDate, DateUtils.YYYY_MM_DD_HH_MM_SS))
                 .build()));
     }
 }

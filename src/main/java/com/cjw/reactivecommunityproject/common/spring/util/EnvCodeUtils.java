@@ -3,14 +3,17 @@ package com.cjw.reactivecommunityproject.common.spring.util;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.CommonEnabledEnum;
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcCommonEnvCodeTypeEnum;
 import com.cjw.reactivecommunityproject.server.cache.info.custom.model.CacheInfoCustomEnvCodeVO;
+import jakarta.annotation.Nullable;
+import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 public class EnvCodeUtils {
     private EnvCodeUtils(){}
-    
-    public static <T> T convertEnvCodeByValue(CacheInfoCustomEnvCodeVO cacheInfoCustomEnvCodeVO, Class<T> clazz) {
+
+    @Nullable
+    public static <T> T convertEnvCodeByValue(@NotNull CacheInfoCustomEnvCodeVO cacheInfoCustomEnvCodeVO, @NotNull Class<T> clazz) {
         try {
             if (cacheInfoCustomEnvCodeVO == null
                     || cacheInfoCustomEnvCodeVO.getType() == null
