@@ -1,7 +1,7 @@
-package com.cjw.reactivecommunityproject.server.elasticsearch.log.api.listener;
+package com.cjw.reactivecommunityproject.server.logging.api.listener;
 
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.api.model.ElasticsearchLogApiDocument;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.api.service.ElasticsearchLogApiService;
+import com.cjw.reactivecommunityproject.server.logging.api.model.ElasticsearchLogApiDocument;
+import com.cjw.reactivecommunityproject.server.logging.api.service.ElasticsearchLogApiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

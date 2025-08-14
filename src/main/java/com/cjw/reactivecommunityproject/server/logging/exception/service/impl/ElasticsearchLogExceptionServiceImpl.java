@@ -1,8 +1,8 @@
-package com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.service.impl;
+package com.cjw.reactivecommunityproject.server.logging.exception.service.impl;
 
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.model.ElasticsearchLogExceptionDocument;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.repository.ElasticsearchLogExceptionRepository;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.service.ElasticsearchLogExceptionService;
+import com.cjw.reactivecommunityproject.server.logging.exception.model.ElasticsearchLogExceptionDocument;
+import com.cjw.reactivecommunityproject.server.logging.exception.repository.ElasticsearchLogExceptionRepository;
+import com.cjw.reactivecommunityproject.server.logging.exception.service.ElasticsearchLogExceptionService;
 import java.time.ZonedDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

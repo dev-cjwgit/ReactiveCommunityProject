@@ -1,8 +1,8 @@
 package com.cjw.reactivecommunityproject.web.log.exception.service.impl;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.model.ElasticsearchLogExceptionDocument;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.service.ElasticsearchLogExceptionService;
+import com.cjw.reactivecommunityproject.server.logging.exception.model.ElasticsearchLogExceptionDocument;
+import com.cjw.reactivecommunityproject.server.logging.exception.service.ElasticsearchLogExceptionService;
 import com.cjw.reactivecommunityproject.web.log.exception.exception.LogExceptionErrorMessage;
 import com.cjw.reactivecommunityproject.web.log.exception.exception.LogExceptionException;
 import com.cjw.reactivecommunityproject.web.log.exception.model.request.LogExceptionListVO;

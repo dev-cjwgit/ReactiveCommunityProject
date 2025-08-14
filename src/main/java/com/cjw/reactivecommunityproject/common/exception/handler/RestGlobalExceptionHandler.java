@@ -4,7 +4,7 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.spring.component.RcRedisIdGeneratorComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.model.ElasticsearchLogExceptionDocument;
+import com.cjw.reactivecommunityproject.server.logging.exception.model.ElasticsearchLogExceptionDocument;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.UUID;

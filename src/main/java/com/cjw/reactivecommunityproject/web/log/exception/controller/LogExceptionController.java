@@ -2,7 +2,7 @@ package com.cjw.reactivecommunityproject.web.log.exception.controller;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.model.ElasticsearchLogExceptionDocument;
+import com.cjw.reactivecommunityproject.server.logging.exception.model.ElasticsearchLogExceptionDocument;
 import com.cjw.reactivecommunityproject.web.log.exception.model.request.LogExceptionListVO;
 import com.cjw.reactivecommunityproject.web.log.exception.service.LogExceptionService;
 import java.util.List;

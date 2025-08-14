@@ -1,6 +1,6 @@
-package com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.repository;
+package com.cjw.reactivecommunityproject.server.logging.exception.repository;
 
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.exception.model.ElasticsearchLogExceptionDocument;
+import com.cjw.reactivecommunityproject.server.logging.exception.model.ElasticsearchLogExceptionDocument;
 import java.time.ZonedDateTime;
 import java.util.List;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;

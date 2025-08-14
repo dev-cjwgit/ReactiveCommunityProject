@@ -2,7 +2,7 @@ package com.cjw.reactivecommunityproject.common.spring.rc.filter;
 
 import com.cjw.reactivecommunityproject.common.spring.component.RcRedisIdGeneratorComponent;
 import com.cjw.reactivecommunityproject.common.spring.util.CommonUtils;
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.api.model.ElasticsearchLogApiDocument;
+import com.cjw.reactivecommunityproject.server.logging.api.model.ElasticsearchLogApiDocument;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

@@ -1,6 +1,6 @@
-package com.cjw.reactivecommunityproject.server.elasticsearch.log.api.repository;
+package com.cjw.reactivecommunityproject.server.logging.api.repository;
 
-import com.cjw.reactivecommunityproject.server.elasticsearch.log.api.model.ElasticsearchLogApiDocument;
+import com.cjw.reactivecommunityproject.server.logging.api.model.ElasticsearchLogApiDocument;
 import java.time.ZonedDateTime;
 import java.util.List;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
