@@ -10,6 +10,7 @@ import com.cjw.reactivecommunityproject.server.mail.model.MailSendVO;
 import com.cjw.reactivecommunityproject.server.mail.service.MailService;
 import java.util.List;
 import java.util.Objects;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -24,7 +25,8 @@ import org.springframework.stereotype.Service;
 public class MailServiceImpl implements MailService {
     private final CacheInfoCustomService cacheInfoCustomService;
 
-    private <T> T getConfigValueByCode(List<CacheInfoCustomEnvCodeVO> configEnvCodeList, String envId, Class<T> clazz) {
+    @NonNull
+    private <T> T getConfigValueByCode(@NonNull List<CacheInfoCustomEnvCodeVO> configEnvCodeList, @NonNull String envId, @NonNull Class<T> clazz) {
         return CollectionUtils.emptyIfNull(configEnvCodeList).stream()
                 .filter(o -> Strings.CI.equals(o.getId(), envId))
                 .map(o -> EnvCodeUtils.convertEnvCodeByValue(o, clazz))
@@ -33,16 +35,17 @@ public class MailServiceImpl implements MailService {
                 .orElseThrow(() -> new MailException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE));
     }
 
+    @NonNull
     private MailConnectConfigVO getMailConfig() {
         var configEnvCodeList = cacheInfoCustomService.getCommonEnvCodeByCategoryList("mail.config");
-        var hostUri = getConfigValueByCode(configEnvCodeList, "host.uri", String.class);
-        var port = getConfigValueByCode(configEnvCodeList, "port", Integer.class);
-        var name = getConfigValueByCode(configEnvCodeList, "name", String.class);
+        var hostUri = this.getConfigValueByCode(configEnvCodeList, "host.uri", String.class);
+        var port = this.getConfigValueByCode(configEnvCodeList, "port", Integer.class);
+        var name = this.getConfigValueByCode(configEnvCodeList, "name", String.class);
         var password = getConfigValueByCode(configEnvCodeList, "password", String.class);
 
-        var auth = getConfigValueByCode(configEnvCodeList, "auth", String.class);
-        var startTlsEnable = getConfigValueByCode(configEnvCodeList, "start.tls.enable", String.class);
-        var startTlsRequired = getConfigValueByCode(configEnvCodeList, "start.tls.required", String.class);
+        var auth = this.getConfigValueByCode(configEnvCodeList, "auth", String.class);
+        var startTlsEnable = this.getConfigValueByCode(configEnvCodeList, "start.tls.enable", String.class);
+        var startTlsRequired = this.getConfigValueByCode(configEnvCodeList, "start.tls.required", String.class);
 
         return MailConnectConfigVO.builder()
                 .hostUri(hostUri)
@@ -56,7 +59,7 @@ public class MailServiceImpl implements MailService {
     }
 
     @Override
-    public void sendMail(MailSendVO mailSendVO) {
+    public void sendMail(@NonNull MailSendVO mailSendVO) {
         var mail = new JavaMailSenderImpl();
         var config = getMailConfig();
 

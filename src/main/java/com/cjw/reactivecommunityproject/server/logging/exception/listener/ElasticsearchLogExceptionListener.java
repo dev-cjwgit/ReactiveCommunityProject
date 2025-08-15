@@ -2,6 +2,7 @@ package com.cjw.reactivecommunityproject.server.logging.exception.listener;
 
 import com.cjw.reactivecommunityproject.server.logging.exception.model.ElasticsearchLogExceptionDocument;
 import com.cjw.reactivecommunityproject.server.logging.exception.service.ElasticsearchLogExceptionService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -16,7 +17,7 @@ public class ElasticsearchLogExceptionListener {
 
     @Async
     @EventListener(ElasticsearchLogExceptionDocument.class)
-    public void listener(ElasticsearchLogExceptionDocument document) {
+    public void listener(@NonNull ElasticsearchLogExceptionDocument document) {
         log.info("ElasticsearchLogExceptionListener.listener() : start");
         var result = elasticsearchLogExceptionService.insert(document);
         log.info("ElasticsearchLogExceptionListener.listener() : end -> {}", result);

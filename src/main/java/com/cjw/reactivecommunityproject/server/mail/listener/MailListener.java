@@ -2,6 +2,7 @@ package com.cjw.reactivecommunityproject.server.mail.listener;
 
 import com.cjw.reactivecommunityproject.server.mail.model.MailSendVO;
 import com.cjw.reactivecommunityproject.server.mail.service.MailService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -16,7 +17,7 @@ public class MailListener {
 
     @Async
     @EventListener(MailSendVO.class)
-    public void listener(MailSendVO mailSendVO) {
+    public void listener(@NonNull MailSendVO mailSendVO) {
         log.info("MailListener.listener() : start");
         mailService.sendMail(mailSendVO);
         log.info("MailListener.listener() : end");

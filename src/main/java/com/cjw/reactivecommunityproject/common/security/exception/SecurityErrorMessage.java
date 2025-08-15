@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 public enum SecurityErrorMessage implements RcBaseErrorMessage {
 
     INVALID_TOKEN_PAYLOAD(null, "토큰 Payload 가 올바르지 않습니다.", HttpStatus.BAD_REQUEST)
+    , INVALID_TOKEN_SUB(null, "토큰 Sub 가 올바르지 않습니다.", HttpStatus.BAD_REQUEST)
     , INVALID_TOKEN_STRUCT(null, "토큰 구조가 올바르지 않습니다.", HttpStatus.BAD_REQUEST)
     , INVALID_TOKEN(null, "토큰이 올바르지 않습니다.", HttpStatus.BAD_REQUEST)
     , NOT_FOUND_TOKEN(null, "토큰을 찾을 수 없습니다.", HttpStatus.BAD_REQUEST)

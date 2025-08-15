@@ -18,9 +18,11 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
+import jakarta.annotation.Nullable;
 import java.util.Base64;
 import java.util.Date;
 import javax.crypto.SecretKey;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -36,8 +38,8 @@ public class SecurityJwtServiceImpl implements SecurityJwtService {
     private final RedisTemplate<String, Object> redisTemplate;
     private final CacheInfoCustomService cacheInfoCustomService;
 
-
-    private Integer getTokenExpiresByCommonEnvCode(String tokenType) {
+    @NonNull
+    private Integer getTokenExpiresByCommonEnvCode(@NonNull String tokenType) {
         var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheInfoCustomService.getCommonEnvCode(StringUtils.join("rc.jwt.", tokenType)), Integer.class);
         if (envCode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
@@ -46,27 +48,31 @@ public class SecurityJwtServiceImpl implements SecurityJwtService {
         return envCode;
     }
 
+    @NonNull
     private Integer getAccessTokenExpiresByCommonEnvCode() {
-        return getTokenExpiresByCommonEnvCode("access.token.expires.minutes");
+        return this.getTokenExpiresByCommonEnvCode("access.token.expires.minutes");
     }
 
+    @NonNull
     private Integer getRefreshTokenExpiresByCommonEnvCode() {
-        return getTokenExpiresByCommonEnvCode("refresh.token.expires.minutes");
+        return this.getTokenExpiresByCommonEnvCode("refresh.token.expires.minutes");
     }
 
+    @NonNull
     private String getSecretKeyByCommonEnvCode() {
-        var envcode = EnvCodeUtils.convertEnvCodeByValue(cacheInfoCustomService.getCommonEnvCode("rc.jwt.secret.key"), String.class);
-        if (envcode == null) {
+        var envCode = EnvCodeUtils.convertEnvCodeByValue(cacheInfoCustomService.getCommonEnvCode("rc.jwt.secret.key"), String.class);
+        if (envCode == null) {
             throw new AuthException(RcCommonErrorMessage.NOT_FOUND_ENV_CODE);
         }
-        if (StringUtils.isBlank(envcode)) {
+        if (StringUtils.isBlank(envCode)) {
             throw new AuthException(RcCommonErrorMessage.INVALID_ENV_CODE);
         }
 
-        return envcode;
+        return envCode;
     }
 
-    private String getUserUidByJwtPayload(String token) {
+    @NonNull
+    private String getUserUidByJwtPayload(@NonNull String token) {
         String[] parts = StringUtils.split(token, ".");
         if (parts.length != 3) {
             throw new SecurityException(SecurityErrorMessage.INVALID_TOKEN_STRUCT);
@@ -76,13 +82,17 @@ public class SecurityJwtServiceImpl implements SecurityJwtService {
         byte[] decodedPayload = Base64.getUrlDecoder().decode(payload);
         try {
             var jwtPayloadVO = objectMapper.readValue(new String(decodedPayload), SecurityJwtPayloadVO.class);
+            if (StringUtils.isBlank(jwtPayloadVO.sub())) {
+                throw new SecurityException(SecurityErrorMessage.INVALID_TOKEN_SUB);
+            }
             return jwtPayloadVO.sub();
         } catch (JsonProcessingException ex) {
             throw new SecurityException(SecurityErrorMessage.INVALID_TOKEN_PAYLOAD);
         }
     }
 
-    private SecretKey getSecretKey(String userUid) {
+    @NonNull
+    private SecretKey getSecretKey(@NonNull String userUid) {
         String salt;
         if (StringUtils.isBlank(userUid)) {
             salt = "";
@@ -97,7 +107,8 @@ public class SecurityJwtServiceImpl implements SecurityJwtService {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
-    private String createToken(SecurityJwtAccessVO securityJwtAccessVO, Long expiresMinutes) {
+    @NonNull
+    private String createToken(@NonNull SecurityJwtAccessVO securityJwtAccessVO, long expiresMinutes) {
         return Jwts.builder()
                 .subject(securityJwtAccessVO.userUid())
                 .claim("role", securityJwtAccessVO.roleUid())
@@ -110,26 +121,29 @@ public class SecurityJwtServiceImpl implements SecurityJwtService {
     }
 
 
+    @NonNull
     @Override
-    public String createAccessToken(SecurityJwtAccessVO securityJwtAccessVO) {
-        return createToken(securityJwtAccessVO, this.getAccessTokenExpiresByCommonEnvCode() * 1000 * 60L);
+    public String createAccessToken(@NonNull SecurityJwtAccessVO securityJwtAccessVO) {
+        return this.createToken(securityJwtAccessVO, this.getAccessTokenExpiresByCommonEnvCode() * 1000 * 60L);
     }
 
+    @NonNull
     @Override
-    public String createRefreshToken(String userUid) {
-        return createToken(SecurityJwtAccessVO.builder()
+    public String createRefreshToken(@NonNull String userUid) {
+        return this.createToken(SecurityJwtAccessVO.builder()
                 .userUid(userUid)
                 .roleUid(null)
                 .build(), this.getRefreshTokenExpiresByCommonEnvCode() * 1000 * 60L);
     }
 
     @Override
-    public Boolean validateToken(String token) {
+    public boolean validateToken(@NonNull String token) {
         return this.getClaims(token) != null;
     }
 
+    @Nullable
     @Override
-    public SecurityJwtAccessVO getClaims(String token) {
+    public SecurityJwtAccessVO getClaims(@NonNull String token) {
         try {
             var userUid = this.getUserUidByJwtPayload(token);
             var claims = Jwts.parser()

@@ -7,7 +7,7 @@ public interface SecurityJwtService {
 
     String createRefreshToken(String userUid);
 
-    Boolean validateToken(String token);
+    boolean validateToken(String token);
 
     SecurityJwtAccessVO getClaims(String token);
 }
