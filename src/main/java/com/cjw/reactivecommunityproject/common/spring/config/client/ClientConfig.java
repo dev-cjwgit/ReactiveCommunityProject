@@ -44,7 +44,7 @@ public class ClientConfig {
         };
     }
 
-    @Bean("webClient")
+    @Bean
     public WebClientCustomizer webClientCustomizer(RcProperties rcProperties) {
         return builder -> {
             var provider = ConnectionProvider.builder("global-http")
@@ -67,7 +67,7 @@ public class ClientConfig {
         };
     }
 
-    @Bean("restClient")
+    @Bean
     public RestClientCustomizer restClientCustomizer(RcProperties rc) {
         return builder -> {
             var connCfg = ConnectionConfig.custom()
