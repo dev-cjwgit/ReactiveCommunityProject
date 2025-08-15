@@ -6,6 +6,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
@@ -25,9 +26,23 @@ import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import reactor.netty.http.client.HttpClient;
 import reactor.netty.resources.ConnectionProvider;
 
+@Slf4j
 @Configuration
 @EnableConfigurationProperties(RcProperties.class)
 public class ClientConfig {
+
+    private ExchangeFilterFunction logFilter() {
+        return (req, next) -> {
+            long startNanos = System.nanoTime();
+            log.debug("[WebClient] => {}, {}", req.method(), req.url());
+
+            return next.exchange(req)
+                    .doOnNext(res -> {
+                        long tookMs = (System.nanoTime() - startNanos) / 1_000_000;
+                        log.debug("[WebClient] <= {}, {} ({} ms)%n", res.statusCode(), req.url(), tookMs);
+                    });
+        };
+    }
 
     @Bean("webClient")
     public WebClientCustomizer webClientCustomizer(RcProperties rcProperties) {
@@ -48,8 +63,7 @@ public class ClientConfig {
 
             builder.clientConnector(new ReactorClientHttpConnector(httpClient))
                     .codecs(c -> c.defaultCodecs().maxInMemorySize((int) rcProperties.http().codecs().maxInMemorySize().toBytes()))
-                    .filter(logRequest())
-                    .filter(logResponse());
+                    .filter(this.logFilter());
         };
     }
 
@@ -82,14 +96,5 @@ public class ClientConfig {
             ClientHttpRequestFactory rf = new HttpComponentsClientHttpRequestFactory(apache);
             builder.requestFactory(rf);
         };
-    }
-
-    private ExchangeFilterFunction logRequest() {
-        return (req, next) -> next.exchange(req);
-    }
-
-    private ExchangeFilterFunction logResponse() {
-        return (req, next) -> next.exchange(req)
-                .doOnNext(res -> { /* 상태코드/지연시간 로깅 등 */ });
     }
 }
