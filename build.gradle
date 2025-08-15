@@ -47,8 +47,6 @@ ext {
     mybatisVersion = '3.0.4'
     // OpenAPI
     openApiVersion = '2.7.0'
-    // Jackson
-    jsr310Version = '2.18.2'
     // Elasticsearch Client
     elasticsearhClientVersion = '8.16.1'
     // Log4j2
@@ -61,6 +59,8 @@ ext {
     jasyptVersion = '3.0.5'
     // owasp-java-html-sanitizer
     owaspJavaHtmlSanitizerVersion = '20240325.1'
+    // HttpClient
+    httpClientVersion = '5.5'
 }
 
 dependencies {
@@ -74,9 +74,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-cache"
     implementation "org.springframework.boot:spring-boot-starter-data-jdbc"
     implementation 'org.springframework.boot:spring-boot-starter-aop'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
     testImplementation "org.springframework.boot:spring-boot-starter-test"
     testImplementation "org.springframework.security:spring-security-test"
 
@@ -107,7 +106,7 @@ dependencies {
     implementation "org.springdoc:springdoc-openapi-starter-webmvc-ui:${openApiVersion}"
 
     // jackson
-    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:${jsr310Version}"
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
 
     // Elasticsearch Rest Client
     implementation "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearhClientVersion}"
@@ -128,4 +127,7 @@ dependencies {
 
     // Owasp Java Html Sanitizer
     implementation "com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:${owaspJavaHtmlSanitizerVersion}"
+
+    // http-client5
+    implementation "org.apache.httpcomponents.client5:httpclient5:${httpClientVersion}"
 }
