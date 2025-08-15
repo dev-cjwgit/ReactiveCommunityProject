@@ -16,7 +16,3 @@ public class CacheInfoCustomLanguageVO implements CacheInfoDataUpdatable {
     private String lang;
     private ZonedDateTime updatedUtcAt;
 }
-
-
-
-

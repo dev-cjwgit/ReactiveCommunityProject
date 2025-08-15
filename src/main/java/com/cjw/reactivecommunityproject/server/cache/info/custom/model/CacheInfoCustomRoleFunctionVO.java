@@ -15,9 +15,14 @@ public class CacheInfoCustomRoleFunctionVO implements CacheInfoDataUpdatable {
     private Integer roleUid;
     private Long functionUid;
     private CommonEnabledEnum enabled;
-    private String name;
-    private RcManageFunctionTypeEnum type;
-    private ZonedDateTime updatedUtcAt;
+    private String functionName;
+    private RcManageFunctionTypeEnum functionType;
+    private ZonedDateTime functionUpdatedUtcAt;
+
+    @Override
+    public ZonedDateTime getUpdatedUtcAt() {
+        return this.functionUpdatedUtcAt;
+    }
 }
 
 

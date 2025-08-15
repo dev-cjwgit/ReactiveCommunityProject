@@ -17,9 +17,10 @@ public class CacheInfoCustomRoleResourceVO implements CacheInfoDataUpdatable {
     private CommonEnabledEnum enabled;
     private RcManageResourceMethodEnum method;
     private String urlPattern;
-    private ZonedDateTime updatedUtcAt;
+    private ZonedDateTime roleResourceUpdatedUtcAt;
+
+    @Override
+    public ZonedDateTime getUpdatedUtcAt() {
+        return this.roleResourceUpdatedUtcAt;
+    }
 }
-
-
-
-

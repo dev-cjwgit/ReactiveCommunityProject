@@ -8,9 +8,11 @@ import com.cjw.reactivecommunityproject.server.cache.info.custom.model.CacheInfo
 import com.cjw.reactivecommunityproject.server.cache.info.custom.model.CacheInfoCustomRoleResourceVO;
 import com.cjw.reactivecommunityproject.server.cache.info.custom.service.CacheInfoCustomService;
 import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfoDataService;
+import jakarta.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
@@ -27,9 +29,10 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
     private final RcProperties rcProperties;
     private final CacheInfoDataService cacheInfoDataService;
 
+    @Nullable
     @Override
     @Cacheable(value = "rc_common_env_code", key = "'envId=' + #envId", cacheManager = "redisCacheManager")
-    public CacheInfoCustomEnvCodeVO getCommonEnvCode(String envId) {
+    public CacheInfoCustomEnvCodeVO getCommonEnvCode(@NonNull String envId) {
         return CollectionUtils.emptyIfNull(cacheInfoDataService.getCommonEnvCodeList())
                 .parallelStream()
                 .filter(o -> Strings.CS.equals(o.getId(), envId))
@@ -53,9 +56,10 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
         log.info("CacheInfoCustomServiceImpl.clearCommonCustomEnvCode()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "rc_common_env_code", key = "'category=' + #category", cacheManager = "redisCacheManager")
-    public List<CacheInfoCustomEnvCodeVO> getCommonEnvCodeByCategoryList(String category) {
+    public List<CacheInfoCustomEnvCodeVO> getCommonEnvCodeByCategoryList(@NonNull String category) {
         return CollectionUtils.emptyIfNull(cacheInfoDataService.getCommonEnvCodeList())
                 .parallelStream()
                 .filter(o -> Strings.CS.equals(o.getCategory(), category))
@@ -79,9 +83,10 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
         log.info("CacheInfoCustomServiceImpl.clearCommonCustomEnvCodeByCategoryList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "custom_common_language", key = "'path=' + #path + '_' + 'language=' + #language", cacheManager = "redisCacheManager")
-    public List<CacheInfoCustomLanguageVO> getCommonLanguageList(String path, String language) {
+    public List<CacheInfoCustomLanguageVO> getCommonLanguageList(@NonNull String path, @NonNull String language) {
         var gbCodeList = cacheInfoDataService.getCommonLanguageGbCodeList();
 
         return CollectionUtils.emptyIfNull(cacheInfoDataService.getCommonLanguageCodeList())
@@ -112,9 +117,10 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
         log.info("CacheInfoCustomServiceImpl.clearCommonCustomLanguageList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "custom_manage_role_function", key = "'path=' + #roleUid", cacheManager = "redisCacheManager")
-    public List<CacheInfoCustomRoleFunctionVO> getManageRoleFunctionList(Integer roleUid) {
+    public List<CacheInfoCustomRoleFunctionVO> getManageRoleFunctionList(@NonNull Integer roleUid) {
         var functionList = cacheInfoDataService.getManageFunctionList();
         return cacheInfoDataService.getManageRoleFunctionList()
                 .parallelStream()
@@ -128,9 +134,9 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
                                 .roleUid(roleFunction.getRoleUid())
                                 .functionUid(function.getUid())
                                 .enabled(roleFunction.getEnabled())
-                                .name(function.getName())
-                                .type(function.getType())
-                                .updatedUtcAt(roleFunction.getUpdatedUtcAt())
+                                .functionName(function.getName())
+                                .functionType(function.getType())
+                                .functionUpdatedUtcAt(roleFunction.getUpdatedUtcAt())
                                 .build()
                         )
                 )
@@ -143,25 +149,26 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
         log.info("CacheInfoCustomServiceImpl.clearCustomManageRoleFunctionList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "custom_manage_role_resource", key = "'path=' + #roleUid", cacheManager = "redisCacheManager")
-    public List<CacheInfoCustomRoleResourceVO> getManageRoleResourceList(Integer roleUid) {
+    public List<CacheInfoCustomRoleResourceVO> getManageRoleResourceList(@NonNull Integer roleUid) {
         var functionList = cacheInfoDataService.getManageResourceList();
         return cacheInfoDataService.getManageRoleResourceList()
                 .parallelStream()
-                .filter(roleFunction -> NumberUtils.compare(roleFunction.getRoleUid() , roleUid) == 0)
-                .filter(roleFunction -> roleFunction.getEnabled() == CommonEnabledEnum.Y)
-                .flatMap(roleFunction -> CollectionUtils.emptyIfNull(functionList)
+                .filter(roleResourceVO -> NumberUtils.compare(roleResourceVO.getRoleUid() , roleUid) == 0)
+                .filter(roleResourceVO -> roleResourceVO.getEnabled() == CommonEnabledEnum.Y)
+                .flatMap(roleResourceVO -> CollectionUtils.emptyIfNull(functionList)
                         .parallelStream()
-                        .filter(resource -> NumberUtils.compare(roleFunction.getResourceUid(), resource.getUid()) == 0)
+                        .filter(resource -> NumberUtils.compare(roleResourceVO.getResourceUid(), resource.getUid()) == 0)
                         .filter(resource -> resource.getEnabled() == CommonEnabledEnum.Y)
                         .map(resource -> CacheInfoCustomRoleResourceVO.builder()
-                                .roleUid(roleFunction.getRoleUid())
+                                .roleUid(roleResourceVO.getRoleUid())
                                 .resourceUid(resource.getUid())
                                 .method(resource.getMethod())
                                 .urlPattern(resource.getUrlPattern())
-                                .enabled(roleFunction.getEnabled())
-                                .updatedUtcAt(roleFunction.getUpdatedUtcAt())
+                                .enabled(roleResourceVO.getEnabled())
+                                .roleResourceUpdatedUtcAt(roleResourceVO.getUpdatedUtcAt())
                                 .build()
                         )
                 )

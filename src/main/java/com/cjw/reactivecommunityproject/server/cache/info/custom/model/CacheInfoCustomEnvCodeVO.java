@@ -21,7 +21,3 @@ public class CacheInfoCustomEnvCodeVO implements CacheInfoDataUpdatable {
     private CommonEnabledEnum enabled;
     private ZonedDateTime updatedUtcAt;
 }
-
-
-
-

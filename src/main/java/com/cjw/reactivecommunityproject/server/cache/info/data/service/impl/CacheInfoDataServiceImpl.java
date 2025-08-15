@@ -11,6 +11,7 @@ import com.cjw.reactivecommunityproject.server.cache.info.data.model.CacheInfoDa
 import com.cjw.reactivecommunityproject.server.cache.info.data.model.CacheInfoDataManageRoleResourceVO;
 import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfoDataService;
 import java.util.List;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 public class CacheInfoDataServiceImpl implements CacheInfoDataService {
     private final CacheInfoDataMapper cacheInfoDataMapper;
 
+    @NonNull
     @Override
     @Cacheable(value = "rc_common_region", cacheManager = "redisCacheManager")
     public List<CacheInfoDataCommonRegionVO> getCommonRegionList() {
@@ -35,6 +37,7 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
         log.info("CacheInfoDataServiceImpl.clearCacheCommonRegionList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "rc_common_env_code", cacheManager = "redisCacheManager")
     public List<CacheInfoDataCommonEnvCodeVO> getCommonEnvCodeList() {
@@ -47,6 +50,7 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
         log.info("CacheInfoDataServiceImpl.clearCacheCommonEnvCodeList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "rc_common_language_code", cacheManager = "redisCacheManager")
     public List<CacheInfoDataCommonLanguageCodeVO> getCommonLanguageCodeList() {
@@ -59,6 +63,7 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
         log.info("CacheInfoDataServiceImpl.clearCacheCommonLanguageCodeList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "rc_common_language_gb_code", cacheManager = "redisCacheManager")
     public List<CacheInfoDataCommonLanguageGbCodeVO> getCommonLanguageGbCodeList() {
@@ -71,6 +76,7 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
         log.info("CacheInfoDataServiceImpl.clearCacheCommonLanguageGbCodeList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "rc_manage_resource", cacheManager = "redisCacheManager")
     public List<CacheInfoDataManageResourceVO> getManageResourceList() {
@@ -83,6 +89,7 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
         log.info("CacheInfoDataServiceImpl.clearCacheManageResourceList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "rc_manage_function", cacheManager = "redisCacheManager")
     public List<CacheInfoDataManageFunctionVO> getManageFunctionList() {
@@ -95,6 +102,7 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
         log.info("CacheInfoDataServiceImpl.clearCacheManageFunctionList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "rc_manage_role_function", cacheManager = "redisCacheManager")
     public List<CacheInfoDataManageRoleFunctionVO> getManageRoleFunctionList() {
@@ -107,6 +115,7 @@ public class CacheInfoDataServiceImpl implements CacheInfoDataService {
         log.info("CacheInfoDataServiceImpl.clearCacheManageRoleFunctionList()");
     }
 
+    @NonNull
     @Override
     @Cacheable(value = "rc_manage_role_resource", cacheManager = "redisCacheManager")
     public List<CacheInfoDataManageRoleResourceVO> getManageRoleResourceList() {

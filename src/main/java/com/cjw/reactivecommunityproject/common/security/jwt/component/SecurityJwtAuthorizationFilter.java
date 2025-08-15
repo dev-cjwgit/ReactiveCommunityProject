@@ -43,7 +43,7 @@ public class SecurityJwtAuthorizationFilter implements AuthorizationManager<Requ
             return FALSE;
         }
 
-        return cacheInfoCustomService.getManageRoleResourceList(NumberUtils.toInt(roleUid))
+        return cacheInfoCustomService.getManageRoleResourceList(Integer.parseInt(roleUid))
                 .parallelStream()
                 .filter(o -> Strings.CI.equalsAny(o.getMethod().name(), "ALL") || Strings.CI.equalsAny(o.getMethod().name(), method))
                 .anyMatch(o -> antPathMatcher.match(o.getUrlPattern(), path))
