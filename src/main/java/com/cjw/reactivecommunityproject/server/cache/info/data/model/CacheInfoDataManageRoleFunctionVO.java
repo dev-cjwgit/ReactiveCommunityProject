@@ -9,8 +9,8 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CacheInfoDataManageRoleFunctionVO implements CacheInfoDataUpdatable {
-    private Integer roleUid;
-    private Long functionUid;
+    private int roleUid;
+    private long functionUid;
     private CommonEnabledEnum enabled;
     private ZonedDateTime updatedUtcAt;
 }

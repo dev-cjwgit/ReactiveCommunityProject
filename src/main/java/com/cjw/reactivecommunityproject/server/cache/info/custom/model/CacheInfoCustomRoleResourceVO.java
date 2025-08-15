@@ -12,8 +12,8 @@ import lombok.ToString;
 @Builder
 @ToString
 public class CacheInfoCustomRoleResourceVO implements CacheInfoDataUpdatable {
-    private Integer roleUid;
-    private Long resourceUid;
+    private int roleUid;
+    private long resourceUid;
     private CommonEnabledEnum enabled;
     private RcManageResourceMethodEnum method;
     private String urlPattern;

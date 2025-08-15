@@ -10,7 +10,7 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CacheInfoDataManageResourceVO implements CacheInfoDataUpdatable {
-    private Long uid;
+    private long uid;
     private RcManageResourceMethodEnum method;
     private String urlPattern;
     private CommonEnabledEnum enabled;
