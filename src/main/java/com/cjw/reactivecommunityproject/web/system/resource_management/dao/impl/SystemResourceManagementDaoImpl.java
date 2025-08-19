@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.system.resource_management.dao.impl;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageResourceMethodEnum;
-import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
 import com.cjw.reactivecommunityproject.web.system.resource_management.dao.SystemResourceManagementDao;
 import com.cjw.reactivecommunityproject.web.system.resource_management.mapper.SystemResourceManagementMapper;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementDetailEntity;

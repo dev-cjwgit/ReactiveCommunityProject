@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.spring.pagination.exception;
+package com.cjw.reactivecommunityproject.common.spring.pagination.offset.exception;
 
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessage;
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;

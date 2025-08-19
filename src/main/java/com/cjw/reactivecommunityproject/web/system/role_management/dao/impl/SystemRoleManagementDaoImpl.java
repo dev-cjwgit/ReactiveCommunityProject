@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.role_management.dao.impl;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.dao.SystemRoleManagementDao;
 import com.cjw.reactivecommunityproject.web.system.role_management.mapper.SystemRoleManagementMapper;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;

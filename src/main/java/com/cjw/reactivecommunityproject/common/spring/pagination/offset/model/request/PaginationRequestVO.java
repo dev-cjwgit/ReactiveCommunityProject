@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.spring.pagination.model.request;
+package com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request;
 
 import lombok.Builder;
 

@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.environment_management.dao.impl;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.dao.SystemEnvironmentManagementDao;
 import com.cjw.reactivecommunityproject.web.system.environment_management.mapper.SystemEnvironmentManagementMapper;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;

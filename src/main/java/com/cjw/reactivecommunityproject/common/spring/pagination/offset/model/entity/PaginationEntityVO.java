@@ -1,6 +1,6 @@
-package com.cjw.reactivecommunityproject.common.spring.pagination.model.entity;
+package com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
 import lombok.Getter;
 import lombok.ToString;
 

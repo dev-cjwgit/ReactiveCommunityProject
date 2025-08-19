@@ -1,11 +1,11 @@
-package com.cjw.reactivecommunityproject.common.spring.pagination.service.impl;
+package com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.impl;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.exception.PaginationErrorMessage;
-import com.cjw.reactivecommunityproject.common.spring.pagination.exception.PaginationException;
-import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.PaginationEntityVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.model.entity.PaginationVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.service.PaginationService;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.exception.PaginationErrorMessage;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.exception.PaginationException;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationEntityVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationService;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;

@@ -3,8 +3,8 @@ package com.cjw.reactivecommunityproject.web.system.resource_management.service.
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.model.request.PaginationRequestVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.service.PaginationService;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationService;
 import com.cjw.reactivecommunityproject.web.system.resource_management.dao.SystemResourceManagementDao;
 import com.cjw.reactivecommunityproject.web.system.resource_management.exception.SystemResourceManagementErrorMessage;
 import com.cjw.reactivecommunityproject.web.system.resource_management.exception.SystemResourceManagementException;

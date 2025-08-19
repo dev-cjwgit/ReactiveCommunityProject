@@ -1,4 +1,4 @@
-package com.cjw.reactivecommunityproject.common.spring.pagination.model.entity;
+package com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity;
 
 import java.util.Map;
 import lombok.Builder;
