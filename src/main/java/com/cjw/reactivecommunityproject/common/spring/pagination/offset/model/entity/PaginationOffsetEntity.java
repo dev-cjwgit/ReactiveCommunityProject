@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetRequestVO;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -15,7 +15,7 @@ public class PaginationOffsetEntity {
         this.limit = pageSize;
     }
 
-    public PaginationOffsetEntity(PaginationRequestVO paginationRequestVO) {
-        this(paginationRequestVO.pageNumber(), paginationRequestVO.pageSize());
+    public PaginationOffsetEntity(PaginationOffsetRequestVO paginationOffsetRequestVO) {
+        this(paginationOffsetRequestVO.pageNumber(), paginationOffsetRequestVO.pageSize());
     }
 }

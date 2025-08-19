@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.system.function_management.controller;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementListEntity;
@@ -50,7 +50,7 @@ public class SystemFunctionManagementController {
                         .startDate(DateUtils.convertStringDateToZonedDateTime(startDate, DateUtils.YYYY_MM_DD))
                         .endDate(DateUtils.convertStringDateToZonedDateTime(endDate, DateUtils.YYYY_MM_DD))
                         .build()
-                , PaginationRequestVO.builder()
+                , PaginationOffsetRequestVO.builder()
                         .pageNumber(pageNumber)
                         .pageSize(pageSize)
                         .build()));

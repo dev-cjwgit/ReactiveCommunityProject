@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.system.role_management.controller;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
@@ -46,7 +46,7 @@ public class SystemRoleManagementController {
                         .startDate(DateUtils.convertStringDateToZonedDateTime(startDate, DateUtils.YYYY_MM_DD))
                         .endDate(DateUtils.convertStringDateToZonedDateTime(endDate, DateUtils.YYYY_MM_DD))
                         .build()
-                , PaginationRequestVO.builder()
+                , PaginationOffsetRequestVO.builder()
                         .pageNumber(pageNumber)
                         .pageSize(pageSize)
                         .build()));

@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.system.resource_management.controller;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.util.DateUtils;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementListEntity;
@@ -47,7 +47,7 @@ public class SystemResourceManagementController {
                         .startDate(DateUtils.convertStringDateToZonedDateTime(startDate, DateUtils.YYYY_MM_DD))
                         .endDate(DateUtils.convertStringDateToZonedDateTime(endDate, DateUtils.YYYY_MM_DD))
                         .build()
-                , PaginationRequestVO.builder()
+                , PaginationOffsetRequestVO.builder()
                         .pageNumber(pageNumber)
                         .pageSize(pageSize)
                         .build()));

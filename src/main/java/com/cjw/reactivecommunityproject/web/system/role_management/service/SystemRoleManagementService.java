@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.system.role_management.service;
 
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetRequestVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.request.SystemRoleManagementCreateVO;
@@ -10,7 +10,7 @@ import com.cjw.reactivecommunityproject.web.system.role_management.model.request
 import java.util.List;
 
 public interface SystemRoleManagementService {
-    RestResponseVO<List<SystemRoleManagementListEntity>> readRoleManagementList(SystemRoleManagementListVO build, PaginationRequestVO build1);
+    RestResponseVO<List<SystemRoleManagementListEntity>> readRoleManagementList(SystemRoleManagementListVO build, PaginationOffsetRequestVO build1);
 
     RestResponseVO<SystemRoleManagementDetailEntity> detail(Long uid);
 

@@ -4,7 +4,7 @@ import com.cjw.reactivecommunityproject.common.spring.pagination.offset.exceptio
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.exception.PaginationOffsetException;
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationOffsetEntity;
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationOffsetService;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class PaginationOffsetServiceImpl implements PaginationOffsetService {
     }
 
     @Override
-    public PaginationOffsetVO createPagination(Object searchCondition, PaginationRequestVO pagination) {
+    public PaginationOffsetVO createPagination(Object searchCondition, PaginationOffsetRequestVO pagination) {
         if (pagination == null || pagination.pageNumber() == null || pagination.pageSize() == null) {
             throw new PaginationOffsetException(PaginationOffsetErrorMessage.NOT_NULL_PAGINATION);
         }

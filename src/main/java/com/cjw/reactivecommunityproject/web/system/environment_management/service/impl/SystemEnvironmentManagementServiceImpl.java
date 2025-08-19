@@ -3,7 +3,7 @@ package com.cjw.reactivecommunityproject.web.system.environment_management.servi
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationOffsetService;
 import com.cjw.reactivecommunityproject.server.cache.info.data.model.CacheInfoDataCommonRegionVO;
 import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfoDataService;
@@ -48,13 +48,13 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
     }
 
     @Override
-    public RestResponseVO<List<SystemEnvironmentManagementListEntity>> readEnvironmentManagementList(SystemEnvironmentManagementListVO systemResourceManagementListVO, PaginationRequestVO paginationRequestVO) {
+    public RestResponseVO<List<SystemEnvironmentManagementListEntity>> readEnvironmentManagementList(SystemEnvironmentManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
         if (this.isNotValidRegion(systemResourceManagementListVO.region())) {
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_ENV_CODE_REGION);
         }
 
         var list = systemEnvironmentManagementDao.selectList(
-                paginationOffsetService.createPagination(systemResourceManagementListVO, paginationRequestVO)
+                paginationOffsetService.createPagination(systemResourceManagementListVO, paginationOffsetRequestVO)
         );
 
         return RestResponseVO.<List<SystemEnvironmentManagementListEntity>>builder()

@@ -3,7 +3,7 @@ package com.cjw.reactivecommunityproject.web.system.resource_management.service.
 import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMessage;
 import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetRequestVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationOffsetService;
 import com.cjw.reactivecommunityproject.web.system.resource_management.dao.SystemResourceManagementDao;
 import com.cjw.reactivecommunityproject.web.system.resource_management.exception.SystemResourceManagementErrorMessage;
@@ -32,9 +32,9 @@ public class SystemResourceManagementServiceImpl implements SystemResourceManage
     private final RcUserComponent rcUserComponent;
 
     @Override
-    public RestResponseVO<List<SystemResourceManagementListEntity>> readResourceMgmtList(SystemResourceManagementListVO systemResourceManagementListVO, PaginationRequestVO paginationRequestVO) {
+    public RestResponseVO<List<SystemResourceManagementListEntity>> readResourceMgmtList(SystemResourceManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
         var list = systemResourceManagementDao.selectList(
-                paginationOffsetService.createPagination(systemResourceManagementListVO, paginationRequestVO)
+                paginationOffsetService.createPagination(systemResourceManagementListVO, paginationOffsetRequestVO)
         );
 
         return RestResponseVO.<List<SystemResourceManagementListEntity>>builder()

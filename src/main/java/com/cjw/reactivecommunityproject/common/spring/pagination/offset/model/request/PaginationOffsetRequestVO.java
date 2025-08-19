@@ -3,7 +3,7 @@ package com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.r
 import lombok.Builder;
 
 @Builder
-public record PaginationRequestVO(
+public record PaginationOffsetRequestVO(
         Integer pageNumber
         , Integer pageSize
 ) {
