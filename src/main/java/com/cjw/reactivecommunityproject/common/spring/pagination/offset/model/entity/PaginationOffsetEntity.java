@@ -10,6 +10,11 @@ public class PaginationOffsetEntity {
     private final Integer offset;
     private final Integer limit;
 
+    private PaginationOffsetEntity() {
+        this.offset = -1;
+        this.limit = -1;
+    }
+
     public PaginationOffsetEntity(Integer pageNumber, Integer pageSize) {
         this.offset = (pageNumber - 1) * pageSize;
         this.limit = pageSize;
