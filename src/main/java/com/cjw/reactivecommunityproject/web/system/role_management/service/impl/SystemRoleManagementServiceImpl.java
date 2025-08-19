@@ -4,7 +4,7 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMess
 import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationService;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationOffsetService;
 import com.cjw.reactivecommunityproject.web.system.resource_management.exception.SystemResourceManagementErrorMessage;
 import com.cjw.reactivecommunityproject.web.system.resource_management.exception.SystemResourceManagementException;
 import com.cjw.reactivecommunityproject.web.system.role_management.dao.SystemRoleManagementDao;
@@ -29,14 +29,14 @@ import org.springframework.stereotype.Service;
 public class SystemRoleManagementServiceImpl implements SystemRoleManagementService {
     private final SystemRoleManagementDao systemRoleManagementDao;
 
-    private final PaginationService paginationService;
+    private final PaginationOffsetService paginationOffsetService;
 
     private final RcUserComponent rcUserComponent;
 
     @Override
     public RestResponseVO<List<SystemRoleManagementListEntity>> readRoleManagementList(SystemRoleManagementListVO systemRoleManagementListVO, PaginationRequestVO paginationRequestVO) {
         var list = systemRoleManagementDao.selectList(
-                paginationService.createPagination(systemRoleManagementListVO, paginationRequestVO)
+                paginationOffsetService.createPagination(systemRoleManagementListVO, paginationRequestVO)
         );
 
         return RestResponseVO.<List<SystemRoleManagementListEntity>>builder()

@@ -1,7 +1,7 @@
 package com.cjw.reactivecommunityproject.web.system.resource_management.mapper;
 
 import com.cjw.reactivecommunityproject.common.spring.model.entity.RcManageResourceMethodEnum;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetVO;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.resource_management.model.entity.SystemResourceManagementListEntity;
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface SystemResourceManagementMapper {
-    List<SystemResourceManagementListEntity> selectList(PaginationVO paginationVO);
+    List<SystemResourceManagementListEntity> selectList(PaginationOffsetVO paginationOffsetVO);
 
     SystemResourceManagementDetailEntity selectDetail(@Param("uid") Long uid);
 

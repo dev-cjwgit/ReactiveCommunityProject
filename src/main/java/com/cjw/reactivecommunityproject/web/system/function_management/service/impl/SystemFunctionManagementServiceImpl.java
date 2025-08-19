@@ -4,7 +4,7 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMess
 import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationService;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationOffsetService;
 import com.cjw.reactivecommunityproject.web.system.function_management.dao.SystemFunctionManagementDao;
 import com.cjw.reactivecommunityproject.web.system.function_management.exception.SystemFunctionManagementErrorMessage;
 import com.cjw.reactivecommunityproject.web.system.function_management.exception.SystemFunctionManagementException;
@@ -28,14 +28,14 @@ import org.springframework.stereotype.Service;
 public class SystemFunctionManagementServiceImpl implements SystemFunctionManagementService {
     private final SystemFunctionManagementDao systemFunctionManagementDao;
 
-    private final PaginationService paginationService;
+    private final PaginationOffsetService paginationOffsetService;
 
     private final RcUserComponent rcUserComponent;
 
     @Override
     public RestResponseVO<List<SystemFunctionManagementListEntity>> readFunctionManagementList(SystemFunctionManagementListVO systemFunctionManagementListVO, PaginationRequestVO paginationRequestVO) {
         var list = systemFunctionManagementDao.selectList(
-                paginationService.createPagination(systemFunctionManagementListVO, paginationRequestVO)
+                paginationOffsetService.createPagination(systemFunctionManagementListVO, paginationRequestVO)
         );
         return RestResponseVO.<List<SystemFunctionManagementListEntity>>builder()
                 .result(true)

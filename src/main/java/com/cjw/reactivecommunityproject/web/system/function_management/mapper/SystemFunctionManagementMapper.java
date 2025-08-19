@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.function_management.mapper;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetVO;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementListEntity;
@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface SystemFunctionManagementMapper {
 
-    List<SystemFunctionManagementListEntity> selectList(PaginationVO pagination);
+    List<SystemFunctionManagementListEntity> selectList(PaginationOffsetVO pagination);
 
     SystemFunctionManagementDetailEntity selectDetail(@Param("uid") Long uid);
 

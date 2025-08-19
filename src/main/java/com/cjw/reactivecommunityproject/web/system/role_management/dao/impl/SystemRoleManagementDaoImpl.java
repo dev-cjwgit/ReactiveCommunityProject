@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.role_management.dao.impl;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.dao.SystemRoleManagementDao;
 import com.cjw.reactivecommunityproject.web.system.role_management.mapper.SystemRoleManagementMapper;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;
@@ -20,7 +20,7 @@ public class SystemRoleManagementDaoImpl implements SystemRoleManagementDao {
     private final SystemRoleManagementMapper systemRoleManagementMapper;
 
     @Override
-    public List<SystemRoleManagementListEntity> selectList(PaginationVO pagination) {
+    public List<SystemRoleManagementListEntity> selectList(PaginationOffsetVO pagination) {
         return systemRoleManagementMapper.selectList(pagination);
     }
 

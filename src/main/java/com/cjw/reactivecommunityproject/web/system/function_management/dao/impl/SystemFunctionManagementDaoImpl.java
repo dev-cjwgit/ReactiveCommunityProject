@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.function_management.dao.impl;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetVO;
 import com.cjw.reactivecommunityproject.web.system.function_management.dao.SystemFunctionManagementDao;
 import com.cjw.reactivecommunityproject.web.system.function_management.mapper.SystemFunctionManagementMapper;
 import com.cjw.reactivecommunityproject.web.system.function_management.model.entity.SystemFunctionManagementDetailEntity;
@@ -20,7 +20,7 @@ public class SystemFunctionManagementDaoImpl implements SystemFunctionManagement
     private final SystemFunctionManagementMapper systemFunctionManagementMapper;
 
     @Override
-    public List<SystemFunctionManagementListEntity> selectList(PaginationVO pagination) {
+    public List<SystemFunctionManagementListEntity> selectList(PaginationOffsetVO pagination) {
         return systemFunctionManagementMapper.selectList(pagination);
     }
 

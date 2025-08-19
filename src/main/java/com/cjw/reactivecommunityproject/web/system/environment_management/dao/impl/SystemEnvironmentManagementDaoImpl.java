@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.environment_management.dao.impl;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.dao.SystemEnvironmentManagementDao;
 import com.cjw.reactivecommunityproject.web.system.environment_management.mapper.SystemEnvironmentManagementMapper;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;
@@ -20,7 +20,7 @@ public class SystemEnvironmentManagementDaoImpl implements SystemEnvironmentMana
     private final SystemEnvironmentManagementMapper systemEnvironmentManagementMapper;
 
     @Override
-    public List<SystemEnvironmentManagementListEntity> selectList(PaginationVO pagination) {
+    public List<SystemEnvironmentManagementListEntity> selectList(PaginationOffsetVO pagination) {
         return systemEnvironmentManagementMapper.selectList(pagination);
     }
 

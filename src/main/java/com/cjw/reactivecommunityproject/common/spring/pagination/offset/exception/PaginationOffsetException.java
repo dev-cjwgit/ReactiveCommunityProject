@@ -4,10 +4,10 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessag
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseException;
 import org.springframework.http.HttpStatus;
 
-public class PaginationException extends RcBaseException {
+public class PaginationOffsetException extends RcBaseException {
 
 
-    public PaginationException(RcBaseErrorMessage rcBaseErrorMessage) {
+    public PaginationOffsetException(RcBaseErrorMessage rcBaseErrorMessage) {
         super(rcBaseErrorMessage.getErrorCode()
                 , rcBaseErrorMessage.getErrorMessage()
                 , rcBaseErrorMessage.getHttpStatus()

@@ -3,7 +3,7 @@ package com.cjw.reactivecommunityproject.common.spring.pagination.offset.excepti
 import com.cjw.reactivecommunityproject.common.exception.model.RcBaseErrorMessage;
 import org.springframework.http.HttpStatus;
 
-public enum PaginationErrorMessage implements RcBaseErrorMessage {
+public enum PaginationOffsetErrorMessage implements RcBaseErrorMessage {
     NOT_NULL_PAGINATION(null, "페이지네이션은 null 일 수 없습니다.", HttpStatus.BAD_REQUEST)
     , DUMMY(null, null, null);
 
@@ -12,11 +12,11 @@ public enum PaginationErrorMessage implements RcBaseErrorMessage {
     private final HttpStatus httpStatus;
     private final Boolean isDisplay;
 
-    PaginationErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
+    PaginationOffsetErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus) {
         this(errorCode, errorMessage, httpStatus, true);
     }
 
-    PaginationErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
+    PaginationOffsetErrorMessage(Integer errorCode, String errorMessage, HttpStatus httpStatus, Boolean isDisplay) {
         this.errorCode = errorCode;
         this.errorMessage = errorMessage;
         this.httpStatus = httpStatus;

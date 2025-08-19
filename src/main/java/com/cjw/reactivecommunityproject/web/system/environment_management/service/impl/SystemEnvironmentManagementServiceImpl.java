@@ -4,7 +4,7 @@ import com.cjw.reactivecommunityproject.common.exception.model.RcCommonErrorMess
 import com.cjw.reactivecommunityproject.common.spring.component.RcUserComponent;
 import com.cjw.reactivecommunityproject.common.spring.model.response.RestResponseVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationService;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationOffsetService;
 import com.cjw.reactivecommunityproject.server.cache.info.data.model.CacheInfoDataCommonRegionVO;
 import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfoDataService;
 import com.cjw.reactivecommunityproject.web.system.environment_management.dao.SystemEnvironmentManagementDao;
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 public class SystemEnvironmentManagementServiceImpl implements SystemEnvironmentManagementService {
     private final SystemEnvironmentManagementDao systemEnvironmentManagementDao;
 
-    private final PaginationService paginationService;
+    private final PaginationOffsetService paginationOffsetService;
     private final RcUserComponent rcUserComponent;
 
     private final CacheInfoDataService cacheInfoDataService;
@@ -54,7 +54,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
         }
 
         var list = systemEnvironmentManagementDao.selectList(
-                paginationService.createPagination(systemResourceManagementListVO, paginationRequestVO)
+                paginationOffsetService.createPagination(systemResourceManagementListVO, paginationRequestVO)
         );
 
         return RestResponseVO.<List<SystemEnvironmentManagementListEntity>>builder()

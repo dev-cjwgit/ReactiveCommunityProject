@@ -1,11 +1,11 @@
 package com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.impl;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.exception.PaginationErrorMessage;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.exception.PaginationException;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationEntityVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.exception.PaginationOffsetErrorMessage;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.exception.PaginationOffsetException;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationOffsetEntity;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetVO;
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationRequestVO;
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationService;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.service.PaginationOffsetService;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-public class PaginationServiceImpl implements PaginationService {
+public class PaginationOffsetServiceImpl implements PaginationOffsetService {
     private Map<String, Object> convertFieldsToMap(Object object) {
         Map<String, Object> result = new HashMap<>();
         if (object == null) {
@@ -34,20 +34,20 @@ public class PaginationServiceImpl implements PaginationService {
     }
 
     @Override
-    public PaginationVO createPagination(Object searchCondition, PaginationRequestVO pagination) {
+    public PaginationOffsetVO createPagination(Object searchCondition, PaginationRequestVO pagination) {
         if (pagination == null || pagination.pageNumber() == null || pagination.pageSize() == null) {
-            throw new PaginationException(PaginationErrorMessage.NOT_NULL_PAGINATION);
+            throw new PaginationOffsetException(PaginationOffsetErrorMessage.NOT_NULL_PAGINATION);
         }
 
         var searchMap = this.convertFieldsToMap(searchCondition);
-        var paginationMap = this.convertFieldsToMap(new PaginationEntityVO(pagination));
+        var paginationMap = this.convertFieldsToMap(new PaginationOffsetEntity(pagination));
 
         var resultMap = new HashMap<String, Object>();
 
         resultMap.putAll(searchMap);
         resultMap.putAll(paginationMap);
 
-        return PaginationVO.builder()
+        return PaginationOffsetVO.builder()
                 .pagination(resultMap)
                 .build();
     }

@@ -6,16 +6,16 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class PaginationEntityVO {
+public class PaginationOffsetEntity {
     private final Integer offset;
     private final Integer limit;
 
-    public PaginationEntityVO(Integer pageNumber, Integer pageSize) {
+    public PaginationOffsetEntity(Integer pageNumber, Integer pageSize) {
         this.offset = (pageNumber - 1) * pageSize;
         this.limit = pageSize;
     }
 
-    public PaginationEntityVO(PaginationRequestVO paginationRequestVO) {
+    public PaginationOffsetEntity(PaginationRequestVO paginationRequestVO) {
         this(paginationRequestVO.pageNumber(), paginationRequestVO.pageSize());
     }
 }

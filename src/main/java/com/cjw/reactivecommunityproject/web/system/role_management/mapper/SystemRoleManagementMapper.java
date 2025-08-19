@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.role_management.mapper;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetVO;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.role_management.model.entity.SystemRoleManagementListEntity;
@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface SystemRoleManagementMapper {
-    List<SystemRoleManagementListEntity> selectList(PaginationVO paginationVO);
+    List<SystemRoleManagementListEntity> selectList(PaginationOffsetVO paginationOffsetVO);
 
     SystemRoleManagementDetailEntity selectDetail(@Param("uid") Long uid);
 

@@ -1,6 +1,6 @@
 package com.cjw.reactivecommunityproject.web.system.environment_management.mapper;
 
-import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.entity.PaginationVO;
+import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetVO;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementDetailEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementInsertEntity;
 import com.cjw.reactivecommunityproject.web.system.environment_management.model.entity.SystemEnvironmentManagementListEntity;
@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface SystemEnvironmentManagementMapper {
-    List<SystemEnvironmentManagementListEntity> selectList(PaginationVO pagination);
+    List<SystemEnvironmentManagementListEntity> selectList(PaginationOffsetVO pagination);
 
     SystemEnvironmentManagementDetailEntity selectDetail(@Param("region") String region, @Param("id") String id);
 
