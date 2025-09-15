@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cjw.reactivecommunityproject.web.system.role_management.mapper.SystemRoleManagementMapper">
-    <select id="selectList" parameterType="PaginationVO" resultType="SystemRoleManagementListEntity">
+    <select id="selectList" parameterType="PaginationOffsetVO" resultType="SystemRoleManagementListEntity">
         /* SystemRoleManagementMapper.selectList() */
         SELECT  `uid`
               , `name`

@@ -10,4 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/rest/board/{bbs}")
 public class BoardController {
     private final BoardService boardService;
+
+
 }

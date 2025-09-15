@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cjw.reactivecommunityproject.web.system.resource_management.mapper.SystemResourceManagementMapper">
-    <select id="selectList" parameterType="PaginationVO" resultType="SystemResourceManagementListEntity">
+    <select id="selectList" parameterType="PaginationOffsetVO" resultType="SystemResourceManagementListEntity">
         /* SystemResourceManagementMapper.selectList() */
         SELECT `uid`
              , `method`
