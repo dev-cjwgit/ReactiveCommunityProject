@@ -66,7 +66,9 @@ public class RestGlobalExceptionHandler {
                 .map(ObjectError::getDefaultMessage)
                 .toList();
 
-        log.warn("RestGlobalExceptionHandler.methodArgsNotValidExceptionHandle() : {}", notValidException.getMessage());
+        var stackTrace = notValidException.getStackTrace();
+        var location = (stackTrace.length > 0) ? stackTrace[0].toString() : "";
+        log.warn("RestGlobalExceptionHandler.methodArgsNotValidExceptionHandle() : {} at {}", notValidException.getMessage(), location);
         return new ResponseEntity<>(
                 RestResponseVO.<Void>builder()
                         .result(false)
@@ -78,7 +80,10 @@ public class RestGlobalExceptionHandler {
 
     @ExceptionHandler(RcBaseException.class)
     public ResponseEntity<RestResponseVO<String>> rcExceptionHandle(RcBaseException baseException) {
-        log.warn("RestGlobalExceptionHandler.rcExceptionHandle() : {}", baseException.getErrorMessage());
+        var stackTrace = baseException.getStackTrace();
+        var location = (stackTrace.length > 0) ? stackTrace[0].toString() : "";
+
+        log.warn("RestGlobalExceptionHandler.rcExceptionHandle() : {} at {}", baseException.getErrorMessage(), location);
         baseException.getErrorCode();
         Integer errorCode;
         String message;
