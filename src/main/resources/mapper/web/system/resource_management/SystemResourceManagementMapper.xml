@@ -23,13 +23,13 @@
                 AND `method` LIKE CONCAT('%', #{pagination.method, jdbcType=VARCHAR}, '%')
             </if>
             <if test="pagination.urlPattern != null">
-                AND `url_pattern` LIKE CONCAT('%', #{pagination.urlPattern}, '%')
+                AND `url_pattern` LIKE CONCAT('%', #{pagination.urlPattern, jdbcType=VARCHAR}, '%')
             </if>
-            <if test="pagination.startDate != null and endDate != null">
-                AND `created_utc_at` <![CDATA[>=]]> #{pagination.startDate}
+            <if test="pagination.startDate != null">
+                AND `created_utc_at` <![CDATA[>=]]> #{pagination.startDate, jdbcType=TIMESTAMP}
             </if>
             <if test="pagination.endDate != null">
-                AND `created_utc_at` <![CDATA[<=]]> #{pagination.endDate}
+                AND `created_utc_at` <![CDATA[<=]]> #{pagination.endDate, jdbcType=TIMESTAMP}
             </if>
         </where>
         ORDER BY `updated_utc_at` DESC

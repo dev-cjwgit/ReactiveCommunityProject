@@ -47,7 +47,7 @@ public class DateUtils {
     }
 
     @Nullable
-    public static ZonedDateTime convertStringDateToZonedDateTime(@NonNull String inDate, @NonNull String inFormat) {
+    public static ZonedDateTime convertStringDateToZonedDateTime(@Nullable String inDate, @NonNull String inFormat) {
         if (StringUtils.isBlank(inDate) || StringUtils.isBlank(inFormat)) {
             log.debug("DateUtils.convert is null : {} - {}", inDate, inFormat);
             return null;
