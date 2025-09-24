@@ -3,6 +3,13 @@
 
 <configuration>
     <settings>
+        <setting name="cacheEnabled" value="false"/>
+        <setting name="localCacheScope" value="STATEMENT"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+
+        <!-- JDBC 자동 키 반환 사용 INSERT 후 PK 설정 -->
+        <setting name="useGeneratedKeys" value="true"/>
+
         <!-- A_Column > aColumn으로 자동 매핑 -->
         <setting name="mapUnderscoreToCamelCase" value="true"/>
         <!-- 데이터베이스 응답 시간 타임아웃 -->
