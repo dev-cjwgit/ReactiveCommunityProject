@@ -32,7 +32,7 @@ public class SystemResourceManagementServiceImpl implements SystemResourceManage
     private final RcUserComponent rcUserComponent;
 
     @Override
-    public RestResponseVO<List<SystemResourceManagementListEntity>> readResourceMgmtList(SystemResourceManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
+    public RestResponseVO<List<SystemResourceManagementListEntity>> list(SystemResourceManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
         var list = systemResourceManagementDao.selectList(
                 paginationOffsetService.createPagination(systemResourceManagementListVO, paginationOffsetRequestVO)
         );

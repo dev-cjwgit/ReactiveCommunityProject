@@ -48,7 +48,7 @@ public class SystemEnvironmentManagementServiceImpl implements SystemEnvironment
     }
 
     @Override
-    public RestResponseVO<List<SystemEnvironmentManagementListEntity>> readEnvironmentManagementList(SystemEnvironmentManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
+    public RestResponseVO<List<SystemEnvironmentManagementListEntity>> list(SystemEnvironmentManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
         if (this.isNotValidRegion(systemResourceManagementListVO.region())) {
             throw new SystemEnvironmentManagementException(SystemEnvironmentManagementErrorMessage.INVALID_ENV_CODE_REGION);
         }

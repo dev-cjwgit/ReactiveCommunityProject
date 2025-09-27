@@ -34,7 +34,7 @@ public class SystemRoleManagementServiceImpl implements SystemRoleManagementServ
     private final RcUserComponent rcUserComponent;
 
     @Override
-    public RestResponseVO<List<SystemRoleManagementListEntity>> readRoleManagementList(SystemRoleManagementListVO systemRoleManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
+    public RestResponseVO<List<SystemRoleManagementListEntity>> list(SystemRoleManagementListVO systemRoleManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
         var list = systemRoleManagementDao.selectList(
                 paginationOffsetService.createPagination(systemRoleManagementListVO, paginationOffsetRequestVO)
         );

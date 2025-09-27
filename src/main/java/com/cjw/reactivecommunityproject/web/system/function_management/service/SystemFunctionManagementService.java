@@ -10,7 +10,7 @@ import com.cjw.reactivecommunityproject.web.system.function_management.model.req
 import java.util.List;
 
 public interface SystemFunctionManagementService {
-    RestResponseVO<List<SystemFunctionManagementListEntity>> readFunctionManagementList(SystemFunctionManagementListVO systemFunctionManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO);
+    RestResponseVO<List<SystemFunctionManagementListEntity>> list(SystemFunctionManagementListVO systemFunctionManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO);
 
     RestResponseVO<SystemFunctionManagementDetailEntity> detail(Long uid);
 

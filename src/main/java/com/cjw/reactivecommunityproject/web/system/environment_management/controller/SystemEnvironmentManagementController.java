@@ -31,7 +31,7 @@ public class SystemEnvironmentManagementController {
     private final SystemEnvironmentManagementService systemEnvironmentManagementService;
 
     @GetMapping("/list")
-    public ResponseEntity<RestResponseVO<List<SystemEnvironmentManagementListEntity>>> readEnvironmentList(
+    public ResponseEntity<RestResponseVO<List<SystemEnvironmentManagementListEntity>>> list(
             @RequestParam(value = "region", required = false) String region
             , @RequestParam(value = "id", required = false) String id
             , @RequestParam(value = "type", required = false) String type
@@ -42,7 +42,7 @@ public class SystemEnvironmentManagementController {
             , @RequestParam("page-number") Integer pageNumber
             , @RequestParam("page-size") Integer pageSize
     ) {
-        return ResponseEntity.ok(systemEnvironmentManagementService.readEnvironmentManagementList(SystemEnvironmentManagementListVO.builder()
+        return ResponseEntity.ok(systemEnvironmentManagementService.list(SystemEnvironmentManagementListVO.builder()
                         .region(region)
                         .id(id)
                         .type(type)
@@ -58,7 +58,7 @@ public class SystemEnvironmentManagementController {
     }
 
     @GetMapping("/{env_region}/{env_id}")
-    public ResponseEntity<RestResponseVO<SystemEnvironmentManagementDetailEntity>> readEnvironmentManagementDetail(
+    public ResponseEntity<RestResponseVO<SystemEnvironmentManagementDetailEntity>> detail(
             @PathVariable("env_region") String region
             , @PathVariable("env_id") String id
     ) {

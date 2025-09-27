@@ -10,7 +10,7 @@ import com.cjw.reactivecommunityproject.web.system.resource_management.model.req
 import java.util.List;
 
 public interface SystemResourceManagementService {
-    RestResponseVO<List<SystemResourceManagementListEntity>> readResourceMgmtList(SystemResourceManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO);
+    RestResponseVO<List<SystemResourceManagementListEntity>> list(SystemResourceManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO);
 
     RestResponseVO<SystemResourceManagementDetailEntity> detail(Long uid);
 

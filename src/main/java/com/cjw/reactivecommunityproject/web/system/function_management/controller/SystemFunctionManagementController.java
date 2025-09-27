@@ -31,7 +31,7 @@ public class SystemFunctionManagementController {
     private final SystemFunctionManagementService systemFunctionManagementService;
 
     @GetMapping("/list")
-    public ResponseEntity<RestResponseVO<List<SystemFunctionManagementListEntity>>> readFunctionManagementList(
+    public ResponseEntity<RestResponseVO<List<SystemFunctionManagementListEntity>>> list(
             @RequestParam(value = "uid", required = false) Long uid
             , @RequestParam(value = "name", required = false) String name
             , @RequestParam(value = "type", required = false) String type
@@ -41,7 +41,7 @@ public class SystemFunctionManagementController {
             , @RequestParam("page-number") Integer pageNumber
             , @RequestParam("page-size") Integer pageSize
     ) {
-        return ResponseEntity.ok(systemFunctionManagementService.readFunctionManagementList(
+        return ResponseEntity.ok(systemFunctionManagementService.list(
                 SystemFunctionManagementListVO.builder()
                         .uid(uid)
                         .name(name)

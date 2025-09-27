@@ -10,7 +10,7 @@ import com.cjw.reactivecommunityproject.web.system.environment_management.model.
 import java.util.List;
 
 public interface SystemEnvironmentManagementService {
-    RestResponseVO<List<SystemEnvironmentManagementListEntity>> readEnvironmentManagementList(SystemEnvironmentManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO);
+    RestResponseVO<List<SystemEnvironmentManagementListEntity>> list(SystemEnvironmentManagementListVO systemResourceManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO);
 
     RestResponseVO<SystemEnvironmentManagementDetailEntity> detail(String region, String id);
 

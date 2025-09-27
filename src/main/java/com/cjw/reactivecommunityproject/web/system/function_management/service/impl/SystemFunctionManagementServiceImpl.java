@@ -33,7 +33,7 @@ public class SystemFunctionManagementServiceImpl implements SystemFunctionManage
     private final RcUserComponent rcUserComponent;
 
     @Override
-    public RestResponseVO<List<SystemFunctionManagementListEntity>> readFunctionManagementList(SystemFunctionManagementListVO systemFunctionManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
+    public RestResponseVO<List<SystemFunctionManagementListEntity>> list(SystemFunctionManagementListVO systemFunctionManagementListVO, PaginationOffsetRequestVO paginationOffsetRequestVO) {
         var list = systemFunctionManagementDao.selectList(
                 paginationOffsetService.createPagination(systemFunctionManagementListVO, paginationOffsetRequestVO)
         );

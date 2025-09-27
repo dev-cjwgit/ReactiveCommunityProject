@@ -31,7 +31,7 @@ public class SystemResourceManagementController {
     private final SystemResourceManagementService systemResourceManagementService;
 
     @GetMapping("/list")
-    public ResponseEntity<RestResponseVO<List<SystemResourceManagementListEntity>>> readResourceMgmtList(
+    public ResponseEntity<RestResponseVO<List<SystemResourceManagementListEntity>>> list(
             @RequestParam(value = "uid", required = false) Long uid
             , @RequestParam(value = "method", required = false) String method
             , @RequestParam(value = "url-pattern", required = false) String urlPattern
@@ -40,7 +40,7 @@ public class SystemResourceManagementController {
             , @RequestParam("page-number") Integer pageNumber
             , @RequestParam("page-size") Integer pageSize
     ) {
-        return ResponseEntity.ok(systemResourceManagementService.readResourceMgmtList(SystemResourceManagementListVO.builder()
+        return ResponseEntity.ok(systemResourceManagementService.list(SystemResourceManagementListVO.builder()
                         .uid(uid)
                         .method(method)
                         .urlPattern(urlPattern)

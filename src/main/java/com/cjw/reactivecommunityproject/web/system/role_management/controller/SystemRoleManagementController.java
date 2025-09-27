@@ -31,7 +31,7 @@ public class SystemRoleManagementController {
     private final SystemRoleManagementService systemRoleManagementService;
 
     @GetMapping("/list")
-    public ResponseEntity<RestResponseVO<List<SystemRoleManagementListEntity>>> readRoleManagementList(
+    public ResponseEntity<RestResponseVO<List<SystemRoleManagementListEntity>>> list(
             @RequestParam(value = "uid", required = false) Long uid
             , @RequestParam(value = "name", required = false) String name
             , @RequestParam(value = "start-date", required = false) String startDate
@@ -39,7 +39,7 @@ public class SystemRoleManagementController {
             , @RequestParam("page-number") Integer pageNumber
             , @RequestParam("page-size") Integer pageSize
     ) {
-        return ResponseEntity.ok(systemRoleManagementService.readRoleManagementList(
+        return ResponseEntity.ok(systemRoleManagementService.list(
                 SystemRoleManagementListVO.builder()
                         .uid(uid)
                         .name(name)
