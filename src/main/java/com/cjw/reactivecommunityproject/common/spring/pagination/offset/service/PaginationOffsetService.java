@@ -4,5 +4,5 @@ import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.re
 import com.cjw.reactivecommunityproject.common.spring.pagination.offset.model.request.PaginationOffsetRequestVO;
 
 public interface PaginationOffsetService {
-    PaginationOffsetVO createPagination(Object object, PaginationOffsetRequestVO paginationOffsetRequestVO);
+    PaginationOffsetVO createPagination(Object searchCondition, PaginationOffsetRequestVO paginationOffsetRequestVO);
 }
