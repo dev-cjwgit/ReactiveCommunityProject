@@ -11,4 +11,7 @@ public class BoardValidationGroup {
 
     public interface Modify extends Default {
     }
+
+    public interface Recommend extends Default {
+    }
 }
