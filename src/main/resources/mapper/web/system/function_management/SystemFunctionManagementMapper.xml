@@ -16,23 +16,23 @@
               , `updated_utc_at`
         FROM rc_manage_function
         <where>
-            <if test="pagination.uid != null">
-                AND `uid` LIKE CONCAT('%', #{pagination.uid, jdbcType=VARCHAR}, '%')
+            <if test="condition.uid != null">
+                AND `uid` LIKE CONCAT('%', #{condition.uid, jdbcType=VARCHAR}, '%')
             </if>
-            <if test="pagination.name != null">
-                AND `name` LIKE CONCAT('%', #{pagination.name, jdbcType=VARCHAR}, '%')
+            <if test="condition.name != null">
+                AND `name` LIKE CONCAT('%', #{condition.name, jdbcType=VARCHAR}, '%')
             </if>
-            <if test="pagination.type != null">
-                AND `type` LIKE CONCAT('%', #{pagination.type, jdbcType=VARCHAR}, '%')
+            <if test="condition.type != null">
+                AND `type` LIKE CONCAT('%', #{condition.type, jdbcType=VARCHAR}, '%')
             </if>
-            <if test="pagination.description != null">
-                AND `description` LIKE CONCAT('%', #{pagination.description, jdbcType=VARCHAR}, '%')
+            <if test="condition.description != null">
+                AND `description` LIKE CONCAT('%', #{condition.description, jdbcType=VARCHAR}, '%')
             </if>
-            <if test="pagination.startDate != null">
-                AND `created_utc_at` <![CDATA[>=]]> #{pagination.startDate, jdbcType=TIMESTAMP}
+            <if test="condition.startDate != null">
+                AND `created_utc_at` <![CDATA[>=]]> #{condition.startDate, jdbcType=TIMESTAMP}
             </if>
-            <if test="pagination.endDate != null">
-                AND `created_utc_at` <![CDATA[<=]]> #{pagination.endDate, jdbcType=TIMESTAMP}
+            <if test="condition.endDate != null">
+                AND `created_utc_at` <![CDATA[<=]]> #{condition.endDate, jdbcType=TIMESTAMP}
             </if>
         </where>
         ORDER BY `updated_utc_at` DESC

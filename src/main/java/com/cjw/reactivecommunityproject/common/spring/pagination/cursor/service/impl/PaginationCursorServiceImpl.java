@@ -15,12 +15,12 @@ public class PaginationCursorServiceImpl implements PaginationCursorService {
 
     @Override
     public PaginationCursorVO createPaginationCursor(Object searchCondition, PaginationCursorRequestVO paginationCursorRequestVO) {
-        if (paginationCursorRequestVO == null || paginationCursorRequestVO.lastPk() == null) {
+        if (paginationCursorRequestVO == null || paginationCursorRequestVO.lastData() == null) {
             throw new PaginationOffsetException(PaginationOffsetErrorMessage.NOT_NULL_PAGINATION);
         }
 
         var searchMap = PaginationUtils.convertFieldsToMap(searchCondition);
-        var pkMap = PaginationUtils.convertFieldsToMap(paginationCursorRequestVO.lastPk());
+        var pkMap = PaginationUtils.convertFieldsToMap(paginationCursorRequestVO.lastData());
 
 
         return PaginationCursorVO.builder()

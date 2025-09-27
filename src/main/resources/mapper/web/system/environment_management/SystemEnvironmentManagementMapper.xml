@@ -19,26 +19,26 @@
               , `updated_utc_at`
         FROM rc_common_env_code
         <where>
-            <if test="pagination.region != null">
-                AND `region` = #{pagination.region, jdbcType=VARCHAR}
+            <if test="condition.region != null">
+                AND `region` = #{condition.region, jdbcType=VARCHAR}
             </if>
-            <if test="pagination.id != null">
-                AND `id` LIKE CONCAT('%', #{pagination.id, jdbcType=VARCHAR}, '%')
+            <if test="condition.id != null">
+                AND `id` LIKE CONCAT('%', #{condition.id, jdbcType=VARCHAR}, '%')
             </if>
-            <if test="pagination.type != null">
-                AND `type` LIKE CONCAT('%', #{pagination.type, jdbcType=VARCHAR}, '%')
+            <if test="condition.type != null">
+                AND `type` LIKE CONCAT('%', #{condition.type, jdbcType=VARCHAR}, '%')
             </if>
-            <if test="pagination.value != null">
-                AND `value` LIKE CONCAT('%', #{pagination.value, jdbcType=VARCHAR}, '%')
+            <if test="condition.value != null">
+                AND `value` LIKE CONCAT('%', #{condition.value, jdbcType=VARCHAR}, '%')
             </if>
-            <if test="pagination.category != null">
-                AND `category` LIKE CONCAT('%', #{pagination.category, jdbcType=VARCHAR}, '%')
+            <if test="condition.category != null">
+                AND `category` LIKE CONCAT('%', #{condition.category, jdbcType=VARCHAR}, '%')
             </if>
-            <if test="pagination.startDate != null">
-                AND `created_utc_at` <![CDATA[>=]]> #{pagination.startDate, jdbcType=TIMESTAMP}
+            <if test="condition.startDate != null">
+                AND `created_utc_at` <![CDATA[>=]]> #{condition.startDate, jdbcType=TIMESTAMP}
             </if>
-            <if test="pagination.endDate != null">
-                AND `created_utc_at` <![CDATA[<=]]> #{pagination.endDate, jdbcType=TIMESTAMP}
+            <if test="condition.endDate != null">
+                AND `created_utc_at` <![CDATA[<=]]> #{condition.endDate, jdbcType=TIMESTAMP}
             </if>
         </where>
         ORDER BY `updated_utc_at` DESC
