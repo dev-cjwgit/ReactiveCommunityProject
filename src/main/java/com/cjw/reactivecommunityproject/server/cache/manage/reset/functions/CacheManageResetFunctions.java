@@ -25,4 +25,32 @@ public class CacheManageResetFunctions {
                 .then()
                 .onErrorContinue((error, obj) -> log.error(StringUtils.join(error.getMessage(), " : ", obj), error));
     }
+    /*
+    리셋 할 캐시 타입 (데이터, 커스텀)
+    리셋 할 테이블 목록
+    각 CacheInfoDataService 또는 CacheInfoCustomService 의 clear* 메소드를 호출
+    {
+        "type": "DATA"
+        , "table": [
+            "COMMON_REGION_LIST"
+            , "COMMON_ENV_CODE_LIST"
+            , "COMMON_LANGUAGE_CODE_LIST"
+            , "COMMON_LANGUAGE_GB_CODE_LIST"
+            , "MANAGE_RESOURCE_LIST"
+            , "MANAGE_FUNCTION_LIST"
+            , "MANAGE_ROLE_FUNCTION_LIST"
+            , "MANAGE_ROLE_RESOURCE_LIST"
+        ]
+    }
+    {
+        "type": "CUSTOM"
+        , "table": [
+            "COMMON_ENV_CODE"
+            , "COMMON_ENV_CODE_BY_CATEGORY_LIST"
+            , "COMMON_LANGUAGE_LIST"
+            , "MANAGE_ROLE_FUNCTION_LIST"
+            , "MANAGE_ROLE_RESOURCE_LIST"
+        ]
+    }
+     */
 }
