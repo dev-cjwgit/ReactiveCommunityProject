@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,7 +22,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 public class BatchCacheDataReloadScheduler {
     private final BatchCacheDataReloadService batchCacheDataReloadService;
 
-    @Async
     @Scheduled(cron = "${rc.scheduler.batch-cache-reload.cron}")
     public void batchCacheDataReloadSchedulerConfig() {
         batchCacheDataReloadService.getTargetTable()
@@ -32,9 +30,7 @@ public class BatchCacheDataReloadScheduler {
                 .collectList()
                 .flatMap(batchCacheDataReloadService::createCacheManageResetVO)
                 .doOnNext(batchCacheDataReloadService::publishCacheManageReset)
-                .onErrorContinue((error, response) -> {
-                    log.error("batchCacheDataReloadSchedulerConfig Error : {}", response, error);
-                })
+                .onErrorContinue((error, response) -> log.error("batchCacheDataReloadSchedulerConfig Error : {}", response, error))
                 .subscribe();
     }
 }

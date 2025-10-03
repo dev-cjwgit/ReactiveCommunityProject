@@ -19,7 +19,8 @@ public class SecurityXssRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public String[] getParameterValues(String name) {
         String[] values = super.getParameterValues(name);
-        if (values == null) return null;
+        if (values == null)
+            return new String[0];
         String[] cleaned = new String[values.length];
         for (int i = 0; i < values.length; i++) cleaned[i] = SecurityXssSanitizer.clean(values[i]);
         return cleaned;
@@ -28,7 +29,7 @@ public class SecurityXssRequestWrapper extends HttpServletRequestWrapper {
     @Override
     public Map<String, String[]> getParameterMap() {
         Map<String, String[]> src = super.getParameterMap();
-        Map<String, String[]> dst = new LinkedHashMap<>(src.size());
+        Map<String, String[]> dst = LinkedHashMap.newLinkedHashMap(src.size());
         src.forEach((k, v) -> {
             String[] arr = new String[v.length];
             for (int i = 0; i < v.length; i++) arr[i] = SecurityXssSanitizer.clean(v[i]);

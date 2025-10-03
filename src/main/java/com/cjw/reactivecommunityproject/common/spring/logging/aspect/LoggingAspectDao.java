@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LoggingAspectDao {
+    private static final int LIMIT = 500;
 
     @Around("execution(public * com.cjw..*Dao.*(..)) || execution(public * com.cjw..*DaoImpl.*(..))")
     public Object logAroundDaoImplOnly(ProceedingJoinPoint pjp) throws Throwable {
@@ -59,11 +60,14 @@ public class LoggingAspectDao {
             case java.util.Map<?, ?> m -> {
                 return m.getClass().getSimpleName() + "(size=" + m.size() + ")";
             }
-            default -> {
+            case String s -> {
+                String str = String.valueOf(v);
+                return (str.length() > LIMIT) ? s.substring(0, LIMIT) + "...(truncated)" : str;
             }
+            default ->
+                throw new IllegalArgumentException("Unsupported value type: " + v);
+
         }
-        String s = String.valueOf(v);
-        int LIMIT = 500; // 로그 1건당 최대 500자
-        return (s.length() > LIMIT) ? s.substring(0, LIMIT) + "...(truncated)" : s;
+
     }
 }

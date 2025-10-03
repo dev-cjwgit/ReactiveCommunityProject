@@ -7,6 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class PaginationUtils {
+    private PaginationUtils() {
+    }
+
     public static Map<String, Object> convertFieldsToMap(Object object) {
         Map<String, Object> result = new HashMap<>();
         if (object == null) {

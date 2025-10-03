@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class CommonUtils {
+    private CommonUtils() {
+    }
 
     @Nullable
     public static String extractClientIp(@NonNull HttpServletRequest req) {

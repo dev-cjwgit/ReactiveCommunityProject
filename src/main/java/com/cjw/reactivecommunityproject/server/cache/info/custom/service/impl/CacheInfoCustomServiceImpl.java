@@ -11,7 +11,6 @@ import com.cjw.reactivecommunityproject.server.cache.info.data.service.CacheInfo
 import jakarta.annotation.Nullable;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -74,7 +73,7 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
                         .updatedUtcAt(o.getUpdatedUtcAt())
                         .build())
                 .sorted(Comparator.comparing(CacheInfoCustomEnvCodeVO::getOrder, Comparator.nullsLast(Comparator.naturalOrder())))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -107,7 +106,7 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
                             .updatedUtcAt(gbCode != null ? gbCode.getUpdatedUtcAt() : o.getUpdatedUtcAt())
                             .build();
                 })
-                .collect(Collectors.toList());
+                .toList();
 
     }
 
@@ -140,7 +139,7 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
                                 .build()
                         )
                 )
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
@@ -172,7 +171,7 @@ public class CacheInfoCustomServiceImpl implements CacheInfoCustomService {
                                 .build()
                         )
                 )
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

@@ -61,6 +61,8 @@ ext {
     owaspJavaHtmlSanitizerVersion = '20240325.1'
     // HttpClient
     httpClientVersion = '5.5'
+
+    opentelemetryVersion = '1.38.0'
 }
 
 dependencies {
@@ -110,6 +112,7 @@ dependencies {
 
     // Elasticsearch Rest Client
     implementation "org.elasticsearch.client:elasticsearch-rest-client:${elasticsearhClientVersion}"
+    implementation "io.opentelemetry:opentelemetry-api:${opentelemetryVersion}"
 
     // log4jdbc
     implementation "org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:${log4jdbcVersion}"

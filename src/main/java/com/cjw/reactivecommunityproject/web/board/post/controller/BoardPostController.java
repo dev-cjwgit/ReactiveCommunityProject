@@ -36,7 +36,7 @@ public class BoardPostController {
             @PathVariable("bbs") String bbs
             , @RequestParam(value = "title", required = false) String title
             , @RequestParam(value = "contents", required = false) String contents
-            , @RequestParam(value = "hit", required = false) int hit
+            , @RequestParam(value = "hit", required = false) Integer hit
             , @RequestParam(value = "hit-operator", required = false) String hitOperator
             , @RequestParam(value = "start-date", required = false) String startDate
             , @RequestParam(value = "end-date", required = false) String endDate
