@@ -9,6 +9,7 @@ import com.cjw.reactivecommunityproject.web.board.model.request.BoardCreateVO;
 import com.cjw.reactivecommunityproject.web.board.model.request.BoardListVO;
 import com.cjw.reactivecommunityproject.web.board.model.request.BoardModifyVO;
 import com.cjw.reactivecommunityproject.web.board.model.request.BoardRecommendVO;
+import com.cjw.reactivecommunityproject.web.board.model.request.BoardReplyVO;
 import com.cjw.reactivecommunityproject.web.board.service.BoardService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,11 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public RestResponseVO<Void> create(String bbs, BoardCreateVO boardCreateVO) {
+        return null;
+    }
+
+    @Override
+    public RestResponseVO<Void> reply(String bbs, BoardReplyVO boardReplyVO) {
         return null;
     }
 
@@ -59,4 +65,5 @@ public class BoardServiceImpl implements BoardService {
     public RestResponseVO<Void> recommend(String bbs, BoardRecommendVO boardRecommendVO) {
         return null;
     }
+
 }

@@ -9,6 +9,9 @@ public class BoardValidationGroup {
     public interface Create extends Default {
     }
 
+    public interface Reply extends Default {
+    }
+
     public interface Modify extends Default {
     }
 

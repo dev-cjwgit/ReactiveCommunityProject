@@ -7,10 +7,13 @@ import com.cjw.reactivecommunityproject.web.board.model.request.BoardCreateVO;
 import com.cjw.reactivecommunityproject.web.board.model.request.BoardListVO;
 import com.cjw.reactivecommunityproject.web.board.model.request.BoardModifyVO;
 import com.cjw.reactivecommunityproject.web.board.model.request.BoardRecommendVO;
+import com.cjw.reactivecommunityproject.web.board.model.request.BoardReplyVO;
 import java.util.List;
 
 public interface BoardService {
     RestResponseVO<Void> create(String bbs, BoardCreateVO boardCreateVO);
+
+    RestResponseVO<Void> reply(String bbs, BoardReplyVO boardReplyVO);
 
     RestResponseVO<List<BoardListEntity>> list(BoardListVO boardListVO, PaginationOffsetRequestVO paginationOffsetRequestVO);
 

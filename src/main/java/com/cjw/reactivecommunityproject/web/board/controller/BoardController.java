@@ -8,6 +8,7 @@ import com.cjw.reactivecommunityproject.web.board.model.request.BoardCreateVO;
 import com.cjw.reactivecommunityproject.web.board.model.request.BoardListVO;
 import com.cjw.reactivecommunityproject.web.board.model.request.BoardModifyVO;
 import com.cjw.reactivecommunityproject.web.board.model.request.BoardRecommendVO;
+import com.cjw.reactivecommunityproject.web.board.model.request.BoardReplyVO;
 import com.cjw.reactivecommunityproject.web.board.service.BoardService;
 import com.cjw.reactivecommunityproject.web.board.validation.BoardValidationGroup;
 import java.util.List;
@@ -71,6 +72,14 @@ public class BoardController {
             @RequestBody @Validated(BoardValidationGroup.Create.class) BoardCreateVO boardCreateVO
     ) {
         return ResponseEntity.ok(boardService.create(bbs, boardCreateVO));
+    }
+
+    @PostMapping("/reply")
+    public ResponseEntity<RestResponseVO<Void>> reply(
+        @PathVariable("bbs") String bbs,
+        @RequestBody @Validated(BoardValidationGroup.Reply.class) BoardReplyVO boardReplyVO
+    ){
+        return ResponseEntity.ok(boardService.reply(bbs, boardReplyVO));
     }
 
     @DeleteMapping("/{board_uid}")
