@@ -81,6 +81,7 @@ public class SecurityXssBodyRequestWrapper extends HttpServletRequestWrapper {
 
             @Override
             public void setReadListener(ReadListener readListener) {
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         };
     }
